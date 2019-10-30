@@ -19,13 +19,10 @@ public class GameServer {
             e.printStackTrace();
         }
 
-        NetworkListener nl = new NetworkListener();
     }
 
     private static GameServer single_instance = null;
 
-
-    // static method to create instance of Singleton class
     public static GameServer getInstance()
     {
         if (single_instance == null)

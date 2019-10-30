@@ -18,7 +18,6 @@ public class ClientConnection {
             e.printStackTrace();
         }
 
-        ClientNetworkListener cnl = new ClientNetworkListener();
     }
     public static ClientConnection getInstance()
     {
