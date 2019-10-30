@@ -20,9 +20,9 @@ public class CameraController {
         position.set(x, y);
     }
 
-  /*  public void updatePosition(float x, float y) {
+    public void updatePosition(float x, float y) {
         position.set(x, y);
-    } */
+    }
 
     public void applyTo(OrthographicCamera camera) {
         camera.position.set(position, 0);
@@ -33,23 +33,4 @@ public class CameraController {
         position.set(x, y);
     }
 
-    private void moveCamera(float xSpeed, float ySpeed) {
-        setPosition(position.x + xSpeed, position.y + ySpeed);
-    }
-
-    private void moveLeft(float speed) {
-        moveCamera(-speed, 0);
-    }
-
-    private void moveRight(float speed) {
-        moveCamera(speed, 0);
-    }
-
-    private void moveUp(float speed) {
-        moveCamera(0, speed);
-    }
-
-    private void moveDown(float speed) {
-        moveCamera(0, -speed);
-    }
 }

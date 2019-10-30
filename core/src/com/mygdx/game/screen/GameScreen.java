@@ -27,11 +27,11 @@ public class GameScreen implements Screen {
         renderer = new ShapeRenderer();
         cameraController = new CameraController();
         player = new Player();
-        cameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y);
         float startPlayerX = GameConfig.WORLD_WIDTH / 2f;
         float startPlayerY = GameConfig.WORLD_HEIGHT / 2f;
 
         player.setPosition(startPlayerX, startPlayerY);
+        cameraController.setStartPosition(player.getX(), player.getY());
     }
 
     @Override
@@ -81,14 +81,15 @@ public class GameScreen implements Screen {
 
     private void update(float delta) {
         updatePlayer();
+        updateCamera();
     }
 
     private void updatePlayer() {
         player.update();
     }
 
-  //  private void updateCamera() {
-   //     cameraController.updatePosition();
-   // }
+    private void updateCamera() {
+       cameraController.updatePosition(player.getX(), player.getY());
+   }
 
 }
