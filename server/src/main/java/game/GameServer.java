@@ -1,7 +1,7 @@
 package game;
 
 import com.esotericsoftware.kryonet.Server;
-import network.NetworkListener;
+import com.mygdx.game.network.NetworkListener;
 
 import java.io.IOException;
 
