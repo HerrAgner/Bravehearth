@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.config.GameConfig;
+import com.mygdx.game.entities.DummyClass;
 import com.mygdx.game.entities.Player;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.network.ClientNetworkListener;
@@ -20,7 +21,7 @@ public class GameScreen implements Screen {
     private Viewport viewport;
     private ShapeRenderer renderer;
     private CameraController cameraController;
-    private Player player;
+    private DummyClass player;
 
     @Override
     public void show() {
@@ -28,7 +29,7 @@ public class GameScreen implements Screen {
         viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
         renderer = new ShapeRenderer();
         cameraController = new CameraController();
-        player = new Player();
+        player = new DummyClass();
         cameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y);
         float startPlayerX = GameConfig.WORLD_WIDTH / 2f;
         float startPlayerY = GameConfig.WORLD_HEIGHT / 2f;

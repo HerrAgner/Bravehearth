@@ -10,36 +10,20 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.mygdx.game.network.ClientConnection;
 
 public class Player {
-    private static final float BOUNDS_RADIUS = 0.4f;
-    private static final float SIZE = BOUNDS_RADIUS * 2;
     private static final float MAX_X_SPEED = 0.25f;
     private static final float MAX_Y_SPEED = 0.25f;
 
     private float x;
     private float y;
 
-    private Circle bounds;
 
     public Player() {
-        bounds = new Circle(x, y, BOUNDS_RADIUS);
 
-    }
-
-
-
-    public void drawDebug(ShapeRenderer shapeRenderer) {
-        shapeRenderer.circle(bounds.x, bounds.y, bounds.radius, 30);
     }
 
     public void setPosition(float x, float y) {
         this.x = x;
         this.y = y;
-        updateBounds();
-    }
-
-
-    private void updateBounds() {
-        bounds.setPosition(x, y);
     }
 
     public void update() {
@@ -62,7 +46,6 @@ public class Player {
         x += xSpeed;
         y += ySpeed;
 
-        updateBounds();
     }
 
     public float getX() {
