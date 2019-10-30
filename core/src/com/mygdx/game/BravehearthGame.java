@@ -5,6 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.esotericsoftware.kryonet.Client;
+
+import java.io.IOException;
 
 public class BravehearthGame extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -12,6 +15,14 @@ public class BravehearthGame extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
+		Client client = new Client();
+		client.start();
+		try {
+			client.connect(5000, "10.152.190.12", 54555, 54777);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 	}
@@ -24,7 +35,7 @@ public class BravehearthGame extends ApplicationAdapter {
 		batch.draw(img, 0, 0);
 		batch.end();
 	}
-	
+
 	@Override
 	public void dispose () {
 		batch.dispose();
