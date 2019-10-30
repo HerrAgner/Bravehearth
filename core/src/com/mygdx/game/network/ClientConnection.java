@@ -1,6 +1,7 @@
 package com.mygdx.game.network;
 
 import com.esotericsoftware.kryonet.Client;
+import com.mygdx.game.entities.Player;
 
 import java.io.IOException;
 
@@ -8,6 +9,7 @@ public class ClientConnection {
     private static ClientConnection single_instance = null;
 
     private Client client;
+    private Player player;
 
     private ClientConnection() {
         client = new Client();
@@ -31,4 +33,14 @@ public class ClientConnection {
     public Client getClient() {
         return this.client;
     }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+
 }

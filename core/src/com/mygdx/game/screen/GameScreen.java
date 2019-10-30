@@ -9,6 +9,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.config.GameConfig;
 import com.mygdx.game.entities.Player;
+import com.mygdx.game.network.ClientConnection;
+import com.mygdx.game.network.ClientNetworkListener;
 import com.mygdx.game.util.CameraController;
 import com.mygdx.game.util.ViewPortUtils;
 
@@ -30,7 +32,8 @@ public class GameScreen implements Screen {
         cameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y);
         float startPlayerX = GameConfig.WORLD_WIDTH / 2f;
         float startPlayerY = GameConfig.WORLD_HEIGHT / 2f;
-
+        ClientConnection.getInstance().setPlayer(player);
+        ClientNetworkListener cnl = new ClientNetworkListener();
         player.setPosition(startPlayerX, startPlayerY);
     }
 

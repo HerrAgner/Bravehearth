@@ -37,11 +37,6 @@ public class Player extends InputListener {
         updateBounds();
     }
 
-    private void testing() {
-        if (super.keyDown(new InputEvent(), Input.Keys.P)){
-            ClientConnection.getInstance().getClient().sendTCP("W");
-        };
-    }
 
     private void updateBounds() {
         bounds.setPosition(x, y);

@@ -12,8 +12,7 @@ public class BravehearthGame extends Game {
 
 	@Override
 	public void create() {
-		ClientConnection.getInstance();
-		ClientNetworkListener cnl = new ClientNetworkListener();
+
 
 		setScreen(new GameScreen());
 
