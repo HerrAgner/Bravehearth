@@ -10,9 +10,10 @@ public class CommandHandler {
 
     public CommandHandler() {
         commandQueue = new LinkedBlockingQueue<>();
+        movementHandler = new MovementHandler();
     }
 
-    private void addToQueue(String command) {
+    public void addToQueue(String command) {
         commandQueue.add(command);
         checkCommandInputType();
     }

@@ -13,8 +13,7 @@ public class NetworkListener {
             public void received (Connection connection, Object object) {
 
                 if (object instanceof String) {
-                    // Send to commandhandler
-                    System.out.println(object);
+                    ch.addToQueue((String) object);
                 }
             }
         });

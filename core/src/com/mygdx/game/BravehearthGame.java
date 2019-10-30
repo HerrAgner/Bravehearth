@@ -14,6 +14,8 @@ public class BravehearthGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		ClientConnection cc = new ClientConnection();
+		String test = "W";
+		cc.getClient().sendTCP(test);
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 	}

@@ -1,5 +1,6 @@
 package handlers;
 
+import com.esotericsoftware.minlog.Log;
 import enums.Movement;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -20,7 +21,7 @@ public class MovementHandler {
         while (!movementQueue.isEmpty()) {
             try {
                 String move = movementQueue.take();
-                switch (Movement.valueOf(move)) {
+                switch (Movement.getMovementFromChar(move.charAt(0))) {
                     //add logic for moves later
                     case FORWARD:
                         //check valid move - monster or player in way?

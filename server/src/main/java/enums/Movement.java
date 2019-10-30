@@ -1,14 +1,29 @@
 package enums;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum Movement {
-    FORWARD("W"),
-    BACKWARD("S"),
-    LEFT("A"),
-    RIGHT("D");
+    FORWARD('W'),
+    BACKWARD('S'),
+    LEFT('A'),
+    RIGHT('D');
 
-    public final String direction;
+    private static final Map<Character, Movement> CODE = new HashMap<>();
 
-    private Movement(String direction) {
-        this.direction = direction;
+    static {
+        for (Movement c : values()) {
+            CODE.put(c.shortCode, c);
+        }
+    }
+
+    private final char shortCode;
+
+    private Movement(char shortCode) {
+        this.shortCode = shortCode;
+    }
+
+    public static Movement getMovementFromChar(char code) {
+        return CODE.get(code);
     }
 }
