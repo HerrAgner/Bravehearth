@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.mygdx.game.network.ClientConnection;
 
-public class Player extends InputListener {
+public class Player {
     private static final float BOUNDS_RADIUS = 0.4f;
     private static final float SIZE = BOUNDS_RADIUS * 2;
     private static final float MAX_X_SPEED = 0.25f;
