@@ -2,6 +2,7 @@ package game;
 
 import com.esotericsoftware.kryonet.Server;
 import com.mygdx.game.network.NetworkListener;
+import com.mygdx.game.network.Sender;
 
 import java.io.IOException;
 
@@ -9,7 +10,7 @@ public class GameServer {
 
     private Server server;
 
-    public GameServer() {
+    private GameServer() {
         server = new Server();
         server.start();
         try {
@@ -18,7 +19,19 @@ public class GameServer {
             e.printStackTrace();
         }
 
-        NetworkListener nl = new NetworkListener(server);
+        NetworkListener nl = new NetworkListener();
+    }
+
+    private static GameServer single_instance = null;
+
+
+    // static method to create instance of Singleton class
+    public static GameServer getInstance()
+    {
+        if (single_instance == null)
+            single_instance = new GameServer();
+
+        return single_instance;
     }
 
     public Server getServer() {
