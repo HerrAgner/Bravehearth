@@ -36,11 +36,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        cameraController.handleDebugInput(delta);
         cameraController.applyTo(camera);
 
         update(delta);
-
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -88,5 +86,9 @@ public class GameScreen implements Screen {
     private void updatePlayer() {
         player.update();
     }
+
+  //  private void updateCamera() {
+   //     cameraController.updatePosition();
+   // }
 
 }
