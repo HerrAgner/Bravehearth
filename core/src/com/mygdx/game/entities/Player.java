@@ -21,6 +21,9 @@ public class Player {
 
     public Player(String name) {
         this.name = name;
+        inputHandler = new InputHandler();
+        Gdx.input.setInputProcessor(inputHandler);
+
     }
     public Player() {
         this.name = "dummy";

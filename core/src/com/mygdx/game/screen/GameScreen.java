@@ -31,7 +31,9 @@ public class GameScreen implements Screen {
 
         cameraController.setStartPosition(ClientConnection.getInstance().getPlayer().getX(), ClientConnection.getInstance().getPlayer().getY());
         if (ClientConnection.getInstance().getPlayer().getCharacterClass().equals(CharacterClass.DUMMYCLASS)){
+
             dc = new DummyClass(ClientConnection.getInstance().getPlayer());
+            ClientConnection.getInstance().setPlayer(new DummyClass(ClientConnection.getInstance().getPlayer()));
         }
     }
 
@@ -75,7 +77,8 @@ public class GameScreen implements Screen {
         renderer.setProjectionMatrix(camera.combined);
         ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
-            dc.drawDebug(renderer);
+        DummyClass dcs = (DummyClass) ClientConnection.getInstance().getPlayer();
+        dcs.drawDebug(renderer);
         renderer.end();
     }
 

@@ -31,6 +31,7 @@ public class DummyClass extends Player {
 
     @Override
     public void update() {
+        super.update();
         updateBounds();
     }
 }
