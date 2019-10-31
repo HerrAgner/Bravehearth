@@ -1,9 +1,7 @@
 package handlers;
 
-import com.esotericsoftware.minlog.Log;
-import com.mygdx.game.network.Sender;
+import network.Sender;
 import enums.Movement;
-import game.GameServer;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

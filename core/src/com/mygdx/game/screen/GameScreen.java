@@ -8,9 +8,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.config.GameConfig;
-import com.mygdx.game.entities.Player;
+import com.mygdx.game.entities.DummyClass;
 import com.mygdx.game.network.ClientConnection;
-import com.mygdx.game.network.ClientNetworkListener;
 import com.mygdx.game.util.CameraController;
 import com.mygdx.game.util.ViewPortUtils;
 
@@ -20,7 +19,6 @@ public class GameScreen implements Screen {
     private Viewport viewport;
     private ShapeRenderer renderer;
     private CameraController cameraController;
-    private Player player;
 
     @Override
     public void show() {
@@ -28,13 +26,7 @@ public class GameScreen implements Screen {
         viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
         renderer = new ShapeRenderer();
         cameraController = new CameraController();
-        player = new Player();
         cameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y);
-        float startPlayerX = GameConfig.WORLD_WIDTH / 2f;
-        float startPlayerY = GameConfig.WORLD_HEIGHT / 2f;
-        ClientConnection.getInstance().setPlayer(player);
-        ClientNetworkListener cnl = new ClientNetworkListener();
-        player.setPosition(startPlayerX, startPlayerY);
     }
 
     @Override
@@ -78,7 +70,7 @@ public class GameScreen implements Screen {
         renderer.setProjectionMatrix(camera.combined);
         ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
-        player.drawDebug(renderer);
+//        player.drawDebug(renderer);
         renderer.end();
     }
 
@@ -87,7 +79,7 @@ public class GameScreen implements Screen {
     }
 
     private void updatePlayer() {
-        player.update();
+        ClientConnection.getInstance().getPlayer().update();
     }
 
   //  private void updateCamera() {

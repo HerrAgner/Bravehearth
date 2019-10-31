@@ -2,44 +2,43 @@ package com.mygdx.game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.network.ClientConnection;
 
-public class Player extends InputListener {
-    private static final float BOUNDS_RADIUS = 0.4f;
-    private static final float SIZE = BOUNDS_RADIUS * 2;
-    private static final float MAX_X_SPEED = 0.25f;
-    private static final float MAX_Y_SPEED = 0.25f;
+public class Player {
+    private float MAX_X_SPEED = 0.25f;
+    private float MAX_Y_SPEED = 0.25f;
 
     private float x;
     private float y;
 
-    private Circle bounds;
+    private String name;
+    private int health;
+    private int mana;
+    private CharacterClass characterClass;
 
+    public Player(String name) {
+        this.name = name;
+    }
     public Player() {
-        bounds = new Circle(x, y, BOUNDS_RADIUS);
-
+        this.name = "dummy";
     }
 
 
-
-    public void drawDebug(ShapeRenderer shapeRenderer) {
-        shapeRenderer.circle(bounds.x, bounds.y, bounds.radius, 30);
+    public Player(float MAX_X_SPEED, float MAX_Y_SPEED, float x, float y, String name, int health, int mana, CharacterClass cc) {
+        this.MAX_X_SPEED = MAX_X_SPEED;
+        this.MAX_Y_SPEED = MAX_Y_SPEED;
+        this.x = x;
+        this.y = y;
+        this.name = name;
+        this.health = health;
+        this.mana = mana;
+        this.characterClass = cc;
     }
 
     public void setPosition(float x, float y) {
         this.x = x;
         this.y = y;
-        updateBounds();
-    }
-
-
-    private void updateBounds() {
-        bounds.setPosition(x, y);
     }
 
     public void update() {
@@ -62,7 +61,6 @@ public class Player extends InputListener {
         x += xSpeed;
         y += ySpeed;
 
-        updateBounds();
     }
 
     public float getX() {
@@ -73,4 +71,11 @@ public class Player extends InputListener {
         return y;
     }
 
+    public CharacterClass getCharacterClass() {
+        return characterClass;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
