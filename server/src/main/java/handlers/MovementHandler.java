@@ -1,15 +1,18 @@
 package handlers;
 
-import com.esotericsoftware.minlog.Log;
+import network.Sender;
 import enums.Movement;
+
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class MovementHandler {
     private BlockingQueue<String> movementQueue;
+    private Sender sender;
 
     public MovementHandler() {
         movementQueue = new LinkedBlockingQueue<>();
+        sender = new Sender();
     }
 
     void addToMovementQueue(String move) {
@@ -36,6 +39,7 @@ public class MovementHandler {
                         break;
                     case RIGHT:
                         System.out.println("right");
+                       sender.sendToTcp("R");
                         break;
                 }
             } catch (InterruptedException e) {

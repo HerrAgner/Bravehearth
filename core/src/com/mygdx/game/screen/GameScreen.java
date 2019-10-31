@@ -8,7 +8,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.config.GameConfig;
-import com.mygdx.game.entities.Player;
+import com.mygdx.game.entities.DummyClass;
+import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.util.CameraController;
 import com.mygdx.game.util.ViewPortUtils;
 
@@ -18,7 +19,7 @@ public class GameScreen implements Screen {
     private Viewport viewport;
     private ShapeRenderer renderer;
     private CameraController cameraController;
-    private Player player;
+
 
     @Override
     public void show() {
@@ -26,12 +27,8 @@ public class GameScreen implements Screen {
         viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
         renderer = new ShapeRenderer();
         cameraController = new CameraController();
-        player = new Player();
-        float startPlayerX = GameConfig.WORLD_WIDTH / 2f;
-        float startPlayerY = GameConfig.WORLD_HEIGHT / 2f;
 
-        player.setPosition(startPlayerX, startPlayerY);
-        cameraController.setStartPosition(player.getX(), player.getY());
+        cameraController.setStartPosition(ClientConnection.getInstance().getPlayer().getX(), ClientConnection.getInstance().getPlayer().getY());
     }
 
     @Override
@@ -75,7 +72,7 @@ public class GameScreen implements Screen {
         renderer.setProjectionMatrix(camera.combined);
         ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
-        player.drawDebug(renderer);
+//        player.drawDebug(renderer);
         renderer.end();
     }
 
@@ -85,11 +82,12 @@ public class GameScreen implements Screen {
     }
 
     private void updatePlayer() {
-        player.update(Math.min(Gdx.graphics.getDeltaTime(), 1/60f));
+        ClientConnection.getInstance().getPlayer().update();
     }
 
     private void updateCamera() {
-       cameraController.updatePosition(player.getX(), player.getY());
-   }
+       cameraController.updatePosition(ClientConnection.getInstance().getPlayer().getX(), ClientConnection.getInstance().getPlayer().getY());
+     }
+
 
 }
