@@ -11,6 +11,7 @@ import com.mygdx.game.config.GameConfig;
 import com.mygdx.game.entities.DummyClass;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.util.CameraController;
+import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.util.ViewPortUtils;
 
 public class GameScreen implements Screen {
@@ -19,6 +20,7 @@ public class GameScreen implements Screen {
     private Viewport viewport;
     private ShapeRenderer renderer;
     private CameraController cameraController;
+    private DummyClass dc;
 
     @Override
     public void show() {
@@ -26,13 +28,18 @@ public class GameScreen implements Screen {
         viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
         renderer = new ShapeRenderer();
         cameraController = new CameraController();
-        cameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y);
+
+        cameraController.setStartPosition(ClientConnection.getInstance().getAvatar().getX(), ClientConnection.getInstance().getAvatar().getY());
+        if (ClientConnection.getInstance().getAvatar().getCharacterClass().equals(CharacterClass.DUMMYCLASS)){
+
+            dc = new DummyClass(ClientConnection.getInstance().getAvatar());
+            ClientConnection.getInstance().setAvatar(new DummyClass(ClientConnection.getInstance().getAvatar()));
+        }
     }
 
     @Override
     public void render(float delta) {
         cameraController.applyTo(camera);
-
         update(delta);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -70,20 +77,24 @@ public class GameScreen implements Screen {
         renderer.setProjectionMatrix(camera.combined);
         ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
-//        player.drawDebug(renderer);
+        DummyClass dcs = (DummyClass) ClientConnection.getInstance().getAvatar();
+        dcs.drawDebug(renderer);
         renderer.end();
     }
 
     private void update(float delta) {
         updatePlayer();
+        updateCamera();
     }
 
     private void updatePlayer() {
-        ClientConnection.getInstance().getPlayer().update();
+
+        ClientConnection.getInstance().getAvatar().update();
     }
 
-  //  private void updateCamera() {
-   //     cameraController.updatePosition();
-   // }
+    private void updateCamera() {
+       cameraController.updatePosition(ClientConnection.getInstance().getAvatar().getX(), ClientConnection.getInstance().getAvatar().getY());
+     }
+
 
 }

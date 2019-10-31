@@ -3,7 +3,7 @@ package com.mygdx.game.entities;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 
-public class DummyClass extends Player {
+public class DummyClass extends Avatar {
     private final float BOUNDS_RADIUS = 0.4f;
     private final float SIZE = BOUNDS_RADIUS * 2;
     private Circle bounds;
@@ -11,7 +11,12 @@ public class DummyClass extends Player {
     public DummyClass(String name){
         super(name);
         bounds = new Circle(super.getX(), super.getY(), BOUNDS_RADIUS);
+    }
 
+    public DummyClass(Avatar avatar){
+        super(avatar.getName());
+        setPosition(avatar.getX(), avatar.getY());
+        bounds = new Circle(super.getX(), super.getY(), BOUNDS_RADIUS);
     }
 
 

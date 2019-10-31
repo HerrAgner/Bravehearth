@@ -4,28 +4,33 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.network.ClientConnection;
+import com.mygdx.game.util.InputHandler;
 
-public class Player {
+public class Avatar {
     private float MAX_X_SPEED = 0.25f;
     private float MAX_Y_SPEED = 0.25f;
 
     private float x;
     private float y;
+    private InputHandler inputHandler;
 
     private String name;
     private int health;
     private int mana;
     private CharacterClass characterClass;
 
-    public Player(String name) {
+    public Avatar(String name) {
         this.name = name;
+        inputHandler = new InputHandler();
+        Gdx.input.setInputProcessor(inputHandler);
+
     }
-    public Player() {
+    public Avatar() {
         this.name = "dummy";
     }
 
 
-    public Player(float MAX_X_SPEED, float MAX_Y_SPEED, float x, float y, String name, int health, int mana, CharacterClass cc) {
+    public Avatar(float MAX_X_SPEED, float MAX_Y_SPEED, float x, float y, String name, int health, int mana, CharacterClass cc) {
         this.MAX_X_SPEED = MAX_X_SPEED;
         this.MAX_Y_SPEED = MAX_Y_SPEED;
         this.x = x;
@@ -44,10 +49,7 @@ public class Player {
     public void update() {
         float xSpeed = 0;
         float ySpeed = 0;
-
-
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            ClientConnection.getInstance().getClient().sendTCP("D");
+        if(Gdx.input.isKeyPressed(Input.Keys.D)){
             xSpeed = MAX_X_SPEED;
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             xSpeed = -MAX_X_SPEED;
