@@ -6,15 +6,18 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import game.GameServer;
 import handlers.CommandHandler;
+import handlers.MovementHandler;
 import network.networkMessages.CharacterClass;
 import network.networkMessages.Login;
 import network.networkMessages.Avatar;
+import network.networkMessages.MovementCommands;
 
 public class NetworkListener {
 
     public NetworkListener() {
         Server server = GameServer.getInstance().getServer();
         CommandHandler ch = new CommandHandler();
+        MovementHandler mh = new MovementHandler();
         server.addListener(new Listener() {
             public void received (Connection connection, Object object) {
 
@@ -30,8 +33,11 @@ public class NetworkListener {
                 }
 
                 if (object instanceof String) {
-                    System.out.println(object);
                     ch.addToQueue((String) object, connection);
+                }
+
+                if (object instanceof MovementCommands) {
+                    mh.addToMovementQueue(((MovementCommands) object).getLetter(), connection);
                 }
 
             }

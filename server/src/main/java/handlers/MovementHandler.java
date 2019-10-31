@@ -25,10 +25,10 @@ public class MovementHandler {
         movementQueue = new LinkedHashMap<>();
     }
 
-    void addToMovementQueue(String move, Connection connection) {
+    public void addToMovementQueue(String move, Connection connection) {
 //        movementQueue.add(move);
-        handleMovement();
         movementQueue.put(connection, move);
+        handleMovement();
     }
 
     private void handleMovement() {
