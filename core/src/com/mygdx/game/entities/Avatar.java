@@ -50,11 +50,14 @@ public class Avatar {
         float xSpeed = 0;
         float ySpeed = 0;
         if(Gdx.input.isKeyPressed(Input.Keys.D)){
+            ClientConnection.getInstance().getClient().sendTCP("D");
             xSpeed = MAX_X_SPEED;
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            ClientConnection.getInstance().getClient().sendTCP("A");
             xSpeed = -MAX_X_SPEED;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            ClientConnection.getInstance().getClient().sendTCP("W");
             ySpeed = MAX_Y_SPEED;
         } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             ySpeed = -MAX_Y_SPEED;

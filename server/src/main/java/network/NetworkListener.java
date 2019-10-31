@@ -30,7 +30,8 @@ public class NetworkListener {
                 }
 
                 if (object instanceof String) {
-                    ch.addToQueue((String) object);
+                    System.out.println(object);
+                    ch.addToQueue((String) object, connection);
                 }
 
             }

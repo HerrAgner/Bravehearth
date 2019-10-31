@@ -1,5 +1,6 @@
 package handlers;
 
+import com.esotericsoftware.kryonet.Connection;
 import enums.Command;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -7,13 +8,15 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class CommandHandler {
     private BlockingQueue<String> commandQueue;
     private MovementHandler movementHandler;
+    private Connection connection;
 
     public CommandHandler() {
         commandQueue = new LinkedBlockingQueue<>();
         movementHandler = new MovementHandler();
     }
 
-    public void addToQueue(String command) {
+    public void addToQueue(String command, Connection connection) {
+        this.connection = connection;
         commandQueue.add(command);
         checkCommandInputType();
     }
@@ -23,7 +26,7 @@ public class CommandHandler {
             try {
                 String comm = commandQueue.take();
                 if(comm.equals("W") || comm.equals("A") || comm.equals("S") || comm.equals("D")) {
-                    movementHandler.addToMovementQueue(comm.toUpperCase());
+                    movementHandler.addToMovementQueue(comm.toUpperCase(), connection);
                 } else {
                     handleCommand(comm.toUpperCase());
                 }

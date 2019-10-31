@@ -19,6 +19,7 @@ public class GameServer {
             e.printStackTrace();
         }
         registerClasses();
+
     }
 
     private static GameServer single_instance = null;
