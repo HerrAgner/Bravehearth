@@ -85,7 +85,7 @@ public class GameScreen implements Screen {
     }
 
     private void updatePlayer() {
-        player.update(Gdx.graphics.getDeltaTime());
+        player.update(Math.min(Gdx.graphics.getDeltaTime(), 1/60f));
     }
 
     private void updateCamera() {

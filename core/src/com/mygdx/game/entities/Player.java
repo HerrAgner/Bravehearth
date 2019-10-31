@@ -9,8 +9,8 @@ import com.mygdx.game.util.InputHandler;
 public class Player {
     private final float BOUNDS_RADIUS = 0.4f;
     private final float SIZE = BOUNDS_RADIUS * 2;
-    private final float MAX_X_SPEED = 5.0f;
-    private final float MAX_Y_SPEED = 5.0f;
+    private final float MAX_X_SPEED = 1.0f;
+    private final float MAX_Y_SPEED = 1.0f;
 
     private float x;
     private float y;
