@@ -4,20 +4,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
+import com.mygdx.game.util.InputHandler;
 
 public class Player {
-    private static final float BOUNDS_RADIUS = 0.4f;
-    private static final float SIZE = BOUNDS_RADIUS * 2;
-    private static final float MAX_X_SPEED = 0.25f;
-    private static final float MAX_Y_SPEED = 0.25f;
+    private final float BOUNDS_RADIUS = 0.4f;
+    private final float SIZE = BOUNDS_RADIUS * 2;
+    private final float MAX_X_SPEED = 5.0f;
+    private final float MAX_Y_SPEED = 5.0f;
 
     private float x;
     private float y;
+    private InputHandler inputHandler;
 
     private Circle bounds;
 
     public Player() {
         bounds = new Circle(x, y, BOUNDS_RADIUS);
+        inputHandler = new InputHandler();
+        Gdx.input.setInputProcessor(inputHandler);
     }
 
     public void drawDebug(ShapeRenderer shapeRenderer) {
@@ -34,8 +38,24 @@ public class Player {
         bounds.setPosition(x, y);
     }
 
-    public void update() {
+    public void update(float delta) {
+
         float xSpeed = 0;
+        float ySpeed = 0;
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            ySpeed = MAX_Y_SPEED * delta;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            ySpeed = -MAX_Y_SPEED * delta;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            xSpeed = -MAX_X_SPEED * delta;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            xSpeed = MAX_X_SPEED * delta;
+        }
+
+        x += xSpeed;
+        y += ySpeed;
+       /* float xSpeed = 0;
         float ySpeed = 0;
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             xSpeed = MAX_X_SPEED;
@@ -50,6 +70,11 @@ public class Player {
 
         x += xSpeed;
         y += ySpeed;
+
+        */
+
+
+
 
         updateBounds();
     }
