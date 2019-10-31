@@ -29,8 +29,9 @@ public class GameScreen implements Screen {
         renderer = new ShapeRenderer();
         cameraController = new CameraController();
         cameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y);
-        if (ClientConnection.getInstance().getPlayer().getCharacterClass().equals(CharacterClass.DUMMYCLASS)){
+        if (ClientConnection.getInstance().getPlayer().getCharacterClass().equals(CharacterClass.DUMMYCLASS)) {
             dc = new DummyClass(ClientConnection.getInstance().getPlayer());
+            ClientConnection.getInstance().setPlayer(new DummyClass(ClientConnection.getInstance().getPlayer()));
         }
     }
 
@@ -74,7 +75,8 @@ public class GameScreen implements Screen {
         renderer.setProjectionMatrix(camera.combined);
         ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
-            dc.drawDebug(renderer);
+        DummyClass dcs = (DummyClass) ClientConnection.getInstance().getPlayer();
+        dcs.drawDebug(renderer);
         renderer.end();
     }
 
@@ -87,8 +89,8 @@ public class GameScreen implements Screen {
         ClientConnection.getInstance().getPlayer().update();
     }
 
-  //  private void updateCamera() {
-   //     cameraController.updatePosition();
-   // }
+    //  private void updateCamera() {
+    //     cameraController.updatePosition();
+    // }
 
 }
