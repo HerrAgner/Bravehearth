@@ -37,7 +37,7 @@ public class NetworkListener {
                 }
 
                 if (object instanceof MovementCommands) {
-                    mh.addToMovementQueue(((MovementCommands) object).getLetter(), connection);
+                    mh.addToMovementQueue((MovementCommands) object, connection);
                 }
 
             }

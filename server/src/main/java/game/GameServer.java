@@ -9,6 +9,7 @@ import java.io.IOException;
 public class GameServer {
 
     private Server server;
+    private GameLoop gameLoop = new GameLoop();
 
     private GameServer() {
         server = new Server();
@@ -19,6 +20,7 @@ public class GameServer {
             e.printStackTrace();
         }
         registerClasses();
+        new Thread(gameLoop).start();
 
     }
 

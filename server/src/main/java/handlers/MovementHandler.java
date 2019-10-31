@@ -4,7 +4,9 @@ import com.esotericsoftware.kryonet.Connection;
 import network.Sender;
 import enums.Movement;
 import network.networkMessages.Avatar;
+import network.networkMessages.MovementCommands;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -13,83 +15,84 @@ import java.util.concurrent.*;
 public class MovementHandler {
     //    private BlockingQueue<String> movementQueue;
     private Sender sender;
-    private ExecutorService executorService;
-    private ConcurrentHashMap<Avatar, Movement[]> movementLoopList;
-    private LinkedHashMap<Connection, String> movementQueue;
+    public static ConcurrentHashMap<Connection, ArrayList<Movement>> movementLoopList = new ConcurrentHashMap<>();
+    private LinkedHashMap<Connection, MovementCommands> movementQueue;
+    private boolean running;
 
     public MovementHandler() {
-//        movementQueue = new LinkedBlockingQueue<>();
         sender = new Sender();
-        executorService = Executors.newCachedThreadPool();
-        movementLoopList = new ConcurrentHashMap<>();
         movementQueue = new LinkedHashMap<>();
     }
 
-    public void addToMovementQueue(String move, Connection connection) {
-//        movementQueue.add(move);
-        movementQueue.put(connection, move);
+    public void addToMovementQueue(MovementCommands mc, Connection connection) {
+        movementQueue.put(connection, mc);
         handleMovement();
+
     }
 
     private void handleMovement() {
         movementQueue.entrySet().removeIf(entry -> {
-            switch (Movement.getMovementFromChar(entry.getValue().charAt(0))) {
+            switch (Movement.getMovementFromChar(entry.getValue().getLetter().charAt(0))) {
                 //add logic for moves later
                 case FORWARD:
                     //check valid move - monster or player in way?
                     //send new location to sender TCP
-                    System.out.println("forward");
+                    if (entry.getValue().isKeyPressed()) {
+                        if (movementLoopList.containsKey(entry.getKey())){
+                            movementLoopList.get(entry.getKey()).add(Movement.FORWARD);
+                        } else {
+                            ArrayList<Movement> list = new ArrayList<>();
+                            list.add(Movement.FORWARD);
+                            movementLoopList.put(entry.getKey(), list);
+                        }
+                    } else {
+                        movementLoopList.remove(entry.getKey());
+                    }
                     return true;
                 case BACKWARD:
-                    System.out.println("back");
+                    if (entry.getValue().isKeyPressed()) {
+                        if (movementLoopList.containsKey(entry.getKey())){
+                            movementLoopList.get(entry.getKey()).add(Movement.BACKWARD);
+                        } else {
+                            ArrayList<Movement> list = new ArrayList<>();
+                            list.add(Movement.BACKWARD);
+                            movementLoopList.put(entry.getKey(), list);
+                        }
+                    } else {
+                        movementLoopList.remove(entry.getKey());
+                    }
                     return true;
                 case LEFT:
-                    System.out.println("left");
+                    if (entry.getValue().isKeyPressed()) {
+                        if (movementLoopList.containsKey(entry.getKey())){
+                            movementLoopList.get(entry.getKey()).add(Movement.LEFT);
+                        } else {
+                            ArrayList<Movement> list = new ArrayList<>();
+                            list.add(Movement.LEFT);
+                            movementLoopList.put(entry.getKey(), list);
+                        }
+                    } else {
+                        movementLoopList.remove(entry.getKey());
+                    }
                     return true;
                 case RIGHT:
-                    System.out.println("right");
-                    sender.sendToTcp("R");
+                    if (entry.getValue().isKeyPressed()) {
+                        if (movementLoopList.containsKey(entry.getKey())){
+                            movementLoopList.get(entry.getKey()).add(Movement.RIGHT);
+                        } else {
+                            ArrayList<Movement> list = new ArrayList<>();
+                            list.add(Movement.RIGHT);
+                            movementLoopList.put(entry.getKey(), list);
+                        }
+                    } else {
+                        movementLoopList.remove(entry.getKey());
+                    }
                     return true;
             }
-            if (!movementLoopList.isEmpty()) {
-                movementLoop();
-            }
+
             return false;
         });
 
-//        while (!movementQueue.isEmpty()) {
-//            //                String move = movementQueue.take();
-//            movementQueue.forEach((connection, s) -> {
-//                switch (Movement.getMovementFromChar(s.charAt(0))) {
-//                    //add logic for moves later
-//                    case FORWARD:
-//                        //check valid move - monster or player in way?
-//                        //send new location to sender TCP
-//                        System.out.println("forward");
-//                        break;
-//                    case BACKWARD:
-//                        System.out.println("back");
-//                        break;
-//                    case LEFT:
-//                        System.out.println("left");
-//                        break;
-//                    case RIGHT:
-//                        System.out.println("right");
-//                        sender.sendToTcp("R");
-//                        break;
-//                }
-//                if (!movementLoopList.isEmpty()){
-//                    movementLoop();
-//                }
-////                movementQueue.remove(connection);
-//            });
-////            movementQueue.clear();
-
-//        }
     }
 
-    private void movementLoop() {
-
-
-    }
 }

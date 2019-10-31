@@ -25,11 +25,11 @@ public class CommandHandler {
         while (!commandQueue.isEmpty()) {
             try {
                 String comm = commandQueue.take();
-                if(comm.equals("W") || comm.equals("A") || comm.equals("S") || comm.equals("D")) {
-                    movementHandler.addToMovementQueue(comm.toUpperCase(), connection);
-                } else {
+//                if(comm.equals("W") || comm.equals("A") || comm.equals("S") || comm.equals("D")) {
+//                    movementHandler.addToMovementQueue(comm.toUpperCase(), connection);
+//                } else {
                     handleCommand(comm.toUpperCase());
-                }
+//                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
