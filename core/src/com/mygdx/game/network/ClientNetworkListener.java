@@ -18,7 +18,7 @@ public class ClientNetworkListener {
                         System.out.println("testing. Printing player X: " + avatar.getX());
                         System.out.println("testing. Printing player Y: " + avatar.getY());
                     }
-                    ClientConnection.getInstance().setAvatar((Avatar) object);
+                    ClientConnection.getInstance().getUser().setAvatar((Avatar) object);
                 }
                 if (object instanceof String) {
                     System.out.println(object);

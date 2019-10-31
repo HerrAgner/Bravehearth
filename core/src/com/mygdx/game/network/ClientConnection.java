@@ -3,6 +3,7 @@ package com.mygdx.game.network;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.mygdx.game.entities.Avatar;
+import com.mygdx.game.entities.User;
 import com.mygdx.game.network.networkMessages.*;
 import com.mygdx.game.util.CharacterClass;
 
@@ -13,6 +14,7 @@ public class ClientConnection {
 
     private Client client;
     private Avatar avatar;
+    private User user;
 
     private ClientConnection() {
         client = new Client();
@@ -22,6 +24,8 @@ public class ClientConnection {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        this.user = new User("Kittifer", new Avatar());
         registerClasses();
         login();
 
@@ -39,16 +43,12 @@ public class ClientConnection {
         return this.client;
     }
 
-    public Avatar getAvatar() {
-        return avatar;
-    }
+    public User getUser() { return this.user; }
 
-    public void setAvatar(Avatar avatar) {
-        this.avatar = avatar;
-    }
+    public Avatar getAvatar() { return this.user.getAvatar(); }
 
     private void login(){
-        client.sendTCP(new Login("Ted", "Tedinator"));
+        client.sendTCP(new Login("Kate", new Avatar()));
     }
 
     private void registerClasses(){

@@ -9,6 +9,7 @@ import handlers.CommandHandler;
 import network.networkMessages.CharacterClass;
 import network.networkMessages.Login;
 import network.networkMessages.Avatar;
+import network.networkMessages.User;
 
 public class NetworkListener {
 
@@ -19,14 +20,8 @@ public class NetworkListener {
             public void received (Connection connection, Object object) {
 
                 if (object instanceof Login) {
-                    Login loginObject = (Login) object;
-                    Avatar avatar = new Avatar(loginObject.getCharacter());
-                    avatar.setCharacterClass(CharacterClass.DUMMYCLASS);
-                    avatar.setX(10);
-                    avatar.setY(20);
-                    System.out.println(avatar.getX());
-                    System.out.println(avatar.getY());
-                    server.sendToTCP(connection.getID(), avatar);
+                    server.sendToTCP(connection.getID(), createUser(object));
+                    System.out.println("Finished Login");
                 }
 
                 if (object instanceof String) {
@@ -36,5 +31,19 @@ public class NetworkListener {
             }
         });
 
+    }
+    private User createUser(Object object) {
+        Login loginObject = (Login) object;
+        Avatar avatar = new Avatar(loginObject.getAvatar().getName());
+        avatar.setCharacterClass(CharacterClass.DUMMYCLASS);
+        avatar.setX(10);
+        avatar.setY(20);
+
+        User user = new User("Kitty", avatar);
+
+        System.out.println(user.getUsername());
+        System.out.println(user.getAvatar().getName());
+
+        return user;
     }
 }

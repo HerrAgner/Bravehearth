@@ -7,14 +7,21 @@ public class User {
     //do this on log-in, maybe?
 
     private String username;
-    private Player player;
+    private Avatar avatar;
 
-    public User(String username, Player player) {
+    public User() {}
+
+    public User(String username, Avatar avatar) {
         this.username = username;
-        this.player = player;
+        this.avatar = avatar;
     }
 
-    public Player getPlayer() {
-        return this.player;
+    public Avatar getAvatar() {
+        return avatar;
     }
+
+    public void setAvatar(Avatar avatar) { this.avatar = avatar; }
+
+    public String getUsername() { return username; }
+
 }

@@ -12,6 +12,8 @@ public class Avatar {
     private int mana;
     private CharacterClass characterClass;
 
+    public Avatar() {}
+
     public Avatar(String name) {
         this.name = name;
     }
