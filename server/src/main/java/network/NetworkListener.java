@@ -22,7 +22,10 @@ public class NetworkListener {
                     Login loginObject = (Login) object;
                     Player player = new Player(loginObject.getCharacter());
                     player.setCharacterClass(CharacterClass.DUMMYCLASS);
-                    player.setX(50);
+                    player.setX(10);
+                    player.setY(20);
+                    System.out.println(player.getX());
+                    System.out.println(player.getY());
                     server.sendToTCP(connection.getID(), player);
                 }
 

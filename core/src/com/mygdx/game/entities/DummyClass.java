@@ -13,7 +13,10 @@ public class DummyClass extends Player {
         bounds = new Circle(super.getX(), super.getY(), BOUNDS_RADIUS);
     }
 
-    public DummyClass(Player player) {
+    public DummyClass(Player player){
+        super(player.getName());
+        setPosition(player.getX(), player.getY());
+        bounds = new Circle(super.getX(), super.getY(), BOUNDS_RADIUS);
     }
 
 
@@ -28,7 +31,6 @@ public class DummyClass extends Player {
 
     @Override
     public void update() {
-        super.update();
         updateBounds();
     }
 }
