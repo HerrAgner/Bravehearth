@@ -1,4 +1,4 @@
-package com.mygdx.game.network;
+package network;
 
 import com.esotericsoftware.kryonet.Server;
 import game.GameServer;

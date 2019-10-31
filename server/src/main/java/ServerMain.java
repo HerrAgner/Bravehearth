@@ -1,5 +1,4 @@
-import com.esotericsoftware.kryonet.Server;
-import com.mygdx.game.network.NetworkListener;
+import network.NetworkListener;
 import game.GameServer;
 
 public class ServerMain {

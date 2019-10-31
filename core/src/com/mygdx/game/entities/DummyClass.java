@@ -8,7 +8,8 @@ public class DummyClass extends Player {
     private final float SIZE = BOUNDS_RADIUS * 2;
     private Circle bounds;
 
-    public DummyClass(){
+    public DummyClass(String name){
+        super(name);
         bounds = new Circle(super.getX(), super.getY(), BOUNDS_RADIUS);
 
     }

@@ -1,7 +1,10 @@
 package com.mygdx.game.network;
 
+import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.mygdx.game.entities.Player;
+import com.mygdx.game.network.networkMessages.*;
+import com.mygdx.game.util.CharacterClass;
 
 import java.io.IOException;
 
@@ -19,6 +22,8 @@ public class ClientConnection {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        registerClasses();
+        login();
 
     }
     public static ClientConnection getInstance()
@@ -42,5 +47,17 @@ public class ClientConnection {
         this.player = player;
     }
 
+    private void login(){
+        client.sendTCP(new Login("Ted", "Tedinator"));
+    }
 
+    private void registerClasses(){
+        Kryo kryo = client.getKryo();
+        kryo.register(Health.class);
+        kryo.register(Position.class);
+        kryo.register(Player.class);
+        kryo.register(Login.class);
+        kryo.register(CharacterClass.class);
+
+    }
 }
