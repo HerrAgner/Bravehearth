@@ -19,6 +19,7 @@ public class GameScreen implements Screen {
     private Viewport viewport;
     private ShapeRenderer renderer;
     private CameraController cameraController;
+    private DummyClass dummy;
 
 
     @Override
@@ -27,7 +28,7 @@ public class GameScreen implements Screen {
         viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
         renderer = new ShapeRenderer();
         cameraController = new CameraController();
-
+        dummy = new DummyClass(ClientConnection.getInstance().getPlayer());
         cameraController.setStartPosition(ClientConnection.getInstance().getPlayer().getX(), ClientConnection.getInstance().getPlayer().getY());
     }
 
@@ -72,7 +73,7 @@ public class GameScreen implements Screen {
         renderer.setProjectionMatrix(camera.combined);
         ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
-//        player.drawDebug(renderer);
+        dummy.drawDebug(renderer);
         renderer.end();
     }
 

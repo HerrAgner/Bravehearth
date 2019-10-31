@@ -13,6 +13,9 @@ public class DummyClass extends Player {
         bounds = new Circle(super.getX(), super.getY(), BOUNDS_RADIUS);
     }
 
+    public DummyClass(Player player) {
+    }
+
 
     public void drawDebug(ShapeRenderer shapeRenderer) {
         shapeRenderer.circle(bounds.x, bounds.y, bounds.radius, 30);
