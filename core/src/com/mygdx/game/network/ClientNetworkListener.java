@@ -13,9 +13,10 @@ public class ClientNetworkListener {
                 if (object instanceof Player) {
                     Player player;
                     if (((Player) object).getCharacterClass().equals(CharacterClass.DUMMYCLASS)){
-                        player = new DummyClass(((Player) object).getName());
-                        player.setPosition(((Player) object).getX(), 0);
+                        player = new DummyClass((Player) object);
+                        player.setPosition(((Player) object).getX(), ((Player) object).getY());
                         System.out.println("testing. Printing player X: " + player.getX());
+                        System.out.println("testing. Printing player Y: " + player.getY());
                     }
                     ClientConnection.getInstance().setPlayer((Player) object);
                 }

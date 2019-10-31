@@ -14,6 +14,12 @@ public class DummyClass extends Player {
 
     }
 
+    public DummyClass(Player player){
+        super(player.getName());
+        setPosition(player.getX(), player.getY());
+        bounds = new Circle(super.getX(), super.getY(), BOUNDS_RADIUS);
+    }
+
 
     public void drawDebug(ShapeRenderer shapeRenderer) {
         shapeRenderer.circle(bounds.x, bounds.y, bounds.radius, 30);
@@ -26,7 +32,6 @@ public class DummyClass extends Player {
 
     @Override
     public void update() {
-        super.update();
         updateBounds();
     }
 }
