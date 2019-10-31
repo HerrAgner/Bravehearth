@@ -58,6 +58,6 @@ public class ClientConnection {
         kryo.register(Player.class);
         kryo.register(Login.class);
         kryo.register(CharacterClass.class);
-
+        kryo.register(MovementCommands.class);
     }
 }
