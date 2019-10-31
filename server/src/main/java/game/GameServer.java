@@ -1,6 +1,7 @@
 package game;
 
 import com.esotericsoftware.kryonet.Server;
+import handlers.ActiveUserHandler;
 
 import java.io.IOException;
 
@@ -16,7 +17,6 @@ public class GameServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private static GameServer single_instance = null;
