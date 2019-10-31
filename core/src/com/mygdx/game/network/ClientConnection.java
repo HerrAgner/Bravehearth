@@ -2,7 +2,7 @@ package com.mygdx.game.network;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
-import com.mygdx.game.entities.Player;
+import com.mygdx.game.entities.Avatar;
 import com.mygdx.game.network.networkMessages.*;
 import com.mygdx.game.util.CharacterClass;
 
@@ -12,7 +12,7 @@ public class ClientConnection {
     private static ClientConnection single_instance = null;
 
     private Client client;
-    private Player player;
+    private Avatar avatar;
 
     private ClientConnection() {
         client = new Client();
@@ -39,12 +39,12 @@ public class ClientConnection {
         return this.client;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Avatar getAvatar() {
+        return avatar;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
     }
 
     private void login(){
@@ -55,7 +55,7 @@ public class ClientConnection {
         Kryo kryo = client.getKryo();
         kryo.register(Health.class);
         kryo.register(Position.class);
-        kryo.register(Player.class);
+        kryo.register(Avatar.class);
         kryo.register(Login.class);
         kryo.register(CharacterClass.class);
         kryo.register(MovementCommands.class);

@@ -6,7 +6,7 @@ import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.util.InputHandler;
 
-public class Player {
+public class Avatar {
     private float MAX_X_SPEED = 0.25f;
     private float MAX_Y_SPEED = 0.25f;
 
@@ -19,18 +19,18 @@ public class Player {
     private int mana;
     private CharacterClass characterClass;
 
-    public Player(String name) {
+    public Avatar(String name) {
         this.name = name;
         inputHandler = new InputHandler();
         Gdx.input.setInputProcessor(inputHandler);
 
     }
-    public Player() {
+    public Avatar() {
         this.name = "dummy";
     }
 
 
-    public Player(float MAX_X_SPEED, float MAX_Y_SPEED, float x, float y, String name, int health, int mana, CharacterClass cc) {
+    public Avatar(float MAX_X_SPEED, float MAX_Y_SPEED, float x, float y, String name, int health, int mana, CharacterClass cc) {
         this.MAX_X_SPEED = MAX_X_SPEED;
         this.MAX_Y_SPEED = MAX_Y_SPEED;
         this.x = x;

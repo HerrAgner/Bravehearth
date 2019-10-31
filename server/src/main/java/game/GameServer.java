@@ -39,7 +39,7 @@ public class GameServer {
         Kryo kryo = server.getKryo();
         kryo.register(Health.class);
         kryo.register(Position.class);
-        kryo.register(Player.class);
+        kryo.register(Avatar.class);
         kryo.register(Login.class);
         kryo.register(CharacterClass.class);
         kryo.register(MovementCommands.class);

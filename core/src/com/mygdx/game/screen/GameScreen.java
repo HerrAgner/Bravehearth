@@ -29,11 +29,11 @@ public class GameScreen implements Screen {
         renderer = new ShapeRenderer();
         cameraController = new CameraController();
 
-        cameraController.setStartPosition(ClientConnection.getInstance().getPlayer().getX(), ClientConnection.getInstance().getPlayer().getY());
-        if (ClientConnection.getInstance().getPlayer().getCharacterClass().equals(CharacterClass.DUMMYCLASS)){
+        cameraController.setStartPosition(ClientConnection.getInstance().getAvatar().getX(), ClientConnection.getInstance().getAvatar().getY());
+        if (ClientConnection.getInstance().getAvatar().getCharacterClass().equals(CharacterClass.DUMMYCLASS)){
 
-            dc = new DummyClass(ClientConnection.getInstance().getPlayer());
-            ClientConnection.getInstance().setPlayer(new DummyClass(ClientConnection.getInstance().getPlayer()));
+            dc = new DummyClass(ClientConnection.getInstance().getAvatar());
+            ClientConnection.getInstance().setAvatar(new DummyClass(ClientConnection.getInstance().getAvatar()));
         }
     }
 
@@ -77,7 +77,7 @@ public class GameScreen implements Screen {
         renderer.setProjectionMatrix(camera.combined);
         ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
-        DummyClass dcs = (DummyClass) ClientConnection.getInstance().getPlayer();
+        DummyClass dcs = (DummyClass) ClientConnection.getInstance().getAvatar();
         dcs.drawDebug(renderer);
         renderer.end();
     }
@@ -89,11 +89,11 @@ public class GameScreen implements Screen {
 
     private void updatePlayer() {
 
-        ClientConnection.getInstance().getPlayer().update();
+        ClientConnection.getInstance().getAvatar().update();
     }
 
     private void updateCamera() {
-       cameraController.updatePosition(ClientConnection.getInstance().getPlayer().getX(), ClientConnection.getInstance().getPlayer().getY());
+       cameraController.updatePosition(ClientConnection.getInstance().getAvatar().getX(), ClientConnection.getInstance().getAvatar().getY());
      }
 
 
