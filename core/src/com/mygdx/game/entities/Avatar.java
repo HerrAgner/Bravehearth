@@ -7,8 +7,8 @@ import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.util.InputHandler;
 
 public class Avatar {
-    private float MAX_X_SPEED = 0.25f;
-    private float MAX_Y_SPEED = 0.25f;
+    private float MAX_X_SPEED = 2f;
+    private float MAX_Y_SPEED = 2f;
 
     private float x;
     private float y;
@@ -47,7 +47,7 @@ public class Avatar {
         this.y = y;
     }
 
-    public void update() {
+    public void update(float delta) {
         float xSpeed = 0;
         float ySpeed = 0;
         if (Gdx.input.isKeyPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.S)) {
@@ -65,8 +65,8 @@ public class Avatar {
             }
         }
 
-        x += xSpeed;
-        y += ySpeed;
+        x += xSpeed * delta ;
+        y += ySpeed * delta ;
 
     }
 
