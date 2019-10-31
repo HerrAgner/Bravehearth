@@ -13,7 +13,6 @@ public class ClientConnection {
     private static ClientConnection single_instance = null;
 
     private Client client;
-    private Avatar avatar;
     private User user;
 
     private ClientConnection() {
@@ -25,7 +24,6 @@ public class ClientConnection {
             e.printStackTrace();
         }
 
-        this.user = new User("Kittifer", new Avatar());
         registerClasses();
         login();
 
@@ -43,9 +41,11 @@ public class ClientConnection {
         return this.client;
     }
 
-    public User getUser() { return this.user; }
+    public User getUser() { return user; }
 
-    public Avatar getAvatar() { return this.user.getAvatar(); }
+    public void setUser(User user) { this.user = user; }
+
+    public Avatar getAvatar() { return user.getAvatar(); }
 
     private void login(){
         client.sendTCP(new Login("Kate", new Avatar()));

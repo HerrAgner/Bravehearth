@@ -80,4 +80,8 @@ public class Avatar {
     public String getName() {
         return name;
     }
+
+    public void setCharacterClass(CharacterClass characterClass) {
+        this.characterClass = characterClass;
+    }
 }

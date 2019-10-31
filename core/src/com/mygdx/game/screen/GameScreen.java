@@ -29,7 +29,6 @@ public class GameScreen implements Screen {
         renderer = new ShapeRenderer();
         cameraController = new CameraController();
 
-        System.out.println("testing getName " + ClientConnection.getInstance().getUser().getAvatar().getName());
         cameraController.setStartPosition(ClientConnection.getInstance().getUser().getAvatar().getX(), ClientConnection.getInstance().getUser().getAvatar().getY());
         if (ClientConnection.getInstance().getUser().getAvatar().getCharacterClass().equals(CharacterClass.DUMMYCLASS)){
 

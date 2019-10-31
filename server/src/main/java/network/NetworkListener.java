@@ -36,14 +36,10 @@ public class NetworkListener {
         Login loginObject = (Login) object;
         Avatar avatar = new Avatar(loginObject.getAvatar().getName());
         avatar.setCharacterClass(CharacterClass.DUMMYCLASS);
-        avatar.setX(10);
-        avatar.setY(20);
+        avatar.setX(50);
+        avatar.setY(50);
 
-        User user = new User("Kitty", avatar);
-
-        System.out.println(user.getUsername());
-        System.out.println(user.getAvatar().getName());
-
+        User user = new User(loginObject.getUsername(), avatar);
         return user;
     }
 }
