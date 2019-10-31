@@ -4,6 +4,7 @@ package network;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import game.GameLoop;
 import game.GameServer;
 import handlers.CommandHandler;
 import handlers.MovementHandler;
@@ -29,6 +30,7 @@ public class NetworkListener {
                     avatar.setY(20);
                     System.out.println(avatar.getX());
                     System.out.println(avatar.getY());
+                    GameServer.getInstance().avatar = avatar;
                     server.sendToTCP(connection.getID(), avatar);
                 }
 

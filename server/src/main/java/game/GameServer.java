@@ -10,6 +10,7 @@ public class GameServer {
 
     private Server server;
     private GameLoop gameLoop = new GameLoop();
+    public Avatar avatar;
 
     private GameServer() {
         server = new Server();
