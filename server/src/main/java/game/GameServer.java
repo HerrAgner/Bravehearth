@@ -45,5 +45,6 @@ public class GameServer {
         kryo.register(Login.class);
         kryo.register(CharacterClass.class);
         kryo.register(User.class);
+        kryo.register(MovementCommands.class);
     }
 }

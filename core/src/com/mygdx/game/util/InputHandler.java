@@ -2,25 +2,32 @@ package com.mygdx.game.util;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.mygdx.game.network.Sender;
 
 public class InputHandler implements InputProcessor {
 
+    private Sender sender;
+
+    public InputHandler() {
+        sender = new Sender();
+    }
+
     @Override
     public boolean keyDown(int keycode) {
-        if(keycode== Input.Keys.W){
-            System.out.println("W start");
+        if (keycode == Input.Keys.W) {
+            sender.sendInputPressed(Input.Keys.W);
             return true;
         }
-        if(keycode== Input.Keys.S){
-            System.out.println("S start");
+        if (keycode == Input.Keys.S) {
+            sender.sendInputPressed(Input.Keys.S);
             return true;
         }
-        if(keycode== Input.Keys.A){
-            System.out.println("A start");
+        if (keycode == Input.Keys.A) {
+            sender.sendInputPressed(Input.Keys.A);;
             return true;
         }
-        if(keycode== Input.Keys.D){
-            System.out.println("D start");
+        if (keycode == Input.Keys.D) {
+            sender.sendInputPressed(Input.Keys.D);
             return true;
         }
         return false;
@@ -28,20 +35,20 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        if(keycode == Input.Keys.W){
-            System.out.println("W end");
+        if (keycode == Input.Keys.W) {
+            sender.sendInputReleased(Input.Keys.W);
             return true;
         }
-        if(keycode == Input.Keys.S){
-            System.out.println("S end");
+        if (keycode == Input.Keys.S) {
+            sender.sendInputReleased(Input.Keys.S);
             return true;
         }
-        if(keycode == Input.Keys.A){
-            System.out.println("A end");
+        if (keycode == Input.Keys.A) {
+            sender.sendInputReleased(Input.Keys.A);;
             return true;
         }
-        if(keycode == Input.Keys.D){
-            System.out.println("D end");
+        if (keycode == Input.Keys.D) {
+            sender.sendInputReleased(Input.Keys.D);
             return true;
         }
         return false;
