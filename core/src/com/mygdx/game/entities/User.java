@@ -3,6 +3,9 @@ package com.mygdx.game.entities;
 public class User {
     //on log-in, create user object containing an instance of player
     //add this user to the global array of active users in activeUserHandler
+    // ActiveUserHandler.addToActiveUsers();
+    //do this on log-in, maybe?
+
     private String username;
     private Player player;
 
@@ -11,6 +14,7 @@ public class User {
         this.player = player;
     }
 
-    private void addUserToArray() {}
-
+    public Player getPlayer() {
+        return this.player;
+    }
 }
