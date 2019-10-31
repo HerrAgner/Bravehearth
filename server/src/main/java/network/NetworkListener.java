@@ -8,7 +8,7 @@ import game.GameServer;
 import handlers.CommandHandler;
 import network.networkMessages.CharacterClass;
 import network.networkMessages.Login;
-import network.networkMessages.Player;
+import network.networkMessages.Avatar;
 
 public class NetworkListener {
 
@@ -20,13 +20,13 @@ public class NetworkListener {
 
                 if (object instanceof Login) {
                     Login loginObject = (Login) object;
-                    Player player = new Player(loginObject.getCharacter());
-                    player.setCharacterClass(CharacterClass.DUMMYCLASS);
-                    player.setX(10);
-                    player.setY(20);
-                    System.out.println(player.getX());
-                    System.out.println(player.getY());
-                    server.sendToTCP(connection.getID(), player);
+                    Avatar avatar = new Avatar(loginObject.getCharacter());
+                    avatar.setCharacterClass(CharacterClass.DUMMYCLASS);
+                    avatar.setX(10);
+                    avatar.setY(20);
+                    System.out.println(avatar.getX());
+                    System.out.println(avatar.getY());
+                    server.sendToTCP(connection.getID(), avatar);
                 }
 
                 if (object instanceof String) {
