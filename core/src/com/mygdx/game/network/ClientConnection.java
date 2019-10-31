@@ -3,6 +3,7 @@ package com.mygdx.game.network;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.mygdx.game.entities.Player;
+import com.mygdx.game.entities.User;
 import com.mygdx.game.network.networkMessages.*;
 import com.mygdx.game.util.CharacterClass;
 
@@ -58,6 +59,6 @@ public class ClientConnection {
         kryo.register(Player.class);
         kryo.register(Login.class);
         kryo.register(CharacterClass.class);
-
+        kryo.register(User.class);
     }
 }
