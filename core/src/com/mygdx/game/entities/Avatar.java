@@ -25,6 +25,7 @@ public class Avatar {
         Gdx.input.setInputProcessor(inputHandler);
 
     }
+
     public Avatar() {
         this.name = "dummy";
     }
@@ -49,15 +50,19 @@ public class Avatar {
     public void update() {
         float xSpeed = 0;
         float ySpeed = 0;
-        if(Gdx.input.isKeyPressed(Input.Keys.D)){
-            xSpeed = MAX_X_SPEED;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            xSpeed = -MAX_X_SPEED;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            ySpeed = MAX_Y_SPEED;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            ySpeed = -MAX_Y_SPEED;
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.S)) {
+
+        } else {
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                xSpeed = MAX_X_SPEED;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                xSpeed = -MAX_X_SPEED;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                ySpeed = MAX_Y_SPEED;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                ySpeed = -MAX_Y_SPEED;
+            }
         }
 
         x += xSpeed;

@@ -13,5 +13,6 @@ public class GameConfig {
 
     public static final boolean FULLSCREEN = true;
     public static final boolean FORCE_EXIT_FALSE = false;
+    public static final int FPS_30 = 30;
 
 }
