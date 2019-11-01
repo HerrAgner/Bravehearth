@@ -61,7 +61,6 @@ public class Avatar {
         float ySpeed = 0;
         if(Gdx.input.isKeyPressed(Input.Keys.D)){
             xSpeed = MAX_X_SPEED;
-            System.out.println(ClientConnection.getInstance().getActiveAvatars().get(ClientConnection.getInstance().getAvatar().getName()));
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             xSpeed = -MAX_X_SPEED;
         }

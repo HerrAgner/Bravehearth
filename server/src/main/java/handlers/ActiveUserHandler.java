@@ -12,7 +12,7 @@ public class ActiveUserHandler {
 
     private HashMap<Integer, User> activeUsers;
     private ConcurrentHashMap<UUID, Avatar> activeAvatars;
-    private Sender sender;
+    private Sender sender = new Sender();
 
     public ActiveUserHandler() {
         activeUsers = new HashMap<>();

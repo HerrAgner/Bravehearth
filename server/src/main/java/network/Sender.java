@@ -18,7 +18,7 @@ public class Sender {
     }
 
     public boolean sendToAllTCP(Object message) {
-        server.sendToAllTCP(message); 
+        server.sendToAllTCP(message);
         return true;
     }
 }
