@@ -25,9 +25,9 @@ public class ClientNetworkListener {
                     System.out.println(object);
                 }
                 if (object instanceof Position) {
-                    Avatar av = ClientConnection.getInstance().getActiveAvatars().get(((Position) object).getId());
-                    av.setPosition(((Position) object).getX(), ((Position) object).getY());
-//                    ClientConnection.getInstance().getAvatar().setPosition(((Position) object).getX(), ((Position) object).getY());
+                    ClientConnection.getInstance().getActiveAvatars()
+                            .get(((Position) object).getId())
+                            .setPosition(((Position) object).getX(), ((Position) object).getY());
                 }
             }
         });

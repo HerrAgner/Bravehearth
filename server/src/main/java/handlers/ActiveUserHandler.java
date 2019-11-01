@@ -30,7 +30,7 @@ public class ActiveUserHandler {
 
     private void addToActiveAvatars(Avatar avatar) {
         activeAvatars.put(avatar.getId(), avatar);
-        sendAvatarToClient(avatar);
+//        sendAvatarToClient(avatar);
     }
 
     private void sendAvatarToClient(Avatar avatar) {

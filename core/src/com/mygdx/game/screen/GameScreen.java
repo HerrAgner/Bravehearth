@@ -32,13 +32,13 @@ public class GameScreen implements Screen {
         cameraController = new CameraController();
 
         cameraController.setStartPosition(ClientConnection.getInstance().getUser().getAvatar().getX(), ClientConnection.getInstance().getUser().getAvatar().getY());
-        if (ClientConnection.getInstance().getUser().getAvatar().getCharacterClass().equals(CharacterClass.DUMMYCLASS)){
+        if (ClientConnection.getInstance().getUser().getAvatar().getCharacterClass().equals(CharacterClass.DUMMYCLASS)) {
 
             dc = new DummyClass(ClientConnection.getInstance().getActiveAvatars().get(
                     ClientConnection.getInstance().getUser().getAvatar().getId()));
             ClientConnection.getInstance().getUser()
                     .setAvatar(new DummyClass(
-                                    ClientConnection.getInstance().getAvatar()));
+                            ClientConnection.getInstance().getAvatar()));
         }
     }
 
@@ -83,15 +83,16 @@ public class GameScreen implements Screen {
         renderer.setProjectionMatrix(camera.combined);
         ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
-        DummyClass dcs = (DummyClass) ClientConnection.getInstance().getActiveAvatars().get(
-                ClientConnection.getInstance().getUser().getAvatar().getId());
-        dcs.drawDebug(renderer);
+        ClientConnection.getInstance().getActiveAvatars().forEach((uuid, avatar) -> {
+            DummyClass dcs = (DummyClass) avatar;
+            dcs.drawDebug(renderer);
+        });
         renderer.end();
     }
 
     private void update(float delta) {
         updatePlayer(delta);
-//        updateCamera();
+        updateCamera();
     }
 
     private void updatePlayer(float delta) {
@@ -99,15 +100,14 @@ public class GameScreen implements Screen {
             o2.update(delta);
         });
 
-//        ClientConnection.getInstance().getAvatar().update(delta);
     }
 
-//    private void updateCamera() {
-//        Avatar av = ClientConnection.getInstance().getActiveAvatars().get(ClientConnection.getInstance().getUser().getAvatar().getId());
-//       cameraController.updatePosition(
-//               av.getX(),
-//               av.getY());
-//     }
+    private void updateCamera() {
+        Avatar av = ClientConnection.getInstance().getActiveAvatars().get(ClientConnection.getInstance().getUser().getAvatar().getId());
+       cameraController.updatePosition(
+               av.getX(),
+               av.getY());
+     }
 
 
 }

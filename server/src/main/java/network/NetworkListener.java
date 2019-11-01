@@ -32,7 +32,9 @@ public class NetworkListener {
                     User user = (createUser(object));
                     server.sendToTCP(connection.getID(), user);
                     auh.addToActiveUsers(connection.getID(), user);
-                    System.out.println("Finished Login");
+                    auh.getActiveAvatars().values().forEach(avatar ->
+                            GameServer.getInstance().getServer().sendToTCP(connection.getID(), avatar));
+                    GameServer.getInstance().getServer().sendToAllExceptTCP(connection.getID(), user.getAvatar());
                 }
 
                 if (object instanceof String) {
