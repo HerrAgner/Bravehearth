@@ -7,6 +7,7 @@ import network.networkMessages.*;
 import handlers.ActiveUserHandler;
 
 import java.io.IOException;
+import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.UUID;
 

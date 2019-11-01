@@ -43,6 +43,10 @@ public class ClientConnection {
         activeAvatars.put(avatar.getId(), avatar);
     }
 
+    public ConcurrentHashMap getActiveAvatars() {
+        return activeAvatars;
+    }
+
     public Client getClient() {
         return this.client;
     }
