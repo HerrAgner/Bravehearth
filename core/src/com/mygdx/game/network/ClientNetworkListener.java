@@ -4,6 +4,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.mygdx.game.entities.DummyClass;
 import com.mygdx.game.entities.Avatar;
+import com.mygdx.game.network.networkMessages.Position;
 import com.mygdx.game.entities.User;
 import com.mygdx.game.util.CharacterClass;
 
@@ -22,6 +23,9 @@ public class ClientNetworkListener {
 
                 if (object instanceof String) {
                     System.out.println(object);
+                }
+                if (object instanceof Position) {
+                    ClientConnection.getInstance().getAvatar().setPosition(((Position) object).getX(), ((Position) object).getY());
                 }
             }
         });

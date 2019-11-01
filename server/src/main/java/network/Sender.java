@@ -1,5 +1,6 @@
 package network;
 
+import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
 import game.GameServer;
 
@@ -11,13 +12,13 @@ public class Sender {
         this.server = GameServer.getInstance().getServer();
     }
 
-    public boolean sendToTcp(Object message){
-        //server.sendToTCP(message);
+        public boolean sendToTcp(Connection connection, Object message){
+        server.sendToTCP(connection.getID(), message);
         return true;
     }
 
     public boolean sendToAllTCP(Object message) {
-        server.sendToAllTCP(message);
+        server.sendToAllTCP(message); 
         return true;
     }
 }

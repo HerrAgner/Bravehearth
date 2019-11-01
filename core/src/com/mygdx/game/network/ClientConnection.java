@@ -66,5 +66,6 @@ public class ClientConnection {
         kryo.register(CharacterClass.class);
         kryo.register(User.class);
         kryo.register(MovementCommands.class);
+        kryo.register(UUID.class, new UUIDSerializer());
     }
 }

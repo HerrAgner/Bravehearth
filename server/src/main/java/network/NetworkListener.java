@@ -4,13 +4,16 @@ package network;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import game.GameLoop;
 import game.GameServer;
 import handlers.ActiveUserHandler;
 import handlers.CommandHandler;
+import handlers.MovementHandler;
 import network.networkMessages.CharacterClass;
 import network.networkMessages.Login;
 import network.networkMessages.Avatar;
 import network.networkMessages.User;
+import network.networkMessages.MovementCommands;
 
 import java.util.UUID;
 
@@ -22,6 +25,7 @@ public class NetworkListener {
         ActiveUserHandler auh = new ActiveUserHandler();
 
                 server.addListener(new Listener() {
+        MovementHandler mh = new MovementHandler();
             public void received (Connection connection, Object object) {
 
                 if (object instanceof Login) {
@@ -32,7 +36,11 @@ public class NetworkListener {
                 }
 
                 if (object instanceof String) {
-                    ch.addToQueue((String) object);
+                    ch.addToQueue((String) object, connection);
+                }
+
+                if (object instanceof MovementCommands) {
+                    mh.addToMovementQueue((MovementCommands) object, connection);
                 }
 
             }

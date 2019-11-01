@@ -7,10 +7,5 @@ public class MovementCommands {
     public MovementCommands(boolean isKeyPressed, String letter){
         this.isKeyPressed = isKeyPressed;
         this.letter = letter;
-        printMe();
-    }
-
-    private void printMe(){
-        System.out.println(isKeyPressed + " " + letter);
     }
 }

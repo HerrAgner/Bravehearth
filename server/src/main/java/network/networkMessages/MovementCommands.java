@@ -8,4 +8,16 @@ public class MovementCommands {
         this.isKeyPressed = isKeyPressed;
         this.letter = letter;
     }
+
+    public MovementCommands(){
+
+    }
+
+    public boolean isKeyPressed() {
+        return isKeyPressed;
+    }
+
+    public String getLetter() {
+        return letter;
+    }
 }
