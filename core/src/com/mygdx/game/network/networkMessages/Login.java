@@ -1,15 +1,16 @@
 package com.mygdx.game.network.networkMessages;
 
+import com.mygdx.game.entities.Avatar;
+
 public class Login {
     private String username;
-    private String character;
+    private Avatar avatar;
 
 
-    public Login(){
+    public Login(){}
 
-    }
-    public Login(String username, String character) {
+    public Login(String username, Avatar avatar) {
         this.username = username;
-        this.character = character;
+        this.avatar = avatar;
     }
 }

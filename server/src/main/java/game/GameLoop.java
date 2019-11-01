@@ -2,14 +2,11 @@ package game;
 
 import enums.Movement;
 import handlers.MovementHandler;
-import network.Sender;
 import network.networkMessages.Avatar;
 import network.networkMessages.Position;
 
 public class GameLoop implements Runnable {
     private boolean running;
-    private Sender sender;
-    private GameLogic gl;
 
     public GameLoop() {
         this.running = true;
@@ -19,11 +16,12 @@ public class GameLoop implements Runnable {
     public void run() {
 
         while (running) {
+
             MovementHandler.movementLoopList.forEach((key, value) ->
                     value.forEach(movement -> {
-                        Position pos = updatePosition(GameServer.getInstance().avatar, movement);
-                        GameServer.getInstance().avatar.setX(pos.getX());
-                        GameServer.getInstance().avatar.setY(pos.getY());
+                        Position pos = updatePosition(GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()), movement);
+                        GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setX(pos.getX());
+                        GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setY(pos.getY());
                         GameServer.getInstance().getServer().sendToAllUDP(pos);
                     }));
             try {

@@ -29,11 +29,11 @@ public class GameScreen implements Screen {
         renderer = new ShapeRenderer();
         cameraController = new CameraController();
 
-        cameraController.setStartPosition(ClientConnection.getInstance().getAvatar().getX(), ClientConnection.getInstance().getAvatar().getY());
-        if (ClientConnection.getInstance().getAvatar().getCharacterClass().equals(CharacterClass.DUMMYCLASS)){
+        cameraController.setStartPosition(ClientConnection.getInstance().getUser().getAvatar().getX(), ClientConnection.getInstance().getUser().getAvatar().getY());
+        if (ClientConnection.getInstance().getUser().getAvatar().getCharacterClass().equals(CharacterClass.DUMMYCLASS)){
 
-            dc = new DummyClass(ClientConnection.getInstance().getAvatar());
-            ClientConnection.getInstance().setAvatar(new DummyClass(ClientConnection.getInstance().getAvatar()));
+            dc = new DummyClass(ClientConnection.getInstance().getUser().getAvatar());
+            ClientConnection.getInstance().getUser().setAvatar(new DummyClass(ClientConnection.getInstance().getAvatar()));
         }
     }
 
@@ -78,7 +78,7 @@ public class GameScreen implements Screen {
         renderer.setProjectionMatrix(camera.combined);
         ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
-        DummyClass dcs = (DummyClass) ClientConnection.getInstance().getAvatar();
+        DummyClass dcs = (DummyClass) ClientConnection.getInstance().getUser().getAvatar();
         dcs.drawDebug(renderer);
         renderer.end();
     }
@@ -94,7 +94,7 @@ public class GameScreen implements Screen {
     }
 
     private void updateCamera() {
-       cameraController.updatePosition(ClientConnection.getInstance().getAvatar().getX(), ClientConnection.getInstance().getAvatar().getY());
+       cameraController.updatePosition(ClientConnection.getInstance().getUser().getAvatar().getX(), ClientConnection.getInstance().getUser().getAvatar().getY());
      }
 
 

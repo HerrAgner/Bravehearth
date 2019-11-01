@@ -3,19 +3,23 @@ package com.mygdx.game.network;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.mygdx.game.entities.Avatar;
+import com.mygdx.game.entities.User;
 import com.mygdx.game.network.networkMessages.*;
 import com.mygdx.game.util.CharacterClass;
 
 import java.io.IOException;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientConnection {
     private static ClientConnection single_instance = null;
 
     private Client client;
-    private Avatar avatar;
+    private User user;
+    private ConcurrentHashMap<UUID, Avatar> activeAvatars;
 
     private ClientConnection() {
+        activeAvatars = new ConcurrentHashMap<>();
         client = new Client();
         client.start();
         try {
@@ -23,6 +27,7 @@ public class ClientConnection {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         registerClasses();
         login();
 
@@ -35,21 +40,26 @@ public class ClientConnection {
         return single_instance;
     }
 
+    public void addActiveAvatar(Avatar avatar) {
+        activeAvatars.put(avatar.getId(), avatar);
+    }
+
+    public ConcurrentHashMap getActiveAvatars() {
+        return activeAvatars;
+    }
 
     public Client getClient() {
         return this.client;
     }
 
-    public Avatar getAvatar() {
-        return avatar;
-    }
+    public User getUser() { return user; }
 
-    public void setAvatar(Avatar avatar) {
-        this.avatar = avatar;
-    }
+    public void setUser(User user) { this.user = user; }
+
+    public Avatar getAvatar() { return user.getAvatar(); }
 
     private void login(){
-        client.sendTCP(new Login("Ted", "Tedinator"));
+        client.sendTCP(new Login("Kate", new Avatar()));
     }
 
     private void registerClasses(){
@@ -59,6 +69,7 @@ public class ClientConnection {
         kryo.register(Avatar.class);
         kryo.register(Login.class);
         kryo.register(CharacterClass.class);
+        kryo.register(User.class);
         kryo.register(MovementCommands.class);
         kryo.register(UUID.class, new UUIDSerializer());
     }

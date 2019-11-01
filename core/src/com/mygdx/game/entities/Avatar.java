@@ -6,6 +6,8 @@ import com.mygdx.game.config.GameConfig;
 import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.util.InputHandler;
 
+import java.util.UUID;
+
 public class Avatar {
     private float maxXspeed = 2f;
     private float maxYspeed = 2f;
@@ -20,10 +22,12 @@ public class Avatar {
     private String name;
     private int health;
     private int mana;
+    private UUID id;
     private CharacterClass characterClass;
 
     public Avatar(String name) {
         this.name = name;
+        this.id = id;
         inputHandler = new InputHandler();
         boundsRadius = 0.4f;
         size = boundsRadius * 2;
@@ -50,6 +54,12 @@ public class Avatar {
         this.x = x;
         this.y = y;
     }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public UUID getId() { return id; }
 
     public void update(float delta) {
         float xSpeed = 0;
@@ -124,5 +134,9 @@ public class Avatar {
 
     public void setMaxYspeed(float maxYspeed) {
         this.maxYspeed = maxYspeed;
+    }
+
+    public void setCharacterClass(CharacterClass characterClass) {
+        this.characterClass = characterClass;
     }
 }

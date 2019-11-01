@@ -1,5 +1,7 @@
 package network.networkMessages;
 
+import java.util.UUID;
+
 public class Avatar {
     private float maxXspeed = 0.03f;
     private float maxYspeed = 0.03f;
@@ -13,7 +15,10 @@ public class Avatar {
     private String name;
     private int health;
     private int mana;
+    private UUID id;
     private CharacterClass characterClass;
+
+    public Avatar() {}
 
     public Avatar(String name) {
         this.name = name;
@@ -85,6 +90,10 @@ public class Avatar {
     public void setMana(int mana) {
         this.mana = mana;
     }
+
+    public UUID getId() { return id; }
+
+    public void setId(UUID id) { this.id = id; }
 
     public CharacterClass getCharacterClass() {
         return characterClass;
