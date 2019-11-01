@@ -13,6 +13,8 @@ import network.networkMessages.Login;
 import network.networkMessages.Avatar;
 import network.networkMessages.MovementCommands;
 
+import java.util.UUID;
+
 public class NetworkListener {
 
     public NetworkListener() {

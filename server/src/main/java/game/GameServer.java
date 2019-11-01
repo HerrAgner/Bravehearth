@@ -2,9 +2,11 @@ package game;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Server;
+import network.UUIDSerializer;
 import network.networkMessages.*;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class GameServer {
 
@@ -47,5 +49,6 @@ public class GameServer {
         kryo.register(Login.class);
         kryo.register(CharacterClass.class);
         kryo.register(MovementCommands.class);
+        kryo.register(UUID.class, new UUIDSerializer());
     }
 }
