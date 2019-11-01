@@ -1,8 +1,8 @@
 package network.networkMessages;
 
 public class Avatar {
-    private float maxXspeed;
-    private float maxYspeed;
+    private float maxXspeed = 0.03f;
+    private float maxYspeed = 0.03f;
 
     private float boundsRadius;
     private float size;
