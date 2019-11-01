@@ -2,11 +2,19 @@ package network.networkMessages;
 
 public class Position {
 
-    private Integer x = null;
-    private Integer y = null;
+    private Float x = null;
+    private Float y = null;
 
-    public Position(Integer x, Integer y){
+    public Position(Float x, Float y){
         this.x = x;
         this.y = y;
+    }
+
+    public Float getX() {
+        return x;
+    }
+
+    public Float getY() {
+        return y;
     }
 }
