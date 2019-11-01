@@ -9,6 +9,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.config.GameConfig;
 import com.mygdx.game.entities.DummyClass;
+import com.mygdx.game.entities.monsters.DummyMonster;
+import com.mygdx.game.entities.monsters.Monster;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.util.CameraController;
 import com.mygdx.game.util.CharacterClass;
@@ -21,6 +23,7 @@ public class GameScreen implements Screen {
     private ShapeRenderer renderer;
     private CameraController cameraController;
     private DummyClass dc;
+    private DummyMonster dm;
 
     @Override
     public void show() {
@@ -28,6 +31,8 @@ public class GameScreen implements Screen {
         viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
         renderer = new ShapeRenderer();
         cameraController = new CameraController();
+
+        dm = new DummyMonster();
 
         cameraController.setStartPosition(ClientConnection.getInstance().getAvatar().getX(), ClientConnection.getInstance().getAvatar().getY());
         if (ClientConnection.getInstance().getAvatar().getCharacterClass().equals(CharacterClass.DUMMYCLASS)){
@@ -79,6 +84,7 @@ public class GameScreen implements Screen {
         ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
         DummyClass dcs = (DummyClass) ClientConnection.getInstance().getAvatar();
+        dm.drawDebug(renderer);
         dcs.drawDebug(renderer);
         renderer.end();
     }
@@ -89,7 +95,6 @@ public class GameScreen implements Screen {
     }
 
     private void updatePlayer(float delta) {
-
         ClientConnection.getInstance().getAvatar().update(delta);
     }
 
