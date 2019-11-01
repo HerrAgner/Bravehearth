@@ -2,6 +2,7 @@ package com.mygdx.game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.mygdx.game.config.GameConfig;
 import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.util.InputHandler;
@@ -65,9 +66,25 @@ public class Avatar {
             }
         }
 
-        x += xSpeed * delta ;
-        y += ySpeed * delta ;
+        validMovement(x += xSpeed * delta, y += ySpeed * delta);
 
+
+    }
+
+    public void validMovement(float x, float y) {
+        if (x < 0) {
+            this.x = 0;
+        }
+        if (x > GameConfig.WORLD_WIDTH) {
+            this.x = GameConfig.WORLD_WIDTH;
+        }
+        if (y < 0) {
+            this.y = 0;
+        }
+        if (y > GameConfig.WORLD_HEIGHT) {
+            System.out.println(y);
+            this.y = GameConfig.WORLD_HEIGHT;
+        }
     }
 
     public float getX() {

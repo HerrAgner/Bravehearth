@@ -21,6 +21,8 @@ public class GameServer {
         registerClasses();
     }
 
+    
+
     private static GameServer single_instance = null;
 
     public static GameServer getInstance()
