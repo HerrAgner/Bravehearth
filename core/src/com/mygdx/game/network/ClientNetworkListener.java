@@ -16,6 +16,10 @@ public class ClientNetworkListener {
                     ClientConnection.getInstance().setUser(createUser((User) object));
                 }
 
+                if(object instanceof Avatar) {
+                    ClientConnection.getInstance().addActiveAvatar((Avatar) object);
+                }
+
                 if (object instanceof String) {
                     System.out.println(object);
                 }

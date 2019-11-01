@@ -1,5 +1,6 @@
 package handlers;
 
+import network.Sender;
 import network.networkMessages.Avatar;
 import network.networkMessages.User;
 
@@ -11,6 +12,7 @@ public class ActiveUserHandler {
 
     private HashMap<Integer, User> activeUsers;
     private ConcurrentHashMap<UUID, Avatar> activeAvatars;
+    private Sender sender;
 
     public ActiveUserHandler() {
         activeUsers = new HashMap<>();
@@ -27,7 +29,12 @@ public class ActiveUserHandler {
     }
 
     private void addToActiveAvatars(Avatar avatar) {
-        activeAvatars.put(UUID.randomUUID(), avatar);
+        activeAvatars.put(avatar.getId(), avatar);
+        sendAvatarToClient(avatar);
+    }
+
+    private void sendAvatarToClient(Avatar avatar) {
+        sender.sendToAllTCP(avatar);
     }
 
     public ConcurrentHashMap<UUID, Avatar> getActiveAvatars() { return activeAvatars; }

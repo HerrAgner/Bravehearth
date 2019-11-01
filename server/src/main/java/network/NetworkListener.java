@@ -12,6 +12,8 @@ import network.networkMessages.Login;
 import network.networkMessages.Avatar;
 import network.networkMessages.User;
 
+import java.util.UUID;
+
 public class NetworkListener {
 
     public NetworkListener() {
@@ -43,6 +45,7 @@ public class NetworkListener {
         avatar.setCharacterClass(CharacterClass.DUMMYCLASS);
         avatar.setX(10);
         avatar.setY(10);
+        avatar.setId(UUID.randomUUID());
 
         User user = new User(loginObject.getUsername(), avatar);
         return user;

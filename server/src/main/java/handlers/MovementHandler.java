@@ -39,7 +39,7 @@ public class MovementHandler {
                         break;
                     case RIGHT:
                         System.out.println("right");
-                       sender.sendToTcp("R");
+                       //sender.sendToTcp("R");
                         break;
                 }
             } catch (InterruptedException e) {

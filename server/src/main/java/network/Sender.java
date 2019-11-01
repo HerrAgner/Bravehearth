@@ -12,6 +12,11 @@ public class Sender {
     }
 
     public boolean sendToTcp(Object message){
+        //server.sendToTCP(message);
+        return true;
+    }
+
+    public boolean sendToAllTCP(Object message) {
         server.sendToAllTCP(message);
         return true;
     }

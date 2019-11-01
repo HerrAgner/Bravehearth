@@ -6,6 +6,8 @@ import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.util.InputHandler;
 
+import java.util.UUID;
+
 public class Avatar {
     private float MAX_X_SPEED = 0.25f;
     private float MAX_Y_SPEED = 0.25f;
@@ -17,10 +19,12 @@ public class Avatar {
     private String name;
     private int health;
     private int mana;
+    private UUID id;
     private CharacterClass characterClass;
 
     public Avatar(String name) {
         this.name = name;
+        this.id = id;
         inputHandler = new InputHandler();
         Gdx.input.setInputProcessor(inputHandler);
 
@@ -45,6 +49,12 @@ public class Avatar {
         this.x = x;
         this.y = y;
     }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public UUID getId() { return id; }
 
     public void update() {
         float xSpeed = 0;

@@ -8,6 +8,7 @@ import com.mygdx.game.network.networkMessages.*;
 import com.mygdx.game.util.CharacterClass;
 
 import java.io.IOException;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientConnection {
@@ -15,7 +16,7 @@ public class ClientConnection {
 
     private Client client;
     private User user;
-
+    private ConcurrentHashMap<UUID, Avatar> activeAvatars;
 
     private ClientConnection() {
         client = new Client();
@@ -38,6 +39,9 @@ public class ClientConnection {
         return single_instance;
     }
 
+    public void addActiveAvatar(Avatar avatar) {
+        activeAvatars.put(avatar.getId(), avatar);
+    }
 
     public Client getClient() {
         return this.client;
