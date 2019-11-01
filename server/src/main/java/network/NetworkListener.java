@@ -41,8 +41,8 @@ public class NetworkListener {
         Login loginObject = (Login) object;
         Avatar avatar = new Avatar(loginObject.getAvatar().getName());
         avatar.setCharacterClass(CharacterClass.DUMMYCLASS);
-        avatar.setX(30);
-        avatar.setY(50);
+        avatar.setX(10);
+        avatar.setY(10);
 
         User user = new User(loginObject.getUsername(), avatar);
         return user;

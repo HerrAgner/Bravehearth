@@ -8,13 +8,14 @@ import com.mygdx.game.network.networkMessages.*;
 import com.mygdx.game.util.CharacterClass;
 
 import java.io.IOException;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientConnection {
     private static ClientConnection single_instance = null;
 
     private Client client;
     private User user;
-    //map of avatars from server
+
 
     private ClientConnection() {
         client = new Client();

@@ -6,18 +6,19 @@ import network.networkMessages.User;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ActiveUserHandler {
-    
-    private HashMap<Integer, User> activeUsers;
-    private ConcurrentHashMap<Integer, String> activeAvatar;
 
-    public ActiveUserHandler() { activeUsers = new HashMap<>(); }
+    private HashMap<Integer, User> activeUsers;
+    private ConcurrentHashMap<UUID, Avatar> activeAvatars;
+
+    public ActiveUserHandler() {
+        activeUsers = new HashMap<>();
+        activeAvatars = new ConcurrentHashMap<>();
+    }
 
     public void addToActiveUsers(int connectionId, User user) {
         activeUsers.put(connectionId, user);
-        System.out.println("user added" + user.getUsername());
         addToActiveAvatars(user.getAvatar());
     }
 
@@ -26,9 +27,8 @@ public class ActiveUserHandler {
     }
 
     private void addToActiveAvatars(Avatar avatar) {
-        //go through array of users and add the player they are using to a different array
-
-
-
+        activeAvatars.put(UUID.randomUUID(), avatar);
     }
+
+    public ConcurrentHashMap<UUID, Avatar> getActiveAvatars() { return activeAvatars; }
 }
