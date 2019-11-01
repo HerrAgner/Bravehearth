@@ -10,20 +10,10 @@ import com.mygdx.game.util.CharacterClass;
 public class ClientNetworkListener {
     public ClientNetworkListener() {
         ClientConnection.getInstance().getClient().addListener(new Listener() {
-            public void received (Connection connection, Object object) {
+            public void received(Connection connection, Object object) {
 
                 if (object instanceof User) {
-                    Avatar avatar;
-                    User user;
-                    if (((User) object).getAvatar().getCharacterClass().equals(CharacterClass.DUMMYCLASS)){
-                        avatar = new DummyClass(((User) object).getAvatar());
-                        avatar.setPosition(((User) object).getAvatar().getX(), ((User) object).getAvatar().getY());
-                        avatar.setCharacterClass(((User) object).getAvatar().getCharacterClass());
-
-                        user = new User(((User) object).getUsername(), avatar);
-
-                        ClientConnection.getInstance().setUser(user);
-                    }
+                    ClientConnection.getInstance().setUser(createUser((User) object));
                 }
 
                 if (object instanceof String) {
@@ -31,5 +21,17 @@ public class ClientNetworkListener {
                 }
             }
         });
+    }
+
+    private User createUser(User user) {
+        Avatar avatar;
+        if (user.getAvatar().getCharacterClass().equals(CharacterClass.DUMMYCLASS)) {
+            avatar = new DummyClass(user.getAvatar());
+            avatar.setPosition(user.getAvatar().getX(), (user.getAvatar().getY()));
+            avatar.setCharacterClass(user.getAvatar().getCharacterClass());
+
+            user = new User(user.getUsername(), avatar);
+        }
+        return (user);
     }
 }
