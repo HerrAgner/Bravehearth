@@ -41,7 +41,6 @@ public class ClientConnection {
     }
 
     public void addActiveAvatar(Avatar avatar) {
-        System.out.println("here I am in addActiveAvatar " + avatar.getId());
         activeAvatars.put(avatar.getId(), avatar);
     }
 

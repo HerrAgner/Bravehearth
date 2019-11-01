@@ -1,5 +1,6 @@
 package handlers;
 
+import game.GameServer;
 import network.Sender;
 import network.networkMessages.Avatar;
 import network.networkMessages.User;
@@ -12,7 +13,6 @@ public class ActiveUserHandler {
 
     private HashMap<Integer, User> activeUsers;
     private ConcurrentHashMap<UUID, Avatar> activeAvatars;
-    private Sender sender = new Sender();
 
     public ActiveUserHandler() {
         activeUsers = new HashMap<>();
@@ -34,7 +34,7 @@ public class ActiveUserHandler {
     }
 
     private void sendAvatarToClient(Avatar avatar) {
-        sender.sendToAllTCP(avatar);
+        GameServer.getInstance().getServer().sendToAllTCP(avatar);
     }
 
     public ConcurrentHashMap<UUID, Avatar> getActiveAvatars() { return activeAvatars; }

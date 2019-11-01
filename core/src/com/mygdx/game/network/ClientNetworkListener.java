@@ -18,7 +18,6 @@ public class ClientNetworkListener {
                 }
 
                 if(object instanceof Avatar) {
-                    System.out.println("here I am in instanceOf Avatar!");
                     ClientConnection.getInstance().addActiveAvatar((Avatar) object);
                 }
 

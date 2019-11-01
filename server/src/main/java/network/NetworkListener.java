@@ -22,7 +22,7 @@ public class NetworkListener {
     public NetworkListener() {
         Server server = GameServer.getInstance().getServer();
         CommandHandler ch = new CommandHandler();
-        ActiveUserHandler auh = new ActiveUserHandler();
+        ActiveUserHandler auh = GameServer.getInstance().getAUH();
 
                 server.addListener(new Listener() {
         MovementHandler mh = new MovementHandler();
