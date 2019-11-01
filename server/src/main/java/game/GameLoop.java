@@ -22,8 +22,8 @@ public class GameLoop implements Runnable {
             MovementHandler.movementLoopList.forEach((key, value) ->
                     value.forEach(movement -> {
                         Position pos = updatePosition(GameServer.getInstance().avatar, movement);
-                      GameServer.getInstance().avatar.setX(pos.getX());
-                      GameServer.getInstance().avatar.setY(pos.getY());
+                        GameServer.getInstance().avatar.setX(pos.getX());
+                        GameServer.getInstance().avatar.setY(pos.getY());
                         GameServer.getInstance().getServer().sendToAllUDP(pos);
                     }));
             try {
