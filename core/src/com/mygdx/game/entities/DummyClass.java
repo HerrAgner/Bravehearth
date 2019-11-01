@@ -4,19 +4,19 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 
 public class DummyClass extends Avatar {
-    private final float BOUNDS_RADIUS = 0.4f;
-    private final float SIZE = BOUNDS_RADIUS * 2;
     private Circle bounds;
 
     public DummyClass(String name){
         super(name);
-        bounds = new Circle(super.getX(), super.getY(), BOUNDS_RADIUS);
+        bounds = new Circle(super.getX(), super.getY(), super.getBoundsRadius());
     }
 
     public DummyClass(Avatar avatar){
         super(avatar.getName());
         setPosition(avatar.getX(), avatar.getY());
-        bounds = new Circle(super.getX(), super.getY(), BOUNDS_RADIUS);
+        super.setBoundsRadius(1);
+        super.setMaxXspeed(4);
+        bounds = new Circle(super.getX(), super.getY(), super.getBoundsRadius());
     }
 
 
@@ -30,8 +30,8 @@ public class DummyClass extends Avatar {
     }
 
     @Override
-    public void update() {
-        super.update();
+    public void update(float delta) {
+        super.update(delta);
         updateBounds();
     }
 }

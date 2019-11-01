@@ -3,8 +3,11 @@ package network.networkMessages;
 import java.util.UUID;
 
 public class Avatar {
-    private float MAX_X_SPEED = 0.25f;
-    private float MAX_Y_SPEED = 0.25f;
+    private float maxXspeed = 0.03f;
+    private float maxYspeed = 0.03f;
+
+    private float boundsRadius;
+    private float size;
 
     private float x;
     private float y;
@@ -21,9 +24,9 @@ public class Avatar {
         this.name = name;
     }
 
-    public Avatar(float MAX_X_SPEED, float MAX_Y_SPEED, float x, float y, String name, int health, int mana, CharacterClass cc) {
-        this.MAX_X_SPEED = MAX_X_SPEED;
-        this.MAX_Y_SPEED = MAX_Y_SPEED;
+    public Avatar(float maxXspeed, float maxYspeed, float x, float y, String name, int health, int mana, CharacterClass cc) {
+        this.maxXspeed = maxXspeed;
+        this.maxYspeed = maxYspeed;
         this.x = x;
         this.y = y;
         this.name = name;
@@ -32,20 +35,20 @@ public class Avatar {
         this.characterClass = cc;
     }
 
-    public float getMAX_X_SPEED() {
-        return MAX_X_SPEED;
+    public float getMaxXspeed() {
+        return maxXspeed;
     }
 
-    public void setMAX_X_SPEED(float MAX_X_SPEED) {
-        this.MAX_X_SPEED = MAX_X_SPEED;
+    public void setMaxXspeed(float maxXspeed) {
+        this.maxXspeed = maxXspeed;
     }
 
-    public float getMAX_Y_SPEED() {
-        return MAX_Y_SPEED;
+    public float getMaxYspeed() {
+        return maxYspeed;
     }
 
-    public void setMAX_Y_SPEED(float MAX_Y_SPEED) {
-        this.MAX_Y_SPEED = MAX_Y_SPEED;
+    public void setMaxYspeed(float maxYspeed) {
+        this.maxYspeed = maxYspeed;
     }
 
     public float getX() {

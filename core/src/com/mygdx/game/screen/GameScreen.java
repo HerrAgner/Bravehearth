@@ -40,6 +40,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         cameraController.applyTo(camera);
+        delta = Gdx.graphics.getDeltaTime();
         update(delta);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -83,13 +84,13 @@ public class GameScreen implements Screen {
     }
 
     private void update(float delta) {
-        updatePlayer();
+        updatePlayer(delta);
         updateCamera();
     }
 
-    private void updatePlayer() {
+    private void updatePlayer(float delta) {
 
-        ClientConnection.getInstance().getUser().getAvatar().update();
+        ClientConnection.getInstance().getAvatar().update(delta);
     }
 
     private void updateCamera() {

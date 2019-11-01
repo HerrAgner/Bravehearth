@@ -40,8 +40,6 @@ public class GameServer {
 
     public ActiveUserHandler getAUH() { return auh; }
 
-
-
     private static GameServer single_instance = null;
 
     public static GameServer getInstance()
