@@ -3,6 +3,7 @@ package com.mygdx.game.network;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.mygdx.game.entities.Avatar;
+import com.mygdx.game.entities.DummyClass;
 import com.mygdx.game.entities.User;
 import com.mygdx.game.network.networkMessages.*;
 import com.mygdx.game.util.CharacterClass;
@@ -41,10 +42,12 @@ public class ClientConnection {
     }
 
     public void addActiveAvatar(Avatar avatar) {
-        activeAvatars.put(avatar.getId(), avatar);
+        if (avatar.getCharacterClass().equals(CharacterClass.DUMMYCLASS)){
+            activeAvatars.put(avatar.getId(), new DummyClass(avatar));
+        }
     }
 
-    public ConcurrentHashMap getActiveAvatars() {
+    public ConcurrentHashMap<UUID, Avatar> getActiveAvatars() {
         return activeAvatars;
     }
 

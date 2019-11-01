@@ -8,8 +8,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.config.GameConfig;
+import com.mygdx.game.entities.Avatar;
 import com.mygdx.game.entities.DummyClass;
 import com.mygdx.game.network.ClientConnection;
+import com.mygdx.game.network.networkMessages.Position;
 import com.mygdx.game.util.CameraController;
 import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.util.ViewPortUtils;
@@ -32,8 +34,11 @@ public class GameScreen implements Screen {
         cameraController.setStartPosition(ClientConnection.getInstance().getUser().getAvatar().getX(), ClientConnection.getInstance().getUser().getAvatar().getY());
         if (ClientConnection.getInstance().getUser().getAvatar().getCharacterClass().equals(CharacterClass.DUMMYCLASS)){
 
-            dc = new DummyClass(ClientConnection.getInstance().getUser().getAvatar());
-            ClientConnection.getInstance().getUser().setAvatar(new DummyClass(ClientConnection.getInstance().getAvatar()));
+            dc = new DummyClass(ClientConnection.getInstance().getActiveAvatars().get(
+                    ClientConnection.getInstance().getUser().getAvatar().getId()));
+            ClientConnection.getInstance().getUser()
+                    .setAvatar(new DummyClass(
+                                    ClientConnection.getInstance().getAvatar()));
         }
     }
 
@@ -78,24 +83,31 @@ public class GameScreen implements Screen {
         renderer.setProjectionMatrix(camera.combined);
         ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
-        DummyClass dcs = (DummyClass) ClientConnection.getInstance().getUser().getAvatar();
+        DummyClass dcs = (DummyClass) ClientConnection.getInstance().getActiveAvatars().get(
+                ClientConnection.getInstance().getUser().getAvatar().getId());
         dcs.drawDebug(renderer);
         renderer.end();
     }
 
     private void update(float delta) {
         updatePlayer(delta);
-        updateCamera();
+//        updateCamera();
     }
 
     private void updatePlayer(float delta) {
+        ClientConnection.getInstance().getActiveAvatars().forEach((o, o2) -> {
+            o2.update(delta);
+        });
 
-        ClientConnection.getInstance().getAvatar().update(delta);
+//        ClientConnection.getInstance().getAvatar().update(delta);
     }
 
-    private void updateCamera() {
-       cameraController.updatePosition(ClientConnection.getInstance().getUser().getAvatar().getX(), ClientConnection.getInstance().getUser().getAvatar().getY());
-     }
+//    private void updateCamera() {
+//        Avatar av = ClientConnection.getInstance().getActiveAvatars().get(ClientConnection.getInstance().getUser().getAvatar().getId());
+//       cameraController.updatePosition(
+//               av.getX(),
+//               av.getY());
+//     }
 
 
 }

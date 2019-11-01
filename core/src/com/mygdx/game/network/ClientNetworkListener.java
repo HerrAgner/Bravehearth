@@ -25,7 +25,9 @@ public class ClientNetworkListener {
                     System.out.println(object);
                 }
                 if (object instanceof Position) {
-                    ClientConnection.getInstance().getAvatar().setPosition(((Position) object).getX(), ((Position) object).getY());
+                    Avatar av = ClientConnection.getInstance().getActiveAvatars().get(((Position) object).getId());
+                    av.setPosition(((Position) object).getX(), ((Position) object).getY());
+//                    ClientConnection.getInstance().getAvatar().setPosition(((Position) object).getX(), ((Position) object).getY());
                 }
             }
         });
@@ -37,9 +39,12 @@ public class ClientNetworkListener {
             avatar = new DummyClass(user.getAvatar());
             avatar.setPosition(user.getAvatar().getX(), (user.getAvatar().getY()));
             avatar.setCharacterClass(user.getAvatar().getCharacterClass());
+            avatar.setId(user.getAvatar().getId());
+
 
             user = new User(user.getUsername(), avatar);
         }
+
         return (user);
     }
 }

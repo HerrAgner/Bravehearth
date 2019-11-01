@@ -38,17 +38,16 @@ public class GameLoop implements Runnable {
         Position position;
         switch (movement) {
             case FORWARD:
-                position = new Position(avatar.getX(), avatar.getY() + avatar.getMaxYspeed());
-                System.out.println(avatar.getMaxXspeed());
+                position = new Position(avatar.getX(), avatar.getY() + avatar.getMaxYspeed(), avatar.getId());
                 break;
             case BACKWARD:
-                position = new Position(avatar.getX(), avatar.getY() - avatar.getMaxYspeed());
+                position = new Position(avatar.getX(), avatar.getY() - avatar.getMaxYspeed(), avatar.getId());
                 break;
             case LEFT:
-                position = new Position(avatar.getX() - avatar.getMaxXspeed(), avatar.getY());
+                position = new Position(avatar.getX() - avatar.getMaxXspeed(), avatar.getY(), avatar.getId());
                 break;
             case RIGHT:
-                position = new Position(avatar.getX() + avatar.getMaxXspeed(), avatar.getY());
+                position = new Position(avatar.getX() + avatar.getMaxXspeed(), avatar.getY(), avatar.getId());
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + movement);
