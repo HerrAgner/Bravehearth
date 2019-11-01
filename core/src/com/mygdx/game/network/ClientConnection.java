@@ -7,6 +7,7 @@ import com.mygdx.game.network.networkMessages.*;
 import com.mygdx.game.util.CharacterClass;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class ClientConnection {
     private static ClientConnection single_instance = null;
@@ -59,5 +60,6 @@ public class ClientConnection {
         kryo.register(Login.class);
         kryo.register(CharacterClass.class);
         kryo.register(MovementCommands.class);
+        kryo.register(UUID.class, new UUIDSerializer());
     }
 }
