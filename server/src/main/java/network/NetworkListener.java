@@ -5,6 +5,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import game.GameServer;
+import handlers.ActiveUserHandler;
 import handlers.CommandHandler;
 import network.networkMessages.CharacterClass;
 import network.networkMessages.Login;
@@ -16,11 +17,15 @@ public class NetworkListener {
     public NetworkListener() {
         Server server = GameServer.getInstance().getServer();
         CommandHandler ch = new CommandHandler();
-        server.addListener(new Listener() {
+        ActiveUserHandler auh = new ActiveUserHandler();
+
+                server.addListener(new Listener() {
             public void received (Connection connection, Object object) {
 
                 if (object instanceof Login) {
-                    server.sendToTCP(connection.getID(), createUser(object));
+                    User user = (createUser(object));
+                    server.sendToTCP(connection.getID(), user);
+                    auh.addToActiveUsers(connection.getID(), user);
                     System.out.println("Finished Login");
                 }
 
@@ -36,7 +41,7 @@ public class NetworkListener {
         Login loginObject = (Login) object;
         Avatar avatar = new Avatar(loginObject.getAvatar().getName());
         avatar.setCharacterClass(CharacterClass.DUMMYCLASS);
-        avatar.setX(50);
+        avatar.setX(30);
         avatar.setY(50);
 
         User user = new User(loginObject.getUsername(), avatar);

@@ -14,6 +14,7 @@ public class ClientConnection {
 
     private Client client;
     private User user;
+    //map of avatars from server
 
     private ClientConnection() {
         client = new Client();

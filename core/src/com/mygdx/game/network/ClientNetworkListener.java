@@ -21,6 +21,7 @@ public class ClientNetworkListener {
                         avatar.setCharacterClass(((User) object).getAvatar().getCharacterClass());
 
                         user = new User(((User) object).getUsername(), avatar);
+
                         ClientConnection.getInstance().setUser(user);
                     }
                 }
