@@ -25,7 +25,7 @@ public class ClientConnection {
         registerClasses();
         client.start();
         try {
-            client.connect(5000, "localhost", 54555, 54777);
+            client.connect(5000, "10.152.190.12", 54555, 54777);
         } catch (IOException e) {
             e.printStackTrace();
         }
