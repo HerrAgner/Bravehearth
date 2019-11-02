@@ -4,6 +4,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.mygdx.game.entities.DummyClass;
 import com.mygdx.game.entities.Avatar;
+import com.mygdx.game.network.networkMessages.Logout;
 import com.mygdx.game.network.networkMessages.Position;
 import com.mygdx.game.entities.User;
 import com.mygdx.game.util.CharacterClass;
@@ -19,6 +20,11 @@ public class ClientNetworkListener {
 
                 if(object instanceof Avatar) {
                     ClientConnection.getInstance().addActiveAvatar((Avatar) object);
+                }
+
+                if (object instanceof Logout) {
+                    System.out.println("logout" + ((Logout) object).getAvatar());
+                    ClientConnection.getInstance().getActiveAvatars().remove(((Logout) object).getAvatar());
                 }
 
                 if (object instanceof String) {

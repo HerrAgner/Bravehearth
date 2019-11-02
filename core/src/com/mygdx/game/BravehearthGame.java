@@ -2,7 +2,9 @@ package com.mygdx.game;
 
 
 import com.badlogic.gdx.Game;
+import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.network.ClientNetworkListener;
+import com.mygdx.game.network.networkMessages.Logout;
 import com.mygdx.game.screen.GameScreen;
 import com.mygdx.game.screen.TiledMapScreen;
 
@@ -13,7 +15,6 @@ public class BravehearthGame extends Game {
 	public void create() {
 		init();
 		setScreen(new GameScreen());
-
 	}
 
 	private void init() {
@@ -23,5 +24,12 @@ public class BravehearthGame extends Game {
 //		ClientConnection.getInstance().setPlayer(player);
 //		player.setPosition(startPlayerX, startPlayerY);
 
+	}
+
+	@Override
+	public void dispose() {
+		Logout logout = new Logout();
+		logout.setAvatar(ClientConnection.getInstance().getUser().getAvatar().getId());
+		ClientConnection.getInstance().getClient().sendTCP(logout);
 	}
 }
