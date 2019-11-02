@@ -21,6 +21,7 @@ public class Avatar {
 
     private String name;
     private int health;
+    private int maxHealth;
     private int mana;
     private UUID id;
     private CharacterClass characterClass;
@@ -104,6 +105,22 @@ public class Avatar {
 
     public float getY() {
         return y;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
     }
 
     public CharacterClass getCharacterClass() {

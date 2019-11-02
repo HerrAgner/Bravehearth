@@ -97,6 +97,8 @@ public class CommandHandler {
         avatar.setCharacterClass(CharacterClass.DUMMYCLASS);
         avatar.setX(10);
         avatar.setY(10);
+        avatar.setMaxHealth(30);
+        avatar.setHealth(avatar.getMaxHealth());
         avatar.setId(UUID.randomUUID());
 
         User user = new User(loginObject.getUsername(), avatar);

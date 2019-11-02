@@ -46,6 +46,8 @@ public class ClientNetworkListener {
             avatar.setPosition(user.getAvatar().getX(), (user.getAvatar().getY()));
             avatar.setCharacterClass(user.getAvatar().getCharacterClass());
             avatar.setId(user.getAvatar().getId());
+            avatar.setHealth(user.getAvatar().getHealth());
+            avatar.setMaxHealth(user.getAvatar().getMaxHealth());
 
 
             user = new User(user.getUsername(), avatar);

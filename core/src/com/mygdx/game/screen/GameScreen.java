@@ -2,8 +2,12 @@ package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -25,6 +29,14 @@ public class GameScreen implements Screen {
     private ShapeRenderer renderer;
     private CameraController cameraController;
     private DummyClass dc;
+    private SpriteBatch batch;
+    private Texture healthBar;
+
+
+    public GameScreen(){
+        batch = new SpriteBatch();
+        healthBar = new Texture("blank.png");
+    }
 
     @Override
     public void show() {
@@ -48,10 +60,9 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         cameraController.applyTo(camera);
         delta = Gdx.graphics.getDeltaTime();
-        update(delta);
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        update(delta);
 
         renderViewportUtils();
     }
@@ -83,11 +94,17 @@ public class GameScreen implements Screen {
 
     private void renderViewportUtils() {
         renderer.setProjectionMatrix(camera.combined);
+        batch.setProjectionMatrix(camera.combined);
         ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
         ClientConnection.getInstance().getActiveAvatars().forEach((uuid, avatar) -> {
             DummyClass dcs = (DummyClass) avatar;
             dcs.drawDebug(renderer);
+            batch.begin();
+            batch.setColor(Color.GREEN);
+            batch.draw(healthBar, avatar.getX()-1, (float)(avatar.getY() + 1.2), (float)avatar.getHealth() * (float) 2/avatar.getMaxHealth(), (float) 0.2);
+            batch.setColor(Color.WHITE);
+            batch.end();
         });
         renderer.end();
     }
@@ -99,8 +116,10 @@ public class GameScreen implements Screen {
 
     private void updatePlayer(float delta) {
         ClientConnection.getInstance().getActiveAvatars().forEach((o, o2) -> {
+
             o2.update(delta);
         });
+
 
     }
 
