@@ -106,6 +106,14 @@ public class Avatar {
 
     public void setId(UUID id) { this.id = id; }
 
+    public UUID getMarkedUnit() {
+        return markedUnit;
+    }
+
+    public void setMarkedUnit(UUID markedUnit) {
+        this.markedUnit = markedUnit;
+    }
+
     public CharacterClass getCharacterClass() {
         return characterClass;
     }

@@ -20,7 +20,6 @@ public class ClientConnection {
     private Client client;
     private User user;
     private ConcurrentHashMap<UUID, Avatar> activeAvatars;
-    private InputHandler inputHandler;
 
     private ClientConnection() {
         activeAvatars = new ConcurrentHashMap<>();
@@ -32,8 +31,7 @@ public class ClientConnection {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        inputHandler = new InputHandler();
-        Gdx.input.setInputProcessor(inputHandler);
+
         login();
 
     }
@@ -80,5 +78,6 @@ public class ClientConnection {
         kryo.register(MovementCommands.class);
         kryo.register(UUID.class, new UUIDSerializer());
         kryo.register(Logout.class);
+        kryo.register(AttackEnemyTarget.class);
     }
 }

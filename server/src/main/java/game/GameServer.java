@@ -65,5 +65,6 @@ public class GameServer {
         kryo.register(MovementCommands.class);
         kryo.register(UUID.class, new UUIDSerializer());
         kryo.register(Logout.class);
+        kryo.register(AttackEnemyTarget.class);
     }
 }

@@ -65,6 +65,13 @@ public class CommandHandler {
             server.sendToAllExceptTCP(connection.getID(), user.getAvatar());
         }
 
+        if (o instanceof AttackEnemyTarget) {
+            AttackEnemyTarget aet = (AttackEnemyTarget) o;
+            auh.getActiveAvatars().get(aet.getAttacker()).setMarkedUnit(aet.getTarget());
+            auh.getActiveAvatars().values().forEach(avatar -> System.out.println(avatar.getMarkedUnit()));
+
+        }
+
         if (o instanceof Logout) {
             server.sendToAllTCP(o);
             auh.getActiveAvatars().remove(((Logout) o).getAvatar());
