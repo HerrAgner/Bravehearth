@@ -25,13 +25,13 @@ public class GameServer {
     private GameServer() {
         auh = new ActiveUserHandler();
         server = new Server();
+        registerClasses();
         server.start();
         try {
             server.bind(54555, 54777);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        registerClasses();
         new Thread(gameLoop).start();
 
         this.au = getAUH().getActiveUsers();
