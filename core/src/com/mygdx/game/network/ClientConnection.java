@@ -22,6 +22,7 @@ public class ClientConnection {
     private ClientConnection() {
         activeAvatars = new ConcurrentHashMap<>();
         client = new Client();
+        registerClasses();
         client.start();
         try {
             client.connect(5000, "localhost", 54555, 54777);
@@ -29,7 +30,6 @@ public class ClientConnection {
             e.printStackTrace();
         }
 
-        registerClasses();
         login();
 
     }
