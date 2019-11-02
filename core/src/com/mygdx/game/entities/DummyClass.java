@@ -19,6 +19,7 @@ public class DummyClass extends Avatar {
         setId(avatar.getId());
         setHealth(avatar.getHealth());
         setMaxHealth(avatar.getMaxHealth());
+        setAttackSpeed(avatar.getAttackSpeed());
         bounds = new Circle(super.getX(), super.getY(), super.getBoundsRadius());
     }
 

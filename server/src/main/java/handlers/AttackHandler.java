@@ -31,11 +31,14 @@ public class AttackHandler {
         Avatar attacker = GameServer.getInstance().aa.get(entry.getKey());
         Avatar target = GameServer.getInstance().aa.get(entry.getValue());
 
-        if ((target.getX() < attacker.getX() + attacker.getAttackRange()
-                || target.getX() > attacker.getX() - attacker.getAttackRange())
-                && (target.getY() < attacker.getY() + attacker.getAttackRange()
-                || target.getY() > attacker.getY() - attacker.getAttackRange())) {
+        if ((target.getX() < attacker.getX() +1 + attacker.getAttackRange()
+                && target.getX() > attacker.getX() -1 - attacker.getAttackRange())
+                && (target.getY() < attacker.getY() +1 + attacker.getAttackRange()
+                && target.getY() > attacker.getY() -1 - attacker.getAttackRange())) {
             calculateDamageDealt(attacker, target);
+            System.out.println(target.getX());
+            System.out.println(attacker.getX());
+            System.out.println(attacker.getX() + attacker.getAttackRange());
         }
     }
 
@@ -43,7 +46,7 @@ public class AttackHandler {
         // Check attacker damage vs attacker defence
         // Need maybe hit chance in % and make a roll if the attack hits or misses
 
-
+        System.out.println("IN RANGE!");
         validatedAttacks.offer(new HashMap<>() {{
             put(attacker.getId(), target.getId());
         }});

@@ -9,7 +9,10 @@ import java.util.UUID;
 
 public class Sender {
 
-    Client c = ClientConnection.getInstance().getClient();;
+    Client c = ClientConnection.getInstance().getClient();
+
+    public Sender() {
+    }
 
     public void sendInputPressed(int keyCode) {
         switch (keyCode) {
@@ -50,6 +53,7 @@ public class Sender {
     }
 
     public void targetEnemy(UUID attacker, UUID target){
+        System.out.println(attacker +" " + target);
         c.sendTCP(new AttackEnemyTarget(attacker, target));
     }
 }

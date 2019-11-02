@@ -8,6 +8,7 @@ import com.mygdx.game.network.ClientNetworkListener;
 import com.mygdx.game.network.networkMessages.Logout;
 import com.mygdx.game.screen.GameScreen;
 import com.mygdx.game.screen.TiledMapScreen;
+import com.mygdx.game.util.AttackLoop;
 import com.mygdx.game.util.InputHandler;
 
 
@@ -25,6 +26,7 @@ public class BravehearthGame extends Game {
 
 	private void init() {
 		ClientNetworkListener cnl = new ClientNetworkListener();
+
 //		float startPlayerX = GameConfig.WORLD_WIDTH / 2f;
 //		float startPlayerY = GameConfig.WORLD_HEIGHT / 2f;
 //		ClientConnection.getInstance().setPlayer(player);

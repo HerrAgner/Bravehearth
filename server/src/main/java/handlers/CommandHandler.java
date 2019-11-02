@@ -108,7 +108,7 @@ public class CommandHandler {
         avatar.setMaxHealth(30);
         avatar.setAttackDamage(1);
         avatar.setAttackSpeed((float) 1.5);
-        avatar.setAttackRange(1);
+        avatar.setAttackRange((float) 1.5);
         avatar.setHealth(avatar.getMaxHealth());
         avatar.setId(UUID.randomUUID());
 

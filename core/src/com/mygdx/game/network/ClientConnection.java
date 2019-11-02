@@ -7,6 +7,7 @@ import com.mygdx.game.entities.Avatar;
 import com.mygdx.game.entities.DummyClass;
 import com.mygdx.game.entities.User;
 import com.mygdx.game.network.networkMessages.*;
+import com.mygdx.game.util.AttackLoop;
 import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.util.InputHandler;
 
@@ -33,6 +34,7 @@ public class ClientConnection {
         }
 
         login();
+            new Thread(new AttackLoop()).start();
 
     }
     public static ClientConnection getInstance()

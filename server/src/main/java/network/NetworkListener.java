@@ -30,6 +30,7 @@ public class NetworkListener {
                 }
 
                 if (object instanceof AttackEnemyTarget) {
+                    System.out.println("hej");
                     ch.addToQueue(connection, object);
                 }
 

@@ -154,6 +154,22 @@ public class Avatar {
         this.size = boundsRadius * 2;
     }
 
+    public int getAttackDamage() {
+        return attackDamage;
+    }
+
+    public float getAttackSpeed() {
+        return attackSpeed;
+    }
+
+    public float getAttackRange() {
+        return attackRange;
+    }
+
+    public void setAttackSpeed(float attackSpeed) {
+        this.attackSpeed = attackSpeed;
+    }
+
     public void setMaxXspeed(float maxXspeed) {
         this.maxXspeed = maxXspeed;
     }
