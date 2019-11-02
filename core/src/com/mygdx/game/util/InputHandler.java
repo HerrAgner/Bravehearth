@@ -1,14 +1,20 @@
 package com.mygdx.game.util;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.entities.User;
+import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.network.Sender;
+import com.mygdx.game.screen.GameScreen;
 
 public class InputHandler implements InputProcessor {
 
     private Sender sender;
 
     public InputHandler() {
+
         sender = new Sender();
     }
 
@@ -61,6 +67,27 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        User user = ClientConnection.getInstance().getUser();
+        Vector3 vec=new Vector3(screenX,screenY,0);
+        GameScreen.camera.unproject(vec);
+       if (button == Input.Buttons.RIGHT) {
+           ClientConnection.getInstance().getActiveAvatars().values().forEach(avatar -> {
+               if ((avatar.getX()+1 > vec.x && avatar.getX()-1 < vec.x) && (avatar.getY()+1 > vec.y && avatar.getY()-1 < vec.y)) {
+                   if (!avatar.getId().equals(user.getAvatar().getId())) {
+                       if (user.getAvatar().getMarkedUnit() == null) {
+                           user.getAvatar().setMarkedUnit(avatar.getId());
+                           System.out.println("marking " + avatar.getId());
+                       } else if (!user.getAvatar().getMarkedUnit().equals(avatar.getId())) {
+                           user.getAvatar().setMarkedUnit(avatar.getId());
+                           System.out.println("marking " + avatar.getId());
+                       } else {
+                           user.getAvatar().setMarkedUnit(null);
+                           System.out.println("Unmarking" + avatar.getId());
+                       }
+                   }
+               }
+           });
+       }
         return false;
     }
 
@@ -75,7 +102,13 @@ public class InputHandler implements InputProcessor {
     }
 
     @Override
-    public boolean mouseMoved(int screenX, int screenY) {
+    public boolean mouseMoved(int screenX, int screenY)
+    {
+        ClientConnection.getInstance().getActiveAvatars().values().forEach(avatar -> {
+            if (avatar.getX() == screenX && avatar.getY() == screenY) {
+                System.out.println("HIT ME!");
+            }
+        });
         return false;
     }
 

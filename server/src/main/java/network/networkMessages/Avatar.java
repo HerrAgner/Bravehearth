@@ -18,6 +18,8 @@ public class Avatar {
     private int mana;
     private UUID id;
     private CharacterClass characterClass;
+    private UUID markedUnit;
+
 
     public Avatar() {}
 

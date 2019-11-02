@@ -17,7 +17,6 @@ public class Avatar {
 
     private float x;
     private float y;
-    private InputHandler inputHandler;
 
     private String name;
     private int health;
@@ -25,13 +24,13 @@ public class Avatar {
     private int mana;
     private UUID id;
     private CharacterClass characterClass;
+    private UUID markedUnit;
 
     public Avatar(String name) {
         this.name = name;
-        inputHandler = new InputHandler();
+
         boundsRadius = 0.4f;
         size = boundsRadius * 2;
-        Gdx.input.setInputProcessor(inputHandler);
     }
 
     public Avatar() {
@@ -121,6 +120,14 @@ public class Avatar {
 
     public void setMaxHealth(int maxHealth) {
         this.maxHealth = maxHealth;
+    }
+
+    public UUID getMarkedUnit() {
+        return markedUnit;
+    }
+
+    public void setMarkedUnit(UUID markedUnit) {
+        this.markedUnit = markedUnit;
     }
 
     public CharacterClass getCharacterClass() {
