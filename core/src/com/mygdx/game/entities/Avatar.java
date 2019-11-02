@@ -22,6 +22,9 @@ public class Avatar {
     private int health;
     private int maxHealth;
     private int mana;
+    private int attackDamage;
+    private float attackSpeed;
+    private float attackRange;
     private UUID id;
     private CharacterClass characterClass;
     private UUID markedUnit;
