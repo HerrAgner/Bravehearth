@@ -53,7 +53,6 @@ public class Sender {
     }
 
     public void targetEnemy(UUID attacker, UUID target){
-        System.out.println(attacker +" " + target);
         c.sendTCP(new AttackEnemyTarget(attacker, target));
     }
 }
