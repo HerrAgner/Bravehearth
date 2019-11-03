@@ -73,7 +73,7 @@ public class InputHandler implements InputProcessor {
        if (button == Input.Buttons.RIGHT) {
            ClientConnection.getInstance().getActiveAvatars().values().forEach(avatar -> {
                if ((avatar.getX()+1 > vec.x && avatar.getX()-1 < vec.x) && (avatar.getY()+1 > vec.y && avatar.getY()-1 < vec.y)) {
-//                   if (!avatar.getId().equals(user.getAvatar().getId())) {
+                   if (!avatar.getId().equals(user.getAvatar().getId())) {
                        if (user.getAvatar().getMarkedUnit() == null) {
                            user.getAvatar().setMarkedUnit(avatar.getId());
                        } else if (!user.getAvatar().getMarkedUnit().equals(avatar.getId())) {
@@ -83,7 +83,7 @@ public class InputHandler implements InputProcessor {
                            user.getAvatar().setMarkedUnit(null);
                            System.out.println("Unmarking" + avatar.getId());
                        }
-//                   }
+                   }
                }
            });
        }

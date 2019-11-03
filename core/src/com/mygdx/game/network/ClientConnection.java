@@ -34,7 +34,7 @@ public class ClientConnection {
         }
 
         login();
-            new Thread(new AttackLoop()).start();
+        new Thread(new AttackLoop()).start();
 
     }
     public static ClientConnection getInstance()

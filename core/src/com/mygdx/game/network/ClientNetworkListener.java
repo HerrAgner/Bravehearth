@@ -24,6 +24,9 @@ public class ClientNetworkListener {
                 }
 
                 if (object instanceof Logout) {
+                    if (((Logout) object).getAvatar().equals(ClientConnection.getInstance().getUser().getAvatar().getId())) {
+                        ClientConnection.getInstance().getClient().stop();
+                    }
                     ClientConnection.getInstance().getActiveAvatars().remove(((Logout) object).getAvatar());
                 }
 

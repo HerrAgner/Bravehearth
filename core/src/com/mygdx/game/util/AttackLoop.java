@@ -16,6 +16,10 @@ public class AttackLoop implements Runnable {
     @Override
     public void run() {
         while(running) {
+            if (!ClientConnection.getInstance().getClient().isConnected()) {
+                this.running = false;
+                break;
+            }
             if (ClientConnection.getInstance().getUser() != null) {
                 if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null) {
                     new Sender().targetEnemy(ClientConnection.getInstance().getUser().getAvatar().getId(), ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit());
@@ -26,8 +30,6 @@ public class AttackLoop implements Runnable {
                     e.printStackTrace();
                 }
             }
-
         }
-
     }
 }
