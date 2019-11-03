@@ -78,10 +78,8 @@ public class InputHandler implements InputProcessor {
                            user.getAvatar().setMarkedUnit(avatar.getId());
                        } else if (!user.getAvatar().getMarkedUnit().equals(avatar.getId())) {
                            user.getAvatar().setMarkedUnit(avatar.getId());
-                           System.out.println("marking " + avatar.getId());
                        } else {
                            user.getAvatar().setMarkedUnit(null);
-                           System.out.println("Unmarking" + avatar.getId());
                        }
                    }
                }
