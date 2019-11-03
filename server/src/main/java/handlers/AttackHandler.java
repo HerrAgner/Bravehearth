@@ -49,8 +49,6 @@ public class AttackHandler {
 
         HealthChange healthChange = new HealthChange(GameServer.getInstance().aa.get(target.getId()).getHealth(), target.getId(), attacker.getId());
 
-
-        System.out.println("IN RANGE!");
         try {
             validatedAttacks.put(healthChange);
         } catch (InterruptedException e) {

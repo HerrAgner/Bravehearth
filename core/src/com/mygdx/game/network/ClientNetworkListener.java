@@ -24,7 +24,6 @@ public class ClientNetworkListener {
                 }
 
                 if (object instanceof Logout) {
-                    System.out.println("logout" + ((Logout) object).getAvatar());
                     ClientConnection.getInstance().getActiveAvatars().remove(((Logout) object).getAvatar());
                 }
 
@@ -35,7 +34,6 @@ public class ClientNetworkListener {
                 if (object instanceof HealthChange) {
                     ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
                             .setHealth(((HealthChange) object).getNewHealth());
-                    System.out.println(ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar()).getHealth());
                 }
 
                 if (object instanceof Position) {

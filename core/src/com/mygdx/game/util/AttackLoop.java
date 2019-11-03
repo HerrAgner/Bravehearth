@@ -18,7 +18,6 @@ public class AttackLoop implements Runnable {
         while(running) {
             if (ClientConnection.getInstance().getUser() != null) {
                 if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null) {
-                    System.out.println("yo?");
                     new Sender().targetEnemy(ClientConnection.getInstance().getUser().getAvatar().getId(), ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit());
                 }
                 try {
