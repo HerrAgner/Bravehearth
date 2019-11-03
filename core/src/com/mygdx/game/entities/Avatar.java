@@ -36,6 +36,25 @@ public class Avatar {
         size = boundsRadius * 2;
     }
 
+    public Avatar(Avatar avatar) {
+        this.maxXspeed = avatar.maxXspeed;
+        this.maxYspeed = avatar.maxYspeed;
+        this.boundsRadius = avatar.boundsRadius;
+        this.size = avatar.size;
+        this.x = avatar.x;
+        this.y = avatar.y;
+        this.name = avatar.name;
+        this.health = avatar.health;
+        this.maxHealth = avatar.maxHealth;
+        this.mana = avatar.mana;
+        this.attackDamage = avatar.attackDamage;
+        this.attackSpeed = avatar.attackSpeed;
+        this.attackRange = avatar.attackRange;
+        this.id = avatar.id;
+        this.characterClass = avatar.characterClass;
+        this.markedUnit = avatar.markedUnit;
+    }
+
     public Avatar() {
         this.name = "dummy";
     }
