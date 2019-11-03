@@ -99,13 +99,7 @@ public class InputHandler implements InputProcessor {
     }
 
     @Override
-    public boolean mouseMoved(int screenX, int screenY)
-    {
-        ClientConnection.getInstance().getActiveAvatars().values().forEach(avatar -> {
-            if (avatar.getX() == screenX && avatar.getY() == screenY) {
-                System.out.println("HIT ME!");
-            }
-        });
+    public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
 
