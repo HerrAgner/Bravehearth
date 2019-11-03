@@ -71,7 +71,7 @@ public class ClientConnection {
 
     private void registerClasses(){
         Kryo kryo = client.getKryo();
-        kryo.register(Health.class);
+        kryo.register(HealthChange.class);
         kryo.register(Position.class);
         kryo.register(Avatar.class);
         kryo.register(Login.class);

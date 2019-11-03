@@ -3,6 +3,7 @@ package handlers;
 
 import game.GameServer;
 import network.networkMessages.Avatar;
+import network.networkMessages.HealthChange;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class AttackHandler {
     private LinkedBlockingQueue<HashMap<UUID, UUID>> attackList = new LinkedBlockingQueue<>();
-    public static LinkedBlockingQueue<HashMap<UUID, UUID>> validatedAttacks = new LinkedBlockingQueue<>();
+    public static LinkedBlockingQueue<HealthChange> validatedAttacks = new LinkedBlockingQueue<>();
 
     public void addAttackerToList(UUID attacker, UUID target) {
         attackList.offer(new HashMap<>() {{
@@ -36,9 +37,6 @@ public class AttackHandler {
                 && (target.getY() < attacker.getY() +1 + attacker.getAttackRange()
                 && target.getY() > attacker.getY() -1 - attacker.getAttackRange())) {
             calculateDamageDealt(attacker, target);
-            System.out.println(target.getX());
-            System.out.println(attacker.getX());
-            System.out.println(attacker.getX() + attacker.getAttackRange());
         }
     }
 
@@ -46,9 +44,17 @@ public class AttackHandler {
         // Check attacker damage vs attacker defence
         // Need maybe hit chance in % and make a roll if the attack hits or misses
 
+        int newHealth = target.getHealth() - attacker.getAttackDamage();
+        GameServer.getInstance().aa.get(target.getId()).setHealth(newHealth);
+
+        HealthChange healthChange = new HealthChange(GameServer.getInstance().aa.get(target.getId()).getHealth(), target.getId(), attacker.getId());
+
+
         System.out.println("IN RANGE!");
-        validatedAttacks.offer(new HashMap<>() {{
-            put(attacker.getId(), target.getId());
-        }});
+        try {
+            validatedAttacks.put(healthChange);
+        } catch (InterruptedException e) {
+            System.out.println("Could not add attack to list.");
+        }
     }
 }
