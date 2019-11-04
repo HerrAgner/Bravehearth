@@ -24,6 +24,7 @@ public class Avatar {
     private int health;
     private int maxHealth;
     private int mana;
+    private int maxMana;
     private int strength;
     private int dexterity;
     private int intelligence;
@@ -37,6 +38,7 @@ public class Avatar {
     private int attackDamage;
     private float attackSpeed;
     private float attackRange;
+    private float defence;
     private UUID markedUnit;
 
 
@@ -64,7 +66,15 @@ public class Avatar {
         this.id = avatar.id;
         this.characterClass = avatar.characterClass;
         this.markedUnit = avatar.markedUnit;
-
+        this.maxMana = avatar.maxMana;
+        this.strength = avatar.strength;
+        this.dexterity = avatar.dexterity;
+        this.intelligence = avatar.intelligence;
+        this.level = avatar.level;
+        this.experiencePoints = avatar.experiencePoints;
+        this.backpack = avatar.backpack;
+        this.equippedItems = avatar.equippedItems;
+        this.defence = avatar.defence;
     }
 
     public Avatar() {

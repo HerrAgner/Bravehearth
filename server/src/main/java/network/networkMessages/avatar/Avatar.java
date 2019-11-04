@@ -21,6 +21,7 @@ public class Avatar {
     private int health;
     private int maxHealth;
     private int mana;
+    private int maxMana;
     private int strength;
     private int dexterity;
     private int intelligence;
@@ -34,6 +35,7 @@ public class Avatar {
     private int attackDamage;
     private float attackSpeed;
     private float attackRange;
+    private float defence;
     private UUID markedUnit;
 
 
