@@ -5,6 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.config.GameConfig;
+import com.mygdx.game.util.MonsterType;
+
+import java.util.UUID;
 
 public class Monster {
     private float maxXspeed = 2f;
@@ -12,13 +15,19 @@ public class Monster {
 
     private float boundsRadius;
     private float size;
+    UUID id;
 
     private float x;
     private float y;
 
     private int hp;
-    private int attack;
+    private int maxHp;
+    private int attackDamage;
+    float attackSpeed;
     private String name;
+    UUID markedUnit;
+    int spawnRate;
+    MonsterType type;
 
     public Monster() {
         this(3, 1, "default");
@@ -26,7 +35,7 @@ public class Monster {
 
     public Monster(int hp, int attack, String name) {
         this.hp = hp;
-        this.attack = attack;
+        this.attackDamage = attack;
         this.name = name;
         this.boundsRadius = 1;
         this.size = boundsRadius * 2;
@@ -68,7 +77,7 @@ public class Monster {
     }
 
     public int getAttack() {
-        return attack;
+        return attackDamage;
     }
 
     public String getName() {
