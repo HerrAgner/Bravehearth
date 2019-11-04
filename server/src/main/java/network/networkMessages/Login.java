@@ -1,5 +1,7 @@
 package network.networkMessages;
 
+import network.networkMessages.avatar.Avatar;
+
 public class Login {
     private String username;
     private Avatar avatar;

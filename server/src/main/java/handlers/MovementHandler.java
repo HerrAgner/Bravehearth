@@ -3,13 +3,9 @@ package handlers;
 import com.esotericsoftware.kryonet.Connection;
 import network.Sender;
 import enums.Movement;
-import network.networkMessages.Avatar;
 import network.networkMessages.MovementCommands;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.concurrent.*;
 
 public class MovementHandler {

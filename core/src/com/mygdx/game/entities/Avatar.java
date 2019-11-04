@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.mygdx.game.config.GameConfig;
 import com.mygdx.game.util.CharacterClass;
-import com.mygdx.game.util.InputHandler;
 
 import java.util.UUID;
 
@@ -18,16 +17,28 @@ public class Avatar {
     private float x;
     private float y;
 
+    private UUID id;
+    private CharacterClass characterClass;
+
     private String name;
     private int health;
     private int maxHealth;
     private int mana;
+    private int strength;
+    private int dexterity;
+    private int intelligence;
+
+    private int level;
+    private int experiencePoints;
+
+    private Backpack backpack;
+    private EquippedItems equippedItems;
+
     private int attackDamage;
     private float attackSpeed;
     private float attackRange;
-    private UUID id;
-    private CharacterClass characterClass;
     private UUID markedUnit;
+
 
     public Avatar(String name) {
         this.name = name;
@@ -53,6 +64,7 @@ public class Avatar {
         this.id = avatar.id;
         this.characterClass = avatar.characterClass;
         this.markedUnit = avatar.markedUnit;
+
     }
 
     public Avatar() {

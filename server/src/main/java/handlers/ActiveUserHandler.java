@@ -1,8 +1,7 @@
 package handlers;
 
 import game.GameServer;
-import network.Sender;
-import network.networkMessages.Avatar;
+import network.networkMessages.avatar.Avatar;
 import network.networkMessages.User;
 
 import java.util.HashMap;

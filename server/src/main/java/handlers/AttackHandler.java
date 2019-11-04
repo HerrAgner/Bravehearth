@@ -2,7 +2,7 @@ package handlers;
 
 
 import game.GameServer;
-import network.networkMessages.Avatar;
+import network.networkMessages.avatar.Avatar;
 import network.networkMessages.HealthChange;
 
 import java.util.HashMap;

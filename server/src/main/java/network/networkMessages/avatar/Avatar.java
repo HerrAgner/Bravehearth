@@ -1,10 +1,12 @@
-package network.networkMessages;
+package network.networkMessages.avatar;
+
+import network.networkMessages.CharacterClass;
 
 import java.util.UUID;
 
 public class Avatar {
-    private float maxXspeed = 0.03f;
-    private float maxYspeed = 0.03f;
+    private float maxXspeed = 2f;
+    private float maxYspeed = 2f;
 
     private float boundsRadius;
     private float size;
@@ -12,15 +14,26 @@ public class Avatar {
     private float x;
     private float y;
 
+    private UUID id;
+    private CharacterClass characterClass;
+
     private String name;
     private int health;
     private int maxHealth;
     private int mana;
+    private int strength;
+    private int dexterity;
+    private int intelligence;
+
+    private int level;
+    private int experiencePoints;
+
+    private Backpack backpack;
+    private EquippedItems equippedItems;
+
     private int attackDamage;
     private float attackSpeed;
     private float attackRange;
-    private UUID id;
-    private CharacterClass characterClass;
     private UUID markedUnit;
 
 
