@@ -19,14 +19,14 @@ public class BravehearthGame extends Game {
 	@Override
 	public void create() {
 		init();
-		inputHandler = new InputHandler();
-		Gdx.input.setInputProcessor(inputHandler);
+
 		setScreen(new GameScreen());
 	}
 
 	private void init() {
-		ClientNetworkListener cnl = new ClientNetworkListener();
-
+		new ClientNetworkListener();
+		inputHandler = new InputHandler();
+		Gdx.input.setInputProcessor(inputHandler);
 //		float startPlayerX = GameConfig.WORLD_WIDTH / 2f;
 //		float startPlayerY = GameConfig.WORLD_HEIGHT / 2f;
 //		ClientConnection.getInstance().setPlayer(player);

@@ -83,24 +83,24 @@ public class Avatar {
     public UUID getId() { return id; }
 
     public void update(float delta) {
-//        float xSpeed = 0;
-//        float ySpeed = 0;
-//        if (Gdx.input.isKeyPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.S)) {
-//
-//        } else {
-//            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-//                xSpeed = maxXspeed;
-//            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-//                xSpeed = -maxXspeed;
-//            }
-//            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-//                ySpeed = maxYspeed;
-//            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-//                ySpeed = -maxYspeed;
-//            }
-//        }
-//
-//        validMovement(x += xSpeed * delta, y += ySpeed * delta);
+        float xSpeed = 0;
+        float ySpeed = 0;
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.S)) {
+
+        } else {
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                xSpeed = maxXspeed;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                xSpeed = -maxXspeed;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                ySpeed = maxYspeed;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                ySpeed = -maxYspeed;
+            }
+        }
+
+        validMovement(x += xSpeed * delta, y += ySpeed * delta);
 
 
     }
