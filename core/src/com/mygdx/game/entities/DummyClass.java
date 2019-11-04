@@ -10,10 +10,8 @@ public class DummyClass extends Avatar {
         super(name);
         bounds = new Circle(super.getX(), super.getY(), super.getBoundsRadius());
     }
-
     public DummyClass(Avatar avatar){
-        super(avatar.getName());
-        setPosition(avatar.getX(), avatar.getY());
+        super(avatar);
         super.setBoundsRadius(1);
         super.setMaxXspeed(4);
         bounds = new Circle(super.getX(), super.getY(), super.getBoundsRadius());

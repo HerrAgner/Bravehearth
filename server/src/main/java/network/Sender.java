@@ -12,8 +12,13 @@ public class Sender {
         this.server = GameServer.getInstance().getServer();
     }
 
-    public boolean sendToTcp(Connection connection, Object message){
+        public boolean sendToTcp(Connection connection, Object message){
         server.sendToTCP(connection.getID(), message);
+        return true;
+    }
+
+    public boolean sendToAllTCP(Object message) {
+        server.sendToAllTCP(message);
         return true;
     }
 }

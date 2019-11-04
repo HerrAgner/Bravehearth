@@ -6,6 +6,8 @@ import com.mygdx.game.config.GameConfig;
 import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.util.InputHandler;
 
+import java.util.UUID;
+
 public class Avatar {
     private float maxXspeed = 2f;
     private float maxYspeed = 2f;
@@ -15,19 +17,42 @@ public class Avatar {
 
     private float x;
     private float y;
-    private InputHandler inputHandler;
 
     private String name;
     private int health;
+    private int maxHealth;
     private int mana;
+    private int attackDamage;
+    private float attackSpeed;
+    private float attackRange;
+    private UUID id;
     private CharacterClass characterClass;
+    private UUID markedUnit;
 
     public Avatar(String name) {
         this.name = name;
-        inputHandler = new InputHandler();
+
         boundsRadius = 0.4f;
         size = boundsRadius * 2;
-        Gdx.input.setInputProcessor(inputHandler);
+    }
+
+    public Avatar(Avatar avatar) {
+        this.maxXspeed = avatar.maxXspeed;
+        this.maxYspeed = avatar.maxYspeed;
+        this.boundsRadius = avatar.boundsRadius;
+        this.size = avatar.size;
+        this.x = avatar.x;
+        this.y = avatar.y;
+        this.name = avatar.name;
+        this.health = avatar.health;
+        this.maxHealth = avatar.maxHealth;
+        this.mana = avatar.mana;
+        this.attackDamage = avatar.attackDamage;
+        this.attackSpeed = avatar.attackSpeed;
+        this.attackRange = avatar.attackRange;
+        this.id = avatar.id;
+        this.characterClass = avatar.characterClass;
+        this.markedUnit = avatar.markedUnit;
     }
 
     public Avatar() {
@@ -50,6 +75,12 @@ public class Avatar {
         this.x = x;
         this.y = y;
     }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public UUID getId() { return id; }
 
     public void update(float delta) {
         float xSpeed = 0;
@@ -97,6 +128,30 @@ public class Avatar {
         return y;
     }
 
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
+    public UUID getMarkedUnit() {
+        return markedUnit;
+    }
+
+    public void setMarkedUnit(UUID markedUnit) {
+        this.markedUnit = markedUnit;
+    }
+
     public CharacterClass getCharacterClass() {
         return characterClass;
     }
@@ -118,11 +173,31 @@ public class Avatar {
         this.size = boundsRadius * 2;
     }
 
+    public int getAttackDamage() {
+        return attackDamage;
+    }
+
+    public float getAttackSpeed() {
+        return attackSpeed;
+    }
+
+    public float getAttackRange() {
+        return attackRange;
+    }
+
+    public void setAttackSpeed(float attackSpeed) {
+        this.attackSpeed = attackSpeed;
+    }
+
     public void setMaxXspeed(float maxXspeed) {
         this.maxXspeed = maxXspeed;
     }
 
     public void setMaxYspeed(float maxYspeed) {
         this.maxYspeed = maxYspeed;
+    }
+
+    public void setCharacterClass(CharacterClass characterClass) {
+        this.characterClass = characterClass;
     }
 }

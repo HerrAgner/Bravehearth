@@ -2,15 +2,13 @@ package network.networkMessages;
 
 public class Login {
     private String username;
-    private String character;
+    private Avatar avatar;
 
-    public Login(){
+    public Login(){}
 
-    }
-
-    public Login(String username, String character) {
+    public Login(String username, Avatar avatar) {
         this.username = username;
-        this.character = character;
+        this.avatar = avatar;
     }
 
     public String getUsername() {
@@ -21,11 +19,11 @@ public class Login {
         this.username = username;
     }
 
-    public String getCharacter() {
-        return character;
+    public Avatar getAvatar() {
+        return avatar;
     }
 
-    public void setCharacter(String character) {
-        this.character = character;
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
     }
 }

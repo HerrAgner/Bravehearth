@@ -1,15 +1,13 @@
 package game;
 
 import enums.Movement;
+import handlers.AttackHandler;
 import handlers.MovementHandler;
-import network.Sender;
 import network.networkMessages.Avatar;
 import network.networkMessages.Position;
 
 public class GameLoop implements Runnable {
     private boolean running;
-    private Sender sender;
-    private GameLogic gl;
 
     public GameLoop() {
         this.running = true;
@@ -19,13 +17,24 @@ public class GameLoop implements Runnable {
     public void run() {
 
         while (running) {
+
             MovementHandler.movementLoopList.forEach((key, value) ->
                     value.forEach(movement -> {
-                        Position pos = updatePosition(GameServer.getInstance().avatar, movement);
-                        GameServer.getInstance().avatar.setX(pos.getX());
-                        GameServer.getInstance().avatar.setY(pos.getY());
+                        Position pos = updatePosition(GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()), movement);
+                        GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setX(pos.getX());
+                        GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setY(pos.getY());
                         GameServer.getInstance().getServer().sendToAllUDP(pos);
                     }));
+
+            if (AttackHandler.validatedAttacks.size() > 0) {
+                try {
+                    GameServer.getInstance().getServer().sendToAllTCP(AttackHandler.validatedAttacks.take());
+                } catch (InterruptedException e) {
+                    System.out.println("Could not send attack. Trying again.");
+                }
+
+            }
+
             try {
                 Thread.sleep(16);
             } catch (InterruptedException e) {
@@ -40,17 +49,16 @@ public class GameLoop implements Runnable {
         Position position;
         switch (movement) {
             case FORWARD:
-                position = new Position(avatar.getX(), avatar.getY() + avatar.getMaxYspeed());
-                System.out.println(avatar.getMaxXspeed());
+                position = new Position(avatar.getX(), avatar.getY() + avatar.getMaxYspeed(), avatar.getId());
                 break;
             case BACKWARD:
-                position = new Position(avatar.getX(), avatar.getY() - avatar.getMaxYspeed());
+                position = new Position(avatar.getX(), avatar.getY() - avatar.getMaxYspeed(), avatar.getId());
                 break;
             case LEFT:
-                position = new Position(avatar.getX() - avatar.getMaxXspeed(), avatar.getY());
+                position = new Position(avatar.getX() - avatar.getMaxXspeed(), avatar.getY(), avatar.getId());
                 break;
             case RIGHT:
-                position = new Position(avatar.getX() + avatar.getMaxXspeed(), avatar.getY());
+                position = new Position(avatar.getX() + avatar.getMaxXspeed(), avatar.getY(), avatar.getId());
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + movement);

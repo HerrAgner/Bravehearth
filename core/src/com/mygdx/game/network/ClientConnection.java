@@ -1,30 +1,40 @@
 package com.mygdx.game.network;
 
+import com.badlogic.gdx.Gdx;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.mygdx.game.entities.Avatar;
+import com.mygdx.game.entities.DummyClass;
+import com.mygdx.game.entities.User;
 import com.mygdx.game.network.networkMessages.*;
+import com.mygdx.game.util.AttackLoop;
 import com.mygdx.game.util.CharacterClass;
+import com.mygdx.game.util.InputHandler;
 
 import java.io.IOException;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientConnection {
     private static ClientConnection single_instance = null;
 
     private Client client;
-    private Avatar avatar;
+    private User user;
+    private ConcurrentHashMap<UUID, Avatar> activeAvatars;
 
     private ClientConnection() {
+        activeAvatars = new ConcurrentHashMap<>();
         client = new Client();
+        registerClasses();
         client.start();
         try {
             client.connect(5000, "localhost", 54555, 54777);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        registerClasses();
+
         login();
+        new Thread(new AttackLoop()).start();
 
     }
     public static ClientConnection getInstance()
@@ -35,31 +45,41 @@ public class ClientConnection {
         return single_instance;
     }
 
+    public void addActiveAvatar(Avatar avatar) {
+        if (avatar.getCharacterClass().equals(CharacterClass.DUMMYCLASS)){
+            activeAvatars.put(avatar.getId(), new DummyClass(avatar));
+        }
+    }
+
+    public ConcurrentHashMap<UUID, Avatar> getActiveAvatars() {
+        return activeAvatars;
+    }
 
     public Client getClient() {
         return this.client;
     }
 
-    public Avatar getAvatar() {
-        return avatar;
-    }
+    public User getUser() { return user; }
 
-    public void setAvatar(Avatar avatar) {
-        this.avatar = avatar;
-    }
+    public void setUser(User user) { this.user = user; }
+
+    public Avatar getAvatar() { return user.getAvatar(); }
 
     private void login(){
-        client.sendTCP(new Login("Ted", "Tedinator"));
+        client.sendTCP(new Login("Kate", new Avatar()));
     }
 
     private void registerClasses(){
         Kryo kryo = client.getKryo();
-        kryo.register(Health.class);
+        kryo.register(HealthChange.class);
         kryo.register(Position.class);
         kryo.register(Avatar.class);
         kryo.register(Login.class);
         kryo.register(CharacterClass.class);
+        kryo.register(User.class);
         kryo.register(MovementCommands.class);
         kryo.register(UUID.class, new UUIDSerializer());
+        kryo.register(Logout.class);
+        kryo.register(AttackEnemyTarget.class);
     }
 }
