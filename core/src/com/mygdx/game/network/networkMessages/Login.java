@@ -1,6 +1,6 @@
 package com.mygdx.game.network.networkMessages;
 
-import com.mygdx.game.entities.Avatar;
+import com.mygdx.game.entities.avatar.Avatar;
 
 public class Login {
     private String username;

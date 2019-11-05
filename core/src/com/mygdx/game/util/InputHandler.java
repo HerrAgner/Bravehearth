@@ -69,7 +69,7 @@ public class InputHandler implements InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         User user = ClientConnection.getInstance().getUser();
         Vector3 vec=new Vector3(screenX,screenY,0);
-        GameScreen.camera.unproject(vec);
+//        GameScreen.camera.unproject(vec);
        if (button == Input.Buttons.RIGHT) {
            ClientConnection.getInstance().getActiveAvatars().values().forEach(avatar -> {
                if ((avatar.getX()+1 > vec.x && avatar.getX()-1 < vec.x) && (avatar.getY()+1 > vec.y && avatar.getY()-1 < vec.y)) {
