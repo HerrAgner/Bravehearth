@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.BravehearthGame;
@@ -35,16 +38,18 @@ public class GameScreen implements Screen {
     private DummyClass dc;
     private SpriteBatch batch;
     private Texture healthBar;
+    private TiledMap tiledMap;
+    private OrthogonalTiledMapRenderer tiledMapRenderer;
+    private SpriteBatch spriteAvatar;
 
-
-    public GameScreen(){
+    public GameScreen() {
         batch = new SpriteBatch();
         healthBar = new Texture("blank.png");
     }
 
     @Override
     public void show() {
-        camera = new OrthographicCamera();
+        camera = new OrthographicCamera(GameConfig.WIDTH, GameConfig.HEIGHT);
         viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
         renderer = new ShapeRenderer();
         cameraController = new CameraController();
@@ -58,16 +63,19 @@ public class GameScreen implements Screen {
                     .setAvatar(new DummyClass(
                             ClientConnection.getInstance().getAvatar()));
         }
+        tiledMap = new TmxMapLoader().load("worldMap.tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
     }
 
     @Override
     public void render(float delta) {
-        cameraController.applyTo(camera);
         delta = Gdx.graphics.getDeltaTime();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        cameraController.applyTo(camera);
+        tiledMapRenderer.setView(camera);
+        tiledMapRenderer.render();
         update(delta);
-
         renderViewportUtils();
     }
 
@@ -99,24 +107,24 @@ public class GameScreen implements Screen {
     private void renderViewportUtils() {
         renderer.setProjectionMatrix(camera.combined);
         batch.setProjectionMatrix(camera.combined);
-        ViewPortUtils.drawGrid(viewport, renderer);
+//        ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
         ClientConnection.getInstance().getActiveAvatars().forEach((uuid, avatar) -> {
             DummyClass dcs = (DummyClass) avatar;
-            dcs.drawDebug(renderer);
+             dcs.drawDebug(renderer);
             batch.begin();
-            if (avatar.getHealth() < avatar.getMaxHealth()*0.3) {
+            if (avatar.getHealth() < avatar.getMaxHealth() * 0.3) {
                 batch.setColor(Color.RED);
-            } else if (avatar.getHealth() < avatar.getMaxHealth()*0.6) {
+            } else if (avatar.getHealth() < avatar.getMaxHealth() * 0.6) {
                 batch.setColor(Color.YELLOW);
             } else {
                 batch.setColor(Color.GREEN);
             }
-            batch.draw(healthBar, avatar.getX()-1, (float)(avatar.getY() + 1.2), (float)avatar.getHealth() *  2/avatar.getMaxHealth(), (float) 0.2);
+            batch.draw(healthBar, avatar.getX() - 1, (float) (avatar.getY() + 1.2), (float) avatar.getHealth() * 2 / avatar.getMaxHealth(), (float) 0.2);
             batch.setColor(Color.WHITE);
             batch.end();
             if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
-            renderer.rect((float) (avatar.getX()-1.1), (float) (avatar.getY()-1.1), (float) 2.2, (float) 2.2,Color.RED,Color.PINK,Color.RED,Color.PINK);
+                renderer.rect((float) (avatar.getX() - 1.1), (float) (avatar.getY() - 1.1), (float) 2.2, (float) 2.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
             }
         });
         renderer.end();
@@ -138,10 +146,10 @@ public class GameScreen implements Screen {
 
     private void updateCamera() {
         Avatar av = ClientConnection.getInstance().getActiveAvatars().get(ClientConnection.getInstance().getUser().getAvatar().getId());
-       cameraController.updatePosition(
-               av.getX(),
-               av.getY());
-     }
+        cameraController.updatePosition(
+                av.getX(),
+                av.getY());
+    }
 
 
 }
