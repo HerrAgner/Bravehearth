@@ -52,13 +52,13 @@ public class NetworkListener {
     }
 //    private User createUser(Object object) {
 //        Login loginObject = (Login) object;
-//        Avatar avatar = new Avatar(loginObject.getAvatar().getName());
-//        avatar.setCharacterClass(CharacterClass.DUMMYCLASS);
-//        avatar.setX(10);
-//        avatar.setY(10);
-//        avatar.setId(UUID.randomUUID());
+//        Avatar com.mygdx.game.entities.avatar = new Avatar(loginObject.getAvatar().getName());
+//        com.mygdx.game.entities.avatar.setCharacterClass(CharacterClass.DUMMYCLASS);
+//        com.mygdx.game.entities.avatar.setX(10);
+//        com.mygdx.game.entities.avatar.setY(10);
+//        com.mygdx.game.entities.avatar.setId(UUID.randomUUID());
 //
-//        User user = new User(loginObject.getUsername(), avatar);
+//        User user = new User(loginObject.getUsername(), com.mygdx.game.entities.avatar);
 //        return user;
 //    }
 }

@@ -1,7 +1,8 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.entities.avatar;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
+import com.mygdx.game.entities.avatar.Avatar;
 
 public class DummyClass extends Avatar {
     private Circle bounds;

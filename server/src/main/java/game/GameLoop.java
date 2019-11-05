@@ -3,7 +3,7 @@ package game;
 import enums.Movement;
 import handlers.AttackHandler;
 import handlers.MovementHandler;
-import network.networkMessages.Avatar;
+import network.networkMessages.avatar.Avatar;
 import network.networkMessages.Position;
 
 public class GameLoop implements Runnable {
