@@ -38,7 +38,6 @@ public class LoginScreen implements Screen {
         this.stage = new Stage();
         stage2 = new Stage();
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("terra-mother/skin/terra-mother-ui.json"));
 
