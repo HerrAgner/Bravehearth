@@ -29,7 +29,7 @@ public class ActiveUserHandler {
 
     private void addToActiveAvatars(Avatar avatar) {
         activeAvatars.put(avatar.getId(), avatar);
-//        sendAvatarToClient(avatar);
+//        sendAvatarToClient(com.mygdx.game.entities.avatar);
     }
 
     private void sendAvatarToClient(Avatar avatar) {

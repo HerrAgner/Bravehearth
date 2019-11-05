@@ -7,22 +7,16 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.BravehearthGame;
 import com.mygdx.game.config.GameConfig;
-import com.mygdx.game.entities.Avatar;
-import com.mygdx.game.entities.DummyClass;
+import com.mygdx.game.entities.avatar.Avatar;
+import com.mygdx.game.entities.avatar.DummyClass;
 import com.mygdx.game.network.ClientConnection;
-import com.mygdx.game.network.networkMessages.Logout;
-import com.mygdx.game.network.networkMessages.Position;
 import com.mygdx.game.util.CameraController;
 import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.util.ViewPortUtils;
-
-import java.util.Random;
 
 public class GameScreen implements Screen {
 

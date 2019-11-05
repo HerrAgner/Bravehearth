@@ -1,8 +1,10 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.entities.avatar;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.mygdx.game.config.GameConfig;
+import com.mygdx.game.entities.Backpack;
+import com.mygdx.game.entities.EquippedItems;
 import com.mygdx.game.util.CharacterClass;
 
 import java.util.UUID;

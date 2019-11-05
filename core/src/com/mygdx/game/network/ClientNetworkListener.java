@@ -2,8 +2,8 @@ package com.mygdx.game.network;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import com.mygdx.game.entities.DummyClass;
-import com.mygdx.game.entities.Avatar;
+import com.mygdx.game.entities.avatar.DummyClass;
+import com.mygdx.game.entities.avatar.Avatar;
 import com.mygdx.game.network.networkMessages.HealthChange;
 import com.mygdx.game.network.networkMessages.Logout;
 import com.mygdx.game.network.networkMessages.Position;
