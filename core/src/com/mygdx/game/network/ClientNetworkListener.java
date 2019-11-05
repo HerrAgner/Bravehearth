@@ -16,8 +16,8 @@ public class ClientNetworkListener {
             public void received(Connection connection, Object object) {
 
                 if (object instanceof User) {
-                    System.out.println(((User) object).getId());
                     ClientConnection.getInstance().setUser(createUser((User) object));
+
                 }
 
                 if(object instanceof Avatar) {

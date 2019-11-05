@@ -9,7 +9,9 @@ public class Logout {
 
 
     public Logout() {
-        this.avatar = ClientConnection.getInstance().getUser().getAvatar().getId();
+        if (ClientConnection.getInstance().getUser() != null) {
+            this.avatar = ClientConnection.getInstance().getUser().getAvatar().getId();
+        }
     }
 
     public UUID getAvatar() {

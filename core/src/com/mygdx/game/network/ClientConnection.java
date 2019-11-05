@@ -32,7 +32,6 @@ public class ClientConnection {
             e.printStackTrace();
         }
 
-        login();
         new Thread(new AttackLoop()).start();
 
     }
@@ -64,8 +63,8 @@ public class ClientConnection {
 
     public Avatar getAvatar() { return user.getAvatar(); }
 
-    private void login(){
-        client.sendTCP(new Login("Kittey", "test"));
+    public void login(String username, String password){
+        client.sendTCP(new Login(username, password));
     }
 
     private void registerClasses(){

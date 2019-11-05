@@ -9,13 +9,15 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.mygdx.game.BravehearthGame;
+import com.mygdx.game.network.ClientConnection;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class LoginScreen implements Screen {
 
@@ -28,8 +30,10 @@ public class LoginScreen implements Screen {
     Image usernameWindow;
     Image passwordWindow;
     Image buttonWindow;
+    Image failedWindow;
     Skin skin;
     TextButton button;
+    TextButton failed;
     Image backgroundImage;
     Image logo;
 
@@ -78,6 +82,11 @@ public class LoginScreen implements Screen {
         buttonWindow.setSize(80, 40);
         buttonWindow.setPosition(Gdx.graphics.getWidth() / 2 - 40f, Gdx.graphics.getHeight() / 2 - 110f);
 
+        failedWindow = new Image();
+        failedWindow.setDrawable(skin, "window");
+        failedWindow.setSize(200, 40);
+        failedWindow.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 - 110f);
+
         stage2.addActor(buttonWindow);
         stage2.addActor(usernameWindow);
         stage2.addActor(passwordWindow);
@@ -88,6 +97,12 @@ public class LoginScreen implements Screen {
         button.setWidth(80f);
         button.setHeight(40f);
         button.setPosition(Gdx.graphics.getWidth() / 2 - 40f, Gdx.graphics.getHeight() / 2 - 110f);
+
+        failed = new TextButton("Login failed", skin, "default");
+        failed.setWidth(200f);
+        failed.setHeight(40f);
+        failed.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 - 110f);
+
 
         stage.addActor(button);
 
@@ -125,17 +140,33 @@ public class LoginScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-//        game.font.draw(game.batch, "Welcome to Bravehearth! ", 100, 150);
-//        game.font.draw(game.batch, "Tap anywhere to begin!", 100, 100);
-
         stage2.draw();
         stage.draw();
         game.batch.end();
 
         if (Gdx.input.isButtonJustPressed(0)) {
             if (this.button.getClickListener().isPressed()) {
-                game.setScreen(new GameScreen(game));
+                ClientConnection.getInstance().login(usernameTextField.getText(), passwordTextField.getText());
+                try {
 
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (ClientConnection.getInstance().getUser() != null) {
+                    game.setScreen(new GameScreen(game));
+                } else {
+                    button.remove();
+                    buttonWindow.remove();
+                    stage.addActor(failed);
+                    stage2.addActor(failedWindow);
+                }
+            }
+            if (this.failed.getClickListener().isPressed()) {
+                failed.remove();
+                failedWindow.remove();
+                stage.addActor(button);
+                stage2.addActor(buttonWindow);
             }
         }
 
@@ -163,6 +194,9 @@ public class LoginScreen implements Screen {
 
     @Override
     public void dispose() {
+        stage.dispose();
+        stage2.dispose();
+        game.dispose();
 
     }
 }
