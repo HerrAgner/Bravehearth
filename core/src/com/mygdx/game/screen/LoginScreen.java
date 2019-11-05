@@ -163,6 +163,7 @@ public class LoginScreen implements Screen {
                     e.printStackTrace();
                 }
                 if (ClientConnection.getInstance().getUser() != null) {
+                    music.dispose();
                     game.setScreen(new GameScreen(game));
                 } else {
                     button.remove();
