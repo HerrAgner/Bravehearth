@@ -27,12 +27,11 @@ public class ClientConnection {
         registerClasses();
         client.start();
         try {
-            client.connect(5000, "10.152.190.12", 54555, 54777);
+            client.connect(5000, "localhost", 54555, 54777);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        login();
         new Thread(new AttackLoop()).start();
 
     }
@@ -64,8 +63,8 @@ public class ClientConnection {
 
     public Avatar getAvatar() { return user.getAvatar(); }
 
-    private void login(){
-        client.sendTCP(new Login("Kate", new Avatar()));
+    public void login(String username, String password){
+        client.sendTCP(new Login(username, password));
     }
 
     private void registerClasses(){
