@@ -7,6 +7,6 @@ public class Sorcerer extends Avatar {
     }
 
     public Sorcerer() {
-        
+
     }
 }

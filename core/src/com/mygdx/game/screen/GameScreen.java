@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.BravehearthGame;
 import com.mygdx.game.config.GameConfig;
 import com.mygdx.game.entities.avatar.Avatar;
 import com.mygdx.game.entities.avatar.DummyClass;
@@ -27,9 +28,11 @@ public class GameScreen implements Screen {
     private DummyClass dc;
     private SpriteBatch batch;
     private Texture healthBar;
+    private BravehearthGame game;
 
 
-    public GameScreen(){
+    public GameScreen(BravehearthGame game){
+        this.game = game;
         batch = new SpriteBatch();
         healthBar = new Texture("blank.png");
     }
