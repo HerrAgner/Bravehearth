@@ -2,6 +2,7 @@ package game;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Server;
+import database.DBQueries;
 import network.UUIDSerializer;
 import network.networkMessages.*;
 import handlers.ActiveUserHandler;
@@ -38,6 +39,7 @@ public class GameServer {
 
         this.au = getAUH().getActiveUsers();
         this.aa = getAUH().getActiveAvatars();
+
     }
 
     public ActiveUserHandler getAUH() { return auh; }
