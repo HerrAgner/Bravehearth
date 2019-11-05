@@ -2,6 +2,7 @@ package com.mygdx.game.screen;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.loaders.AssetLoader;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -36,6 +37,7 @@ public class LoginScreen implements Screen {
     TextButton failed;
     Image backgroundImage;
     Image logo;
+    Music music;
 
     public LoginScreen(BravehearthGame game) {
         this.game = game;
@@ -44,6 +46,8 @@ public class LoginScreen implements Screen {
         camera = new OrthographicCamera();
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("terra-mother/skin/terra-mother-ui.json"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("audio/bravehearth.mp3"));
+        music.play();
 
         initBackground();
         initTextField();
@@ -202,6 +206,7 @@ public class LoginScreen implements Screen {
         stage.dispose();
         stage2.dispose();
         game.dispose();
+        music.dispose();
 
     }
 }
