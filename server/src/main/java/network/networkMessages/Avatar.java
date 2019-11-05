@@ -16,8 +16,13 @@ public class Avatar {
     private int health;
     private int maxHealth;
     private int mana;
+    private int attackDamage;
+    private float attackSpeed;
+    private float attackRange;
     private UUID id;
     private CharacterClass characterClass;
+    private UUID markedUnit;
+
 
     public Avatar() {}
 
@@ -103,6 +108,38 @@ public class Avatar {
     public UUID getId() { return id; }
 
     public void setId(UUID id) { this.id = id; }
+
+    public UUID getMarkedUnit() {
+        return markedUnit;
+    }
+
+    public void setMarkedUnit(UUID markedUnit) {
+        this.markedUnit = markedUnit;
+    }
+
+    public int getAttackDamage() {
+        return attackDamage;
+    }
+
+    public void setAttackDamage(int attackDamage) {
+        this.attackDamage = attackDamage;
+    }
+
+    public float getAttackSpeed() {
+        return attackSpeed;
+    }
+
+    public void setAttackSpeed(float attackSpeed) {
+        this.attackSpeed = attackSpeed;
+    }
+
+    public float getAttackRange() {
+        return attackRange;
+    }
+
+    public void setAttackRange(float attackRange) {
+        this.attackRange = attackRange;
+    }
 
     public CharacterClass getCharacterClass() {
         return characterClass;

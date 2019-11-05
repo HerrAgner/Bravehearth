@@ -2,23 +2,31 @@ package com.mygdx.game;
 
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.network.ClientNetworkListener;
 import com.mygdx.game.network.networkMessages.Logout;
 import com.mygdx.game.screen.GameScreen;
 import com.mygdx.game.screen.TiledMapScreen;
+import com.mygdx.game.util.AttackLoop;
+import com.mygdx.game.util.InputHandler;
 
 
 public class BravehearthGame extends Game {
+	private InputHandler inputHandler;
+
 
 	@Override
 	public void create() {
 		init();
+
 		setScreen(new GameScreen());
 	}
 
 	private void init() {
-		ClientNetworkListener cnl = new ClientNetworkListener();
+		new ClientNetworkListener();
+		inputHandler = new InputHandler();
+		Gdx.input.setInputProcessor(inputHandler);
 //		float startPlayerX = GameConfig.WORLD_WIDTH / 2f;
 //		float startPlayerY = GameConfig.WORLD_HEIGHT / 2f;
 //		ClientConnection.getInstance().setPlayer(player);

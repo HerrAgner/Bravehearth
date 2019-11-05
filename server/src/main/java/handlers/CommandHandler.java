@@ -20,11 +20,13 @@ public class CommandHandler {
     private MovementHandler movementHandler;
     private Connection connection;
     ActiveUserHandler auh;
+    AttackHandler ah;
     Server server;
 
     public CommandHandler() {
         commandQueue = new LinkedBlockingQueue<>();
         movementHandler = new MovementHandler();
+        ah = new AttackHandler();
         auh = GameServer.getInstance().getAUH();
         server = GameServer.getInstance().getServer();
 
@@ -65,6 +67,12 @@ public class CommandHandler {
             server.sendToAllExceptTCP(connection.getID(), user.getAvatar());
         }
 
+        if (o instanceof AttackEnemyTarget) {
+            AttackEnemyTarget aet = (AttackEnemyTarget) o;
+            auh.getActiveAvatars().get(aet.getAttacker()).setMarkedUnit(aet.getTarget());
+            ah.addAttackerToList(aet.getAttacker(), aet.getTarget());
+        }
+
         if (o instanceof Logout) {
             server.sendToAllTCP(o);
             auh.getActiveAvatars().remove(((Logout) o).getAvatar());
@@ -98,6 +106,9 @@ public class CommandHandler {
         avatar.setX(10);
         avatar.setY(10);
         avatar.setMaxHealth(30);
+        avatar.setAttackDamage(1);
+        avatar.setAttackSpeed((float) 1.5);
+        avatar.setAttackRange((float) 1.5);
         avatar.setHealth(avatar.getMaxHealth());
         avatar.setId(UUID.randomUUID());
 

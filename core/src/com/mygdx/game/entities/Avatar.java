@@ -17,21 +17,42 @@ public class Avatar {
 
     private float x;
     private float y;
-    private InputHandler inputHandler;
 
     private String name;
     private int health;
     private int maxHealth;
     private int mana;
+    private int attackDamage;
+    private float attackSpeed;
+    private float attackRange;
     private UUID id;
     private CharacterClass characterClass;
+    private UUID markedUnit;
 
     public Avatar(String name) {
         this.name = name;
-        inputHandler = new InputHandler();
+
         boundsRadius = 0.4f;
         size = boundsRadius * 2;
-        Gdx.input.setInputProcessor(inputHandler);
+    }
+
+    public Avatar(Avatar avatar) {
+        this.maxXspeed = avatar.maxXspeed;
+        this.maxYspeed = avatar.maxYspeed;
+        this.boundsRadius = avatar.boundsRadius;
+        this.size = avatar.size;
+        this.x = avatar.x;
+        this.y = avatar.y;
+        this.name = avatar.name;
+        this.health = avatar.health;
+        this.maxHealth = avatar.maxHealth;
+        this.mana = avatar.mana;
+        this.attackDamage = avatar.attackDamage;
+        this.attackSpeed = avatar.attackSpeed;
+        this.attackRange = avatar.attackRange;
+        this.id = avatar.id;
+        this.characterClass = avatar.characterClass;
+        this.markedUnit = avatar.markedUnit;
     }
 
     public Avatar() {
@@ -62,24 +83,24 @@ public class Avatar {
     public UUID getId() { return id; }
 
     public void update(float delta) {
-//        float xSpeed = 0;
-//        float ySpeed = 0;
-//        if (Gdx.input.isKeyPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.S)) {
-//
-//        } else {
-//            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-//                xSpeed = maxXspeed;
-//            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-//                xSpeed = -maxXspeed;
-//            }
-//            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-//                ySpeed = maxYspeed;
-//            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-//                ySpeed = -maxYspeed;
-//            }
-//        }
-//
-//        validMovement(x += xSpeed * delta, y += ySpeed * delta);
+        float xSpeed = 0;
+        float ySpeed = 0;
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.S)) {
+
+        } else {
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                xSpeed = maxXspeed;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                xSpeed = -maxXspeed;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                ySpeed = maxYspeed;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                ySpeed = -maxYspeed;
+            }
+        }
+
+        validMovement(x += xSpeed * delta, y += ySpeed * delta);
 
 
     }
@@ -123,6 +144,14 @@ public class Avatar {
         this.maxHealth = maxHealth;
     }
 
+    public UUID getMarkedUnit() {
+        return markedUnit;
+    }
+
+    public void setMarkedUnit(UUID markedUnit) {
+        this.markedUnit = markedUnit;
+    }
+
     public CharacterClass getCharacterClass() {
         return characterClass;
     }
@@ -142,6 +171,22 @@ public class Avatar {
     public void setBoundsRadius(float boundsRadius) {
         this.boundsRadius = boundsRadius;
         this.size = boundsRadius * 2;
+    }
+
+    public int getAttackDamage() {
+        return attackDamage;
+    }
+
+    public float getAttackSpeed() {
+        return attackSpeed;
+    }
+
+    public float getAttackRange() {
+        return attackRange;
+    }
+
+    public void setAttackSpeed(float attackSpeed) {
+        this.attackSpeed = attackSpeed;
     }
 
     public void setMaxXspeed(float maxXspeed) {

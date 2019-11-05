@@ -1,12 +1,15 @@
 package com.mygdx.game.network;
 
+import com.badlogic.gdx.Gdx;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.mygdx.game.entities.Avatar;
 import com.mygdx.game.entities.DummyClass;
 import com.mygdx.game.entities.User;
 import com.mygdx.game.network.networkMessages.*;
+import com.mygdx.game.util.AttackLoop;
 import com.mygdx.game.util.CharacterClass;
+import com.mygdx.game.util.InputHandler;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -31,6 +34,7 @@ public class ClientConnection {
         }
 
         login();
+        new Thread(new AttackLoop()).start();
 
     }
     public static ClientConnection getInstance()
@@ -67,7 +71,7 @@ public class ClientConnection {
 
     private void registerClasses(){
         Kryo kryo = client.getKryo();
-        kryo.register(Health.class);
+        kryo.register(HealthChange.class);
         kryo.register(Position.class);
         kryo.register(Avatar.class);
         kryo.register(Login.class);
@@ -76,5 +80,6 @@ public class ClientConnection {
         kryo.register(MovementCommands.class);
         kryo.register(UUID.class, new UUIDSerializer());
         kryo.register(Logout.class);
+        kryo.register(AttackEnemyTarget.class);
     }
 }

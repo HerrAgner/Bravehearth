@@ -1,6 +1,7 @@
 package game;
 
 import enums.Movement;
+import handlers.AttackHandler;
 import handlers.MovementHandler;
 import network.networkMessages.Avatar;
 import network.networkMessages.Position;
@@ -24,6 +25,16 @@ public class GameLoop implements Runnable {
                         GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setY(pos.getY());
                         GameServer.getInstance().getServer().sendToAllUDP(pos);
                     }));
+
+            if (AttackHandler.validatedAttacks.size() > 0) {
+                try {
+                    GameServer.getInstance().getServer().sendToAllTCP(AttackHandler.validatedAttacks.take());
+                } catch (InterruptedException e) {
+                    System.out.println("Could not send attack. Trying again.");
+                }
+
+            }
+
             try {
                 Thread.sleep(16);
             } catch (InterruptedException e) {

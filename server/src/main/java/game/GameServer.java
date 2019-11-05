@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.UUID;
 
 public class GameServer {
 
@@ -56,7 +54,7 @@ public class GameServer {
 
     private void registerClasses(){
         Kryo kryo = server.getKryo();
-        kryo.register(Health.class);
+        kryo.register(HealthChange.class);
         kryo.register(Position.class);
         kryo.register(Avatar.class);
         kryo.register(Login.class);
@@ -65,5 +63,6 @@ public class GameServer {
         kryo.register(MovementCommands.class);
         kryo.register(UUID.class, new UUIDSerializer());
         kryo.register(Logout.class);
+        kryo.register(AttackEnemyTarget.class);
     }
 }

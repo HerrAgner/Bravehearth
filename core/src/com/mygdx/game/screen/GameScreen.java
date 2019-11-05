@@ -22,9 +22,11 @@ import com.mygdx.game.util.CameraController;
 import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.util.ViewPortUtils;
 
+import java.util.Random;
+
 public class GameScreen implements Screen {
 
-    private OrthographicCamera camera;
+    public static OrthographicCamera camera;
     private Viewport viewport;
     private ShapeRenderer renderer;
     private CameraController cameraController;
@@ -101,10 +103,19 @@ public class GameScreen implements Screen {
             DummyClass dcs = (DummyClass) avatar;
             dcs.drawDebug(renderer);
             batch.begin();
-            batch.setColor(Color.GREEN);
-            batch.draw(healthBar, avatar.getX()-1, (float)(avatar.getY() + 1.2), (float)avatar.getHealth() * (float) 2/avatar.getMaxHealth(), (float) 0.2);
+            if (avatar.getHealth() < avatar.getMaxHealth()*0.3) {
+                batch.setColor(Color.RED);
+            } else if (avatar.getHealth() < avatar.getMaxHealth()*0.6) {
+                batch.setColor(Color.YELLOW);
+            } else {
+                batch.setColor(Color.GREEN);
+            }
+            batch.draw(healthBar, avatar.getX()-1, (float)(avatar.getY() + 1.2), (float)avatar.getHealth() *  2/avatar.getMaxHealth(), (float) 0.2);
             batch.setColor(Color.WHITE);
             batch.end();
+            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
+            renderer.rect((float) (avatar.getX()-1.1), (float) (avatar.getY()-1.1), (float) 2.2, (float) 2.2,Color.RED,Color.PINK,Color.RED,Color.PINK);
+            }
         });
         renderer.end();
     }

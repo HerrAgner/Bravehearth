@@ -27,12 +27,10 @@ public class NetworkListener {
 
                 if (object instanceof Login) {
                     ch.addToQueue(connection, object);
-//                    User user = (createUser(object));
-//                    server.sendToTCP(connection.getID(), user);
-//                    auh.addToActiveUsers(connection.getID(), user);
-//                    auh.getActiveAvatars().values().forEach(avatar ->
-//                            GameServer.getInstance().getServer().sendToTCP(connection.getID(), avatar));
-//                    GameServer.getInstance().getServer().sendToAllExceptTCP(connection.getID(), user.getAvatar());
+                }
+
+                if (object instanceof AttackEnemyTarget) {
+                    ch.addToQueue(connection, object);
                 }
 
                 if (object instanceof Logout){
