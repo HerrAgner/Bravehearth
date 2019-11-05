@@ -16,7 +16,6 @@ import com.mygdx.game.util.InputHandler;
 
 
 public class BravehearthGame extends Game {
-	private InputHandler inputHandler;
 	public SpriteBatch batch;
 	public BitmapFont font;
 
@@ -35,8 +34,6 @@ public class BravehearthGame extends Game {
 
 	private void init() {
 		new ClientNetworkListener();
-		inputHandler = new InputHandler();
-		Gdx.input.setInputProcessor(inputHandler);
 		batch = new SpriteBatch();
 		font = new BitmapFont();
 

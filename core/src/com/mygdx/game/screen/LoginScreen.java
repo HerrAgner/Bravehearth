@@ -1,8 +1,6 @@
 package com.mygdx.game.screen;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.loaders.AssetLoader;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -42,13 +40,15 @@ public class LoginScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
         Gdx.input.setInputProcessor(stage);
-        skin = new Skin(Gdx.files.internal("gdx-skins-master/terra-mother/skin/terra-mother-ui.json"));
+        skin = new Skin(Gdx.files.internal("terra-mother/skin/terra-mother-ui.json"));
 
         initBackground();
         initTextField();
         initWindows();
         initButtons();
     }
+
+
 
     private void initTextField() {
         usernameTextField = new TextField("", skin);
@@ -98,10 +98,10 @@ public class LoginScreen implements Screen {
         backgroundImage = new Image();
         backgroundImage.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("fantasy-wallpaper-1920x1080.jpg")))));
         backgroundImage.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        backgroundImage.setScaling(Scaling.fit);
+        backgroundImage.setScaling(Scaling.fill);
 
         logo = new Image();
-        logo.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("image.png")))));
+        logo.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("bravehearth-logo.png")))));
         logo.setSize(605, 89);
         logo.setPosition(Gdx.graphics.getWidth() /2 - 300, Gdx.graphics.getHeight() - 200f);
 
@@ -133,10 +133,11 @@ public class LoginScreen implements Screen {
         stage.draw();
         game.batch.end();
 
-        if (Gdx.input.isTouched()) {
-            System.out.println(button.getClickListener().isPressed());
-//            game.setScreen(new GameScreen(game));
-            dispose();
+        if (Gdx.input.isButtonJustPressed(0)) {
+            if (this.button.getClickListener().isPressed()) {
+                game.setScreen(new GameScreen(game));
+
+            }
         }
 
     }
