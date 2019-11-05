@@ -43,7 +43,6 @@ public class GameScreen implements Screen {
     private Texture healthBar;
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer tiledMapRenderer;
-    private SpriteBatch spriteAvatar;
     private Sprite sprite;
     private TiledMapTileLayer collision;
 
@@ -109,7 +108,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        batch.dispose();
+        renderer.dispose();
+        tiledMapRenderer.dispose();
     }
 
     private void renderViewportUtils() {
