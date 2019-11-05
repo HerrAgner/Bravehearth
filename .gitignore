@@ -127,3 +127,5 @@ Thumbs.db
 /ios-moe/xcode/native/
 
 server/.env
+
+server/src/main/java/database/SecretDB.java

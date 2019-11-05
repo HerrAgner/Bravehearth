@@ -17,8 +17,7 @@ public class Database {
     }
 
     public Database() {
-        Dotenv dotenv = Dotenv.configure().directory("server").load();
-        connectionURL = dotenv.get("CONNECTION_URL");
+        connectionURL = SecretDB.getConnectionURL();
         connectToDb(); }
 
     private Connection conn = null;
