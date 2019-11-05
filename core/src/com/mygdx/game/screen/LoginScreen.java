@@ -57,9 +57,12 @@ public class LoginScreen implements Screen {
         usernameTextField = new TextField("", skin);
         usernameTextField.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 - 10f);
         usernameTextField.setSize(200, 40);
+
         passwordTextField = new TextField("", skin);
         passwordTextField.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 - 60f);
-        passwordTextField.setSize(200, 40);
+        passwordTextField.setSize(200, 30);
+        passwordTextField.setPasswordMode(true);
+        passwordTextField.setPasswordCharacter('*');
 
         stage.addActor(usernameTextField);
         stage.addActor(passwordTextField);
