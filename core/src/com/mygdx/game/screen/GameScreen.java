@@ -11,8 +11,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.BravehearthGame;
@@ -43,6 +45,7 @@ public class GameScreen implements Screen {
     private OrthogonalTiledMapRenderer tiledMapRenderer;
     private SpriteBatch spriteAvatar;
     private Sprite sprite;
+    private TiledMapTileLayer collision;
 
     public GameScreen() {
         batch = new SpriteBatch();
@@ -69,6 +72,7 @@ public class GameScreen implements Screen {
         }
         tiledMap = new TmxMapLoader().load("worldMap.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / 32f);
+        collision = (TiledMapTileLayer) tiledMap.getLayers().get(0);
     }
 
     @Override
@@ -126,8 +130,16 @@ public class GameScreen implements Screen {
             }
             batch.draw(healthBar, avatar.getX() - 1, (float) (avatar.getY() + 1.2), (float) avatar.getHealth() * 2 / avatar.getMaxHealth(), (float) 0.2);
             batch.setColor(Color.WHITE);
-            sprite.setBounds(avatar.getX(), avatar.getY(), 1f, 1f);
-            System.out.println(avatar.getX() + " " + avatar.getY());
+            try {
+                if (collision.getCell((int) avatar.getX(), (int) avatar.getY()).getTile().getProperties().containsKey("blocked")) {
+                    System.out.println("blocked");
+                    dcs.setPosition(10, 10);
+                }
+            } catch (NullPointerException e) {dcs.setPosition(10, 10);
+
+            }
+            sprite.setBounds(dcs.getX(), dcs.getY(), 1f, 1f);
+
             sprite.draw(batch);
             batch.end();
             if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
