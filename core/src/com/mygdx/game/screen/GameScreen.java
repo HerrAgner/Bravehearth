@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -41,6 +42,7 @@ public class GameScreen implements Screen {
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer tiledMapRenderer;
     private SpriteBatch spriteAvatar;
+    private Sprite sprite;
 
     public GameScreen() {
         batch = new SpriteBatch();
@@ -49,8 +51,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        sprite = new Sprite(new Texture("pik.png"));
         camera = new OrthographicCamera(GameConfig.WIDTH, GameConfig.HEIGHT);
-        viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
+        camera.setToOrtho(false, 30, 20);
+        //  viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
         renderer = new ShapeRenderer();
         cameraController = new CameraController();
 
@@ -64,7 +68,7 @@ public class GameScreen implements Screen {
                             ClientConnection.getInstance().getAvatar()));
         }
         tiledMap = new TmxMapLoader().load("worldMap.tmx");
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / 32f);
     }
 
     @Override
@@ -81,7 +85,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height, true);
+        //  viewport.update(width, height, true);
     }
 
     @Override
@@ -111,7 +115,7 @@ public class GameScreen implements Screen {
         renderer.begin(ShapeRenderer.ShapeType.Line);
         ClientConnection.getInstance().getActiveAvatars().forEach((uuid, avatar) -> {
             DummyClass dcs = (DummyClass) avatar;
-             dcs.drawDebug(renderer);
+            // dcs.drawDebug(renderer);
             batch.begin();
             if (avatar.getHealth() < avatar.getMaxHealth() * 0.3) {
                 batch.setColor(Color.RED);
@@ -122,6 +126,9 @@ public class GameScreen implements Screen {
             }
             batch.draw(healthBar, avatar.getX() - 1, (float) (avatar.getY() + 1.2), (float) avatar.getHealth() * 2 / avatar.getMaxHealth(), (float) 0.2);
             batch.setColor(Color.WHITE);
+            sprite.setBounds(avatar.getX(), avatar.getY(), 1f, 1f);
+            System.out.println(avatar.getX() + " " + avatar.getY());
+            sprite.draw(batch);
             batch.end();
             if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
                 renderer.rect((float) (avatar.getX() - 1.1), (float) (avatar.getY() - 1.1), (float) 2.2, (float) 2.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
