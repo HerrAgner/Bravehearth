@@ -44,16 +44,16 @@ public class Monster {
     }
 
     public void update(float delta) {
-        float xSpeed = 0;
-        float ySpeed = 0;
-        if (MathUtils.randomBoolean()) {
-            xSpeed = MathUtils.random(0, 1) * 10;
-            ySpeed = MathUtils.random(0, 1) * 10;
-        } else {
-            xSpeed = -MathUtils.random(0, 1) * 10;
-            ySpeed = -MathUtils.random(0, 1) * 10;
-        }
-        validMovement(x += xSpeed * delta, y += ySpeed * delta);
+//        float xSpeed = 0;
+//        float ySpeed = 0;
+//        if (MathUtils.randomBoolean()) {
+//            xSpeed = MathUtils.random(0, 1) * 10;
+//            ySpeed = MathUtils.random(0, 1) * 10;
+//        } else {
+//            xSpeed = -MathUtils.random(0, 1) * 10;
+//            ySpeed = -MathUtils.random(0, 1) * 10;
+//        }
+//        validMovement(x += xSpeed * delta, y += ySpeed * delta);
     }
 
 
