@@ -23,7 +23,7 @@ public class GameServer {
     public Avatar avatar;
     private ActiveUserHandler auh;
     public HashMap<Integer, User> au;
-    public ConcurrentHashMap<UUID, Avatar> aa;
+    public ConcurrentHashMap<Integer, Avatar> aa;
 
     private GameServer() {
         auh = new ActiveUserHandler();

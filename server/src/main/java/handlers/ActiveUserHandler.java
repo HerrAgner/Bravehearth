@@ -3,15 +3,13 @@ package handlers;
 import game.GameServer;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.User;
-
 import java.util.HashMap;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ActiveUserHandler {
 
     private HashMap<Integer, User> activeUsers;
-    private ConcurrentHashMap<UUID, Avatar> activeAvatars;
+    private ConcurrentHashMap<Integer, Avatar> activeAvatars;
 
     public ActiveUserHandler() {
         activeUsers = new HashMap<>();
@@ -36,5 +34,5 @@ public class ActiveUserHandler {
         GameServer.getInstance().getServer().sendToAllTCP(avatar);
     }
 
-    public ConcurrentHashMap<UUID, Avatar> getActiveAvatars() { return activeAvatars; }
+    public ConcurrentHashMap<Integer, Avatar> getActiveAvatars() { return activeAvatars; }
 }

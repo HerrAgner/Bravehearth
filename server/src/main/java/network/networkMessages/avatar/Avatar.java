@@ -1,5 +1,6 @@
 package network.networkMessages.avatar;
 
+import database.Column;
 import network.networkMessages.CharacterClass;
 
 import java.util.UUID;
@@ -10,31 +11,45 @@ public class Avatar {
 
     private float boundsRadius;
     private float size;
-
-    private float x;
-    private float y;
-
-    private UUID id;
     private CharacterClass characterClass;
 
+    @Column
+    private float x;
+    @Column
+    private float y;
+    @Column
+    private int id;
+    @Column
     private String name;
+    @Column
     private int health;
+    @Column
     private int maxHealth;
+    @Column
     private int mana;
+    @Column
     private int maxMana;
+    @Column
     private int strength;
+    @Column
     private int dexterity;
+    @Column
     private int intelligence;
-
+    @Column
     private int level;
+    @Column
     private int experiencePoints;
 
     private Backpack backpack;
     private EquippedItems equippedItems;
 
+    @Column
     private int attackDamage;
+    @Column
     private float attackSpeed;
+    @Column
     private float attackRange;
+    @Column
     private float defence;
     private UUID markedUnit;
 
@@ -120,9 +135,9 @@ public class Avatar {
         this.mana = mana;
     }
 
-    public UUID getId() { return id; }
+    public int getId() { return id; }
 
-    public void setId(UUID id) { this.id = id; }
+    public void setId(int id) { this.id = id; }
 
     public UUID getMarkedUnit() {
         return markedUnit;

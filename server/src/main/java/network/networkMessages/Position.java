@@ -6,10 +6,10 @@ public class Position {
 
     private Float x = null;
     private Float y = null;
-    private UUID id;
+    private int id;
 
 
-    public Position(Float x, Float y, UUID id){
+    public Position(Float x, Float y, int id){
         this.x = x;
         this.y = y;
         this.id = id;

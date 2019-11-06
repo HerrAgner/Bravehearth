@@ -58,6 +58,7 @@ public class CommandHandler {
         Connection c = entry.getKey();
         if (o instanceof Login) {
             User user = (createUser(o));
+            System.out.println("avatar name " + user.getAvatar().getName());
             if (user != null) {
                 server.sendToTCP(connection.getID(), user);
                 auh.addToActiveUsers(connection.getID(), user);
@@ -102,7 +103,7 @@ public class CommandHandler {
     private User createUser(Object object) {
         Login loginObject = (Login) object;
         Avatar avatar = new Avatar();
-        avatar.setCharacterClass(CharacterClass.DUMMYCLASS);
+        /*avatar.setCharacterClass(CharacterClass.DUMMYCLASS);
         avatar.setX(10);
         avatar.setY(10);
         avatar.setMaxHealth(30);
@@ -114,13 +115,10 @@ public class CommandHandler {
 
         User user = DBQueries.getMatchingUser(loginObject.getUsername(), loginObject.getPassword());
         try {
-
-            user.setAvatar(avatar);
+            user.setAvatar(DBQueries.getUserAvatar(user.getId()));
         } catch (NullPointerException e) {
             System.out.println("No avatar found on user.");
         }
-
-        //User user = new User(loginObject.getUsername(), DBQueries.getUserAvatar(1));
         return user;
     }
 }

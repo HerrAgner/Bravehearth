@@ -27,4 +27,6 @@ public class User {
     public void setAvatar(Avatar avatar) {
         this.avatar = avatar;
     }
+
+    public int getId() { return id; }
 }
