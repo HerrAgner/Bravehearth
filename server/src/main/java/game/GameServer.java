@@ -2,9 +2,14 @@ package game;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Server;
+import database.DBQueries;
 import network.UUIDSerializer;
 import network.networkMessages.*;
 import handlers.ActiveUserHandler;
+import network.networkMessages.avatar.Avatar;
+import network.networkMessages.avatar.Backpack;
+import network.networkMessages.avatar.EquippedItems;
+import network.networkMessages.items.*;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -34,6 +39,7 @@ public class GameServer {
 
         this.au = getAUH().getActiveUsers();
         this.aa = getAUH().getActiveAvatars();
+
     }
 
     public ActiveUserHandler getAUH() { return auh; }
@@ -64,5 +70,13 @@ public class GameServer {
         kryo.register(UUID.class, new UUIDSerializer());
         kryo.register(Logout.class);
         kryo.register(AttackEnemyTarget.class);
+        kryo.register(Consumable.class);
+        kryo.register(Item.class);
+        kryo.register(Weapon.class);
+        kryo.register(WeaponType.class);
+        kryo.register(Wearable.class);
+        kryo.register(WearableType.class);
+        kryo.register(Backpack.class);
+        kryo.register(EquippedItems.class);
     }
 }

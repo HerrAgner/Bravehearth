@@ -1,7 +1,10 @@
 package network.networkMessages;
 
+import network.networkMessages.avatar.Avatar;
+
 public class Login {
     private String username;
+    private String password;
     private Avatar avatar;
 
     public Login(){}
@@ -25,5 +28,9 @@ public class Login {
 
     public void setAvatar(Avatar avatar) {
         this.avatar = avatar;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

@@ -1,8 +1,7 @@
 package handlers;
 
 import game.GameServer;
-import network.Sender;
-import network.networkMessages.Avatar;
+import network.networkMessages.avatar.Avatar;
 import network.networkMessages.User;
 
 import java.util.HashMap;
@@ -30,7 +29,7 @@ public class ActiveUserHandler {
 
     private void addToActiveAvatars(Avatar avatar) {
         activeAvatars.put(avatar.getId(), avatar);
-//        sendAvatarToClient(avatar);
+//        sendAvatarToClient(com.mygdx.game.entities.avatar);
     }
 
     private void sendAvatarToClient(Avatar avatar) {
