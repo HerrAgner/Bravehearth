@@ -4,7 +4,7 @@ import database.Column;
 
 public class Item {
     @Column
-    private String name;
+    public String name;
     private int price;
     private int levelReq;
     private boolean equipped;
@@ -19,5 +19,12 @@ public class Item {
     public Item(){
 
     }
+
+    public Item(String name, int levelRequirement) {
+        this.name = name;
+        this.levelReq = levelRequirement;
+    }
+
+    public String getName() { return this.name; }
 
 }

@@ -2,7 +2,9 @@ package network.networkMessages.items;
 
 import database.Column;
 
-public class Weapon extends Item {
+import java.util.List;
+
+public class Weapon extends Item{
     @Column
     private int damage;
     @Column
@@ -25,5 +27,11 @@ public class Weapon extends Item {
 
     public Weapon() {
 
+    }
+    public String getName() { return this.name; }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }

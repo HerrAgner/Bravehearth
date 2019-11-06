@@ -109,7 +109,6 @@ public class CommandHandler {
             user.setAvatar(avatar);
             Backpack bp = DBQueries.getBackpack(avatar.getId());
             DBQueries.getBpItems(bp.getId());
-            //get the avatar id, match avatar id to backpack table then get backpack id. then get all items in backpackxitem where id = backpackid
         } catch (NullPointerException e) {
             System.out.println("No avatar found for user.");
         }

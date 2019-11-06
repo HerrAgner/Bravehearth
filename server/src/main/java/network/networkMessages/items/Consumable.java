@@ -1,17 +1,22 @@
 package network.networkMessages.items;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Consumable extends Item {
-    private HashMap<String, Float> statChange;
+    private Map<String, Float> statChange;
 
-
-    public Consumable(Item item, HashMap<String, Float> statChange) {
+    public Consumable(Item item, Map<String, Float> statChange) {
         super(item);
         this.statChange = statChange;
     }
 
-    public Consumable() {
+    public Consumable() {}
 
+    public String getName() { return this.name; }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }

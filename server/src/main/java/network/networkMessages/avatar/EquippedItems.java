@@ -9,10 +9,10 @@ import java.util.UUID;
 
 public class EquippedItems {
     private HashMap<WearableType, Item> equippedItems;
-    private UUID avatarId;
+    private int avatarId;
 
 
-    public EquippedItems(UUID avatarId) {
+    public EquippedItems(int avatarId) {
         this.avatarId = avatarId;
         this.equippedItems = new HashMap<>();
     }
