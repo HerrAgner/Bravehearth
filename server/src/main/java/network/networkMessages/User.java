@@ -1,9 +1,13 @@
 package network.networkMessages;
 
+import database.Column;
 import network.networkMessages.avatar.Avatar;
 
 public class User {
 
+    @Column
+    private int id;
+    @Column
     private String username;
     private Avatar avatar;
 
@@ -19,4 +23,8 @@ public class User {
     }
 
     public String getUsername() { return username; }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
+    }
 }

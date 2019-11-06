@@ -17,6 +17,7 @@ public class ClientNetworkListener {
 
                 if (object instanceof User) {
                     ClientConnection.getInstance().setUser(createUser((User) object));
+
                 }
 
                 if(object instanceof Avatar) {

@@ -36,19 +36,17 @@ public class BravehearthGame extends Game {
 		new ClientNetworkListener();
 		batch = new SpriteBatch();
 		font = new BitmapFont();
-
-		//		float startPlayerX = GameConfig.WORLD_WIDTH / 2f;
-//		float startPlayerY = GameConfig.WORLD_HEIGHT / 2f;
-//		ClientConnection.getInstance().setPlayer(player);
-//		player.setPosition(startPlayerX, startPlayerY);
-
 	}
 
 	@Override
 	public void dispose() {
-		Logout logout = new Logout();
-		logout.setAvatar(ClientConnection.getInstance().getUser().getAvatar().getId());
-		ClientConnection.getInstance().getClient().sendTCP(logout);
+		if (ClientConnection.getInstance().getUser() != null) {
+			Logout logout = new Logout();
+			logout.setAvatar(ClientConnection.getInstance().getUser().getAvatar().getId());
+			ClientConnection.getInstance().getClient().sendTCP(logout);
+		} else {
+			ClientConnection.getInstance().getClient().stop();
+		}
 		batch.dispose();
 		font.dispose();
 	}

@@ -8,6 +8,7 @@ public class User {
     // ActiveUserHandler.addToActiveUsers();
     //do this on log-in, maybe?
 
+    private int id;
     private String username;
     private Avatar avatar;
 
@@ -26,4 +27,7 @@ public class User {
 
     public String getUsername() { return username; }
 
+    public int getId() {
+        return id;
+    }
 }

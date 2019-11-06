@@ -58,12 +58,13 @@ public class CommandHandler {
         Connection c = entry.getKey();
         if (o instanceof Login) {
             User user = (createUser(o));
-            System.out.println(user.getAvatar().getName());
-            server.sendToTCP(connection.getID(), user);
-            auh.addToActiveUsers(connection.getID(), user);
-            auh.getActiveAvatars().values().forEach(avatar ->
-                    server.sendToTCP(connection.getID(), avatar));
-            server.sendToAllExceptTCP(connection.getID(), user.getAvatar());
+            if (user != null) {
+                server.sendToTCP(connection.getID(), user);
+                auh.addToActiveUsers(connection.getID(), user);
+                auh.getActiveAvatars().values().forEach(avatar ->
+                        server.sendToTCP(connection.getID(), avatar));
+                server.sendToAllExceptTCP(connection.getID(), user.getAvatar());
+            }
         }
 
         if (o instanceof AttackEnemyTarget) {
@@ -100,7 +101,7 @@ public class CommandHandler {
 
     private User createUser(Object object) {
         Login loginObject = (Login) object;
-        /*Avatar avatar = new Avatar(loginObject.getAvatar().getName());
+        Avatar avatar = new Avatar();
         avatar.setCharacterClass(CharacterClass.DUMMYCLASS);
         avatar.setX(10);
         avatar.setY(10);
@@ -111,10 +112,15 @@ public class CommandHandler {
         avatar.setHealth(avatar.getMaxHealth());
         avatar.setId(UUID.randomUUID());*/
 
-        //DBQueries.getMatchingUser("Kitty", "test");
-        //DBQueries.getUserAvatar(1);
+        User user = DBQueries.getMatchingUser(loginObject.getUsername(), loginObject.getPassword());
+        try {
 
-        User user = new User(loginObject.getUsername(), DBQueries.getUserAvatar(1));
+            user.setAvatar(avatar);
+        } catch (NullPointerException e) {
+            System.out.println("No avatar found on user.");
+        }
+
+        //User user = new User(loginObject.getUsername(), DBQueries.getUserAvatar(1));
         return user;
     }
 }
