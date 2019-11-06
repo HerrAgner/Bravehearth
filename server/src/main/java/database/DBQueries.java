@@ -1,6 +1,8 @@
 package database;
 
 import network.networkMessages.User;
+import network.networkMessages.avatar.Avatar;
+import network.networkMessages.avatar.Backpack;
 
 import java.sql.*;
 
@@ -22,4 +24,28 @@ public abstract class DBQueries {
         }
         return result;
     }
+
+    public static Avatar getUserAvatar(int userId) {
+        Avatar result = null;
+        PreparedStatement ps = prep("SELECT * FROM avatars WHERE user = ?");
+        try {
+            ps.setInt(1, userId);
+            result = (Avatar) new ObjectMapper<>(Avatar.class).mapOne(ps.executeQuery());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+   /* public Backpack getBackpack(int avatarId) {
+        Backpack result = null;
+        PreparedStatement ps = prep("SELECT * FROM avatars WHERE user = ?");
+        try {
+            ps.setInt(1, avatarId);
+            result = (Backpack) new ObjectMapper<>(Backpack.class).map(ps.executeQuery());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }*/
 }

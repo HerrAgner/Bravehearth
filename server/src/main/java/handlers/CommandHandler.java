@@ -2,6 +2,7 @@ package handlers;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
+import database.DBQueries;
 import enums.Command;
 import game.GameServer;
 import network.networkMessages.*;
@@ -57,6 +58,7 @@ public class CommandHandler {
         Connection c = entry.getKey();
         if (o instanceof Login) {
             User user = (createUser(o));
+            System.out.println(user.getAvatar().getName());
             server.sendToTCP(connection.getID(), user);
             auh.addToActiveUsers(connection.getID(), user);
             auh.getActiveAvatars().values().forEach(avatar ->
@@ -98,7 +100,7 @@ public class CommandHandler {
 
     private User createUser(Object object) {
         Login loginObject = (Login) object;
-        Avatar avatar = new Avatar(loginObject.getAvatar().getName());
+        /*Avatar avatar = new Avatar(loginObject.getAvatar().getName());
         avatar.setCharacterClass(CharacterClass.DUMMYCLASS);
         avatar.setX(10);
         avatar.setY(10);
@@ -107,9 +109,12 @@ public class CommandHandler {
         avatar.setAttackSpeed((float) 1.5);
         avatar.setAttackRange((float) 1.5);
         avatar.setHealth(avatar.getMaxHealth());
-        avatar.setId(UUID.randomUUID());
+        avatar.setId(UUID.randomUUID());*/
 
-        User user = new User(loginObject.getUsername(), avatar);
+        //DBQueries.getMatchingUser("Kitty", "test");
+        //DBQueries.getUserAvatar(1);
+
+        User user = new User(loginObject.getUsername(), DBQueries.getUserAvatar(1));
         return user;
     }
 }
