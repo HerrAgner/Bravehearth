@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -19,18 +18,13 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.BravehearthGame;
 import com.mygdx.game.config.GameConfig;
-import com.mygdx.game.entities.Avatar;
-import com.mygdx.game.entities.DummyClass;
-import com.mygdx.game.entities.monsters.DummyMonster;
-import com.mygdx.game.entities.monsters.Monster;
+import com.mygdx.game.entities.avatar.Avatar;
+import com.mygdx.game.entities.avatar.DummyClass;
 import com.mygdx.game.network.ClientConnection;
-import com.mygdx.game.network.networkMessages.Logout;
-import com.mygdx.game.network.networkMessages.Position;
 import com.mygdx.game.util.CameraController;
 import com.mygdx.game.util.CharacterClass;
+import com.mygdx.game.util.InputHandler;
 import com.mygdx.game.util.ViewPortUtils;
-
-import java.util.Random;
 
 public class GameScreen implements Screen {
 
@@ -45,8 +39,13 @@ public class GameScreen implements Screen {
     private OrthogonalTiledMapRenderer tiledMapRenderer;
     private Sprite sprite;
     private TiledMapTileLayer collision;
+    private InputHandler inputHandler;
+    private BravehearthGame game;
 
-    public GameScreen() {
+    public GameScreen(BravehearthGame game) {
+        inputHandler = new InputHandler();
+        Gdx.input.setInputProcessor(inputHandler);
+        this.game = game;
         batch = new SpriteBatch();
         healthBar = new Texture("blank.png");
     }
