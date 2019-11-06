@@ -178,4 +178,8 @@ public class Avatar {
     public void setCharacterClass(CharacterClass characterClass) {
         this.characterClass = characterClass;
     }
+
+    public Backpack getBackpack() { return backpack; }
+
+    public void setBackpack(Backpack backpack) { this.backpack = this.backpack; }
 }

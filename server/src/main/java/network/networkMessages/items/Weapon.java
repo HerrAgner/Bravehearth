@@ -1,9 +1,17 @@
 package network.networkMessages.items;
 
+import database.Column;
+
 public class Weapon extends Item {
+    @Column
     private int damage;
+    @Column
     private float speed;
+    @Column
     private float range;
+    @Column
+    private int levelRequirement;
+    @Column
     private WeaponType type;
 
 

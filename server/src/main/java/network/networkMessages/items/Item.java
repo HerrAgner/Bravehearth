@@ -1,6 +1,9 @@
 package network.networkMessages.items;
 
+import database.Column;
+
 public class Item {
+    @Column
     private String name;
     private int price;
     private int levelReq;

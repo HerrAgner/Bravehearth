@@ -7,6 +7,7 @@ import enums.Command;
 import game.GameServer;
 import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
+import network.networkMessages.avatar.Backpack;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -101,10 +102,14 @@ public class CommandHandler {
 
     private User createUser(Object object) {
         Login loginObject = (Login) object;
-
         User user = DBQueries.getMatchingUser(loginObject.getUsername(), loginObject.getPassword());
+        Avatar avatar = DBQueries.getUserAvatar(user.getId());
+
         try {
-            user.setAvatar(DBQueries.getUserAvatar(user.getId()));
+            user.setAvatar(avatar);
+            Backpack bp = DBQueries.getBackpack(avatar.getId());
+            DBQueries.getBpItems(bp.getId());
+            //get the avatar id, match avatar id to backpack table then get backpack id. then get all items in backpackxitem where id = backpackid
         } catch (NullPointerException e) {
             System.out.println("No avatar found for user.");
         }
