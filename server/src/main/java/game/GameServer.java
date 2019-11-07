@@ -70,25 +70,25 @@ public class GameServer {
 
     private void registerClasses(){
         Kryo kryo = server.getKryo();
-        kryo.register(HealthChange.class);
-        kryo.register(Position.class);
-        kryo.register(Avatar.class);
-        kryo.register(Login.class);
-        kryo.register(CharacterClass.class);
-        kryo.register(User.class);
-        kryo.register(MovementCommands.class);
-        kryo.register(UUID.class, new UUIDSerializer());
-        kryo.register(Logout.class);
-        kryo.register(AttackEnemyTarget.class);
-        kryo.register(Consumable.class);
-        kryo.register(Item.class);
-        kryo.register(Weapon.class);
-        kryo.register(WeaponType.class);
-        kryo.register(Wearable.class);
-        kryo.register(WearableType.class);
-        kryo.register(Backpack.class);
-        kryo.register(EquippedItems.class);
-        kryo.register(ArrayList.class);
-        kryo.register(HashMap.class);
+        kryo.register(HealthChange.class, 1);
+        kryo.register(Position.class, 2);
+        kryo.register(Avatar.class, 3);
+        kryo.register(Login.class, 4);
+        kryo.register(CharacterClass.class, 5);
+        kryo.register(User.class, 6);
+        kryo.register(MovementCommands.class, 7);
+        kryo.register(UUID.class, new UUIDSerializer(), 8);
+        kryo.register(Logout.class, 9);
+        kryo.register(AttackEnemyTarget.class, 10);
+        kryo.register(Consumable.class, 11);
+        kryo.register(Item.class, 12);
+        kryo.register(Weapon.class, 13);
+        kryo.register(WeaponType.class, 14);
+        kryo.register(Wearable.class, 15);
+        kryo.register(WearableType.class, 16);
+        kryo.register(Backpack.class, 17);
+        kryo.register(EquippedItems.class, 18);
+        kryo.register(ArrayList.class,19);
+        kryo.register(HashMap.class, 20);
     }
 }

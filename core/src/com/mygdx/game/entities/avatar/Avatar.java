@@ -42,7 +42,6 @@ public class Avatar {
     private float defence;
     private UUID markedUnit;
 
-
     public Avatar(String name) {
         this.name = name;
 

@@ -59,19 +59,20 @@ public abstract class DBQueries {
 
     public static List getBpItems(int bpId) {
         List items = new ArrayList();
-        PreparedStatement ps = prep("SELECT name, type, speed, damage, `range`, levelRequirement " +
+        PreparedStatement ps = prep("SELECT name, weaponType, speed, damage, `range`, levelRequirement, type " +
                 "FROM backpackxitem b INNER JOIN weapons weap ON b.weapon = weap.id WHERE b.id = ?");
         try {
             ps.setInt(1, bpId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String name = rs.getString(1);
-                WeaponType type = WeaponType.valueOf(rs.getString(2));
+                WeaponType weaponType = WeaponType.valueOf(rs.getString(2));
                 int speed = rs.getInt(3);
                 int damage = rs.getInt(4);
                 int range = rs.getInt(5);
                 int levelRequirement = rs.getInt(6);
-                items.add(new Weapon(new Item(name, levelRequirement), damage, speed, range, type));
+                WearableType wearType = WearableType.valueOf(rs.getString(7));
+                items.add(new Weapon(new Item(name, levelRequirement), damage, speed, range, weaponType, wearType));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -121,22 +122,21 @@ public abstract class DBQueries {
         HashMap<WearableType, Item> items = new HashMap<>();
         EquippedItems eq;
 
-        PreparedStatement ps = prep("SELECT `name`, type, speed, damage, `range`, levelRequirement " +
+        PreparedStatement ps = prep("SELECT `name`, weaponType, speed, damage, `range`, levelRequirement, type " +
                 "FROM equippedItems INNER JOIN weapons ON equippedItems.offHandSlot = weapons.id " +
                 "OR equippedItems.weaponSlot = weapons.id WHERE equippedItems.avatar = ?");
         try {
-            System.out.println("weapon query");
-
             ps.setInt(1, avatarId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String name = rs.getString(1);
-                WeaponType type = WeaponType.valueOf(rs.getString(2));
+                WeaponType weaponType = WeaponType.valueOf(rs.getString(2));
                 int speed = rs.getInt(3);
                 int damage = rs.getInt(4);
                 int range = rs.getInt(5);
                 int levelRequirement = rs.getInt(6);
-                items.put(WEAPON, new Weapon(new Item(name, levelRequirement), damage, speed, range, type));
+                WearableType wearType = WearableType.valueOf(rs.getString(7));
+                items.put(wearType, new Weapon(new Item(name, levelRequirement), damage, speed, range, weaponType, wearType));
             }
         } catch (SQLException e) {
             e.printStackTrace();

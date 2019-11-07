@@ -8,9 +8,7 @@ public class HealthChange {
     int receivingAvatar;
     int dispatchingAvatar;
 
-    public HealthChange(){
-
-    }
+    public HealthChange(){ }
 
     public HealthChange(int newHealth, int receivingAvatar, int dispatchingAvatar) {
         this.newHealth = newHealth;

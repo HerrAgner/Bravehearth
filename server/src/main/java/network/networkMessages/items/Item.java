@@ -16,9 +16,8 @@ public class Item {
 
         this.equipped = item.equipped;
     }
-    public Item(){
 
-    }
+    public Item(){ }
 
     public Item(String name, int levelRequirement) {
         this.name = name;

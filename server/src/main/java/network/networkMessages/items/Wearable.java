@@ -1,13 +1,11 @@
 package network.networkMessages.items;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class Wearable extends Item{
-    private Map<String, Float> statChange = new HashMap<>();
+    private HashMap<String, Float> statChange;
     private int defence;
     private WearableType wearableType;
-
 
     public Wearable(Item item, HashMap<String, Float> statChange, int defence, WearableType wearableType) {
         super(item);
@@ -16,9 +14,7 @@ public class Wearable extends Item{
         this.wearableType = wearableType;
     }
 
-    public Wearable() {
-
-    }
+    public Wearable() { }
 
     public String getName() { return this.name; }
 

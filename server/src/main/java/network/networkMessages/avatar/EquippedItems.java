@@ -8,7 +8,6 @@ public class EquippedItems {
     private HashMap<WearableType, Item> equippedItems;
     private int avatarId;
 
-
     public EquippedItems(int avatarId, HashMap<WearableType, Item> equippedItems) {
         this.avatarId = avatarId;
         this.equippedItems = equippedItems;

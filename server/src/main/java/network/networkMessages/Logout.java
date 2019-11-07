@@ -1,13 +1,9 @@
 package network.networkMessages;
 
-import java.util.UUID;
-
 public class Logout {
     private int avatar;
 
-    public Logout() {
-
-    }
+    public Logout() { }
 
     public int getAvatar() {
         return avatar;

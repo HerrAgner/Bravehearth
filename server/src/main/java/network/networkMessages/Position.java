@@ -1,7 +1,5 @@
 package network.networkMessages;
 
-import java.util.UUID;
-
 public class Position {
 
     private Float x = null;

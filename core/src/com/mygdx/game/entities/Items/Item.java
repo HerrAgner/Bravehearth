@@ -13,8 +13,6 @@ public class Item {
 
         this.equipped = item.equipped;
     }
-    public Item(){
-
-    }
+    public Item(){ }
 
 }

@@ -1,18 +1,17 @@
 package com.mygdx.game.entities;
 
-import com.mygdx.game.entities.Items.Item;
-
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.List;
 
 public class Backpack {
-    private ArrayList<Item> items;
+    private List items;
     private int avatarId;
     private int wallet;
-
+    private int id;
 
     public Backpack(int avatarId) {
         this.avatarId = avatarId;
+        this.id = id;
         this.items = new ArrayList<>();
     }
 

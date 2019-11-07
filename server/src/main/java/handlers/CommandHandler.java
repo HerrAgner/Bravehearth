@@ -58,6 +58,7 @@ public class CommandHandler {
         Map.Entry<Connection, Object> entry = command.entrySet().iterator().next();
         Object o = entry.getValue();
         Connection c = entry.getKey();
+
         if (o instanceof Login) {
             User user = (createUser(o));
             if (user != null) {
@@ -107,11 +108,10 @@ public class CommandHandler {
         Avatar avatar = DBQueries.getUserAvatar(user.getId());
 
         try {
-            user.setAvatar(avatar);
             Backpack bp = DBQueries.getBackpack(avatar.getId());
             bp.setItems(DBQueries.getBpItems(bp.getId()));
-            avatar.setBackpack(bp);
             avatar.setEquippedItems(DBQueries.getEquippedItems(avatar.getId()));
+            user.setAvatar(avatar);
         } catch (NullPointerException e) {
             System.out.println("No avatar found for user.");
         }
