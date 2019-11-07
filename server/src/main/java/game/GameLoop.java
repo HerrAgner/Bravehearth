@@ -71,10 +71,24 @@ public class GameLoop implements Runnable {
                 throw new IllegalStateException("Unexpected value: " + movement);
         }
 
-        if (GameServer.getInstance().getMapReader().getMapCollision().get(position.getX().intValue()).contains(position.getY().intValue())) {
-            return new Position(avatar.getX(), avatar.getY(), avatar.getId());
-        } else {
-            return position;
+        if (GameServer.getInstance().getMapReader().getMapCollision()
+                .get((int) Math.ceil(position.getX()))
+                .contains((int) Math.ceil(position.getY()))
+                ||
+                GameServer.getInstance().getMapReader().getMapCollision()
+                        .get((int) Math.ceil(position.getX() - 1))
+                        .contains((int) Math.ceil(position.getY()))
+                ||
+                GameServer.getInstance().getMapReader().getMapCollision()
+                        .get((int) Math.ceil(position.getX() - 1))
+                        .contains((int) Math.ceil(position.getY() - 1))
+                ||
+                GameServer.getInstance().getMapReader().getMapCollision()
+                        .get((int) Math.ceil(position.getX()))
+                        .contains((int) Math.ceil(position.getY() - 1))
+        ) {
+            return null;
         }
+        return position;
     }
 }

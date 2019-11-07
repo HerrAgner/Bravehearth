@@ -103,8 +103,8 @@ public class CommandHandler {
         Login loginObject = (Login) object;
         Avatar avatar = new Avatar();
         avatar.setCharacterClass(CharacterClass.DUMMYCLASS);
-        avatar.setX(10);
-        avatar.setY(10);
+        avatar.setX(1);
+        avatar.setY(197);
         avatar.setMaxHealth(30);
         avatar.setAttackDamage(1);
         avatar.setAttackSpeed((float) 1.5);
