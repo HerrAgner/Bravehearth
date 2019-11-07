@@ -26,7 +26,7 @@ public class ClientNetworkListener {
                 }
 
                 if (object instanceof Monster) {
-//                    ClientConnection.getInstance().getActiveMonsters().put(object.get)
+                    ClientConnection.getInstance().getActiveMonsters().put(((Monster) object).getId(), (Monster) object);
                 }
 
                 if (object instanceof Logout) {

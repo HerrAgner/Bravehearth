@@ -11,6 +11,7 @@ public class MonsterHandler {
     public static HashMap<UUID, Monster> monsterList;
 
     public MonsterHandler() {
+        monsterList = new HashMap<>();
 
     }
 

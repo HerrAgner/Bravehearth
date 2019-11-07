@@ -31,6 +31,7 @@ public class ClientConnection {
     private ClientConnection() {
         activeAvatars = new ConcurrentHashMap<>();
         client = new Client();
+        activeMonsters = new ConcurrentHashMap<>();
         registerClasses();
         addAssets();
         client.start();

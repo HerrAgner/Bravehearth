@@ -3,6 +3,7 @@ package game;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Server;
 import database.DBQueries;
+import handlers.MonsterHandler;
 import network.UUIDSerializer;
 import network.networkMessages.*;
 import handlers.ActiveUserHandler;
@@ -22,6 +23,7 @@ public class GameServer {
     private GameLoop gameLoop = new GameLoop();
     public Avatar avatar;
     private ActiveUserHandler auh;
+    private MonsterHandler mh;
     public HashMap<Integer, User> au;
     public ConcurrentHashMap<UUID, Avatar> aa;
     private MapReader mapReader;
@@ -30,6 +32,7 @@ public class GameServer {
     private GameServer() {
         auh = new ActiveUserHandler();
         server = new Server();
+        mh = new MonsterHandler();
         registerClasses();
         server.start();
         try {
