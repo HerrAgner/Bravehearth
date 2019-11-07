@@ -1,6 +1,5 @@
 package network;
 
-
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -28,9 +27,9 @@ public class NetworkListener {
                     ch.addToQueue(connection, object);
                 }
 
-                if (object instanceof AttackEnemyTarget) {
+                /*if (object instanceof AttackEnemyTarget) {
                     ch.addToQueue(connection, object);
-                }
+                }*/
 
                 if (object instanceof Logout){
                     ch.addToQueue(connection, object);

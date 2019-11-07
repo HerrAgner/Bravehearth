@@ -21,7 +21,6 @@ public class Avatar {
 
     private int id;
     private CharacterClass characterClass;
-
     private String name;
     private int health;
     private int maxHealth;
@@ -82,7 +81,7 @@ public class Avatar {
     }
 
 
-    public Avatar(float maxXspeed, float MAX_Y_SPEED, float x, float y, String name, int health, int mana, CharacterClass cc) {
+    public Avatar(float maxXspeed, float MAX_Y_SPEED, float x, float y, String name, int health, int mana, CharacterClass characterClass) {
         this.maxXspeed = maxXspeed;
         this.maxYspeed = MAX_Y_SPEED;
         this.x = x;
@@ -90,7 +89,7 @@ public class Avatar {
         this.name = name;
         this.health = health;
         this.mana = mana;
-        this.characterClass = cc;
+        this.characterClass = characterClass;
     }
 
     public void setPosition(float x, float y) {

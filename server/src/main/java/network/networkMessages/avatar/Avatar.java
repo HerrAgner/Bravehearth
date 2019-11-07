@@ -10,8 +10,8 @@ public class Avatar {
 
     private float boundsRadius;
     private float size;
+    @Column
     private CharacterClass characterClass;
-
     @Column
     private float x;
     @Column
@@ -49,9 +49,8 @@ public class Avatar {
     @Column
     private float attackRange;
     @Column
-    private float defence;
+    private float defense;
     private UUID markedUnit;
-
 
     public Avatar() {}
 
@@ -59,15 +58,25 @@ public class Avatar {
         this.name = name;
     }
 
-    public Avatar(float maxXspeed, float maxYspeed, float x, float y, String name, int health, int mana, CharacterClass cc) {
-        this.maxXspeed = maxXspeed;
-        this.maxYspeed = maxYspeed;
+    public Avatar(float x, float y, String name, int health, int maxHealth, int mana, int attackDamage, float attackSpeed, float attackRange,  int id, CharacterClass characterClass, int maxMana, int strength, int dexterity, int intelligence, int level, int experiencePoints, float defense) {
         this.x = x;
         this.y = y;
         this.name = name;
         this.health = health;
+        this.maxHealth = maxHealth;
         this.mana = mana;
-        this.characterClass = cc;
+        this.attackDamage = attackDamage;
+        this.attackSpeed = attackSpeed;
+        this.attackRange = attackRange;
+        this.id = id;
+        this.characterClass = characterClass;
+        this.maxMana = maxMana;
+        this.strength = strength;
+        this.dexterity = dexterity;
+        this.intelligence = intelligence;
+        this.level = level;
+        this.experiencePoints = experiencePoints;
+        this.defense = defense;
     }
 
     public float getMaxXspeed() {

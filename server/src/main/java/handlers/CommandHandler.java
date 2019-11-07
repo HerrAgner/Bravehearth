@@ -8,11 +8,9 @@ import game.GameServer;
 import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
-import network.networkMessages.avatar.EquippedItems;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class CommandHandler {
@@ -29,7 +27,6 @@ public class CommandHandler {
         ah = new AttackHandler();
         auh = GameServer.getInstance().getAUH();
         server = GameServer.getInstance().getServer();
-
     }
 
     public void addToQueue(Connection connection, Object object) {
@@ -70,11 +67,11 @@ public class CommandHandler {
             }
         }
 
-        if (o instanceof AttackEnemyTarget) {
+        /*if (o instanceof AttackEnemyTarget) {
             AttackEnemyTarget aet = (AttackEnemyTarget) o;
             auh.getActiveAvatars().get(aet.getAttacker()).setMarkedUnit(aet.getTarget());
             ah.addAttackerToList(aet.getAttacker(), aet.getTarget());
-        }
+        }*/
 
         if (o instanceof Logout) {
             server.sendToAllTCP(o);
@@ -106,7 +103,7 @@ public class CommandHandler {
         Login loginObject = (Login) object;
         User user = DBQueries.getMatchingUser(loginObject.getUsername(), loginObject.getPassword());
         Avatar avatar = DBQueries.getUserAvatar(user.getId());
-
+        System.out.println(avatar.getCharacterClass());
         try {
             Backpack bp = DBQueries.getBackpack(avatar.getId());
             bp.setItems(DBQueries.getBpItems(bp.getId()));

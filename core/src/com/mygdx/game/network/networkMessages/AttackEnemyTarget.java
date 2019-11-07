@@ -1,3 +1,4 @@
+/*
 package com.mygdx.game.network.networkMessages;
 
 import java.util.UUID;
@@ -13,3 +14,4 @@ public class AttackEnemyTarget {
 
     public AttackEnemyTarget(){ }
 }
+*/

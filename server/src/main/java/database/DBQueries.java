@@ -1,18 +1,15 @@
 package database;
 
+import network.networkMessages.CharacterClass;
 import network.networkMessages.User;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
 import network.networkMessages.avatar.EquippedItems;
 import network.networkMessages.items.*;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static network.networkMessages.items.WearableType.*;
 
 public abstract class DBQueries {
 
@@ -38,7 +35,29 @@ public abstract class DBQueries {
         PreparedStatement ps = prep("SELECT * FROM avatars WHERE user = ?");
         try {
             ps.setInt(1, userId);
-            result = (Avatar) new ObjectMapper<>(Avatar.class).mapOne(ps.executeQuery());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                int user = rs.getInt(2);
+                String name = rs.getString(3);
+                int health = rs.getInt(4);
+                int maxHealth = rs.getInt(5);
+                int mana = rs.getInt(6);
+                int maxMana = rs.getInt(7);
+                int attackDamage = rs.getInt(8);
+                float attackSpeed = rs.getFloat(9);
+                float attackRange = rs.getInt(10);
+                CharacterClass characterClass = CharacterClass.valueOf(rs.getString(11));
+                int strength = rs.getInt(12);
+                int dexterity = rs.getInt(13);
+                int intelligence = rs.getInt(14);
+                int level = rs.getInt(15);
+                int experiencePoints = rs.getInt(16);
+                float defense = rs.getFloat(17);
+                int x = rs.getInt(18);
+                int y = rs.getInt(19);
+                result = new Avatar(x, y, name, health, maxHealth, mana, attackDamage, attackSpeed, attackRange, id, characterClass, maxMana, strength, dexterity, intelligence, level, experiencePoints, defense);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -148,8 +167,6 @@ public abstract class DBQueries {
                 "OR equippedItems.feetSlot = wearables.id OR equippedItems.accessorySlot = wearables.id " +
                 "WHERE equippedItems.avatar = ?");
         try {
-            System.out.println("wearables query");
-
             ps2.setInt(1, avatarId);
             ResultSet rs = ps2.executeQuery();
             while (rs.next()) {
@@ -167,10 +184,6 @@ public abstract class DBQueries {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        items.forEach((wearableType, item) -> {
-            System.out.println("EI " + item.getName());
-        });
         eq = new EquippedItems(avatarId, items);
         return eq;
     }
