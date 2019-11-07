@@ -62,7 +62,7 @@ public class ClientConnection {
 
     private void addAssets(){
         assetManager.load("pik.png", Texture.class);
-        assetManager.load("monsters/rpgcritters2.png", Texture.class);
+        assetManager.load("monsters/microbat.png", Texture.class);
 
         assetManager.finishLoading();
     }

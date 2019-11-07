@@ -3,13 +3,16 @@ package com.mygdx.game.entities.monsters;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.mygdx.game.network.ClientConnection;
 
 public class DummyMonster extends Monster {
+    private TextureRegion[] regions = new TextureRegion[4];
+    private Texture texture;
 
-    private Sprite sprite = new Sprite((Texture) ClientConnection.getInstance().assetManager.get("pik.png"));
+    private Sprite sprite;
 
 
     public DummyMonster() {
@@ -18,6 +21,7 @@ public class DummyMonster extends Monster {
 
     public DummyMonster(Monster monster) {
         super(monster);
+        sprite = new Sprite((Texture) ClientConnection.getInstance().assetManager.get("monsters/microbat.png"));
     }
 
     public DummyMonster(int hp, int attack, String name) {
