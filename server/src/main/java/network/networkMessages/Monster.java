@@ -1,11 +1,4 @@
-package com.mygdx.game.entities.monsters;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.Timer;
-import com.mygdx.game.config.GameConfig;
-import com.mygdx.game.util.MonsterType;
+package network.networkMessages;
 
 import java.util.UUID;
 
@@ -33,27 +26,6 @@ public class Monster {
         this(3, 1, "default");
     }
 
-    public Monster(Monster monster) {
-        this.maxXspeed = monster.maxXspeed;
-        this.maxYspeed = monster.maxYspeed;
-
-        this.boundsRadius = monster.boundsRadius;
-        this.size = monster.size;
-        this.id = monster.id;
-
-        this.x = monster.x;
-        this.y = monster.y;
-
-        this.hp = monster.hp;
-        this.maxHp = monster.maxHp;
-        this.attackDamage = monster.attackDamage;
-        this.attackSpeed = monster.attackSpeed;
-        this.name = monster.name;
-        this.markedUnit = monster.markedUnit;
-        this.spawnRate = monster.spawnRate;
-        this.type = monster.type;
-    }
-
     public Monster(int hp, int attack, String name) {
         this.hp = hp;
         this.attackDamage = attack;
@@ -62,35 +34,7 @@ public class Monster {
         this.size = boundsRadius * 2;
         this.x = 3;
         this.y = 4;
-    }
-
-    public void update(float delta) {
-        float xSpeed = 0;
-        float ySpeed = 0;
-        if (MathUtils.randomBoolean()) {
-            xSpeed = MathUtils.random(0, 1) * 10;
-            ySpeed = MathUtils.random(0, 1) * 10;
-        } else {
-            xSpeed = -MathUtils.random(0, 1) * 10;
-            ySpeed = -MathUtils.random(0, 1) * 10;
-        }
-        validMovement(x += xSpeed * delta, y += ySpeed * delta);
-    }
-
-
-    public void validMovement(float x, float y) {
-        if (x < 0 + size / 2) {
-            this.x = 0 + size / 2;
-        }
-        if (x > GameConfig.WORLD_WIDTH - size / 2) {
-            this.x = GameConfig.WORLD_WIDTH - size / 2;
-        }
-        if (y < 0 + size / 2) {
-            this.y = 0 + size / 2;
-        }
-        if (y > GameConfig.WORLD_HEIGHT - size / 2) {
-            this.y = GameConfig.WORLD_HEIGHT - size / 2;
-        }
+        this.id = UUID.randomUUID();
     }
 
     public float getMaxXspeed() {

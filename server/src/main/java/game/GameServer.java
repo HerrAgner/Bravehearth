@@ -86,5 +86,7 @@ public class GameServer {
         kryo.register(WearableType.class);
         kryo.register(Backpack.class);
         kryo.register(EquippedItems.class);
+        kryo.register(Monster.class);
+        kryo.register(MonsterType.class);
     }
 }

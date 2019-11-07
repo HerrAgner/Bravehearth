@@ -3,6 +3,8 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.network.ClientConnection;
@@ -50,4 +52,6 @@ public class BravehearthGame extends Game {
 		batch.dispose();
 		font.dispose();
 	}
+
+
 }

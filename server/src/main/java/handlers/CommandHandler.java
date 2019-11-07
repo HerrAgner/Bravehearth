@@ -64,6 +64,14 @@ public class CommandHandler {
                 auh.getActiveAvatars().values().forEach(avatar ->
                         server.sendToTCP(connection.getID(), avatar));
                 server.sendToAllExceptTCP(connection.getID(), user.getAvatar());
+//
+//                Monster monster = new Monster(5,5,"ANTONMONSTRET");
+//                monster.setY(180);
+//                monster.setMaxXspeed(1);
+//                monster.setMaxYspeed(1);
+//                MonsterHandler.monsterList.put(monster.getId(), monster);
+
+//                server.sendToAllTCP(monster);
             }
         }
 

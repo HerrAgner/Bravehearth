@@ -26,8 +26,6 @@ public class NetworkListener {
 
 
                 if (object instanceof Login) {
-                    System.out.println(((Login) object).getUsername());
-                    System.out.println(((Login) object).getPassword());
                     ch.addToQueue(connection, object);
                 }
 

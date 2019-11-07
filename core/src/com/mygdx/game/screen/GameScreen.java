@@ -52,7 +52,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        sprite = new Sprite(new Texture("pik.png"));
+//        sprite = new Sprite(new Texture("pik.png"));
         camera = new OrthographicCamera(GameConfig.WIDTH, GameConfig.HEIGHT);
         camera.setToOrtho(false, 30, 20);
         //  viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
@@ -138,9 +138,11 @@ public class GameScreen implements Screen {
 //            } catch (NullPointerException e) {dcs.setPosition(10, 10);
 //
 //            }
-            sprite.setBounds(dcs.getX(), dcs.getY(), 1f, 1f);
-
-            sprite.draw(batch);
+//            sprite.setBounds(dcs.getX(), dcs.getY(), 1f, 1f);
+//
+//            sprite.draw(batch);
+            dcs.getSprite().setBounds(dcs.getX(), dcs.getY(), 1f, 1f);
+            dcs.getSprite().draw(batch);
             batch.end();
             if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
                 renderer.rect((float) (avatar.getX() - 1.1), (float) (avatar.getY() - 1.1), (float) 2.2, (float) 2.2, Color.RED, Color.PINK, Color.RED, Color.PINK);

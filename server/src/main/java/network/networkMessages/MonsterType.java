@@ -1,4 +1,4 @@
-package com.mygdx.game.util;
+package network.networkMessages;
 
 public enum MonsterType {
     DUMMYMONSTER;
