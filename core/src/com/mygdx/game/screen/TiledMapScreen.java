@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -20,22 +21,23 @@ public class TiledMapScreen implements Screen {
     OrthographicCamera camera;
     OrthogonalTiledMapRenderer tiledMapRenderer;
     TiledPlayer tiledPlayer;
+    SpriteBatch sb;
 
 
     @Override
     public void show() {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
-
+        sb = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
         camera.update();
-        tiledMap = new TmxMapLoader().load("braveTest.tmx");
+        tiledMap = new TmxMapLoader().load("worldMap.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
 
 
-        tiledPlayer = new TiledPlayer(new Sprite(new Texture("pik.png")));
+        tiledPlayer = new TiledPlayer();
 
     }
 
@@ -46,11 +48,16 @@ public class TiledMapScreen implements Screen {
         camera.update();
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
+        tiledPlayer.update(delta);
 
 
         tiledMapRenderer.getBatch().begin();
-        tiledPlayer.draw(tiledMapRenderer.getBatch());
+
         tiledMapRenderer.getBatch().end();
+        sb.begin();
+        sb.draw(tiledPlayer.getTexture(), tiledPlayer.getPosition().x, tiledPlayer.getPosition().y);
+        sb.end();
+
     }
 
     @Override
@@ -75,6 +82,6 @@ public class TiledMapScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        tiledMapRenderer.dispose();
     }
 }

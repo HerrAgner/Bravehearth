@@ -20,7 +20,7 @@ public class DummyClass extends Avatar {
 
 
     public void drawDebug(ShapeRenderer shapeRenderer) {
-        shapeRenderer.circle(bounds.x, bounds.y, bounds.radius, 30);
+        shapeRenderer.circle(bounds.x, bounds.y, 16f, 30);
     }
 
 

@@ -50,11 +50,11 @@ public class LoginScreen implements Screen {
         initTextField();
         initWindows();
         initButtons();
-        initMusic();
+//        initMusic();
     }
 
     private void initMusic() {
-        music = Gdx.audio.newMusic(Gdx.files.internal("audio/bravehearth.mp3"));
+//        music = Gdx.audio.newMusic(Gdx.files.internal("audio/bravehearth.mp3"));
         music.play();
         music.setVolume(0.3f);
     }
@@ -164,7 +164,7 @@ public class LoginScreen implements Screen {
                     e.printStackTrace();
                 }
                 if (ClientConnection.getInstance().getUser() != null) {
-                    music.dispose();
+//                    music.dispose();
                     game.setScreen(new GameScreen(game));
                 } else {
                     button.remove();

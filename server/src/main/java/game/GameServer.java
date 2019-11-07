@@ -26,6 +26,8 @@ public class GameServer {
     private ActiveUserHandler auh;
     public HashMap<Integer, User> au;
     public ConcurrentHashMap<Integer, Avatar> aa;
+    private MapReader mapReader;
+
 
     private GameServer() {
         auh = new ActiveUserHandler();
@@ -37,6 +39,8 @@ public class GameServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.mapReader = new MapReader();
+        this.mapReader.readMap();
         new Thread(gameLoop).start();
 
         this.au = getAUH().getActiveUsers();
@@ -54,6 +58,10 @@ public class GameServer {
             single_instance = new GameServer();
 
         return single_instance;
+    }
+
+    public MapReader getMapReader() {
+        return mapReader;
     }
 
     public Server getServer() {

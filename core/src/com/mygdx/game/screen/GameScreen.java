@@ -6,8 +6,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.BravehearthGame;
@@ -29,9 +35,12 @@ public class GameScreen implements Screen {
     private DummyClass dc;
     private SpriteBatch batch;
     private Texture healthBar;
-    private BravehearthGame game;
+    private TiledMap tiledMap;
+    private OrthogonalTiledMapRenderer tiledMapRenderer;
+    private Sprite sprite;
+    private TiledMapTileLayer collision;
     private InputHandler inputHandler;
-
+    private BravehearthGame game;
 
     public GameScreen(BravehearthGame game) {
         inputHandler = new InputHandler();
@@ -43,8 +52,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
+        sprite = new Sprite(new Texture("pik.png"));
+        camera = new OrthographicCamera(GameConfig.WIDTH, GameConfig.HEIGHT);
+        camera.setToOrtho(false, 30, 20);
+        //  viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
         renderer = new ShapeRenderer();
         cameraController = new CameraController();
 
@@ -57,22 +68,26 @@ public class GameScreen implements Screen {
                     .setAvatar(new DummyClass(
                             ClientConnection.getInstance().getAvatar()));
         }
+        tiledMap = new TmxMapLoader().load("worldMap.tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / 32f);
+        collision = (TiledMapTileLayer) tiledMap.getLayers().get(0);
     }
 
     @Override
     public void render(float delta) {
-        cameraController.applyTo(camera);
         delta = Gdx.graphics.getDeltaTime();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        cameraController.applyTo(camera);
+        tiledMapRenderer.setView(camera);
+        tiledMapRenderer.render();
         update(delta);
-
         renderViewportUtils();
     }
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height, true);
+        //  viewport.update(width, height, true);
     }
 
     @Override
@@ -92,17 +107,19 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        batch.dispose();
+        renderer.dispose();
+        tiledMapRenderer.dispose();
     }
 
     private void renderViewportUtils() {
         renderer.setProjectionMatrix(camera.combined);
         batch.setProjectionMatrix(camera.combined);
-        ViewPortUtils.drawGrid(viewport, renderer);
+//        ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
         ClientConnection.getInstance().getActiveAvatars().forEach((uuid, avatar) -> {
             DummyClass dcs = (DummyClass) avatar;
-            dcs.drawDebug(renderer);
+            // dcs.drawDebug(renderer);
             batch.begin();
             if (avatar.getHealth() < avatar.getMaxHealth() * 0.3) {
                 batch.setColor(Color.RED);
@@ -113,6 +130,17 @@ public class GameScreen implements Screen {
             }
             batch.draw(healthBar, avatar.getX() - 1, (float) (avatar.getY() + 1.2), (float) avatar.getHealth() * 2 / avatar.getMaxHealth(), (float) 0.2);
             batch.setColor(Color.WHITE);
+//            try {
+//                if (collision.getCell((int) avatar.getX(), (int) avatar.getY()).getTile().getProperties().containsKey("blocked")) {
+//                    System.out.println("blocked");
+//                    dcs.setPosition(10, 10);
+//                }
+//            } catch (NullPointerException e) {dcs.setPosition(10, 10);
+//
+//            }
+            sprite.setBounds(dcs.getX(), dcs.getY(), 1f, 1f);
+
+            sprite.draw(batch);
             batch.end();
             /*if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
                 renderer.rect((float) (avatar.getX() - 1.1), (float) (avatar.getY() - 1.1), (float) 2.2, (float) 2.2, Color.RED, Color.PINK, Color.RED, Color.PINK);

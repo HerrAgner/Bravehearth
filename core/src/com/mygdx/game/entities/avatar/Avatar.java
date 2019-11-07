@@ -10,8 +10,8 @@ import com.mygdx.game.util.CharacterClass;
 import java.util.UUID;
 
 public class Avatar {
-    private float maxXspeed = 2f;
-    private float maxYspeed = 2f;
+    private float maxXspeed = 0.5f;
+    private float maxYspeed = 0.5f;
 
     private float boundsRadius;
     private float size;
@@ -106,7 +106,7 @@ public class Avatar {
     public int getId() { return id; }
 
     public void update(float delta) {
-        float xSpeed = 0;
+       /* float xSpeed = 0;
         float ySpeed = 0;
         if (Gdx.input.isKeyPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.S)) {
 
@@ -123,6 +123,8 @@ public class Avatar {
             }
         }
         validMovement(x += xSpeed * delta, y += ySpeed * delta);
+
+    */
     }
 
     public void validMovement(float x, float y) {
