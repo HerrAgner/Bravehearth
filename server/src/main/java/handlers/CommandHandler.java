@@ -71,9 +71,20 @@ public class CommandHandler {
                 monster.setMaxYspeed(0.01f);
                 monster.setBoundsRadius(4f);
                 monster.setType(MonsterType.DUMMYMONSTER);
+
+                Monster monster2 = new Monster(5,5,"ANTONMONSTRETt");
+                monster2.setY(190);
+                monster2.setX(10);
+                monster2.setMaxXspeed(0.01f);
+                monster2.setMaxYspeed(0.01f);
+                monster2.setBoundsRadius(4f);
+                monster2.setType(MonsterType.DUMMYMONSTER);
+
                 MonsterHandler.monsterList.put(monster.getId(), monster);
+                MonsterHandler.monsterList.put(monster2.getId(), monster2);
 
                 server.sendToAllTCP(monster);
+                server.sendToAllTCP(monster2);
             }
         }
 
