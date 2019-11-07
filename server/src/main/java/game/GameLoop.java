@@ -38,8 +38,10 @@ public class GameLoop implements Runnable {
                 } catch (InterruptedException e) {
                     System.out.println("Could not send attack. Trying again.");
                 }
-
             }
+//            System.out.println(GameServer.getInstance().getMh().counter.get());
+            GameServer.getInstance().getMh().monsterTargetAvatar();
+
             try {
                 prevtime = System.currentTimeMillis();
                 Thread.sleep(16);
@@ -56,16 +58,16 @@ public class GameLoop implements Runnable {
         boolean moved = false;
         switch (movement) {
             case FORWARD:
-                position = new Position(avatar.getX(), avatar.getY() + avatar.getMaxYspeed() * delta, avatar.getId());
+                position = new Position(avatar.getX(), avatar.getY() + avatar.getMaxYspeed() * delta, avatar.getId(), 1);
                 break;
             case BACKWARD:
-                position = new Position(avatar.getX(), avatar.getY() - avatar.getMaxYspeed() * delta, avatar.getId());
+                position = new Position(avatar.getX(), avatar.getY() - avatar.getMaxYspeed() * delta, avatar.getId(), 1);
                 break;
             case LEFT:
-                position = new Position(avatar.getX() - avatar.getMaxXspeed() * delta, avatar.getY(), avatar.getId());
+                position = new Position(avatar.getX() - avatar.getMaxXspeed() * delta, avatar.getY(), avatar.getId(),1);
                 break;
             case RIGHT:
-                position = new Position(avatar.getX() + avatar.getMaxXspeed() * delta, avatar.getY(), avatar.getId());
+                position = new Position(avatar.getX() + avatar.getMaxXspeed() * delta, avatar.getY(), avatar.getId(), 1);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + movement);

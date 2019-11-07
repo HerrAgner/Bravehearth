@@ -3,8 +3,8 @@ package network.networkMessages;
 import java.util.UUID;
 
 public class Monster {
-    private float maxXspeed = 2f;
-    private float maxYspeed = 2f;
+    private float maxXspeed = 0.001f;
+    private float maxYspeed = 0.001f;
 
     private float boundsRadius;
     private float size;

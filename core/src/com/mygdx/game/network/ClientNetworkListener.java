@@ -52,9 +52,15 @@ public class ClientNetworkListener {
                 }
 
                 if (object instanceof Position) {
-                    ClientConnection.getInstance().getActiveAvatars()
-                            .get(((Position) object).getId())
-                            .setPosition(((Position) object).getX(), ((Position) object).getY());
+                    if (((Position) object).getType() == 1) {
+                        ClientConnection.getInstance().getActiveAvatars()
+                                .get(((Position) object).getId())
+                                .setPosition(((Position) object).getX(), ((Position) object).getY());
+                    } else if (((Position) object).getType() == 2) {
+                        ClientConnection.getInstance().getActiveMonsters()
+                                .get(((Position) object).getId())
+                                .setPosition(((Position) object).getX(), ((Position) object).getY());
+                    }
                 }
             }
         });

@@ -65,6 +65,10 @@ public class GameServer {
         return mapReader;
     }
 
+    public MonsterHandler getMh() {
+        return mh;
+    }
+
     public Server getServer() {
         return this.server;
     }

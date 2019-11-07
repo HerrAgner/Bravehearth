@@ -10,8 +10,8 @@ import com.mygdx.game.util.MonsterType;
 import java.util.UUID;
 
 public class Monster {
-    private float maxXspeed = 2f;
-    private float maxYspeed = 2f;
+    private float maxXspeed;
+    private float maxYspeed;
 
     private float boundsRadius;
     private float size;
@@ -91,6 +91,10 @@ public class Monster {
         if (y > GameConfig.WORLD_HEIGHT - size / 2) {
             this.y = GameConfig.WORLD_HEIGHT - size / 2;
         }
+    }
+    public void setPosition(float x, float y) {
+        this.x = x;
+        this.y = y;
     }
 
     public float getMaxXspeed() {

@@ -66,9 +66,10 @@ public class CommandHandler {
                 server.sendToAllExceptTCP(connection.getID(), user.getAvatar());
 
                 Monster monster = new Monster(5,5,"ANTONMONSTRET");
-                monster.setY(180);
-                monster.setMaxXspeed(1);
-                monster.setMaxYspeed(1);
+                monster.setY(190);
+                monster.setMaxXspeed(0.01f);
+                monster.setMaxYspeed(0.01f);
+                monster.setBoundsRadius(4f);
                 monster.setType(MonsterType.DUMMYMONSTER);
                 MonsterHandler.monsterList.put(monster.getId(), monster);
 
