@@ -7,6 +7,7 @@ import network.networkMessages.avatar.Avatar;
 import network.networkMessages.Position;
 
 import java.util.Timer;
+import java.util.stream.Stream;
 
 public class GameLoop implements Runnable {
     private boolean running;
@@ -54,6 +55,7 @@ public class GameLoop implements Runnable {
     public Position updatePosition(Avatar avatar, Movement movement, float delta) {
         Position position;
         boolean moved = false;
+        boolean isValid = true;
         switch (movement) {
             case FORWARD:
                 position = new Position(avatar.getX(), avatar.getY() + avatar.getMaxYspeed() * delta, avatar.getId());
@@ -72,9 +74,28 @@ public class GameLoop implements Runnable {
         }
 
         if (GameServer.getInstance().getMapReader().getMapCollision().get(position.getX().intValue()).contains(position.getY().intValue())) {
-            return new Position(avatar.getX(), avatar.getY(), avatar.getId());
+            return null;
         } else {
-            return position;
+            var ref = new Object() {
+                boolean apa = true;
+            };
+            GameServer.getInstance().aa.forEach((key, value) -> {
+                if (key != avatar.getId()) {
+                    if (value.getX() < position.getX() + 1 && value.getX() < position.getX() - 1 ) {
+                        System.out.println("Valid");
+                        ref.apa = true;
+                    } else {
+                        System.out.println("Invalid as fuck");
+                        ref.apa = false;
+                    }
+                }
+            });
+            if (ref.apa) {
+                return position;
+            } else {
+                return null;
+            }
+
         }
     }
 }

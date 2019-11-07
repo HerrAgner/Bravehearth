@@ -16,7 +16,7 @@ public class MapReader {
     private HashMap<Integer, ArrayList<Integer>> mapCollision = new HashMap<>();
 
     public MapReader(){
-        csvFile =  "server/src/main/resources/worldMap_CollisionLayer_CollisionLayer.csv";
+        csvFile =  "server/src/main/resources/worldMap_CollisionLayer.csv";
     }
 
     public void readMap() {
