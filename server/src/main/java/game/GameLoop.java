@@ -53,7 +53,6 @@ public class GameLoop implements Runnable {
     public Position updatePosition(Avatar avatar, Movement movement, float delta) {
         Position position;
         boolean moved = false;
-        boolean isValid = true;
         switch (movement) {
             case FORWARD:
                 position = new Position(avatar.getX(), avatar.getY() + avatar.getMaxYspeed() * delta, avatar.getId());
@@ -71,7 +70,22 @@ public class GameLoop implements Runnable {
                 throw new IllegalStateException("Unexpected value: " + movement);
         }
 
-        if (GameServer.getInstance().getMapReader().getMapCollision().get(position.getX().intValue()).contains(position.getY().intValue())) {
+        if (GameServer.getInstance().getMapReader().getMapCollision()
+                .get((int) Math.ceil(position.getX()))
+                .contains((int) Math.ceil(position.getY()))
+                ||
+                GameServer.getInstance().getMapReader().getMapCollision()
+                        .get((int) Math.ceil(position.getX() - 1))
+                        .contains((int) Math.ceil(position.getY()))
+                ||
+                GameServer.getInstance().getMapReader().getMapCollision()
+                        .get((int) Math.ceil(position.getX() - 1))
+                        .contains((int) Math.ceil(position.getY() - 1))
+                ||
+                GameServer.getInstance().getMapReader().getMapCollision()
+                        .get((int) Math.ceil(position.getX()))
+                        .contains((int) Math.ceil(position.getY() - 1))
+        ) {
             return null;
         } else {
             var ref = new Object() {

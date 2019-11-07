@@ -46,8 +46,8 @@ public class MapReader {
 
             System.arraycopy(data, 0, newdata, 0, i - 1);
             data = newdata;
-//            data = rotateClockWise(data);
         }
+            data = rotateClockWise(data);
         for (int j = 0; j < data.length; j++) {
             ArrayList<Integer> tempArray = new ArrayList<>();
             for (int k = 0; k < data[j].length; k++) {
