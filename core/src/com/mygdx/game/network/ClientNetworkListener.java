@@ -4,12 +4,14 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.mygdx.game.entities.avatar.DummyClass;
 import com.mygdx.game.entities.avatar.Avatar;
+import com.mygdx.game.entities.monsters.DummyMonster;
 import com.mygdx.game.entities.monsters.Monster;
 import com.mygdx.game.network.networkMessages.HealthChange;
 import com.mygdx.game.network.networkMessages.Logout;
 import com.mygdx.game.network.networkMessages.Position;
 import com.mygdx.game.entities.User;
 import com.mygdx.game.util.CharacterClass;
+import com.mygdx.game.util.MonsterType;
 
 public class ClientNetworkListener {
     public ClientNetworkListener() {
@@ -26,7 +28,11 @@ public class ClientNetworkListener {
                 }
 
                 if (object instanceof Monster) {
-                    ClientConnection.getInstance().getActiveMonsters().put(((Monster) object).getId(), (Monster) object);
+                    if (((Monster) object).getType().equals(MonsterType.DUMMYMONSTER)) {
+                        DummyMonster dm = new DummyMonster((Monster) object);
+                        ClientConnection.getInstance().getActiveMonsters().put(((Monster) object).getId(), dm);
+
+                    }
                 }
 
                 if (object instanceof Logout) {

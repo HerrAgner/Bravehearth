@@ -69,6 +69,7 @@ public class CommandHandler {
                 monster.setY(180);
                 monster.setMaxXspeed(1);
                 monster.setMaxYspeed(1);
+                monster.setType(MonsterType.DUMMYMONSTER);
                 MonsterHandler.monsterList.put(monster.getId(), monster);
 
                 server.sendToAllTCP(monster);

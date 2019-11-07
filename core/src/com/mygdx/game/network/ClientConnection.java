@@ -2,6 +2,8 @@ package com.mygdx.game.network;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.mygdx.game.entities.*;
@@ -60,6 +62,7 @@ public class ClientConnection {
 
     private void addAssets(){
         assetManager.load("pik.png", Texture.class);
+        assetManager.load("monsters/rpgcritters2.png", Texture.class);
 
         assetManager.finishLoading();
     }

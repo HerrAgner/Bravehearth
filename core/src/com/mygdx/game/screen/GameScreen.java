@@ -20,6 +20,7 @@ import com.mygdx.game.BravehearthGame;
 import com.mygdx.game.config.GameConfig;
 import com.mygdx.game.entities.avatar.Avatar;
 import com.mygdx.game.entities.avatar.DummyClass;
+import com.mygdx.game.entities.monsters.DummyMonster;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.util.CameraController;
 import com.mygdx.game.util.CharacterClass;
@@ -117,10 +118,11 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
 //        ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
+        batch.begin();
+
         ClientConnection.getInstance().getActiveAvatars().forEach((uuid, avatar) -> {
             DummyClass dcs = (DummyClass) avatar;
             // dcs.drawDebug(renderer);
-            batch.begin();
             if (avatar.getHealth() < avatar.getMaxHealth() * 0.3) {
                 batch.setColor(Color.RED);
             } else if (avatar.getHealth() < avatar.getMaxHealth() * 0.6) {
@@ -138,16 +140,22 @@ public class GameScreen implements Screen {
 //            } catch (NullPointerException e) {dcs.setPosition(10, 10);
 //
 //            }
-//            sprite.setBounds(dcs.getX(), dcs.getY(), 1f, 1f);
-//
-//            sprite.draw(batch);
+
             dcs.getSprite().setBounds(dcs.getX(), dcs.getY(), 1f, 1f);
             dcs.getSprite().draw(batch);
-            batch.end();
+
             if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
                 renderer.rect((float) (avatar.getX() - 1.1), (float) (avatar.getY() - 1.1), (float) 2.2, (float) 2.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
             }
         });
+
+        ClientConnection.getInstance().getActiveMonsters().forEach((uuid, monster) -> {
+            DummyMonster dummyMonster = (DummyMonster) monster;
+            dummyMonster.getSprite().setBounds(dummyMonster.getX(), dummyMonster.getY(), 1f, 1f);
+            dummyMonster.getSprite().draw(batch);
+        });
+
+        batch.end();
         renderer.end();
     }
 
