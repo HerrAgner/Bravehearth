@@ -19,7 +19,8 @@ public class GameLoop implements Runnable {
         long prevtime = System.currentTimeMillis();
 
         while (running) {
-            float delta = (float) ((System.currentTimeMillis() - prevtime) / 1000.0);
+            long time = System.currentTimeMillis();
+            float delta = (float) ((time - prevtime) / 1000.0);
 
             MovementHandler.movementLoopList.forEach((key, value) ->
                     value.forEach(movement -> {
@@ -40,7 +41,7 @@ public class GameLoop implements Runnable {
 
             }
             try {
-                prevtime = System.currentTimeMillis();
+                prevtime = time;
                 Thread.sleep(16);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -55,16 +56,16 @@ public class GameLoop implements Runnable {
         boolean moved = false;
         switch (movement) {
             case FORWARD:
-                position = new Position(avatar.getX(), avatar.getY() + avatar.getMaxYspeed() * delta, avatar.getId());
+                position = new Position(avatar.getX(), avatar.getY() + avatar.getMaxYspeed() * (delta*30), avatar.getId());
                 break;
             case BACKWARD:
-                position = new Position(avatar.getX(), avatar.getY() - avatar.getMaxYspeed() * delta, avatar.getId());
+                position = new Position(avatar.getX(), avatar.getY() - avatar.getMaxYspeed() * (delta*30), avatar.getId());
                 break;
             case LEFT:
-                position = new Position(avatar.getX() - avatar.getMaxXspeed() * delta, avatar.getY(), avatar.getId());
+                position = new Position(avatar.getX() - avatar.getMaxXspeed() * (delta*30), avatar.getY(), avatar.getId());
                 break;
             case RIGHT:
-                position = new Position(avatar.getX() + avatar.getMaxXspeed() * delta, avatar.getY(), avatar.getId());
+                position = new Position(avatar.getX() + avatar.getMaxXspeed() * (delta*30), avatar.getY(), avatar.getId());
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + movement);
