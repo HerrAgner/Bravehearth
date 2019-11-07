@@ -2,10 +2,8 @@ package com.mygdx.game.network.networkMessages;
 
 import com.mygdx.game.network.ClientConnection;
 
-import java.util.UUID;
-
 public class Logout {
-    private UUID avatar;
+    private int avatar;
 
 
     public Logout() {
@@ -14,11 +12,11 @@ public class Logout {
         }
     }
 
-    public UUID getAvatar() {
+    public int getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(UUID avatar) {
+    public void setAvatar(int avatar) {
         this.avatar = avatar;
     }
 }

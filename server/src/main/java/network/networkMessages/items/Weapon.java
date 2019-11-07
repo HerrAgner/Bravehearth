@@ -2,8 +2,6 @@ package network.networkMessages.items;
 
 import database.Column;
 
-import java.util.List;
-
 public class Weapon extends Item{
     @Column
     private int damage;

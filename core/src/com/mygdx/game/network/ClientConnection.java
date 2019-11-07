@@ -11,6 +11,9 @@ import com.mygdx.game.util.AttackLoop;
 import com.mygdx.game.util.CharacterClass;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,7 +22,7 @@ public class ClientConnection {
 
     private Client client;
     private User user;
-    private ConcurrentHashMap<UUID, Avatar> activeAvatars;
+    private ConcurrentHashMap<Integer, Avatar> activeAvatars;
 
     private ClientConnection() {
         activeAvatars = new ConcurrentHashMap<>();
@@ -49,7 +52,7 @@ public class ClientConnection {
         }
     }
 
-    public ConcurrentHashMap<UUID, Avatar> getActiveAvatars() {
+    public ConcurrentHashMap<Integer, Avatar> getActiveAvatars() {
         return activeAvatars;
     }
 
@@ -87,5 +90,7 @@ public class ClientConnection {
         kryo.register(WearableType.class);
         kryo.register(Backpack.class);
         kryo.register(EquippedItems.class);
+        kryo.register(ArrayList.class);
+        kryo.register(HashMap.class);
     }
 }

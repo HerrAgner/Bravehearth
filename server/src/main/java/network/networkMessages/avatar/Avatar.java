@@ -2,7 +2,6 @@ package network.networkMessages.avatar;
 
 import database.Column;
 import network.networkMessages.CharacterClass;
-
 import java.util.UUID;
 
 public class Avatar {
@@ -181,5 +180,9 @@ public class Avatar {
 
     public Backpack getBackpack() { return backpack; }
 
-    public void setBackpack(Backpack backpack) { this.backpack = this.backpack; }
+    public void setBackpack(Backpack backpack) { this.backpack = backpack; }
+
+    public EquippedItems getEquippedItems() { return equippedItems; }
+
+    public void setEquippedItems(EquippedItems equippedItems) { this.equippedItems = equippedItems; }
 }

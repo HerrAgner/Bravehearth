@@ -1,13 +1,11 @@
 package network.networkMessages.avatar;
 
-
 import database.Column;
-import network.networkMessages.items.Item;
-
 import java.util.ArrayList;
+import java.util.List;
 
 public class Backpack {
-    private ArrayList items;
+    private List items;
     @Column
     private int avatarId;
     @Column
@@ -25,7 +23,7 @@ public class Backpack {
 
     public int getId() { return id; }
 
-    public void setItems(ArrayList bpItems) { this.items = bpItems;}
+    public void setItems(List bpItems) { this.items = bpItems;}
 
-    public ArrayList getItems() { return items; }
+    public List getItems() { return items; }
 }

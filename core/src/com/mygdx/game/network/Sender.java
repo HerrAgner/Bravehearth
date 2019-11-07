@@ -52,7 +52,7 @@ public class Sender {
         }
     }
 
-    public void targetEnemy(UUID attacker, UUID target){
+    public void targetEnemy(int attacker, UUID target){
         c.sendTCP(new AttackEnemyTarget(attacker, target));
     }
 }

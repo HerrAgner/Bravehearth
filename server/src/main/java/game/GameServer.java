@@ -12,7 +12,9 @@ import network.networkMessages.avatar.EquippedItems;
 import network.networkMessages.items.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -78,5 +80,7 @@ public class GameServer {
         kryo.register(WearableType.class);
         kryo.register(Backpack.class);
         kryo.register(EquippedItems.class);
+        kryo.register(ArrayList.class);
+        kryo.register(HashMap.class);
     }
 }

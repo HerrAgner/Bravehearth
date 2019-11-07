@@ -19,7 +19,7 @@ public class Avatar {
     private float x;
     private float y;
 
-    private UUID id;
+    private int id;
     private CharacterClass characterClass;
 
     private String name;
@@ -30,7 +30,6 @@ public class Avatar {
     private int strength;
     private int dexterity;
     private int intelligence;
-
     private int level;
     private int experiencePoints;
 
@@ -100,11 +99,11 @@ public class Avatar {
         this.y = y;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public UUID getId() { return id; }
+    public int getId() { return id; }
 
     public void update(float delta) {
         float xSpeed = 0;
@@ -123,10 +122,7 @@ public class Avatar {
                 ySpeed = -maxYspeed;
             }
         }
-
         validMovement(x += xSpeed * delta, y += ySpeed * delta);
-
-
     }
 
     public void validMovement(float x, float y) {
@@ -168,9 +164,7 @@ public class Avatar {
         this.maxHealth = maxHealth;
     }
 
-    public UUID getMarkedUnit() {
-        return markedUnit;
-    }
+    public UUID getMarkedUnit() { return markedUnit; }
 
     public void setMarkedUnit(UUID markedUnit) {
         this.markedUnit = markedUnit;

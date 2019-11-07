@@ -8,6 +8,7 @@ import game.GameServer;
 import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
+import network.networkMessages.avatar.EquippedItems;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -108,7 +109,9 @@ public class CommandHandler {
         try {
             user.setAvatar(avatar);
             Backpack bp = DBQueries.getBackpack(avatar.getId());
-            DBQueries.getBpItems(bp.getId());
+            bp.setItems(DBQueries.getBpItems(bp.getId()));
+            avatar.setBackpack(bp);
+            avatar.setEquippedItems(DBQueries.getEquippedItems(avatar.getId()));
         } catch (NullPointerException e) {
             System.out.println("No avatar found for user.");
         }
