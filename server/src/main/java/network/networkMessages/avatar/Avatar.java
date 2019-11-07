@@ -5,8 +5,8 @@ import network.networkMessages.CharacterClass;
 import java.util.UUID;
 
 public class Avatar {
-    private float maxXspeed = 1f;
-    private float maxYspeed = 1f;
+    private float maxXspeed = 0.07f;
+    private float maxYspeed = 0.07f;
 
     private float boundsRadius;
     private float size;

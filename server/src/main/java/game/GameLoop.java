@@ -6,7 +6,6 @@ import handlers.MovementHandler;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.Position;
 
-import java.util.Timer;
 
 public class GameLoop implements Runnable {
     private boolean running;
@@ -20,7 +19,8 @@ public class GameLoop implements Runnable {
         long prevtime = System.currentTimeMillis();
 
         while (running) {
-            float delta = (float) ((System.currentTimeMillis() - prevtime) / 1000.0);
+            long time = System.currentTimeMillis();
+            float delta = (float) ((time - prevtime) / 1000.0);
 
             MovementHandler.movementLoopList.forEach((key, value) ->
                     value.forEach(movement -> {
@@ -41,7 +41,7 @@ public class GameLoop implements Runnable {
 
             }
             try {
-                prevtime = System.currentTimeMillis();
+                prevtime = time;
                 Thread.sleep(16);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -56,16 +56,16 @@ public class GameLoop implements Runnable {
         boolean moved = false;
         switch (movement) {
             case FORWARD:
-                position = new Position(avatar.getX(), avatar.getY() + avatar.getMaxYspeed() * delta, avatar.getId());
+                position = new Position(avatar.getX(), avatar.getY() + avatar.getMaxYspeed() * (delta*30), avatar.getId());
                 break;
             case BACKWARD:
-                position = new Position(avatar.getX(), avatar.getY() - avatar.getMaxYspeed() * delta, avatar.getId());
+                position = new Position(avatar.getX(), avatar.getY() - avatar.getMaxYspeed() * (delta*30), avatar.getId());
                 break;
             case LEFT:
-                position = new Position(avatar.getX() - avatar.getMaxXspeed() * delta, avatar.getY(), avatar.getId());
+                position = new Position(avatar.getX() - avatar.getMaxXspeed() * (delta*30), avatar.getY(), avatar.getId());
                 break;
             case RIGHT:
-                position = new Position(avatar.getX() + avatar.getMaxXspeed() * delta, avatar.getY(), avatar.getId());
+                position = new Position(avatar.getX() + avatar.getMaxXspeed() * (delta*30), avatar.getY(), avatar.getId());
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + movement);
@@ -88,7 +88,24 @@ public class GameLoop implements Runnable {
                         .contains((int) Math.ceil(position.getY() - 1))
         ) {
             return null;
+        } else {
+            var ref = new Object() {
+                boolean isValidMove = true;
+            };
+            GameServer.getInstance().aa.forEach((key, value) -> {
+                if (key != avatar.getId()) {
+                    if (Math.max(value.getX(), position.getX()) - Math.min(value.getX(), position.getX()) < 1 &&
+                            Math.max(value.getY(), position.getY()) - Math.min(value.getY(), position.getY()) < 1 ) {
+                        ref.isValidMove = false;
+                    }
+                }
+            });
+            if (ref.isValidMove) {
+                return position;
+            } else {
+                return null;
+            }
+
         }
-        return position;
     }
 }
