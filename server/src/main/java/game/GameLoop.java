@@ -6,8 +6,6 @@ import handlers.MovementHandler;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.Position;
 
-import java.util.Timer;
-import java.util.stream.Stream;
 
 public class GameLoop implements Runnable {
     private boolean running;
@@ -77,20 +75,17 @@ public class GameLoop implements Runnable {
             return null;
         } else {
             var ref = new Object() {
-                boolean apa = true;
+                boolean isValidMove = true;
             };
             GameServer.getInstance().aa.forEach((key, value) -> {
                 if (key != avatar.getId()) {
-                    if (value.getX() < position.getX() + 1 && value.getX() < position.getX() - 1 ) {
-                        System.out.println("Valid");
-                        ref.apa = true;
-                    } else {
-                        System.out.println("Invalid as fuck");
-                        ref.apa = false;
+                    if (Math.max(value.getX(), position.getX()) - Math.min(value.getX(), position.getX()) < 1 &&
+                            Math.max(value.getY(), position.getY()) - Math.min(value.getY(), position.getY()) < 1 ) {
+                        ref.isValidMove = false;
                     }
                 }
             });
-            if (ref.apa) {
+            if (ref.isValidMove) {
                 return position;
             } else {
                 return null;
