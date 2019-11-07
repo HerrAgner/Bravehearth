@@ -18,7 +18,6 @@ public class GameLoop implements Runnable {
     @Override
     public void run() {
         long prevtime = System.currentTimeMillis();
-        System.out.println(System.currentTimeMillis());
 
         while (running) {
             float delta = (float) ((System.currentTimeMillis() - prevtime) / 1000.0);
@@ -26,9 +25,11 @@ public class GameLoop implements Runnable {
             MovementHandler.movementLoopList.forEach((key, value) ->
                     value.forEach(movement -> {
                         Position pos = updatePosition(GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()), movement, delta);
-                        GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setX(pos.getX());
-                        GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setY(pos.getY());
-                        GameServer.getInstance().getServer().sendToAllUDP(pos);
+                        if (pos != null) {
+                            GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setX(pos.getX());
+                            GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setY(pos.getY());
+                            GameServer.getInstance().getServer().sendToAllUDP(pos);
+                        }
                     }));
 
             if (AttackHandler.validatedAttacks.size() > 0) {
@@ -52,6 +53,7 @@ public class GameLoop implements Runnable {
 
     public Position updatePosition(Avatar avatar, Movement movement, float delta) {
         Position position;
+        boolean moved = false;
         switch (movement) {
             case FORWARD:
                 position = new Position(avatar.getX(), avatar.getY() + avatar.getMaxYspeed() * delta, avatar.getId());
@@ -63,11 +65,16 @@ public class GameLoop implements Runnable {
                 position = new Position(avatar.getX() - avatar.getMaxXspeed() * delta, avatar.getY(), avatar.getId());
                 break;
             case RIGHT:
-                position = new Position(avatar.getX() + avatar.getMaxXspeed() *delta, avatar.getY(), avatar.getId());
+                position = new Position(avatar.getX() + avatar.getMaxXspeed() * delta, avatar.getY(), avatar.getId());
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + movement);
         }
-        return position;
+
+        if (GameServer.getInstance().getMapReader().getMapCollision().get(position.getX().intValue()).contains(position.getY().intValue())) {
+            return new Position(avatar.getX(), avatar.getY(), avatar.getId());
+        } else {
+            return position;
+        }
     }
 }

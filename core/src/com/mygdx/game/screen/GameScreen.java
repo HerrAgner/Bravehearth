@@ -130,14 +130,14 @@ public class GameScreen implements Screen {
             }
             batch.draw(healthBar, avatar.getX() - 1, (float) (avatar.getY() + 1.2), (float) avatar.getHealth() * 2 / avatar.getMaxHealth(), (float) 0.2);
             batch.setColor(Color.WHITE);
-            try {
-                if (collision.getCell((int) avatar.getX(), (int) avatar.getY()).getTile().getProperties().containsKey("blocked")) {
-                    System.out.println("blocked");
-                    dcs.setPosition(10, 10);
-                }
-            } catch (NullPointerException e) {dcs.setPosition(10, 10);
-
-            }
+//            try {
+//                if (collision.getCell((int) avatar.getX(), (int) avatar.getY()).getTile().getProperties().containsKey("blocked")) {
+//                    System.out.println("blocked");
+//                    dcs.setPosition(10, 10);
+//                }
+//            } catch (NullPointerException e) {dcs.setPosition(10, 10);
+//
+//            }
             sprite.setBounds(dcs.getX(), dcs.getY(), 1f, 1f);
 
             sprite.draw(batch);
