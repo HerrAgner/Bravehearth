@@ -1,12 +1,10 @@
 package network.networkMessages;
 
-import java.util.UUID;
-
 public class HealthChange {
 
-    int newHealth;
-    int receivingAvatar;
-    int dispatchingAvatar;
+    private int newHealth;
+    private int receivingAvatar;
+    private int dispatchingAvatar;
 
     public HealthChange(){ }
 

@@ -1,7 +1,5 @@
 package com.mygdx.game.network.networkMessages;
 
-import java.util.UUID;
-
 public class HealthChange {
 
     private int newHealth;
