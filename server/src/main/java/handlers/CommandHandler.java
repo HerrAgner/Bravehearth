@@ -71,6 +71,7 @@ public class CommandHandler {
                 monster.setMaxXspeed(0.01f);
                 monster.setMaxYspeed(0.01f);
                 monster.setBoundsRadius(4f);
+                monster.setMaxHp(5);
                 monster.setType(MonsterType.DUMMYMONSTER);
                 monster.setId(1);
 
@@ -80,6 +81,7 @@ public class CommandHandler {
                 monster2.setMaxXspeed(0.01f);
                 monster2.setMaxYspeed(0.01f);
                 monster2.setBoundsRadius(4f);
+                monster2.setMaxHp(5);
                 monster2.setType(MonsterType.DUMMYMONSTER);
                 monster2.setId(2);
 
@@ -91,11 +93,11 @@ public class CommandHandler {
             }
         }
 
-        /*if (o instanceof AttackEnemyTarget) {
+        if (o instanceof AttackEnemyTarget) {
             AttackEnemyTarget aet = (AttackEnemyTarget) o;
             auh.getActiveAvatars().get(aet.getAttacker()).setMarkedUnit(aet.getTarget());
-            ah.addAttackerToList(aet.getAttacker(), aet.getTarget());
-        }*/
+            ah.addAttackerToList(aet.getAttacker(), aet.getTarget(), 1);
+        }
 
         if (o instanceof Logout) {
             server.sendToAllTCP(o);

@@ -20,16 +20,17 @@ public class AttackLoop implements Runnable {
                 this.running = false;
                 break;
             }
-           /* if (ClientConnection.getInstance().getUser() != null) {
-                if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null) {
-                    new Sender().targetEnemy(ClientConnection.getInstance().getUser().getAvatar().getId(), ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit());
+           if (ClientConnection.getInstance().getUser() != null) {
+                if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != 0) {
+                    new Sender().targetEnemy(ClientConnection.getInstance().getUser().getAvatar().getId(),
+                            ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit());
                 }
                 try {
                     Thread.sleep((long) ClientConnection.getInstance().getUser().getAvatar().getAttackSpeed() * 1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }*/
+            }
         }
     }
 }

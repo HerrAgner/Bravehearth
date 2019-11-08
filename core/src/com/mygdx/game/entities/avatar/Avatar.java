@@ -39,7 +39,7 @@ public class Avatar {
     private float attackSpeed;
     private float attackRange;
     private float defence;
-    private UUID markedUnit;
+    private int markedUnit;
 
     public Avatar(String name) {
         this.name = name;
@@ -164,9 +164,9 @@ public class Avatar {
         this.maxHealth = maxHealth;
     }
 
-    public UUID getMarkedUnit() { return markedUnit; }
+    public int getMarkedUnit() { return markedUnit; }
 
-    public void setMarkedUnit(UUID markedUnit) {
+    public void setMarkedUnit(int markedUnit) {
         this.markedUnit = markedUnit;
     }
 

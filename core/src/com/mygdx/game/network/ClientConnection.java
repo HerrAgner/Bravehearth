@@ -102,7 +102,7 @@ public class ClientConnection {
         kryo.register(MovementCommands.class);
         kryo.register(UUID.class, new UUIDSerializer());
         kryo.register(Logout.class);
-        //kryo.register(AttackEnemyTarget.class, 10);
+        kryo.register(AttackEnemyTarget.class);
         kryo.register(Consumable.class);
         kryo.register(Item.class);
         kryo.register(Weapon.class);
