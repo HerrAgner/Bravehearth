@@ -6,6 +6,6 @@ public enum WearableType {
     LEGS,
     FEET,
     ACCESSORY,
-    SHIELD,
-    OFFHAND
+    OFFHAND,
+    WEAPON
 }

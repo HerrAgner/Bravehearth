@@ -20,7 +20,7 @@ public class AttackLoop implements Runnable {
                 this.running = false;
                 break;
             }
-            if (ClientConnection.getInstance().getUser() != null) {
+           /* if (ClientConnection.getInstance().getUser() != null) {
                 if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null) {
                     new Sender().targetEnemy(ClientConnection.getInstance().getUser().getAvatar().getId(), ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit());
                 }
@@ -29,7 +29,7 @@ public class AttackLoop implements Runnable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
         }
     }
 }

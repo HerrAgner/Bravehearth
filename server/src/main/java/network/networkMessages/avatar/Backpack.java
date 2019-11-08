@@ -1,23 +1,29 @@
 package network.networkMessages.avatar;
 
-
-import network.networkMessages.items.Item;
-
+import database.Column;
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.List;
 
 public class Backpack {
-    private ArrayList<Item> items;
-    private UUID avatarId;
+    private List items;
+    @Column
+    private int avatarId;
+    @Column
     private int wallet;
+    @Column
+    private int id;
 
-    public Backpack(UUID avatarId) {
+    public Backpack(int avatarId) {
         this.avatarId = avatarId;
+        this.id = id;
         this.items = new ArrayList<>();
     }
 
-    public Backpack() {
+    public Backpack() { }
 
-    }
+    public int getId() { return id; }
 
+    public void setItems(List bpItems) { this.items = bpItems;}
+
+    public List getItems() { return items; }
 }

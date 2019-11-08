@@ -1,5 +1,7 @@
 package com.mygdx.game.util;
 
 public enum CharacterClass {
-    DUMMYCLASS
+    WARRIOR,
+    SORCERER,
+    MARKSMAN
 }

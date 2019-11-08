@@ -60,13 +60,9 @@ public class GameScreen implements Screen {
         cameraController = new CameraController();
 
         cameraController.setStartPosition(ClientConnection.getInstance().getUser().getAvatar().getX(), ClientConnection.getInstance().getUser().getAvatar().getY());
-        if (ClientConnection.getInstance().getUser().getAvatar().getCharacterClass().equals(CharacterClass.DUMMYCLASS)) {
-
-            dc = new DummyClass(ClientConnection.getInstance().getActiveAvatars().get(
-                    ClientConnection.getInstance().getUser().getAvatar().getId()));
+        if (ClientConnection.getInstance().getUser().getAvatar().getCharacterClass() != null) {
             ClientConnection.getInstance().getUser()
-                    .setAvatar(new DummyClass(
-                            ClientConnection.getInstance().getAvatar()));
+                    .setAvatar(ClientConnection.getInstance().getUser().getAvatar());
         }
         tiledMap = new TmxMapLoader().load("worldMap.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / 32f);
@@ -117,8 +113,7 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
 //        ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
-        ClientConnection.getInstance().getActiveAvatars().forEach((uuid, avatar) -> {
-            DummyClass dcs = (DummyClass) avatar;
+        ClientConnection.getInstance().getActiveAvatars().forEach((Integer, avatar) -> {
             // dcs.drawDebug(renderer);
             batch.begin();
             if (avatar.getHealth() < avatar.getMaxHealth() * 0.3) {
@@ -138,13 +133,13 @@ public class GameScreen implements Screen {
 //            } catch (NullPointerException e) {dcs.setPosition(10, 10);
 //
 //            }
-            sprite.setBounds(dcs.getX(), dcs.getY(), 1f, 1f);
+            sprite.setBounds(avatar.getX(), avatar.getY(), 1f, 1f);
 
             sprite.draw(batch);
             batch.end();
-            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
+            /*if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
                 renderer.rect((float) (avatar.getX() - 1.1), (float) (avatar.getY() - 1.1), (float) 2.2, (float) 2.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
-            }
+            }*/
         });
         renderer.end();
     }

@@ -1,12 +1,10 @@
 package com.mygdx.game.network.networkMessages;
 
-import java.util.UUID;
-
 public class Position {
 
     private Float x = null;
     private Float y = null;
-    private UUID id;
+    private int id;
 
     public Position(Float x, Float y){
         this.x = x;
@@ -17,7 +15,7 @@ public class Position {
 
     }
 
-    public UUID getId(){
+    public int getId(){
         return this.id;
     }
 

@@ -1,19 +1,15 @@
 package network.networkMessages;
 
-import java.util.UUID;
-
 public class Logout {
-    private UUID avatar;
+    private int avatar;
 
-    public Logout() {
+    public Logout() { }
 
-    }
-
-    public UUID getAvatar() {
+    public int getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(UUID avatar) {
+    public void setAvatar(int avatar) {
         this.avatar = avatar;
     }
 }

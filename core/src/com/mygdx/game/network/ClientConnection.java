@@ -11,6 +11,9 @@ import com.mygdx.game.util.AttackLoop;
 import com.mygdx.game.util.CharacterClass;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,7 +22,7 @@ public class ClientConnection {
 
     private Client client;
     private User user;
-    private ConcurrentHashMap<UUID, Avatar> activeAvatars;
+    private ConcurrentHashMap<Integer, Avatar> activeAvatars;
 
     private ClientConnection() {
         activeAvatars = new ConcurrentHashMap<>();
@@ -27,7 +30,7 @@ public class ClientConnection {
         registerClasses();
         client.start();
         try {
-            client.connect(5000, "localhost", 54555, 54777);
+            client.connect(20000, "localhost", 54555, 54777);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,12 +47,10 @@ public class ClientConnection {
     }
 
     public void addActiveAvatar(Avatar avatar) {
-        if (avatar.getCharacterClass().equals(CharacterClass.DUMMYCLASS)){
-            activeAvatars.put(avatar.getId(), new DummyClass(avatar));
-        }
+            activeAvatars.put(avatar.getId(), avatar);
     }
 
-    public ConcurrentHashMap<UUID, Avatar> getActiveAvatars() {
+    public ConcurrentHashMap<Integer, Avatar> getActiveAvatars() {
         return activeAvatars;
     }
 
@@ -78,7 +79,7 @@ public class ClientConnection {
         kryo.register(MovementCommands.class);
         kryo.register(UUID.class, new UUIDSerializer());
         kryo.register(Logout.class);
-        kryo.register(AttackEnemyTarget.class);
+        //kryo.register(AttackEnemyTarget.class, 10);
         kryo.register(Consumable.class);
         kryo.register(Item.class);
         kryo.register(Weapon.class);
@@ -87,5 +88,7 @@ public class ClientConnection {
         kryo.register(WearableType.class);
         kryo.register(Backpack.class);
         kryo.register(EquippedItems.class);
+        kryo.register(ArrayList.class);
+        kryo.register(HashMap.class);
     }
 }

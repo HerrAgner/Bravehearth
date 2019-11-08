@@ -1,18 +1,14 @@
 package com.mygdx.game.network.networkMessages;
 
-import java.util.UUID;
-
 public class HealthChange {
 
     private int newHealth;
-    private UUID receivingAvatar;
-    private UUID dispatchingAvatar;
+    private int receivingAvatar;
+    private int dispatchingAvatar;
 
-    public HealthChange(){
+    public HealthChange(){ }
 
-    }
-
-    public HealthChange(int newHealth, UUID receivingAvatar, UUID dispatchingAvatar) {
+    public HealthChange(int newHealth, int receivingAvatar, int dispatchingAvatar) {
         this.newHealth = newHealth;
         this.receivingAvatar = receivingAvatar;
         this.dispatchingAvatar = dispatchingAvatar;
@@ -22,11 +18,11 @@ public class HealthChange {
         return newHealth;
     }
 
-    public UUID getReceivingAvatar() {
+    public int getReceivingAvatar() {
         return receivingAvatar;
     }
 
-    public UUID getDispatchingAvatar() {
+    public int getDispatchingAvatar() {
         return dispatchingAvatar;
     }
 }

@@ -11,10 +11,10 @@ import java.util.UUID;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class AttackHandler {
-    private LinkedBlockingQueue<HashMap<UUID, UUID>> attackList = new LinkedBlockingQueue<>();
+    private LinkedBlockingQueue<HashMap<Integer, UUID>> attackList = new LinkedBlockingQueue<>();
     public static LinkedBlockingQueue<HealthChange> validatedAttacks = new LinkedBlockingQueue<>();
 
-    public void addAttackerToList(UUID attacker, UUID target) {
+    public void addAttackerToList(int attacker, UUID target) {
         attackList.offer(new HashMap<>() {{
             put(attacker, target);
         }});
@@ -27,8 +27,8 @@ public class AttackHandler {
         }
     }
 
-    private void calculateAttackRange(HashMap<UUID, UUID> attack) {
-        Map.Entry<UUID, UUID> entry = attack.entrySet().iterator().next();
+    private void calculateAttackRange(HashMap<Integer, UUID> attack) {
+        Map.Entry<Integer, UUID> entry = attack.entrySet().iterator().next();
         Avatar attacker = GameServer.getInstance().aa.get(entry.getKey());
         Avatar target = GameServer.getInstance().aa.get(entry.getValue());
 

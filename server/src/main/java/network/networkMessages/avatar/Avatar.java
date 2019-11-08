@@ -1,7 +1,7 @@
 package network.networkMessages.avatar;
 
+import database.Column;
 import network.networkMessages.CharacterClass;
-
 import java.util.UUID;
 
 public class Avatar {
@@ -10,34 +10,47 @@ public class Avatar {
 
     private float boundsRadius;
     private float size;
-
-    private float x;
-    private float y;
-
-    private UUID id;
+    @Column
     private CharacterClass characterClass;
-
+    @Column
+    private float x;
+    @Column
+    private float y;
+    @Column
+    private int id;
+    @Column
     private String name;
+    @Column
     private int health;
+    @Column
     private int maxHealth;
+    @Column
     private int mana;
+    @Column
     private int maxMana;
+    @Column
     private int strength;
+    @Column
     private int dexterity;
+    @Column
     private int intelligence;
-
+    @Column
     private int level;
+    @Column
     private int experiencePoints;
 
     private Backpack backpack;
     private EquippedItems equippedItems;
 
+    @Column
     private int attackDamage;
+    @Column
     private float attackSpeed;
+    @Column
     private float attackRange;
-    private float defence;
+    @Column
+    private float defense;
     private UUID markedUnit;
-
 
     public Avatar() {}
 
@@ -45,15 +58,25 @@ public class Avatar {
         this.name = name;
     }
 
-    public Avatar(float maxXspeed, float maxYspeed, float x, float y, String name, int health, int mana, CharacterClass cc) {
-        this.maxXspeed = maxXspeed;
-        this.maxYspeed = maxYspeed;
+    public Avatar(float x, float y, String name, int health, int maxHealth, int mana, int attackDamage, float attackSpeed, float attackRange,  int id, CharacterClass characterClass, int maxMana, int strength, int dexterity, int intelligence, int level, int experiencePoints, float defense) {
         this.x = x;
         this.y = y;
         this.name = name;
         this.health = health;
+        this.maxHealth = maxHealth;
         this.mana = mana;
-        this.characterClass = cc;
+        this.attackDamage = attackDamage;
+        this.attackSpeed = attackSpeed;
+        this.attackRange = attackRange;
+        this.id = id;
+        this.characterClass = characterClass;
+        this.maxMana = maxMana;
+        this.strength = strength;
+        this.dexterity = dexterity;
+        this.intelligence = intelligence;
+        this.level = level;
+        this.experiencePoints = experiencePoints;
+        this.defense = defense;
     }
 
     public float getMaxXspeed() {
@@ -120,9 +143,9 @@ public class Avatar {
         this.mana = mana;
     }
 
-    public UUID getId() { return id; }
+    public int getId() { return id; }
 
-    public void setId(UUID id) { this.id = id; }
+    public void setId(int id) { this.id = id; }
 
     public UUID getMarkedUnit() {
         return markedUnit;
@@ -163,4 +186,12 @@ public class Avatar {
     public void setCharacterClass(CharacterClass characterClass) {
         this.characterClass = characterClass;
     }
+
+    public Backpack getBackpack() { return backpack; }
+
+    public void setBackpack(Backpack backpack) { this.backpack = backpack; }
+
+    public EquippedItems getEquippedItems() { return equippedItems; }
+
+    public void setEquippedItems(EquippedItems equippedItems) { this.equippedItems = equippedItems; }
 }

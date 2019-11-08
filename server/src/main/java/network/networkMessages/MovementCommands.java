@@ -9,9 +9,7 @@ public class MovementCommands {
         this.letter = letter;
     }
 
-    public MovementCommands(){
-
-    }
+    public MovementCommands(){ }
 
     public boolean isKeyPressed() {
         return isKeyPressed;

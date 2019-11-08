@@ -17,6 +17,7 @@ public class UUIDSerializer extends Serializer<UUID> {
     public void write(final Kryo kryo, final Output output, final UUID uuid) {
         output.writeLong(uuid.getMostSignificantBits());
         output.writeLong(uuid.getLeastSignificantBits());
+        output.flush();
     }
 
     @Override
