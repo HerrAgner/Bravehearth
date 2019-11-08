@@ -1,13 +1,13 @@
-/*
+
 package network.networkMessages;
 
 import java.util.UUID;
 
 public class AttackEnemyTarget {
     private int attacker;
-    private UUID target;
+    private int target;
 
-    public AttackEnemyTarget(int attacker, UUID target) {
+    public AttackEnemyTarget(int attacker, int target) {
         this.attacker = attacker;
         this.target = target;
     }
@@ -17,8 +17,8 @@ public class AttackEnemyTarget {
         return attacker;
     }
 
-    public UUID getTarget() {
+    public int getTarget() {
         return target;
     }
 }
-*/
+
