@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -41,6 +42,8 @@ public class GameScreen implements Screen {
     private TiledMapTileLayer collision;
     private InputHandler inputHandler;
     private BravehearthGame game;
+    private TextureAtlas textureAtlas;
+    private TextureAtlas.AtlasRegion atlasRegion;
 
     public GameScreen(BravehearthGame game) {
         inputHandler = new InputHandler();
@@ -152,18 +155,30 @@ public class GameScreen implements Screen {
         switch (avatar.getCharacterClass()) {
             case SORCERER:
                 Sorcerer sorc = (Sorcerer) avatar;
+                textureAtlas = new TextureAtlas("avatars/avatarSprites.txt");
+                atlasRegion = textureAtlas.findRegion("sorcerer_front");
+                sprite = textureAtlas.createSprite(String.valueOf(atlasRegion));
+                sorc.setSprite(sprite);
                 sorc.getSprite().setBounds(sorc.getX(), sorc.getY(), 1f, 1f);
                 sorc.getSprite().draw(batch);
                 break;
             case WARRIOR:
                 Warrior war = (Warrior) avatar;
+                textureAtlas = new TextureAtlas("avatars/avatarSprites.txt");
+                atlasRegion = textureAtlas.findRegion("warrior_front");
+                sprite = textureAtlas.createSprite(String.valueOf(atlasRegion));
+                war.setSprite(sprite);
                 war.getSprite().setBounds(war.getX(), war.getY(), 1f, 1f);
                 war.getSprite().draw(batch);
                 break;
             case MARKSMAN:
                 Marksman mark = (Marksman) avatar;
-                mark.getSprite().setBounds(mark.getX(), mark.getY(), 1f, 1f);
-                mark.getSprite().draw(batch);
+                textureAtlas = new TextureAtlas("avatars/avatarSprites.txt");
+                atlasRegion = textureAtlas.findRegion("marksman_front");
+                sprite = textureAtlas.createSprite(String.valueOf(atlasRegion));
+                mark.setSprite(sprite);
+                sprite.setBounds(mark.getX(), mark.getY(), 1f, 1f);
+                sprite.draw(batch);
                 break;
         }
 
