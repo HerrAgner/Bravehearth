@@ -24,6 +24,7 @@ public class Monster {
     private int maxHp;
     private int attackDamage;
     float attackSpeed;
+    float attackRange;
     private String name;
     UUID markedUnit;
     int spawnRate;
