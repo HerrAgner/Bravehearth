@@ -5,19 +5,22 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.network.ClientConnection;
 
 public class Warrior extends Avatar{
-    private Sprite texture = new Sprite((Texture) ClientConnection.getInstance().assetManager.get("pik.png"));
+    private Sprite sprite;
 
 
     public Warrior(Avatar avatar) {
         super(avatar);
     }
 
-    public Warrior(){
+    public Warrior(){ }
 
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+        getSprite();
     }
 
     public Sprite getSprite() {
-        return texture;
+        return sprite;
     }
 
 }

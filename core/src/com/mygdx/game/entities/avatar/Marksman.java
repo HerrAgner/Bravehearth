@@ -1,23 +1,23 @@
 package com.mygdx.game.entities.avatar;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.mygdx.game.network.ClientConnection;
 
 public class Marksman extends Avatar {
-    private Sprite texture = new Sprite((Texture) ClientConnection.getInstance().assetManager.get("pik.png"));
-
+    private Sprite sprite;
 
     public Marksman(Avatar avatar) {
         super(avatar);
     }
 
-    public Marksman(){
+    public Marksman(){ }
 
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+        getSprite();
     }
 
     public Sprite getSprite() {
-        return texture;
+        return sprite;
     }
 
 }
