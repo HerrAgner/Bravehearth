@@ -1,7 +1,10 @@
 package com.mygdx.game.network;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.esotericsoftware.kryo.Kryo;
@@ -9,7 +12,6 @@ import com.esotericsoftware.kryonet.Client;
 import com.mygdx.game.entities.*;
 import com.mygdx.game.entities.Items.*;
 import com.mygdx.game.entities.avatar.Avatar;
-import com.mygdx.game.entities.avatar.DummyClass;
 import com.mygdx.game.entities.monsters.Monster;
 import com.mygdx.game.network.networkMessages.*;
 import com.mygdx.game.util.AttackLoop;
@@ -19,7 +21,6 @@ import com.mygdx.game.util.MonsterType;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -49,8 +50,8 @@ public class ClientConnection {
         new Thread(new AttackLoop()).start();
 
     }
-    public static ClientConnection getInstance()
-    {
+
+    public static ClientConnection getInstance() {
         if (single_instance == null)
             single_instance = new ClientConnection();
 
@@ -58,11 +59,15 @@ public class ClientConnection {
     }
 
     public void addActiveAvatar(Avatar avatar) {
-            activeAvatars.put(avatar.getId(), avatar);
+        activeAvatars.put(avatar.getId(), avatar);
     }
 
-    private void addAssets(){
+    private void addAssets() {
+        //avatars
         assetManager.load("pik.png", Texture.class);
+        assetManager.load("avatars/avatarSprites.png", Texture.class);
+
+        //monsters
         assetManager.load("monsters/microbat.png", Texture.class);
 
         assetManager.finishLoading();
@@ -81,17 +86,23 @@ public class ClientConnection {
         return this.client;
     }
 
-    public User getUser() { return user; }
+    public User getUser() {
+        return user;
+    }
 
-    public void setUser(User user) { this.user = user; }
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-    public Avatar getAvatar() { return user.getAvatar(); }
+    public Avatar getAvatar() {
+        return user.getAvatar();
+    }
 
-    public void login(String username, String password){
+    public void login(String username, String password) {
         client.sendTCP(new Login(username, password));
     }
 
-    private void registerClasses(){
+    private void registerClasses() {
         Kryo kryo = client.getKryo();
         kryo.register(HealthChange.class);
         kryo.register(Position.class);
