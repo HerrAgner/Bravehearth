@@ -51,6 +51,7 @@ public class Avatar {
     @Column
     private float defense;
     private UUID markedUnit;
+    private boolean isHurt;
 
     public Avatar() {}
 
@@ -77,6 +78,7 @@ public class Avatar {
         this.level = level;
         this.experiencePoints = experiencePoints;
         this.defense = defense;
+        this.isHurt = false;
     }
 
     public float getMaxXspeed() {

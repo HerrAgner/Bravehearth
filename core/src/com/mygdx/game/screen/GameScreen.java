@@ -41,6 +41,7 @@ public class GameScreen implements Screen {
     private TiledMapTileLayer collision;
     private InputHandler inputHandler;
     private BravehearthGame game;
+    private float oneSecond;
 
     public GameScreen(BravehearthGame game) {
         inputHandler = new InputHandler();
@@ -52,7 +53,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-//        sprite = new Sprite(new Texture("pik.png"));
+        oneSecond = Gdx.graphics.getDeltaTime();
         camera = new OrthographicCamera(GameConfig.WIDTH, GameConfig.HEIGHT);
         camera.setToOrtho(false, 30, 20);
         //  viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
@@ -125,8 +126,19 @@ public class GameScreen implements Screen {
             }
             batch.draw(healthBar, avatar.getX() - 1, (float) (avatar.getY() + 1.2), (float) avatar.getHealth() * 2 / avatar.getMaxHealth(), (float) 0.2);
             batch.setColor(Color.WHITE);
+            if (avatar.isHurt()) {
+                renderAvatar(avatar, Color.RED);
+                if (oneSecond > 1) {
+                    avatar.setHurt(false);
+                    oneSecond = Gdx.graphics.getDeltaTime();
+                } else {
+                    oneSecond += Gdx.graphics.getDeltaTime();
+                }
+            } else {
+                renderAvatar(avatar, Color.WHITE);
+            }
+            batch.setColor(Color.WHITE);
 
-            renderAvatar(avatar);
 
 //            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
 //                renderer.rect((float) (avatar.getX() - 1.1), (float) (avatar.getY() - 1.1), (float) 2.2, (float) 2.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
@@ -148,11 +160,12 @@ public class GameScreen implements Screen {
         updateCamera();
     }
 
-    private void renderAvatar(Avatar avatar){
+    private void renderAvatar(Avatar avatar, Color color) {
         switch (avatar.getCharacterClass()) {
             case SORCERER:
                 Sorcerer sorc = (Sorcerer) avatar;
                 sorc.getSprite().setBounds(sorc.getX(), sorc.getY(), 1f, 1f);
+                sorc.getSprite().setColor(color);
                 sorc.getSprite().draw(batch);
                 break;
             case WARRIOR:

@@ -40,6 +40,7 @@ public class Avatar {
     private float attackRange;
     private float defence;
     private UUID markedUnit;
+    private boolean isHurt;
 
     public Avatar(String name) {
         this.name = name;
@@ -74,6 +75,7 @@ public class Avatar {
         this.backpack = avatar.backpack;
         this.equippedItems = avatar.equippedItems;
         this.defence = avatar.defence;
+        this.isHurt = avatar.isHurt;
     }
 
     public Avatar() {
@@ -101,7 +103,9 @@ public class Avatar {
         this.id = id;
     }
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
     public void update(float delta) {
        /* float xSpeed = 0;
@@ -156,6 +160,14 @@ public class Avatar {
         this.health = health;
     }
 
+    public boolean isHurt() {
+        return isHurt;
+    }
+
+    public void setHurt(boolean hurt) {
+        isHurt = hurt;
+    }
+
     public int getMaxHealth() {
         return maxHealth;
     }
@@ -164,7 +176,9 @@ public class Avatar {
         this.maxHealth = maxHealth;
     }
 
-    public UUID getMarkedUnit() { return markedUnit; }
+    public UUID getMarkedUnit() {
+        return markedUnit;
+    }
 
     public void setMarkedUnit(UUID markedUnit) {
         this.markedUnit = markedUnit;

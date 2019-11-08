@@ -35,6 +35,10 @@ public class InputHandler implements InputProcessor {
         if (keycode == Input.Keys.D) {
             sender.sendInputPressed(Input.Keys.D);
             return true;
+        }if( keycode == Input.Keys.Q){
+            ClientConnection.getInstance().getActiveAvatars().forEach((k, v) -> {
+                v.setHurt(true);
+            });
         }
         return false;
     }
