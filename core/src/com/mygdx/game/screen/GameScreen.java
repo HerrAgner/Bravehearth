@@ -58,7 +58,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         camera = new OrthographicCamera(GameConfig.WIDTH, GameConfig.HEIGHT);
-        camera.setToOrtho(false, 30, 20);
+        camera.setToOrtho(false, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT);
         //  viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
         renderer = new ShapeRenderer();
         cameraController = new CameraController();
@@ -133,7 +133,7 @@ public class GameScreen implements Screen {
             } else {
                 batch.setColor(Color.GREEN);
             }
-            batch.draw(healthBar, avatar.getX() - 1, (float) (avatar.getY() + 1.2), (float) avatar.getHealth() / avatar.getMaxHealth(), (float) 0.2);
+            batch.draw(healthBar, avatar.getX(), (float) (avatar.getY() + 1.2), (float) avatar.getHealth() / avatar.getMaxHealth(), (float) 0.2);
             batch.setColor(Color.WHITE);
             if (avatar.isHurt()) {
                 renderAvatar(avatar, Color.RED);
@@ -192,7 +192,7 @@ public class GameScreen implements Screen {
                 Sorcerer sorc = (Sorcerer) avatar;
                 sprite = sprites.get("sorcerer_front");
                 sorc.setSprite(sprite);
-                sorc.getSprite().setBounds(sorc.getX(), sorc.getY(), 1f, 1f);
+                sorc.getSprite().setBounds(sorc.getX(), sorc.getY(), 0.8f, 1f);
                 sorc.getSprite().setColor(color);
                 sorc.getSprite().draw(batch);
                 break;
@@ -200,7 +200,7 @@ public class GameScreen implements Screen {
                 Warrior war = (Warrior) avatar;
                 sprite = sprites.get("warrior_front");
                 war.setSprite(sprite);
-                war.getSprite().setBounds(war.getX(), war.getY(), 1f, 1f);
+                war.getSprite().setBounds(war.getX(), war.getY(), 0.8f, 1f);
                 war.getSprite().setColor(color);
                 war.getSprite().draw(batch);
                 break;
@@ -208,7 +208,7 @@ public class GameScreen implements Screen {
                 Marksman mark = (Marksman) avatar;
                 sprite = sprites.get("marksman_front");
                 mark.setSprite(sprite);
-                sprite.setBounds(mark.getX(), mark.getY(), 1f, 1f);
+                sprite.setBounds(mark.getX(), mark.getY(), 0.8f, 1f);
                 mark.getSprite().setColor(color);
                 sprite.draw(batch);
                 break;
