@@ -2,6 +2,7 @@ package game;
 
 import enums.Movement;
 import handlers.AttackHandler;
+import handlers.MonsterHandler;
 import handlers.MovementHandler;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.Position;
@@ -39,8 +40,14 @@ public class GameLoop implements Runnable {
                     System.out.println("Could not send attack. Trying again.");
                 }
             }
-//            System.out.println(GameServer.getInstance().getMh().counter.get());
+            GameServer.getInstance().getMh().updateCounter();
             GameServer.getInstance().getMh().monsterTargetAvatar();
+            MonsterHandler.monsterList.values().forEach(monster -> {
+                if (monster.getMarkedUnit() != 0) {
+                    GameServer.getInstance().getMh().monsterAttack(monster);
+                }
+            });
+
 
             try {
                 prevtime = time;

@@ -29,7 +29,8 @@ public class InputHandler implements InputProcessor {
             return true;
         }
         if (keycode == Input.Keys.A) {
-            sender.sendInputPressed(Input.Keys.A);;
+            sender.sendInputPressed(Input.Keys.A);
+            ;
             return true;
         }
         if (keycode == Input.Keys.D) {
@@ -54,7 +55,8 @@ public class InputHandler implements InputProcessor {
             return true;
         }
         if (keycode == Input.Keys.A) {
-            sender.sendInputReleased(Input.Keys.A);;
+            sender.sendInputReleased(Input.Keys.A);
+            ;
             return true;
         }
         if (keycode == Input.Keys.D) {
@@ -72,23 +74,21 @@ public class InputHandler implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         User user = ClientConnection.getInstance().getUser();
-        Vector3 vec=new Vector3(screenX,screenY,0);
-//        GameScreen.camera.unproject(vec);
-       /*if (button == Input.Buttons.RIGHT) {
-           ClientConnection.getInstance().getActiveAvatars().values().forEach(avatar -> {
-               if ((avatar.getX()+1 > vec.x && avatar.getX()-1 < vec.x) && (avatar.getY()+1 > vec.y && avatar.getY()-1 < vec.y)) {
-                   if (avatar.getId() != (user.getAvatar().getId())) {
-                       if (user.getAvatar().getMarkedUnit() == null) {
-                           user.getAvatar().setMarkedUnit(avatar.getId());
-                       } else if (!user.getAvatar().getMarkedUnit().equals(avatar.getId())) {
-                           user.getAvatar().setMarkedUnit(avatar.getId());
-                       } else {
-                           user.getAvatar().setMarkedUnit(null);
-                       }
-                   }
-               }
-           });
-       }*/
+        Vector3 vec = new Vector3(screenX, screenY, 0);
+        GameScreen.camera.unproject(vec);
+        if (button == Input.Buttons.RIGHT) {
+            ClientConnection.getInstance().getActiveMonsters().values().forEach(monster -> {
+                if ((monster.getX() + 1 > vec.x && monster.getX() - 1 < vec.x) && (monster.getY() + 1 > vec.y && monster.getY() - 1 < vec.y)) {
+                    if (user.getAvatar().getMarkedUnit() == 0) {
+                        user.getAvatar().setMarkedUnit(monster.getId());
+                    } else if (user.getAvatar().getMarkedUnit() != monster.getId()) {
+                        user.getAvatar().setMarkedUnit(monster.getId());
+                    } else {
+                        user.getAvatar().setMarkedUnit(0);
+                    }
+                }
+            });
+        }
         return false;
     }
 

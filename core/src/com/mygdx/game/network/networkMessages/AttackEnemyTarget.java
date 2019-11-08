@@ -1,17 +1,16 @@
-/*
+
 package com.mygdx.game.network.networkMessages;
 
-import java.util.UUID;
 
 public class AttackEnemyTarget {
     private int attacker;
-    private UUID target;
+    private int target;
+    private int attackerType;
 
-    public AttackEnemyTarget(int attacker, UUID target) {
+    public AttackEnemyTarget(int attacker, int target) {
         this.attacker = attacker;
         this.target = target;
     }
 
     public AttackEnemyTarget(){ }
 }
-*/

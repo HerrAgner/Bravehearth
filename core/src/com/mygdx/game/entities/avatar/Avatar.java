@@ -39,8 +39,8 @@ public class Avatar {
     private float attackSpeed;
     private float attackRange;
     private float defence;
-    private UUID markedUnit;
-    private boolean isHurt;
+    private int markedUnit;
+	private boolean isHurt;
 
     public Avatar(String name) {
         this.name = name;
@@ -103,9 +103,7 @@ public class Avatar {
         this.id = id;
     }
 
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
 
     public void update(float delta) {
        /* float xSpeed = 0;
@@ -176,11 +174,9 @@ public class Avatar {
         this.maxHealth = maxHealth;
     }
 
-    public UUID getMarkedUnit() {
-        return markedUnit;
-    }
+    public int getMarkedUnit() { return markedUnit; }
 
-    public void setMarkedUnit(UUID markedUnit) {
+    public void setMarkedUnit(int markedUnit) {
         this.markedUnit = markedUnit;
     }
 

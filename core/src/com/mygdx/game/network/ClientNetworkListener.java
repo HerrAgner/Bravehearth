@@ -29,7 +29,7 @@ public class ClientNetworkListener {
                         Warrior war = new Warrior((Avatar) object);
                         ClientConnection.getInstance().addActiveAvatar(war);
                     } else if (((Avatar) object).getCharacterClass() == CharacterClass.MARKSMAN) {
-                       Marksman mark = new Marksman((Avatar) object);
+                        Marksman mark = new Marksman((Avatar) object);
                         ClientConnection.getInstance().addActiveAvatar(mark);
                     }
                 }
@@ -54,9 +54,17 @@ public class ClientNetworkListener {
                 }
 
                 if (object instanceof HealthChange) {
-                    ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
-                            .setHealth(((HealthChange) object).getNewHealth());
-              //      ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar()).setHurt(true);
+                    if (((HealthChange) object).getType() == 1) {
+                        ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar())
+                                .setHp(((HealthChange) object).getNewHealth());
+                    } else {
+                        ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
+                                .setHealth(((HealthChange) object).getNewHealth());
+                        ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
+                                .setHurt(true);
+                    }
+//                    ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
+//                            .setHealth(((HealthChange) object).getNewHealth());
                 }
 
                 if (object instanceof Position) {

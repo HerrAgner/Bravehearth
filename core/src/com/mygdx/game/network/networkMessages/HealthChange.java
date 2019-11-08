@@ -5,13 +5,15 @@ public class HealthChange {
     private int newHealth;
     private int receivingAvatar;
     private int dispatchingAvatar;
+    private int type;
 
     public HealthChange(){ }
 
-    public HealthChange(int newHealth, int receivingAvatar, int dispatchingAvatar) {
+    public HealthChange(int newHealth, int receivingAvatar, int dispatchingAvatar, int type) {
         this.newHealth = newHealth;
         this.receivingAvatar = receivingAvatar;
         this.dispatchingAvatar = dispatchingAvatar;
+        this.type = type;
     }
 
     public int getNewHealth() {
@@ -24,5 +26,9 @@ public class HealthChange {
 
     public int getDispatchingAvatar() {
         return dispatchingAvatar;
+    }
+
+    public int getType() {
+        return type;
     }
 }

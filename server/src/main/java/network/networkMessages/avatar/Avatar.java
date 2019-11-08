@@ -50,7 +50,7 @@ public class Avatar {
     private float attackRange;
     @Column
     private float defense;
-    private UUID markedUnit;
+    private int markedUnit;
     private boolean isHurt;
 
     public Avatar() {}
@@ -149,11 +149,11 @@ public class Avatar {
 
     public void setId(int id) { this.id = id; }
 
-    public UUID getMarkedUnit() {
+    public int getMarkedUnit() {
         return markedUnit;
     }
 
-    public void setMarkedUnit(UUID markedUnit) {
+    public void setMarkedUnit(int markedUnit) {
         this.markedUnit = markedUnit;
     }
 
