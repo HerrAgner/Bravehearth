@@ -1,23 +1,19 @@
 package network.networkMessages.avatar;
 
-
 import network.networkMessages.items.Item;
 import network.networkMessages.items.WearableType;
-
 import java.util.HashMap;
-import java.util.UUID;
 
 public class EquippedItems {
     private HashMap<WearableType, Item> equippedItems;
-    private UUID avatarId;
+    private int avatarId;
 
-
-    public EquippedItems(UUID avatarId) {
+    public EquippedItems(int avatarId, HashMap<WearableType, Item> equippedItems) {
         this.avatarId = avatarId;
-        this.equippedItems = new HashMap<>();
+        this.equippedItems = equippedItems;
     }
 
-    public EquippedItems() {
+    public HashMap getEquippedItems() { return equippedItems; }
 
-    }
+    public EquippedItems() { }
 }

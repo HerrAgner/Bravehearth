@@ -1,18 +1,14 @@
 package network.networkMessages;
 
-import java.util.UUID;
-
 public class HealthChange {
 
-    int newHealth;
-    UUID receivingAvatar;
-    UUID dispatchingAvatar;
+    private int newHealth;
+    private int receivingAvatar;
+    private int dispatchingAvatar;
 
-    public HealthChange(){
+    public HealthChange(){ }
 
-    }
-
-    public HealthChange(int newHealth, UUID receivingAvatar, UUID dispatchingAvatar) {
+    public HealthChange(int newHealth, int receivingAvatar, int dispatchingAvatar) {
         this.newHealth = newHealth;
         this.receivingAvatar = receivingAvatar;
         this.dispatchingAvatar = dispatchingAvatar;

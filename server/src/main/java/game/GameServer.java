@@ -13,7 +13,9 @@ import network.networkMessages.avatar.EquippedItems;
 import network.networkMessages.items.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,7 +27,7 @@ public class GameServer {
     private ActiveUserHandler auh;
     private MonsterHandler mh;
     public HashMap<Integer, User> au;
-    public ConcurrentHashMap<UUID, Avatar> aa;
+    public ConcurrentHashMap<Integer, Avatar> aa;
     private MapReader mapReader;
 
 
@@ -84,7 +86,7 @@ public class GameServer {
         kryo.register(MovementCommands.class);
         kryo.register(UUID.class, new UUIDSerializer());
         kryo.register(Logout.class);
-        kryo.register(AttackEnemyTarget.class);
+        //kryo.register(AttackEnemyTarget.class, 10);
         kryo.register(Consumable.class);
         kryo.register(Item.class);
         kryo.register(Weapon.class);
@@ -93,6 +95,8 @@ public class GameServer {
         kryo.register(WearableType.class);
         kryo.register(Backpack.class);
         kryo.register(EquippedItems.class);
+        kryo.register(ArrayList.class);
+        kryo.register(HashMap.class);
         kryo.register(Monster.class);
         kryo.register(MonsterType.class);
     }

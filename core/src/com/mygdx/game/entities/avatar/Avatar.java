@@ -19,9 +19,8 @@ public class Avatar {
     private float x;
     private float y;
 
-    private UUID id;
+    private int id;
     private CharacterClass characterClass;
-
     private String name;
     private int health;
     private int maxHealth;
@@ -30,7 +29,6 @@ public class Avatar {
     private int strength;
     private int dexterity;
     private int intelligence;
-
     private int level;
     private int experiencePoints;
 
@@ -42,7 +40,6 @@ public class Avatar {
     private float attackRange;
     private float defence;
     private UUID markedUnit;
-
 
     public Avatar(String name) {
         this.name = name;
@@ -84,7 +81,7 @@ public class Avatar {
     }
 
 
-    public Avatar(float maxXspeed, float MAX_Y_SPEED, float x, float y, String name, int health, int mana, CharacterClass cc) {
+    public Avatar(float maxXspeed, float MAX_Y_SPEED, float x, float y, String name, int health, int mana, CharacterClass characterClass) {
         this.maxXspeed = maxXspeed;
         this.maxYspeed = MAX_Y_SPEED;
         this.x = x;
@@ -92,7 +89,7 @@ public class Avatar {
         this.name = name;
         this.health = health;
         this.mana = mana;
-        this.characterClass = cc;
+        this.characterClass = characterClass;
     }
 
     public void setPosition(float x, float y) {
@@ -100,11 +97,11 @@ public class Avatar {
         this.y = y;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public UUID getId() { return id; }
+    public int getId() { return id; }
 
     public void update(float delta) {
        /* float xSpeed = 0;
@@ -123,7 +120,6 @@ public class Avatar {
                 ySpeed = -maxYspeed;
             }
         }
-
         validMovement(x += xSpeed * delta, y += ySpeed * delta);
 
     */
@@ -168,9 +164,7 @@ public class Avatar {
         this.maxHealth = maxHealth;
     }
 
-    public UUID getMarkedUnit() {
-        return markedUnit;
-    }
+    public UUID getMarkedUnit() { return markedUnit; }
 
     public void setMarkedUnit(UUID markedUnit) {
         this.markedUnit = markedUnit;

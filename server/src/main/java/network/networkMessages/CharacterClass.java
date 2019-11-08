@@ -1,5 +1,7 @@
 package network.networkMessages;
 
 public enum CharacterClass {
-    DUMMYCLASS
+        WARRIOR,
+        SORCERER,
+        MARKSMAN
 }

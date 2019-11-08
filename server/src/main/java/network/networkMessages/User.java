@@ -4,7 +4,6 @@ import database.Column;
 import network.networkMessages.avatar.Avatar;
 
 public class User {
-
     @Column
     private int id;
     @Column
@@ -27,4 +26,6 @@ public class User {
     public void setAvatar(Avatar avatar) {
         this.avatar = avatar;
     }
+
+    public int getId() { return id; }
 }

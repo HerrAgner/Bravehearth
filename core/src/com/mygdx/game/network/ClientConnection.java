@@ -17,6 +17,9 @@ import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.util.MonsterType;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,7 +28,7 @@ public class ClientConnection {
 
     private Client client;
     private User user;
-    private ConcurrentHashMap<UUID, Avatar> activeAvatars;
+    private ConcurrentHashMap<Integer, Avatar> activeAvatars;
     private ConcurrentHashMap<UUID, Monster> activeMonsters;
     public AssetManager assetManager = new AssetManager();
 
@@ -55,9 +58,7 @@ public class ClientConnection {
     }
 
     public void addActiveAvatar(Avatar avatar) {
-        if (avatar.getCharacterClass().equals(CharacterClass.DUMMYCLASS)){
-            activeAvatars.put(avatar.getId(), new DummyClass(avatar));
-        }
+            activeAvatars.put(avatar.getId(), avatar);
     }
 
     private void addAssets(){
@@ -67,7 +68,7 @@ public class ClientConnection {
         assetManager.finishLoading();
     }
 
-    public ConcurrentHashMap<UUID, Avatar> getActiveAvatars() {
+    public ConcurrentHashMap<Integer, Avatar> getActiveAvatars() {
         return activeAvatars;
     }
 
@@ -75,17 +76,16 @@ public class ClientConnection {
         return activeMonsters;
     }
 
-    public User getUser() { return user; }
 
     public Client getClient() {
         return this.client;
     }
 
+    public User getUser() { return user; }
+
     public void setUser(User user) { this.user = user; }
 
     public Avatar getAvatar() { return user.getAvatar(); }
-
-
 
     public void login(String username, String password){
         client.sendTCP(new Login(username, password));
@@ -102,7 +102,7 @@ public class ClientConnection {
         kryo.register(MovementCommands.class);
         kryo.register(UUID.class, new UUIDSerializer());
         kryo.register(Logout.class);
-        kryo.register(AttackEnemyTarget.class);
+        //kryo.register(AttackEnemyTarget.class, 10);
         kryo.register(Consumable.class);
         kryo.register(Item.class);
         kryo.register(Weapon.class);
@@ -111,6 +111,8 @@ public class ClientConnection {
         kryo.register(WearableType.class);
         kryo.register(Backpack.class);
         kryo.register(EquippedItems.class);
+        kryo.register(ArrayList.class);
+        kryo.register(HashMap.class);
         kryo.register(Monster.class);
         kryo.register(MonsterType.class);
     }

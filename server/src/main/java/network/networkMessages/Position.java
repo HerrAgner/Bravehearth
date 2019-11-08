@@ -1,16 +1,14 @@
 package network.networkMessages;
 
-import java.util.UUID;
-
 public class Position {
 
     private Float x = null;
     private Float y = null;
-    private UUID id;
     private int type;
+    private int id;
 
 
-    public Position(Float x, Float y, UUID id, int type){
+    public Position(Float x, Float y, int id, int type){
         this.x = x;
         this.y = y;
         this.id = id;

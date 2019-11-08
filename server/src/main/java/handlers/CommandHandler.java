@@ -7,10 +7,10 @@ import enums.Command;
 import game.GameServer;
 import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
+import network.networkMessages.avatar.Backpack;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class CommandHandler {
@@ -27,7 +27,6 @@ public class CommandHandler {
         ah = new AttackHandler();
         auh = GameServer.getInstance().getAUH();
         server = GameServer.getInstance().getServer();
-
     }
 
     public void addToQueue(Connection connection, Object object) {
@@ -56,6 +55,7 @@ public class CommandHandler {
         Map.Entry<Connection, Object> entry = command.entrySet().iterator().next();
         Object o = entry.getValue();
         Connection c = entry.getKey();
+
         if (o instanceof Login) {
             User user = (createUser(o));
             if (user != null) {
@@ -88,11 +88,11 @@ public class CommandHandler {
             }
         }
 
-        if (o instanceof AttackEnemyTarget) {
+        /*if (o instanceof AttackEnemyTarget) {
             AttackEnemyTarget aet = (AttackEnemyTarget) o;
             auh.getActiveAvatars().get(aet.getAttacker()).setMarkedUnit(aet.getTarget());
             ah.addAttackerToList(aet.getAttacker(), aet.getTarget());
-        }
+        }*/
 
         if (o instanceof Logout) {
             server.sendToAllTCP(o);
@@ -122,23 +122,16 @@ public class CommandHandler {
 
     private User createUser(Object object) {
         Login loginObject = (Login) object;
-        Avatar avatar = new Avatar();
-        avatar.setCharacterClass(CharacterClass.DUMMYCLASS);
-        avatar.setX(1);
-        avatar.setY(197);
-        avatar.setMaxHealth(30);
-        avatar.setAttackDamage(1);
-        avatar.setAttackSpeed((float) 1.5);
-        avatar.setAttackRange((float) 1.5);
-        avatar.setHealth(avatar.getMaxHealth());
-        avatar.setId(UUID.randomUUID());
-
         User user = DBQueries.getMatchingUser(loginObject.getUsername(), loginObject.getPassword());
+        Avatar avatar = DBQueries.getUserAvatar(user.getId());
+        System.out.println(avatar.getCharacterClass());
         try {
-
+            Backpack bp = DBQueries.getBackpack(avatar.getId());
+            bp.setItems(DBQueries.getBpItems(bp.getId()));
+            avatar.setEquippedItems(DBQueries.getEquippedItems(avatar.getId()));
             user.setAvatar(avatar);
         } catch (NullPointerException e) {
-            System.out.println("No avatar found on user.");
+            System.out.println("No avatar found for user.");
         }
         return user;
     }

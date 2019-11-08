@@ -7,7 +7,6 @@ public class Login {
     private String password;
     private Avatar avatar;
 
-
     public Login(){}
 
     public Login(String username, Avatar avatar) {

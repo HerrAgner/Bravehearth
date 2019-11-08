@@ -19,8 +19,7 @@ public class ClientNetworkListener {
             public void received(Connection connection, Object object) {
 
                 if (object instanceof User) {
-                    ClientConnection.getInstance().setUser(createUser((User) object));
-
+                    ClientConnection.getInstance().setUser((User) object);
                 }
 
                 if(object instanceof Avatar) {
@@ -36,7 +35,7 @@ public class ClientNetworkListener {
                 }
 
                 if (object instanceof Logout) {
-                    if (((Logout) object).getAvatar().equals(ClientConnection.getInstance().getUser().getAvatar().getId())) {
+                    if (((Logout) object).getAvatar() == (ClientConnection.getInstance().getUser().getAvatar().getId())) {
                         ClientConnection.getInstance().getClient().stop();
                     }
                     ClientConnection.getInstance().getActiveAvatars().remove(((Logout) object).getAvatar());
@@ -64,22 +63,5 @@ public class ClientNetworkListener {
                 }
             }
         });
-    }
-
-    private User createUser(User user) {
-        Avatar avatar;
-        if (user.getAvatar().getCharacterClass().equals(CharacterClass.DUMMYCLASS)) {
-            avatar = new DummyClass(user.getAvatar());
-            avatar.setPosition(user.getAvatar().getX(), (user.getAvatar().getY()));
-            avatar.setCharacterClass(user.getAvatar().getCharacterClass());
-            avatar.setId(user.getAvatar().getId());
-            avatar.setHealth(user.getAvatar().getHealth());
-            avatar.setMaxHealth(user.getAvatar().getMaxHealth());
-
-
-            user = new User(user.getUsername(), avatar);
-        }
-
-        return (user);
     }
 }

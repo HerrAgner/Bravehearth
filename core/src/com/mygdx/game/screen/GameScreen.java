@@ -61,13 +61,9 @@ public class GameScreen implements Screen {
         cameraController = new CameraController();
 
         cameraController.setStartPosition(ClientConnection.getInstance().getUser().getAvatar().getX(), ClientConnection.getInstance().getUser().getAvatar().getY());
-        if (ClientConnection.getInstance().getUser().getAvatar().getCharacterClass().equals(CharacterClass.DUMMYCLASS)) {
-
-            dc = new DummyClass(ClientConnection.getInstance().getActiveAvatars().get(
-                    ClientConnection.getInstance().getUser().getAvatar().getId()));
+        if (ClientConnection.getInstance().getUser().getAvatar().getCharacterClass() != null) {
             ClientConnection.getInstance().getUser()
-                    .setAvatar(new DummyClass(
-                            ClientConnection.getInstance().getAvatar()));
+                    .setAvatar(ClientConnection.getInstance().getUser().getAvatar());
         }
         tiledMap = new TmxMapLoader().load("worldMap.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / 32f);
@@ -120,7 +116,8 @@ public class GameScreen implements Screen {
         renderer.begin(ShapeRenderer.ShapeType.Line);
         batch.begin();
 
-        ClientConnection.getInstance().getActiveAvatars().forEach((uuid, avatar) -> {
+        ClientConnection.getInstance().getActiveAvatars().forEach((Integer, avatar) -> {
+
             DummyClass dcs = (DummyClass) avatar;
             // dcs.drawDebug(renderer);
             if (avatar.getHealth() < avatar.getMaxHealth() * 0.3) {
@@ -144,9 +141,9 @@ public class GameScreen implements Screen {
             dcs.getSprite().setBounds(dcs.getX(), dcs.getY(), 1f, 1f);
             dcs.getSprite().draw(batch);
 
-            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
-                renderer.rect((float) (avatar.getX() - 1.1), (float) (avatar.getY() - 1.1), (float) 2.2, (float) 2.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
-            }
+//            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
+//                renderer.rect((float) (avatar.getX() - 1.1), (float) (avatar.getY() - 1.1), (float) 2.2, (float) 2.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
+//            }
         });
 
         ClientConnection.getInstance().getActiveMonsters().forEach((uuid, monster) -> {
