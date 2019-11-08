@@ -2,6 +2,7 @@ package network.networkMessages.avatar;
 
 import database.Column;
 import network.networkMessages.CharacterClass;
+
 import java.util.UUID;
 
 public class Avatar {
@@ -52,14 +53,16 @@ public class Avatar {
     private float defense;
     private int markedUnit;
     private boolean isHurt;
+    private float hpRegen;
 
-    public Avatar() {}
+    public Avatar() {
+    }
 
     public Avatar(String name) {
         this.name = name;
     }
 
-    public Avatar(float x, float y, String name, int health, int maxHealth, int mana, int attackDamage, float attackSpeed, float attackRange,  int id, CharacterClass characterClass, int maxMana, int strength, int dexterity, int intelligence, int level, int experiencePoints, float defense) {
+    public Avatar(float x, float y, String name, int health, int maxHealth, int mana, int attackDamage, float attackSpeed, float attackRange, int id, CharacterClass characterClass, int maxMana, int strength, int dexterity, int intelligence, int level, int experiencePoints, float defense) {
         this.x = x;
         this.y = y;
         this.name = name;
@@ -79,6 +82,15 @@ public class Avatar {
         this.experiencePoints = experiencePoints;
         this.defense = defense;
         this.isHurt = false;
+        this.hpRegen = 0.01f;
+    }
+
+    public void startHpRegen() {
+        hpRegen += 0.01f;
+        if (hpRegen > 3f && health>0) {
+            setHealth(getHealth() + 1);
+            hpRegen = 0.01f;
+        }
     }
 
     public float getMaxXspeed() {
@@ -145,9 +157,13 @@ public class Avatar {
         this.mana = mana;
     }
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
-    public void setId(int id) { this.id = id; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getMarkedUnit() {
         return markedUnit;
@@ -189,11 +205,19 @@ public class Avatar {
         this.characterClass = characterClass;
     }
 
-    public Backpack getBackpack() { return backpack; }
+    public Backpack getBackpack() {
+        return backpack;
+    }
 
-    public void setBackpack(Backpack backpack) { this.backpack = backpack; }
+    public void setBackpack(Backpack backpack) {
+        this.backpack = backpack;
+    }
 
-    public EquippedItems getEquippedItems() { return equippedItems; }
+    public EquippedItems getEquippedItems() {
+        return equippedItems;
+    }
 
-    public void setEquippedItems(EquippedItems equippedItems) { this.equippedItems = equippedItems; }
+    public void setEquippedItems(EquippedItems equippedItems) {
+        this.equippedItems = equippedItems;
+    }
 }

@@ -124,7 +124,6 @@ public class GameScreen implements Screen {
 //        ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
         batch.begin();
-
         ClientConnection.getInstance().getActiveAvatars().forEach((Integer, avatar) -> {
             if (avatar.getHealth() < avatar.getMaxHealth() * 0.3) {
                 batch.setColor(Color.RED);
