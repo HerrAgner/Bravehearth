@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MonsterHandler {
-    public static HashMap<UUID, Monster> monsterList;
+    public static HashMap<Integer, Monster> monsterList;
     public AtomicInteger counter;
 
 
@@ -23,7 +23,7 @@ public class MonsterHandler {
 
     }
 
-    public void addMonster(UUID id, Monster monster) {
+    public void addMonster(int id, Monster monster) {
         monsterList.put(id, monster);
     }
 
@@ -36,22 +36,22 @@ public class MonsterHandler {
         };
 
         monsterList.values().forEach(monster -> {
-            GameServer.getInstance().aa.forEach((uuid, avatar) -> {
+            GameServer.getInstance().aa.forEach((id, avatar) -> {
                 ref.dx = monster.getX() - avatar.getX();
                 ref.dy = monster.getY() - avatar.getY();
                 ref.len = (float) Math.hypot(ref.dx, ref.dy);
                 if (ref.len < 5) {
-                    monster.setMarkedUnit(uuid);
+                    monster.setMarkedUnit(id);
                     ref.changed =true;
                 }
 
             });
             if (!ref.changed) {
                 if (ref.len > 8) {
-                    monster.setMarkedUnit(null);
+                    monster.setMarkedUnit(0);
                 }
             }
-            if (monster.getMarkedUnit() != null) {
+            if (monster.getMarkedUnit() != 0) {
                 moveMonster(monster, ref.dx, ref.dy, ref.len);
             }
         });

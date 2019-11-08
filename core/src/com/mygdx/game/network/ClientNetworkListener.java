@@ -2,8 +2,7 @@ package com.mygdx.game.network;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import com.mygdx.game.entities.avatar.DummyClass;
-import com.mygdx.game.entities.avatar.Avatar;
+import com.mygdx.game.entities.avatar.*;
 import com.mygdx.game.entities.monsters.DummyMonster;
 import com.mygdx.game.entities.monsters.Monster;
 import com.mygdx.game.network.networkMessages.HealthChange;
@@ -22,8 +21,17 @@ public class ClientNetworkListener {
                     ClientConnection.getInstance().setUser((User) object);
                 }
 
-                if(object instanceof Avatar) {
-                    ClientConnection.getInstance().addActiveAvatar((Avatar) object);
+                if (object instanceof Avatar) {
+                    if (((Avatar) object).getCharacterClass() == CharacterClass.SORCERER) {
+                        Sorcerer sorc = new Sorcerer((Avatar) object);
+                        ClientConnection.getInstance().addActiveAvatar(sorc);
+                    } else if (((Avatar) object).getCharacterClass() == CharacterClass.WARRIOR) {
+                        Warrior war = new Warrior((Avatar) object);
+                        ClientConnection.getInstance().addActiveAvatar(war);
+                    } else if (((Avatar) object).getCharacterClass() == CharacterClass.MARKSMAN) {
+                       Marksman mark = new Marksman((Avatar) object);
+                        ClientConnection.getInstance().addActiveAvatar(mark);
+                    }
                 }
 
                 if (object instanceof Monster) {
@@ -51,14 +59,16 @@ public class ClientNetworkListener {
                 }
 
                 if (object instanceof Position) {
-                    if (((Position) object).getType() == 1) {
-                        ClientConnection.getInstance().getActiveAvatars()
-                                .get(((Position) object).getId())
-                                .setPosition(((Position) object).getX(), ((Position) object).getY());
-                    } else if (((Position) object).getType() == 2) {
-                        ClientConnection.getInstance().getActiveMonsters()
-                                .get(((Position) object).getId())
-                                .setPosition(((Position) object).getX(), ((Position) object).getY());
+                    if (ClientConnection.getInstance().getClient().isConnected()) {
+                        if (((Position) object).getType() == 1) {
+                            ClientConnection.getInstance().getActiveAvatars()
+                                    .get(((Position) object).getId())
+                                    .setPosition(((Position) object).getX(), ((Position) object).getY());
+                        } else if (((Position) object).getType() == 2) {
+                            ClientConnection.getInstance().getActiveMonsters()
+                                    .get(((Position) object).getId())
+                                    .setPosition(((Position) object).getX(), ((Position) object).getY());
+                        }
                     }
                 }
             }

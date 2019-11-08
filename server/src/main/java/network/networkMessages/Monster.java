@@ -8,7 +8,7 @@ public class Monster {
 
     private float boundsRadius;
     private float size;
-    UUID id;
+    int id;
 
     private float x;
     private float y;
@@ -18,7 +18,7 @@ public class Monster {
     private int attackDamage;
     float attackSpeed;
     private String name;
-    UUID markedUnit;
+    private int markedUnit;
     int spawnRate;
     MonsterType type;
 
@@ -34,7 +34,6 @@ public class Monster {
         this.size = boundsRadius * 2;
         this.x = 3;
         this.y = 4;
-        this.id = UUID.randomUUID();
     }
 
     public float getMaxXspeed() {
@@ -69,11 +68,11 @@ public class Monster {
         this.size = size;
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -133,11 +132,11 @@ public class Monster {
         this.name = name;
     }
 
-    public UUID getMarkedUnit() {
+    public int getMarkedUnit() {
         return markedUnit;
     }
 
-    public void setMarkedUnit(UUID markedUnit) {
+    public void setMarkedUnit(int markedUnit) {
         this.markedUnit = markedUnit;
     }
 

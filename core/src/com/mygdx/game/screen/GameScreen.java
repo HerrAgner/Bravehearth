@@ -18,8 +18,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.BravehearthGame;
 import com.mygdx.game.config.GameConfig;
-import com.mygdx.game.entities.avatar.Avatar;
-import com.mygdx.game.entities.avatar.DummyClass;
+import com.mygdx.game.entities.avatar.*;
 import com.mygdx.game.entities.monsters.DummyMonster;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.util.CameraController;
@@ -117,9 +116,6 @@ public class GameScreen implements Screen {
         batch.begin();
 
         ClientConnection.getInstance().getActiveAvatars().forEach((Integer, avatar) -> {
-
-            DummyClass dcs = (DummyClass) avatar;
-            // dcs.drawDebug(renderer);
             if (avatar.getHealth() < avatar.getMaxHealth() * 0.3) {
                 batch.setColor(Color.RED);
             } else if (avatar.getHealth() < avatar.getMaxHealth() * 0.6) {
@@ -129,17 +125,8 @@ public class GameScreen implements Screen {
             }
             batch.draw(healthBar, avatar.getX() - 1, (float) (avatar.getY() + 1.2), (float) avatar.getHealth() * 2 / avatar.getMaxHealth(), (float) 0.2);
             batch.setColor(Color.WHITE);
-//            try {
-//                if (collision.getCell((int) avatar.getX(), (int) avatar.getY()).getTile().getProperties().containsKey("blocked")) {
-//                    System.out.println("blocked");
-//                    dcs.setPosition(10, 10);
-//                }
-//            } catch (NullPointerException e) {dcs.setPosition(10, 10);
-//
-//            }
 
-            dcs.getSprite().setBounds(dcs.getX(), dcs.getY(), 1f, 1f);
-            dcs.getSprite().draw(batch);
+            renderAvatar(avatar);
 
 //            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
 //                renderer.rect((float) (avatar.getX() - 1.1), (float) (avatar.getY() - 1.1), (float) 2.2, (float) 2.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
@@ -159,6 +146,27 @@ public class GameScreen implements Screen {
     private void update(float delta) {
         updatePlayer(delta);
         updateCamera();
+    }
+
+    private void renderAvatar(Avatar avatar){
+        switch (avatar.getCharacterClass()) {
+            case SORCERER:
+                Sorcerer sorc = (Sorcerer) avatar;
+                sorc.getSprite().setBounds(sorc.getX(), sorc.getY(), 1f, 1f);
+                sorc.getSprite().draw(batch);
+                break;
+            case WARRIOR:
+                Warrior war = (Warrior) avatar;
+                war.getSprite().setBounds(war.getX(), war.getY(), 1f, 1f);
+                war.getSprite().draw(batch);
+                break;
+            case MARKSMAN:
+                Marksman mark = (Marksman) avatar;
+                mark.getSprite().setBounds(mark.getX(), mark.getY(), 1f, 1f);
+                mark.getSprite().draw(batch);
+                break;
+        }
+
     }
 
     private void updatePlayer(float delta) {

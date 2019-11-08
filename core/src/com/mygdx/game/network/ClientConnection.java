@@ -29,7 +29,7 @@ public class ClientConnection {
     private Client client;
     private User user;
     private ConcurrentHashMap<Integer, Avatar> activeAvatars;
-    private ConcurrentHashMap<UUID, Monster> activeMonsters;
+    private ConcurrentHashMap<Integer, Monster> activeMonsters;
     public AssetManager assetManager = new AssetManager();
 
 
@@ -41,7 +41,7 @@ public class ClientConnection {
         addAssets();
         client.start();
         try {
-            client.connect(5000, "localhost", 54555, 54777);
+            client.connect(20000, "localhost", 54555, 54777);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -72,7 +72,7 @@ public class ClientConnection {
         return activeAvatars;
     }
 
-    public ConcurrentHashMap<UUID, Monster> getActiveMonsters() {
+    public ConcurrentHashMap<Integer, Monster> getActiveMonsters() {
         return activeMonsters;
     }
 

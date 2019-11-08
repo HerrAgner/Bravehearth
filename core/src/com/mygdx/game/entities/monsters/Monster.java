@@ -15,7 +15,7 @@ public class Monster {
 
     private float boundsRadius;
     private float size;
-    UUID id;
+    int id;
 
     private float x;
     private float y;
@@ -129,11 +129,11 @@ public class Monster {
         this.size = size;
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 
