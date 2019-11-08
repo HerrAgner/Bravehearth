@@ -66,7 +66,7 @@ public class ClientNetworkListener {
                 }
 
                 if (object instanceof Position) {
-                    if (ClientConnection.getInstance().getClient().isConnected()) {
+                    if (ClientConnection.getInstance().getUser() != null) {
                         if (((Position) object).getType() == 1) {
                             ClientConnection.getInstance().getActiveAvatars()
                                     .get(((Position) object).getId())
