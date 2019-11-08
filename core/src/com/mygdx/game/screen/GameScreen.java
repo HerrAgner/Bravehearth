@@ -9,13 +9,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.BravehearthGame;
 import com.mygdx.game.config.GameConfig;
@@ -23,9 +23,8 @@ import com.mygdx.game.entities.avatar.*;
 import com.mygdx.game.entities.monsters.DummyMonster;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.util.CameraController;
-import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.util.InputHandler;
-import com.mygdx.game.util.ViewPortUtils;
+import java.util.HashMap;
 
 public class GameScreen implements Screen {
 
@@ -43,7 +42,7 @@ public class GameScreen implements Screen {
     private InputHandler inputHandler;
     private BravehearthGame game;
     private TextureAtlas textureAtlas;
-    private TextureAtlas.AtlasRegion atlasRegion;
+    final HashMap<String, Sprite> sprites;
 
     public GameScreen(BravehearthGame game) {
         inputHandler = new InputHandler();
@@ -51,11 +50,12 @@ public class GameScreen implements Screen {
         this.game = game;
         batch = new SpriteBatch();
         healthBar = new Texture("blank.png");
+        textureAtlas = new TextureAtlas("avatars/avatarSprites.txt");
+        sprites = new HashMap<>();
     }
 
     @Override
     public void show() {
-//        sprite = new Sprite(new Texture("pik.png"));
         camera = new OrthographicCamera(GameConfig.WIDTH, GameConfig.HEIGHT);
         camera.setToOrtho(false, 30, 20);
         //  viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
@@ -70,6 +70,17 @@ public class GameScreen implements Screen {
         tiledMap = new TmxMapLoader().load("worldMap.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / 32f);
         collision = (TiledMapTileLayer) tiledMap.getLayers().get(0);
+        addSprites();
+    }
+
+    private void addSprites() {
+        Array<AtlasRegion> regions = textureAtlas.getRegions();
+
+        for (AtlasRegion region : regions) {
+            Sprite sprite = textureAtlas.createSprite(region.name);
+
+            sprites.put(region.name, sprite);
+        }
     }
 
     @Override
@@ -90,19 +101,13 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() { }
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() { }
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() { }
 
     @Override
     public void dispose() {
@@ -155,27 +160,21 @@ public class GameScreen implements Screen {
         switch (avatar.getCharacterClass()) {
             case SORCERER:
                 Sorcerer sorc = (Sorcerer) avatar;
-                textureAtlas = new TextureAtlas("avatars/avatarSprites.txt");
-                atlasRegion = textureAtlas.findRegion("sorcerer_front");
-                sprite = textureAtlas.createSprite(String.valueOf(atlasRegion));
+                sprite = sprites.get("sorcerer_front");
                 sorc.setSprite(sprite);
                 sorc.getSprite().setBounds(sorc.getX(), sorc.getY(), 1f, 1f);
                 sorc.getSprite().draw(batch);
                 break;
             case WARRIOR:
                 Warrior war = (Warrior) avatar;
-                textureAtlas = new TextureAtlas("avatars/avatarSprites.txt");
-                atlasRegion = textureAtlas.findRegion("warrior_front");
-                sprite = textureAtlas.createSprite(String.valueOf(atlasRegion));
+                sprite = sprites.get("warrior_front");
                 war.setSprite(sprite);
                 war.getSprite().setBounds(war.getX(), war.getY(), 1f, 1f);
                 war.getSprite().draw(batch);
                 break;
             case MARKSMAN:
                 Marksman mark = (Marksman) avatar;
-                textureAtlas = new TextureAtlas("avatars/avatarSprites.txt");
-                atlasRegion = textureAtlas.findRegion("marksman_front");
-                sprite = textureAtlas.createSprite(String.valueOf(atlasRegion));
+                sprite = sprites.get("marksman_front");
                 mark.setSprite(sprite);
                 sprite.setBounds(mark.getX(), mark.getY(), 1f, 1f);
                 sprite.draw(batch);
