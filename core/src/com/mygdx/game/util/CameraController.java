@@ -22,7 +22,17 @@ public class CameraController {
     }
 
     public void updatePosition(float x, float y) {
-        position.set(x, y);
+        float validX = x;
+        float validY = y;
+        if (GameConfig.WORLD_WIDTH / 2 > x || GameConfig.WORLD_WIDTH / 2 < (x + 2) / (GameConfig.WORLD_WIDTH / 2)) {
+            validX = position.x;
+        }
+        if (GameConfig.WORLD_HEIGHT / 2 > y || y > 192.29f) {
+            validY = position.y;
+        }
+
+
+        position.set(validX, validY);
     }
 
     public void applyTo(OrthographicCamera camera) {

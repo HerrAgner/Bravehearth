@@ -93,8 +93,8 @@ public class GameScreen implements Screen {
         cameraController.applyTo(camera);
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
-        update(delta);
         renderViewportUtils();
+        update(delta);
     }
 
     @Override
