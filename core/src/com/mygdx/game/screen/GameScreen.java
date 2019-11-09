@@ -170,8 +170,6 @@ public class GameScreen implements Screen {
 
 
             if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != 0 && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() == monster.getId()) {
-                System.out.println(monster.getHp());
-                System.out.println(monster.getMaxHp());
                 renderer.rect((float) (monster.getX() - 0.1), (float) (monster.getY() - 0.1), (float) 1.2, (float) 1.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
             }
 
