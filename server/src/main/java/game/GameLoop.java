@@ -46,8 +46,8 @@ public class GameLoop implements Runnable {
             }
             GameServer.getInstance().getMh().updateCounter();
             GameServer.getInstance().getMh().monsterTargetAvatar();
-            MonsterHandler.monsterList.values().forEach(monster -> {
-                if (monster.getMarkedUnit() != 0) {
+            GameServer.getInstance().getMh().monsterList.values().forEach(monster -> {
+                if (monster.getMarkedUnit() != -1) {
                     GameServer.getInstance().getMh().monsterAttack(monster);
                 }
             });

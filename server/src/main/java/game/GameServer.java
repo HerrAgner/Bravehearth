@@ -75,6 +75,7 @@ public class GameServer {
         monster.setMaxHp(5);
         monster.setType(MonsterType.DUMMYMONSTER);
         monster.setId(1);
+        monster.setMarkedUnit(-1);
 
         Monster monster2 = new Monster(5,5,"ANTONMONSTRETt");
         monster2.setY(30);
@@ -85,9 +86,10 @@ public class GameServer {
         monster2.setMaxHp(5);
         monster2.setType(MonsterType.DUMMYMONSTER);
         monster2.setId(2);
+        monster2.setMarkedUnit(-1);
 
-        MonsterHandler.monsterList.put(monster.getId(), monster);
-        MonsterHandler.monsterList.put(monster2.getId(), monster2);
+        getMh().monsterList.put(monster.getId(), monster);
+        getMh().monsterList.put(monster2.getId(), monster2);
     }
 
     public MapReader getMapReader() {

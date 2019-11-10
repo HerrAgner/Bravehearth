@@ -34,8 +34,6 @@ public class Monster {
         this.name = name;
         this.boundsRadius = 1;
         this.size = boundsRadius * 2;
-        this.x = 3;
-        this.y = 4;
     }
 
     public int getExperiencePoints() {

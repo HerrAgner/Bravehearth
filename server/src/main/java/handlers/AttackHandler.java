@@ -28,7 +28,7 @@ public class AttackHandler {
 
         if (targetType == 2 && GameServer.getInstance().aa.get(target) != null) {
             doAttack();
-        } else if (targetType == 1 && MonsterHandler.monsterList.get(target) != null){
+        } else if (targetType == 1 && GameServer.getInstance().getMh().monsterList.get(target) != null){
             doAttack();
         }
     }
@@ -49,7 +49,7 @@ public class AttackHandler {
 
         if (attack.get(0) == 1) {
             avatar = GameServer.getInstance().aa.get(attack.get(1));
-            monster = MonsterHandler.monsterList.get(attack.get(2));
+            monster = GameServer.getInstance().getMh().monsterList.get(attack.get(2));
             attackerX = avatar.getX();
             attackerY = avatar.getY();
             attackerRange = avatar.getAttackRange();
@@ -57,7 +57,7 @@ public class AttackHandler {
             targetY = monster.getY();
         } else if (attack.get(0) == 2) {
             avatar = GameServer.getInstance().aa.get(attack.get(2));
-            monster = MonsterHandler.monsterList.get(attack.get(1));
+            monster = GameServer.getInstance().getMh().monsterList.get(attack.get(1));
             attackerX = monster.getX();
             attackerY = monster.getY();
             attackerRange = monster.getAttackRange();
@@ -85,19 +85,19 @@ public class AttackHandler {
 
         if (type == 1) {
             avatar = GameServer.getInstance().aa.get(attackerId);
-            monster = MonsterHandler.monsterList.get(targetId);
+            monster = GameServer.getInstance().getMh().monsterList.get(targetId);
             newHealth = monster.getHp() - avatar.getAttackDamage();
-            MonsterHandler.monsterList.get(targetId).setHp(newHealth);
+            GameServer.getInstance().getMh().monsterList.get(targetId).setHp(newHealth);
             attackDistance = getAttackDistance(avatar.getAttackRange());
-            if (MonsterHandler.monsterList.get(targetId).getHp() <= 0) {
+            if (GameServer.getInstance().getMh().monsterList.get(targetId).getHp() <= 0) {
                 GameServer.getInstance().aa.get(attackerId).setMarkedUnit(-1);
                 GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(monster.getId(), "monster", monster.getExperiencePoints()));
-                MonsterHandler.monsterList.remove(targetId);
+                GameServer.getInstance().getMh().monsterList.remove(targetId);
             }
 
         } else {
             avatar = GameServer.getInstance().aa.get(targetId);
-            monster = MonsterHandler.monsterList.get(attackerId);
+            monster = GameServer.getInstance().getMh().monsterList.get(attackerId);
             newHealth = avatar.getHealth() - monster.getAttackDamage();
             GameServer.getInstance().aa.get(targetId).setHealth(newHealth);
             attackDistance = getAttackDistance(monster.getAttackRange());

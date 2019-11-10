@@ -65,7 +65,7 @@ public class CommandHandler {
                         server.sendToTCP(connection.getID(), avatar));
                 server.sendToAllExceptTCP(connection.getID(), user.getAvatar());
 
-                MonsterHandler.monsterList.forEach((integer, monster1) -> server.sendToTCP(connection.getID(), monster1));
+                GameServer.getInstance().getMh().monsterList.forEach((integer, monster1) -> server.sendToTCP(connection.getID(), monster1));
             }
         }
 
