@@ -4,15 +4,18 @@ import enums.Movement;
 import handlers.AttackHandler;
 import handlers.MonsterHandler;
 import handlers.MovementHandler;
+import network.networkMessages.AttackEnemyTarget;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.Position;
 
 
 public class GameLoop implements Runnable {
     private boolean running;
+    private AttackHandler ah;
 
     public GameLoop() {
         this.running = true;
+        this.ah = new AttackHandler();
     }
 
     @Override
@@ -50,10 +53,16 @@ public class GameLoop implements Runnable {
             });
 
             GameServer.getInstance().getAUH().getActiveAvatars().forEach((k, v) -> {
-                if (v.getHealth() < v.getMaxHealth() && v.getHealth() > 0 ) {
-                    v.startHpRegen();
-                    GameServer.getInstance().getServer().sendToAllTCP(v);
+                if (v.getMarkedUnit() != -1) {
+                    v.setAttackTimer(v.getAttackTimer() + delta);
+                    if (v.attackIsReady()) {
+                        ah.addAttackerToList(v.getId(), v.getMarkedUnit(), 1);
+                    }
                 }
+//                if (v.getHealth() < v.getMaxHealth() && v.getHealth() > 0 ) {
+//                    v.startHpRegen();
+//                    GameServer.getInstance().getServer().sendToAllTCP(v);
+//                }
             });
 
 

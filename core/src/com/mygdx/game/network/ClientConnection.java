@@ -48,7 +48,7 @@ public class ClientConnection {
             e.printStackTrace();
         }
 
-        new Thread(new AttackLoop()).start();
+//        new Thread(new AttackLoop()).start();
 
     }
 

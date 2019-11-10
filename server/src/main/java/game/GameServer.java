@@ -50,6 +50,7 @@ public class GameServer {
         this.au = getAUH().getActiveUsers();
         this.aa = getAUH().getActiveAvatars();
 
+        initDummyMonsters();
     }
 
     public ActiveUserHandler getAUH() { return auh; }
@@ -62,6 +63,31 @@ public class GameServer {
             single_instance = new GameServer();
 
         return single_instance;
+    }
+
+    private void initDummyMonsters() {
+        Monster monster = new Monster(5,5,"ANTONMONSTRET");
+        monster.setY(10);
+        monster.setX(10);
+        monster.setMaxXspeed(0.01f);
+        monster.setMaxYspeed(0.01f);
+        monster.setBoundsRadius(4f);
+        monster.setMaxHp(5);
+        monster.setType(MonsterType.DUMMYMONSTER);
+        monster.setId(1);
+
+        Monster monster2 = new Monster(5,5,"ANTONMONSTRETt");
+        monster2.setY(30);
+        monster2.setX(30);
+        monster2.setMaxXspeed(0.01f);
+        monster2.setMaxYspeed(0.01f);
+        monster2.setBoundsRadius(4f);
+        monster2.setMaxHp(5);
+        monster2.setType(MonsterType.DUMMYMONSTER);
+        monster2.setId(2);
+
+        MonsterHandler.monsterList.put(monster.getId(), monster);
+        MonsterHandler.monsterList.put(monster2.getId(), monster2);
     }
 
     public MapReader getMapReader() {

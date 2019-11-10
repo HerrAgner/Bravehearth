@@ -65,38 +65,14 @@ public class CommandHandler {
                         server.sendToTCP(connection.getID(), avatar));
                 server.sendToAllExceptTCP(connection.getID(), user.getAvatar());
 
-                Monster monster = new Monster(5,5,"ANTONMONSTRET");
-                monster.setY(10);
-                monster.setX(10);
-                monster.setMaxXspeed(0.01f);
-                monster.setMaxYspeed(0.01f);
-                monster.setBoundsRadius(4f);
-                monster.setMaxHp(5);
-                monster.setType(MonsterType.DUMMYMONSTER);
-                monster.setId(1);
-
-                Monster monster2 = new Monster(5,5,"ANTONMONSTRETt");
-                monster2.setY(30);
-                monster2.setX(30);
-                monster2.setMaxXspeed(0.01f);
-                monster2.setMaxYspeed(0.01f);
-                monster2.setBoundsRadius(4f);
-                monster2.setMaxHp(5);
-                monster2.setType(MonsterType.DUMMYMONSTER);
-                monster2.setId(2);
-
-                MonsterHandler.monsterList.put(monster.getId(), monster);
-                MonsterHandler.monsterList.put(monster2.getId(), monster2);
-
-                server.sendToAllTCP(monster);
-                server.sendToAllTCP(monster2);
+                MonsterHandler.monsterList.forEach((integer, monster1) -> server.sendToTCP(connection.getID(), monster1));
             }
         }
 
         if (o instanceof AttackEnemyTarget) {
             AttackEnemyTarget aet = (AttackEnemyTarget) o;
             auh.getActiveAvatars().get(aet.getAttacker()).setMarkedUnit(aet.getTarget());
-            ah.addAttackerToList(aet.getAttacker(), aet.getTarget(), 1);
+//            ah.addAttackerToList(aet.getAttacker(), aet.getTarget(), 1);
         }
 
         if (o instanceof Logout) {

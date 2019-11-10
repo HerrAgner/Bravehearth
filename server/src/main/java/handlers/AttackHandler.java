@@ -27,7 +27,11 @@ public class AttackHandler {
 //        attackList.offer(new HashMap<>() {{
 //            put(attacker, target);
 //        }});
-        doAttack();
+        if (targetType == 2 && GameServer.getInstance().aa.get(target) != null) {
+            doAttack();
+        } else if (targetType == 1 && MonsterHandler.monsterList.get(target) != null){
+            doAttack();
+        }
     }
 
     private void doAttack() {
