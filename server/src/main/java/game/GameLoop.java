@@ -57,6 +57,7 @@ public class GameLoop implements Runnable {
                     v.setAttackTimer(v.getAttackTimer() + delta);
                     if (v.attackIsReady()) {
                         ah.addAttackerToList(v.getId(), v.getMarkedUnit(), 1);
+                        v.setAttackTimer(delta);
                     }
                 }
 //                if (v.getHealth() < v.getMaxHealth() && v.getHealth() > 0 ) {

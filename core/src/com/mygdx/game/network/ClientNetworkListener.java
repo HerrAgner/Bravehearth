@@ -9,6 +9,7 @@ import com.mygdx.game.network.networkMessages.HealthChange;
 import com.mygdx.game.network.networkMessages.Logout;
 import com.mygdx.game.network.networkMessages.Position;
 import com.mygdx.game.entities.User;
+import com.mygdx.game.network.networkMessages.UnitDeath;
 import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.util.MonsterType;
 
@@ -55,8 +56,10 @@ public class ClientNetworkListener {
 
                     if (object instanceof HealthChange) {
                         if (((HealthChange) object).getType() == 1) {
-                            ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar())
-                                    .setHp(((HealthChange) object).getNewHealth());
+                            if (ClientConnection.getInstance().getActiveMonsters().get(1) != null) {
+                                ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar())
+                                        .setHp(((HealthChange) object).getNewHealth());
+                            }
                         } else {
                             ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
                                     .setHealth(((HealthChange) object).getNewHealth());
@@ -77,6 +80,13 @@ public class ClientNetworkListener {
                             ClientConnection.getInstance().getActiveMonsters()
                                     .get(((Position) object).getId())
                                     .setPosition(((Position) object).getX(), ((Position) object).getY());
+                        }
+                    }
+
+                    if (object instanceof UnitDeath) {
+                        if (((UnitDeath) object).getUnit().equals("monster")) {
+                            ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
+                            ClientConnection.getInstance().getActiveMonsters().remove(((UnitDeath) object).getId());
                         }
                     }
 

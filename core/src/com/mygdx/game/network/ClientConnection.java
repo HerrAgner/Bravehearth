@@ -127,5 +127,6 @@ public class ClientConnection {
         kryo.register(HashMap.class);
         kryo.register(Monster.class);
         kryo.register(MonsterType.class);
+        kryo.register(UnitDeath.class);
     }
 }

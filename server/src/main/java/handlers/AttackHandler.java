@@ -3,6 +3,7 @@ package handlers;
 
 import game.GameServer;
 import network.networkMessages.Monster;
+import network.networkMessages.UnitDeath;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.HealthChange;
 
@@ -14,19 +15,17 @@ import java.util.UUID;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class AttackHandler {
-    private LinkedBlockingQueue<HashMap<Integer, Integer>> attackList = new LinkedBlockingQueue<>();
-    private LinkedBlockingQueue<ArrayList<Integer>> attackListt = new LinkedBlockingQueue<>();
+//    private LinkedBlockingQueue<HashMap<Integer, Integer>> attackList = new LinkedBlockingQueue<>();
+    private LinkedBlockingQueue<ArrayList<Integer>> attackList = new LinkedBlockingQueue<>();
     public static LinkedBlockingQueue<HealthChange> validatedAttacks = new LinkedBlockingQueue<>();
 
     public void addAttackerToList(int attacker, int target, int targetType) {
-        attackListt.offer(new ArrayList<>(){{
+        attackList.offer(new ArrayList<>(){{
             add(targetType);
             add(attacker);
             add(target);
         }});
-//        attackList.offer(new HashMap<>() {{
-//            put(attacker, target);
-//        }});
+
         if (targetType == 2 && GameServer.getInstance().aa.get(target) != null) {
             doAttack();
         } else if (targetType == 1 && MonsterHandler.monsterList.get(target) != null){
@@ -35,11 +34,11 @@ public class AttackHandler {
     }
 
     private void doAttack() {
-        if (attackListt.size() > 0) {
-            calculateAttackRangee(attackListt.poll());
+        if (attackList.size() > 0) {
+            calculateAttackRange(attackList.poll());
         }
     }
-    private void calculateAttackRangee(ArrayList<Integer> attack) {
+    private void calculateAttackRange(ArrayList<Integer> attack) {
         Monster monster;
         Avatar avatar;
         float attackerX = 0;
@@ -71,29 +70,37 @@ public class AttackHandler {
                 && targetX > attackerX -1 - attackerRange)
                 && (targetY < attackerY +1 + attackerRange
                 && targetY > attackerY -1 - attackerRange)) {
-            calculateDamageDealtt(attack.get(0), attack.get(1), attack.get(2));
+            calculateDamageDealt(attack.get(0), attack.get(1), attack.get(2));
         }
     }
 
-    private void calculateDamageDealtt(int type, int attackerId, int targetId){
+    private void calculateDamageDealt(int type, int attackerId, int targetId){
         // Check attacker damage vs attacker defence
         // Need maybe hit chance in % and make a roll if the attack hits or misses
 
         Avatar avatar;
         Monster monster;
         int newHealth;
+        String attackDistance;
 
         if (type == 1) {
             avatar = GameServer.getInstance().aa.get(attackerId);
             monster = MonsterHandler.monsterList.get(targetId);
             newHealth = monster.getHp() - avatar.getAttackDamage();
             MonsterHandler.monsterList.get(targetId).setHp(newHealth);
+            attackDistance = getAttackDistance(avatar.getAttackRange());
+            if (MonsterHandler.monsterList.get(targetId).getHp() <= 0) {
+                GameServer.getInstance().aa.get(attackerId).setMarkedUnit(-1);
+                GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(monster.getId(), "monster", monster.getExperiencePoints()));
+                MonsterHandler.monsterList.remove(targetId);
+            }
 
         } else {
             avatar = GameServer.getInstance().aa.get(targetId);
             monster = MonsterHandler.monsterList.get(attackerId);
             newHealth = avatar.getHealth() - monster.getAttackDamage();
             GameServer.getInstance().aa.get(targetId).setHealth(newHealth);
+            attackDistance = getAttackDistance(monster.getAttackRange());
         }
 
         HealthChange healthChange = new HealthChange(newHealth, targetId, attackerId, type);
@@ -105,38 +112,11 @@ public class AttackHandler {
         }
     }
 
-
-    private void calculateAttackRange(HashMap<Integer, Integer> attack) {
-        Map.Entry<Integer, Integer> entry = attack.entrySet().iterator().next();
-        Avatar attacker = GameServer.getInstance().aa.get(entry.getKey());
-        Monster target = MonsterHandler.monsterList.get(entry.getValue());
-
-        if ((target.getX() < attacker.getX() +1 + attacker.getAttackRange()
-                && target.getX() > attacker.getX() -1 - attacker.getAttackRange())
-                && (target.getY() < attacker.getY() +1 + attacker.getAttackRange()
-                && target.getY() > attacker.getY() -1 - attacker.getAttackRange())) {
-            calculateDamageDealt(attacker.getId(), target.getId());
-        }
-    }
-
-    private void calculateDamageDealt(int attackerId, int targetId){
-        // Check attacker damage vs attacker defence
-        // Need maybe hit chance in % and make a roll if the attack hits or misses
-
-        Avatar attacker = GameServer.getInstance().aa.get(attackerId);
-        Monster target = MonsterHandler.monsterList.get(targetId);
-
-        int newHealth = target.getHp() - attacker.getAttackDamage();
-        MonsterHandler.monsterList.get(target.getId()).setHp(newHealth);
-
-//        GameServer.getInstance().aa.get(target.getId()).setHealth(newHealth);
-
-        HealthChange healthChange = new HealthChange(MonsterHandler.monsterList.get(targetId).getHp(), target.getId(), attacker.getId(), 1);
-
-        try {
-            validatedAttacks.put(healthChange);
-        } catch (InterruptedException e) {
-            System.out.println("Could not add attack to list.");
+    private String getAttackDistance(float range) {
+        if (range > 2) {
+            return "ranged";
+        } else {
+            return "melee";
         }
     }
 }

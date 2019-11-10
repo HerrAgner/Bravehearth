@@ -88,11 +88,7 @@ public class Avatar {
     }
 
     public boolean attackIsReady() {
-        if (attackTimer > attackSpeed) {
-            attackTimer = 0;
-            return true;
-        }
-        return false;
+        return attackTimer > attackSpeed;
     }
 
     public void startHpRegen() {
