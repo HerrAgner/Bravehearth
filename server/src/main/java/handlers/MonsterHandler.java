@@ -77,16 +77,23 @@ public class MonsterHandler {
     }
 
     private float calculateShortestPath(Monster mon, Avatar av) {
-        float[] dxdy = calcDxDy(mon.getX(), mon.getY(), av.getX(), av.getY());
-        return (float) Math.hypot(dxdy[0], dxdy[1]);
+        if (mon != null && av != null) {
+            float[] dxdy = calcDxDy(mon.getX(), mon.getY(), av.getX(), av.getY());
+            return (float) Math.hypot(dxdy[0], dxdy[1]);
+        }
+        return 0;
     }
 
-    private float[] calculateNewPosition(int monster, boolean isBlocked) {
+    private float[] calculateNewPosition(int monster, boolean isBlocked, float pathSize) {
         Monster mon = GameServer.getInstance().getMh().monsterList.get(monster);
         Avatar av = GameServer.getInstance().aa.get(mon.getMarkedUnit());
+        if (av == null){
+            return null;
+        }
+
         Random r = new Random();
-        float randomX = -mon.getMaxXspeed() + r.nextFloat() * (mon.getMaxXspeed() - -mon.getMaxXspeed());
-        float randomY = -mon.getMaxYspeed() + r.nextFloat() * (mon.getMaxYspeed() - -mon.getMaxYspeed());
+        float randomX = -(mon.getMaxXspeed()+pathSize) + r.nextFloat() * ((mon.getMaxXspeed()+pathSize) - -(mon.getMaxXspeed()+pathSize));
+        float randomY = -(mon.getMaxYspeed()+pathSize) + r.nextFloat() * ((mon.getMaxYspeed()+pathSize) - -(mon.getMaxYspeed()+pathSize));
         float[] dxdy;
         float newX;
         float newY;
@@ -109,10 +116,14 @@ public class MonsterHandler {
 //        float newX = mon.getX() - dxdy[0] * shortestPath;
 //        float newY = mon.getY() - dxdy[1] * shortestPath;
 
-        if (validateNewPosition(mon.getId(), newX, newY)){
+        if (calculateShortestPath(mon, av) <= 1) {
+            return null;
+        }
+
+        if (validateNewPosition(mon.getId(), newX, newY)) {
             return new float[]{newX, newY};
         } else {
-           return calculateNewPosition(monster, true);
+            return calculateNewPosition(monster, true, pathSize += mon.getMaxXspeed());
         }
     }
 
@@ -132,8 +143,14 @@ public class MonsterHandler {
     }
 
     public void moveMonster(Monster monster) {
-        float newX = calculateNewPosition(monster.getId(), false)[0];
-        float newY = calculateNewPosition(monster.getId(), false)[1];
+        float newX = 0;
+        float newY = 0;
+        if (calculateNewPosition(monster.getId(), false,0) != null) {
+            newX = calculateNewPosition(monster.getId(), false,0)[0];
+            newY = calculateNewPosition(monster.getId(), false,0)[1];
+        } else{
+            return;
+        }
 
         monsterList.get(monster.getId()).setX(newX);
         monsterList.get(monster.getId()).setY(newY);
