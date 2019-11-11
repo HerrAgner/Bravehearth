@@ -105,7 +105,6 @@ public class CommandHandler {
         Login loginObject = (Login) object;
         User user = DBQueries.getMatchingUser(loginObject.getUsername(), loginObject.getPassword());
         Avatar avatar = DBQueries.getUserAvatar(user.getId());
-        System.out.println(avatar.getCharacterClass());
         try {
             Backpack bp = DBQueries.getBackpack(avatar.getId());
             bp.setItems(DBQueries.getBpItems(bp.getId()));

@@ -132,6 +132,9 @@ public class GameLoop implements Runnable {
                     }
                 }
             });
+//            GameServer.getInstance().getMh().monsterList.forEach((integer, monster) -> {
+//
+//            });
             if (ref.isValidMove) {
                 return position;
             } else {

@@ -129,6 +129,9 @@ public class MonsterHandler {
 
     private boolean validateNewPosition(int monsterId, float x, float y) {
         AtomicBoolean isBlocked = new AtomicBoolean(false);
+        if (GameServer.getInstance().getMh().monsterList.size() <= 1){
+            return true;
+        }
         GameServer.getInstance().getMh().monsterList.forEach((integer, monster) -> {
             if (monster.getId() != monsterId) {
                 float[] dxdy = calcDxDy(monster.getX(), monster.getY(), x, y);

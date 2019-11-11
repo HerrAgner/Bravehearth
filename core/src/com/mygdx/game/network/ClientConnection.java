@@ -59,9 +59,6 @@ public class ClientConnection {
     }
 
     private void addAssets() {
-        //avatars
-        assetManager.load("avatars/avatarSprites.png", Texture.class);
-
         //monsters
         assetManager.load("monsters/microbat.png", Texture.class);
 
