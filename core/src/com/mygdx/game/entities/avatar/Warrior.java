@@ -8,7 +8,6 @@ public class Warrior extends Avatar {
     private Sprite sprite;
     private Sound hurtSound;
 
-
     public Warrior(Avatar avatar) {
         super(avatar);
 
@@ -18,10 +17,7 @@ public class Warrior extends Avatar {
     public Warrior() {
     }
 
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
-        getSprite();
-    }
+    public void setSprite(Sprite sprite) { this.sprite = sprite; }
 
     public Sprite getSprite() {
         return sprite;

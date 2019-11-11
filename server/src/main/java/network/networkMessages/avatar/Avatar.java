@@ -54,6 +54,7 @@ public class Avatar {
     private int markedUnit = -1;
     private boolean isHurt;
     private float hpRegen;
+    private String direction;
     private float attackTimer;
 
     public Avatar() {
@@ -85,6 +86,7 @@ public class Avatar {
         this.isHurt = false;
         this.hpRegen = 0.01f;
         this.attackTimer = 0.01f;
+        this.direction = "front";
     }
 
     public boolean attackIsReady() {
@@ -235,4 +237,6 @@ public class Avatar {
     public void setEquippedItems(EquippedItems equippedItems) {
         this.equippedItems = equippedItems;
     }
+
+    public void setDirection(String direction) { this.direction = direction; }
 }

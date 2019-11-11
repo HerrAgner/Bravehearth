@@ -60,14 +60,10 @@ public class ClientNetworkListener {
                                 ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar())
                                         .setHp(((HealthChange) object).getNewHealth());
                             }
-                        }
-
-                        else if(((HealthChange) object).getType() == 3){
+                        } else if (((HealthChange) object).getType() == 3) {
                             ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
                                     .setHealth(((HealthChange) object).getNewHealth());
-                        }
-
-                        else {
+                        } else {
                             ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
                                     .setHealth(((HealthChange) object).getNewHealth());
                             ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
@@ -76,19 +72,27 @@ public class ClientNetworkListener {
                             if(av instanceof Warrior){
                                 ((Warrior) av).playSound();
                             }
+                            if(av instanceof Marksman){
+                                ((Marksman) av).playSound();
+                            }
+                            if(av instanceof Sorcerer){
+                                ((Sorcerer) av).playSound();
+                            }
                         }
                     }
 
                     if (object instanceof Position) {
-
                         if (((Position) object).getType() == 1) {
                             ClientConnection.getInstance().getActiveAvatars()
                                     .get(((Position) object).getId())
-                                    .setPosition(((Position) object).getX(), ((Position) object).getY());
+                                    .setPosition(((Position) object).getX(), ((Position) object).getY(), ((Position) object).getDirection());
                         } else if (((Position) object).getType() == 2) {
-                            ClientConnection.getInstance().getActiveMonsters()
-                                    .get(((Position) object).getId())
-                                    .setPosition(((Position) object).getX(), ((Position) object).getY());
+                            if (ClientConnection.getInstance().getActiveMonsters()
+                                    .get(((Position) object).getId()) != null) {
+                                ClientConnection.getInstance().getActiveMonsters()
+                                        .get(((Position) object).getId())
+                                        .setPosition(((Position) object).getX(), ((Position) object).getY());
+                            }
                         }
                     }
 
