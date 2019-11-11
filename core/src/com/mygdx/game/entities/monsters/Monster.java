@@ -26,9 +26,10 @@ public class Monster {
     float attackSpeed;
     float attackRange;
     private String name;
-    UUID markedUnit;
+    private int markedUnit;
     int spawnRate;
     MonsterType type;
+    private int experiencePoints;
 
     public Monster() {
         this(3, 1, "default");
@@ -194,11 +195,11 @@ public class Monster {
         this.name = name;
     }
 
-    public UUID getMarkedUnit() {
+    public int getMarkedUnit() {
         return markedUnit;
     }
 
-    public void setMarkedUnit(UUID markedUnit) {
+    public void setMarkedUnit(int markedUnit) {
         this.markedUnit = markedUnit;
     }
 

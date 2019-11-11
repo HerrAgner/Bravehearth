@@ -1,13 +1,9 @@
 package com.mygdx.game.entities.avatar;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.mygdx.game.config.GameConfig;
 import com.mygdx.game.entities.Backpack;
 import com.mygdx.game.entities.EquippedItems;
 import com.mygdx.game.util.CharacterClass;
-
-import java.util.UUID;
 
 public class Avatar {
     private float maxXspeed = 0.5f;
@@ -42,7 +38,9 @@ public class Avatar {
     private int markedUnit;
 	private boolean isHurt;
 	private float hpRegen;
+    private float attackLoop;
 	private String direction;
+
 
     public Avatar(String name) {
         this.name = name;

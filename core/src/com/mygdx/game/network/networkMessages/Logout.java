@@ -6,6 +6,7 @@ public class Logout {
     private int avatar;
 
     public Logout() {
+
         if (ClientConnection.getInstance().getUser() != null) {
             this.avatar = ClientConnection.getInstance().getUser().getAvatar().getId();
         }

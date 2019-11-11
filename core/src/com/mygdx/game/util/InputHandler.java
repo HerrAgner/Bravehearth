@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.entities.User;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.network.Sender;
+import com.mygdx.game.network.networkMessages.AttackEnemyTarget;
 import com.mygdx.game.screen.GameScreen;
 
 public class InputHandler implements InputProcessor {
@@ -75,13 +76,14 @@ public class InputHandler implements InputProcessor {
         if (button == Input.Buttons.RIGHT) {
             ClientConnection.getInstance().getActiveMonsters().values().forEach(monster -> {
                 if ((monster.getX() + 1 > vec.x && monster.getX() - 1 < vec.x) && (monster.getY() + 1 > vec.y && monster.getY() - 1 < vec.y)) {
-                    if (user.getAvatar().getMarkedUnit() == 0) {
+                    if (user.getAvatar().getMarkedUnit() == -1) {
                         user.getAvatar().setMarkedUnit(monster.getId());
                     } else if (user.getAvatar().getMarkedUnit() != monster.getId()) {
                         user.getAvatar().setMarkedUnit(monster.getId());
                     } else {
-                        user.getAvatar().setMarkedUnit(0);
+                        user.getAvatar().setMarkedUnit(-1);
                     }
+                    ClientConnection.getInstance().getClient().sendTCP(new AttackEnemyTarget(user.getAvatar().getId(), user.getAvatar().getMarkedUnit()));
                 }
             });
         }

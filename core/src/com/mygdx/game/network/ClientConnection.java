@@ -1,21 +1,16 @@
 package com.mygdx.game.network;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.serializers.DefaultSerializers;
 import com.esotericsoftware.kryonet.Client;
-import com.mygdx.game.entities.*;
+import com.mygdx.game.entities.Backpack;
+import com.mygdx.game.entities.EquippedItems;
 import com.mygdx.game.entities.Items.*;
+import com.mygdx.game.entities.User;
 import com.mygdx.game.entities.avatar.Avatar;
 import com.mygdx.game.entities.monsters.Monster;
 import com.mygdx.game.network.networkMessages.*;
-import com.mygdx.game.util.AttackLoop;
 import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.util.MonsterType;
 
@@ -48,7 +43,7 @@ public class ClientConnection {
             e.printStackTrace();
         }
 
-        new Thread(new AttackLoop()).start();
+//        new Thread(new AttackLoop()).start();
 
     }
 
@@ -126,5 +121,6 @@ public class ClientConnection {
         kryo.register(HashMap.class);
         kryo.register(Monster.class);
         kryo.register(MonsterType.class);
+        kryo.register(UnitDeath.class);
     }
 }

@@ -9,6 +9,7 @@ import com.mygdx.game.network.networkMessages.HealthChange;
 import com.mygdx.game.network.networkMessages.Logout;
 import com.mygdx.game.network.networkMessages.Position;
 import com.mygdx.game.entities.User;
+import com.mygdx.game.network.networkMessages.UnitDeath;
 import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.util.MonsterType;
 
@@ -20,7 +21,6 @@ public class ClientNetworkListener {
                 if (object instanceof User) {
                     ClientConnection.getInstance().setUser((User) object);
                 }
-
                 if (object instanceof Avatar) {
                     if (((Avatar) object).getCharacterClass() == CharacterClass.SORCERER) {
                         Sorcerer sorc = new Sorcerer((Avatar) object);
@@ -33,42 +33,50 @@ public class ClientNetworkListener {
                         ClientConnection.getInstance().addActiveAvatar(mark);
                     }
                 }
+                if (ClientConnection.getInstance().getUser() != null) {
 
-                if (object instanceof Monster) {
-                    if (((Monster) object).getType().equals(MonsterType.DUMMYMONSTER)) {
-                        DummyMonster dm = new DummyMonster((Monster) object);
-                        ClientConnection.getInstance().getActiveMonsters().put(((Monster) object).getId(), dm);
+                    if (object instanceof Monster) {
+                        if (((Monster) object).getType().equals(MonsterType.DUMMYMONSTER)) {
+                            DummyMonster dm = new DummyMonster((Monster) object);
+                            ClientConnection.getInstance().getActiveMonsters().put(((Monster) object).getId(), dm);
 
+                        }
                     }
-                }
 
-                if (object instanceof Logout) {
-                    if (((Logout) object).getAvatar() == (ClientConnection.getInstance().getUser().getAvatar().getId())) {
-                        ClientConnection.getInstance().getClient().stop();
+                    if (object instanceof Logout) {
+                        if (((Logout) object).getAvatar() == (ClientConnection.getInstance().getUser().getAvatar().getId())) {
+                            ClientConnection.getInstance().getClient().stop();
+                        }
+                        ClientConnection.getInstance().getActiveAvatars().remove(((Logout) object).getAvatar());
                     }
-                    ClientConnection.getInstance().getActiveAvatars().remove(((Logout) object).getAvatar());
-                }
 
-                if (object instanceof String) {
-                    System.out.println(object);
-                }
-
-                if (object instanceof HealthChange) {
-                    if (((HealthChange) object).getType() == 1) {
-                        ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar())
-                                .setHp(((HealthChange) object).getNewHealth());
-                    } else {
-                        ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
-                                .setHealth(((HealthChange) object).getNewHealth());
-                        ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
-                                .setHurt(true);
+                    if (object instanceof String) {
+                        System.out.println(object);
                     }
-//                    ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
-//                            .setHealth(((HealthChange) object).getNewHealth());
-                }
 
-                if (object instanceof Position) {
-                    if (ClientConnection.getInstance().getUser() != null) {
+                    if (object instanceof HealthChange) {
+                        if (((HealthChange) object).getType() == 1) {
+                            if (ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar()) != null) {
+                                ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar())
+                                        .setHp(((HealthChange) object).getNewHealth());
+                            }
+                        }
+
+                        else if(((HealthChange) object).getType() == 3){
+                            ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
+                                    .setHealth(((HealthChange) object).getNewHealth());
+                        }
+
+                        else {
+                            ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
+                                    .setHealth(((HealthChange) object).getNewHealth());
+                            ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
+                                    .setHurt(true);
+                        }
+                    }
+
+                    if (object instanceof Position) {
+
                         if (((Position) object).getType() == 1) {
                             ClientConnection.getInstance().getActiveAvatars()
                                     .get(((Position) object).getId())
@@ -79,6 +87,14 @@ public class ClientNetworkListener {
                                     .setPosition(((Position) object).getX(), ((Position) object).getY());
                         }
                     }
+
+                    if (object instanceof UnitDeath) {
+                        if (((UnitDeath) object).getUnit().equals("monster")) {
+                            ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
+                            ClientConnection.getInstance().getActiveMonsters().remove(((UnitDeath) object).getId());
+                        }
+                    }
+
                 }
             }
         });
