@@ -168,7 +168,7 @@ public class GameScreen implements Screen {
             batch.setColor(Color.WHITE);
 
 
-            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != 0 && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() == monster.getId()) {
+            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != -1 && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() == monster.getId()) {
                 renderer.rect((float) (monster.getX() - 0.1), (float) (monster.getY() - 0.1), (float) 1.2, (float) 1.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
             }
 
