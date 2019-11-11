@@ -128,7 +128,7 @@ public class MonsterHandler {
     }
 
     private boolean validateNewPosition(int monsterId, float x, float y) {
-        AtomicBoolean isBlocked = new AtomicBoolean(false);
+        AtomicInteger isBlocked = new AtomicInteger(0);
         if (GameServer.getInstance().getMh().monsterList.size() <= 1){
             return true;
         }
@@ -136,13 +136,11 @@ public class MonsterHandler {
             if (monster.getId() != monsterId) {
                 float[] dxdy = calcDxDy(monster.getX(), monster.getY(), x, y);
                 if (Math.hypot(dxdy[0], dxdy[1]) < 1) {
-                    isBlocked.set(false);
-                } else {
-                    isBlocked.set(true);
+                    isBlocked.set(isBlocked.get()+1);
                 }
             }
         });
-        return isBlocked.get();
+        return isBlocked.get() == 0;
     }
 
     public void moveMonster(Monster monster) {
