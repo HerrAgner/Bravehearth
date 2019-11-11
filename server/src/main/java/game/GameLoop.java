@@ -30,6 +30,7 @@ public class GameLoop implements Runnable {
                         if (pos != null) {
                             GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setX(pos.getX());
                             GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setY(pos.getY());
+                            GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setDirection(pos.getDirection());
                             GameServer.getInstance().getServer().sendToAllUDP(pos);
                         }
                     }));
@@ -73,20 +74,22 @@ public class GameLoop implements Runnable {
         boolean moved = false;
         switch (movement) {
             case FORWARD:
-                position = new Position(avatar.getX(), avatar.getY() + avatar.getMaxYspeed() * (delta * 30), avatar.getId(), 1);
+                position = new Position(avatar.getX(), avatar.getY() + avatar.getMaxYspeed() * (delta * 30), avatar.getId(), 1, "back");
                 break;
             case BACKWARD:
-                position = new Position(avatar.getX(), avatar.getY() - avatar.getMaxYspeed() * (delta * 30), avatar.getId(), 1);
+                position = new Position(avatar.getX(), avatar.getY() - avatar.getMaxYspeed() * (delta * 30), avatar.getId(), 1, "front");
                 break;
             case LEFT:
-                position = new Position(avatar.getX() - avatar.getMaxXspeed() * (delta * 30), avatar.getY(), avatar.getId(), 1);
+                position = new Position(avatar.getX() - avatar.getMaxXspeed() * (delta * 30), avatar.getY(), avatar.getId(), 1, "side_left");
                 break;
             case RIGHT:
-                position = new Position(avatar.getX() + avatar.getMaxXspeed() * (delta * 30), avatar.getY(), avatar.getId(), 1);
+                position = new Position(avatar.getX() + avatar.getMaxXspeed() * (delta * 30), avatar.getY(), avatar.getId(), 1, "side_right");
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + movement);
         }
+
+        System.out.println("position: " + position.getDirection());
 
         if (GameServer.getInstance().getMapReader().getMapCollision()
                 .get((int) Math.ceil(position.getX()))

@@ -54,6 +54,7 @@ public class Avatar {
     private int markedUnit;
     private boolean isHurt;
     private float hpRegen;
+    private String direction;
 
     public Avatar() {
     }
@@ -83,6 +84,7 @@ public class Avatar {
         this.defense = defense;
         this.isHurt = false;
         this.hpRegen = 0.01f;
+        this.direction = "front";
     }
 
     public void startHpRegen() {
@@ -220,4 +222,7 @@ public class Avatar {
     public void setEquippedItems(EquippedItems equippedItems) {
         this.equippedItems = equippedItems;
     }
+
+    public void setDirection(String direction) { this.direction = direction;
+        System.out.println("here's the new direction: " + this.direction);}
 }

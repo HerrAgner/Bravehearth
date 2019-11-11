@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Marksman extends Avatar {
     private Sprite sprite;
+    private String direction;
 
     public Marksman(Avatar avatar) {
         super(avatar);
@@ -13,11 +14,11 @@ public class Marksman extends Avatar {
 
     public void setSprite(Sprite sprite) {
         this.sprite = sprite;
-        getSprite();
     }
 
     public Sprite getSprite() {
         return sprite;
     }
 
+    public String getDirection() { return direction; }
 }

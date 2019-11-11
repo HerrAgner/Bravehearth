@@ -42,6 +42,7 @@ public class Avatar {
     private int markedUnit;
 	private boolean isHurt;
 	private float hpRegen;
+	private String direction;
 
     public Avatar(String name) {
         this.name = name;
@@ -77,6 +78,7 @@ public class Avatar {
         this.equippedItems = avatar.equippedItems;
         this.defence = avatar.defence;
         this.isHurt = avatar.isHurt;
+        this.direction = avatar.direction;
     }
 
     public Avatar() {
@@ -95,9 +97,10 @@ public class Avatar {
         this.characterClass = characterClass;
     }
 
-    public void setPosition(float x, float y) {
+    public void setPosition(float x, float y, String direction) {
         this.x = x;
         this.y = y;
+        this.direction = direction;
     }
 
     public void setId(int id) {
@@ -229,4 +232,6 @@ public class Avatar {
     public void setCharacterClass(CharacterClass characterClass) {
         this.characterClass = characterClass;
     }
+
+    public String getDirection() { return direction; }
 }

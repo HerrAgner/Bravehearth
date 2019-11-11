@@ -205,7 +205,10 @@ public class GameScreen implements Screen {
                 break;
             case MARKSMAN:
                 Marksman mark = (Marksman) avatar;
-                sprite = sprites.get("marksman_front");
+                System.out.println("marksman_" + avatar.getDirection());
+                System.out.println("marksman_" + mark.getDirection());
+
+                sprite = sprites.get("marksman_" + avatar.getDirection());
                 mark.setSprite(sprite);
                 sprite.setBounds(mark.getX(), mark.getY(), 0.8f, 1f);
                 mark.getSprite().setColor(color);
