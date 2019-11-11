@@ -53,7 +53,6 @@ public class MapReader {
             for (int k = 0; k < data[j].length; k++) {
                 if (!data[j][k].equals("-1")) {
                     tempArray.add(k);
-//                    System.out.printf("x; %s y; %s\n", j, k);
                 }
             }
             mapCollision.put(j, tempArray);

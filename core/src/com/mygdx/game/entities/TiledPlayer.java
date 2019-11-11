@@ -24,7 +24,6 @@ public class TiledPlayer {
     public void update(float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
            position.x += speed * delta;
-            System.out.println(position.x);
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             position.x -= speed * delta;
         }

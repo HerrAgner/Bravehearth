@@ -38,7 +38,7 @@ public class ClientConnection {
         addAssets();
         client.start();
         try {
-            client.connect(20000, "192.168.1.8", 54555, 54777);
+            client.connect(20000, "localhost", 54555, 54777);
         } catch (IOException e) {
             e.printStackTrace();
         }
