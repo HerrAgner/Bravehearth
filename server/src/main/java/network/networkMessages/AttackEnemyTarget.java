@@ -6,6 +6,7 @@ import java.util.UUID;
 public class AttackEnemyTarget {
     private int attacker;
     private int target;
+    private int attackerType;
 
     public AttackEnemyTarget(int attacker, int target) {
         this.attacker = attacker;

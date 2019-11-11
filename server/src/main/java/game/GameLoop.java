@@ -2,6 +2,7 @@ package game;
 
 import enums.Movement;
 import handlers.AttackHandler;
+import handlers.MonsterHandler;
 import handlers.MovementHandler;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.Position;
@@ -21,6 +22,7 @@ public class GameLoop implements Runnable {
         while (running) {
             long time = System.currentTimeMillis();
             float delta = (float) ((time - prevtime) / 1000.0);
+            float oneSecond = 0;
 
             MovementHandler.movementLoopList.forEach((key, value) ->
                     value.forEach(movement -> {
@@ -39,8 +41,21 @@ public class GameLoop implements Runnable {
                     System.out.println("Could not send attack. Trying again.");
                 }
             }
-//            System.out.println(GameServer.getInstance().getMh().counter.get());
+            GameServer.getInstance().getMh().updateCounter();
             GameServer.getInstance().getMh().monsterTargetAvatar();
+            MonsterHandler.monsterList.values().forEach(monster -> {
+                if (monster.getMarkedUnit() != 0) {
+                    GameServer.getInstance().getMh().monsterAttack(monster);
+                }
+            });
+
+            GameServer.getInstance().getAUH().getActiveAvatars().forEach((k, v) -> {
+                if (v.getHealth() < v.getMaxHealth() && v.getHealth() > 0 ) {
+                    v.startHpRegen();
+                    GameServer.getInstance().getServer().sendToAllTCP(v);
+                }
+            });
+
 
             try {
                 prevtime = time;
@@ -58,16 +73,16 @@ public class GameLoop implements Runnable {
         boolean moved = false;
         switch (movement) {
             case FORWARD:
-                position = new Position(avatar.getX(), avatar.getY() + avatar.getMaxYspeed() * (delta*30), avatar.getId(), 1);
+                position = new Position(avatar.getX(), avatar.getY() + avatar.getMaxYspeed() * (delta * 30), avatar.getId(), 1);
                 break;
             case BACKWARD:
-                position = new Position(avatar.getX(), avatar.getY() - avatar.getMaxYspeed() * (delta*30), avatar.getId(), 1);
+                position = new Position(avatar.getX(), avatar.getY() - avatar.getMaxYspeed() * (delta * 30), avatar.getId(), 1);
                 break;
             case LEFT:
-                position = new Position(avatar.getX() - avatar.getMaxXspeed() * (delta*30), avatar.getY(), avatar.getId(), 1);
+                position = new Position(avatar.getX() - avatar.getMaxXspeed() * (delta * 30), avatar.getY(), avatar.getId(), 1);
                 break;
             case RIGHT:
-                position = new Position(avatar.getX() + avatar.getMaxXspeed() * (delta*30), avatar.getY(), avatar.getId(), 1);
+                position = new Position(avatar.getX() + avatar.getMaxXspeed() * (delta * 30), avatar.getY(), avatar.getId(), 1);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + movement);
@@ -97,7 +112,7 @@ public class GameLoop implements Runnable {
             GameServer.getInstance().aa.forEach((key, value) -> {
                 if (key != avatar.getId()) {
                     if (Math.max(value.getX(), position.getX()) - Math.min(value.getX(), position.getX()) < 1 &&
-                            Math.max(value.getY(), position.getY()) - Math.min(value.getY(), position.getY()) < 1 ) {
+                            Math.max(value.getY(), position.getY()) - Math.min(value.getY(), position.getY()) < 1) {
                         ref.isValidMove = false;
                     }
                 }

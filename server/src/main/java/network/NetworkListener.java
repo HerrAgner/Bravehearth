@@ -25,9 +25,9 @@ public class NetworkListener {
                     ch.addToQueue(connection, object);
                 }
 
-                /*if (object instanceof AttackEnemyTarget) {
+                if (object instanceof AttackEnemyTarget) {
                     ch.addToQueue(connection, object);
-                }*/
+                }
 
                 if (object instanceof Logout){
                     ch.addToQueue(connection, object);

@@ -14,13 +14,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MonsterHandler {
     public static HashMap<Integer, Monster> monsterList;
     public AtomicInteger counter;
+    private AttackHandler attackHandler;
 
 
     public MonsterHandler() {
         monsterList = new HashMap<>();
         counter = new AtomicInteger();
         counter.set(0);
+        attackHandler = new AttackHandler();
+    }
 
+    public void monsterAttack(Monster monster){
+        if (counter.get() == Math.floor(monster.getAttackSpeed()*16)) {
+            attackHandler.addAttackerToList(monster.getId(), monster.getMarkedUnit(), 2);
+        }
     }
 
     public void addMonster(int id, Monster monster) {
@@ -69,7 +76,7 @@ public class MonsterHandler {
     }
 
     public void updateCounter() {
-        if (counter.get() == 10000) {
+        if (counter.get() == 63) {
             counter.set(0);
         } else {
             counter.addAndGet(1);

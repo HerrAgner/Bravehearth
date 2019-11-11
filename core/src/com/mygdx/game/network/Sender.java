@@ -3,6 +3,7 @@ package com.mygdx.game.network;
 import com.badlogic.gdx.Input;
 import com.esotericsoftware.kryonet.Client;
 //import com.mygdx.game.network.networkMessages.AttackEnemyTarget;
+import com.mygdx.game.network.networkMessages.AttackEnemyTarget;
 import com.mygdx.game.network.networkMessages.MovementCommands;
 
 import java.util.UUID;
@@ -52,7 +53,7 @@ public class Sender {
         }
     }
 
-    /*public void targetEnemy(int attacker, UUID target){
+    public void targetEnemy(int attacker, int target){
         c.sendTCP(new AttackEnemyTarget(attacker, target));
-    }*/
+    }
 }

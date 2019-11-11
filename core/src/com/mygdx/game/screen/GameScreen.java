@@ -43,6 +43,7 @@ public class GameScreen implements Screen {
     private BravehearthGame game;
     private TextureAtlas textureAtlas;
     final HashMap<String, Sprite> sprites;
+    private float oneSecond;
 
     public GameScreen(BravehearthGame game) {
         inputHandler = new InputHandler();
@@ -57,7 +58,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         camera = new OrthographicCamera(GameConfig.WIDTH, GameConfig.HEIGHT);
-        camera.setToOrtho(false, 30, 20);
+        camera.setToOrtho(false, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT);
         //  viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
         renderer = new ShapeRenderer();
         cameraController = new CameraController();
@@ -88,11 +89,12 @@ public class GameScreen implements Screen {
         delta = Gdx.graphics.getDeltaTime();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glLineWidth(3);
         cameraController.applyTo(camera);
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
-        update(delta);
         renderViewportUtils();
+        update(delta);
     }
 
     @Override
@@ -122,7 +124,6 @@ public class GameScreen implements Screen {
 //        ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
         batch.begin();
-
         ClientConnection.getInstance().getActiveAvatars().forEach((Integer, avatar) -> {
             if (avatar.getHealth() < avatar.getMaxHealth() * 0.3) {
                 batch.setColor(Color.RED);
@@ -131,23 +132,51 @@ public class GameScreen implements Screen {
             } else {
                 batch.setColor(Color.GREEN);
             }
-            batch.draw(healthBar, avatar.getX() - 1, (float) (avatar.getY() + 1.2), (float) avatar.getHealth() * 2 / avatar.getMaxHealth(), (float) 0.2);
+            batch.draw(healthBar, avatar.getX(), (float) (avatar.getY() + 1.2), (float) avatar.getHealth() / avatar.getMaxHealth(), (float) 0.2);
+            batch.setColor(Color.WHITE);
+            if (avatar.isHurt()) {
+                renderAvatar(avatar, Color.RED);
+                if (oneSecond > 1) {
+                    avatar.setHurt(false);
+                    oneSecond = Gdx.graphics.getDeltaTime();
+                } else {
+                    oneSecond += Gdx.graphics.getDeltaTime();
+                }
+            } else {
+                renderAvatar(avatar, Color.WHITE);
+            }
             batch.setColor(Color.WHITE);
 
-            renderAvatar(avatar);
 
 //            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
 //                renderer.rect((float) (avatar.getX() - 1.1), (float) (avatar.getY() - 1.1), (float) 2.2, (float) 2.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
 //            }
         });
-
         ClientConnection.getInstance().getActiveMonsters().forEach((uuid, monster) -> {
             DummyMonster dummyMonster = (DummyMonster) monster;
             dummyMonster.getSprite().setBounds(dummyMonster.getX(), dummyMonster.getY(), 1f, 1f);
             dummyMonster.getSprite().draw(batch);
-        });
 
+            if (monster.getHp() < monster.getMaxHp() * 0.3) {
+                batch.setColor(Color.RED);
+            } else if (monster.getHp() < monster.getMaxHp() * 0.6) {
+                batch.setColor(Color.YELLOW);
+            } else {
+                batch.setColor(Color.GREEN);
+            }
+            batch.draw(healthBar, monster.getX(), monster.getY() + 1.2f, (float) monster.getHp() / monster.getMaxHp(), 0.2f);
+            batch.setColor(Color.WHITE);
+
+
+            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != 0 && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() == monster.getId()) {
+                System.out.println(monster.getHp());
+                System.out.println(monster.getMaxHp());
+                renderer.rect((float) (monster.getX() - 0.1), (float) (monster.getY() - 0.1), (float) 1.2, (float) 1.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
+            }
+
+        });
         batch.end();
+
         renderer.end();
     }
 
@@ -156,27 +185,30 @@ public class GameScreen implements Screen {
         updateCamera();
     }
 
-    private void renderAvatar(Avatar avatar){
+    private void renderAvatar(Avatar avatar, Color color) {
         switch (avatar.getCharacterClass()) {
             case SORCERER:
                 Sorcerer sorc = (Sorcerer) avatar;
                 sprite = sprites.get("sorcerer_front");
                 sorc.setSprite(sprite);
-                sorc.getSprite().setBounds(sorc.getX(), sorc.getY(), 1f, 1f);
+                sorc.getSprite().setBounds(sorc.getX(), sorc.getY(), 0.8f, 1f);
+                sorc.getSprite().setColor(color);
                 sorc.getSprite().draw(batch);
                 break;
             case WARRIOR:
                 Warrior war = (Warrior) avatar;
                 sprite = sprites.get("warrior_front");
                 war.setSprite(sprite);
-                war.getSprite().setBounds(war.getX(), war.getY(), 1f, 1f);
+                war.getSprite().setBounds(war.getX(), war.getY(), 0.8f, 1f);
+                war.getSprite().setColor(color);
                 war.getSprite().draw(batch);
                 break;
             case MARKSMAN:
                 Marksman mark = (Marksman) avatar;
                 sprite = sprites.get("marksman_front");
                 mark.setSprite(sprite);
-                sprite.setBounds(mark.getX(), mark.getY(), 1f, 1f);
+                sprite.setBounds(mark.getX(), mark.getY(), 0.8f, 1f);
+                mark.getSprite().setColor(color);
                 sprite.draw(batch);
                 break;
         }

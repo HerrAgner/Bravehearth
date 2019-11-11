@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.serializers.DefaultSerializers;
 import com.esotericsoftware.kryonet.Client;
 import com.mygdx.game.entities.*;
 import com.mygdx.game.entities.Items.*;
@@ -113,7 +114,7 @@ public class ClientConnection {
         kryo.register(MovementCommands.class);
         kryo.register(UUID.class, new UUIDSerializer());
         kryo.register(Logout.class);
-        //kryo.register(AttackEnemyTarget.class, 10);
+        kryo.register(AttackEnemyTarget.class);
         kryo.register(Consumable.class);
         kryo.register(Item.class);
         kryo.register(Weapon.class);

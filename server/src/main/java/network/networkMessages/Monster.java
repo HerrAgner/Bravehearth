@@ -17,6 +17,7 @@ public class Monster {
     private int maxHp;
     private int attackDamage;
     float attackSpeed;
+    float attackRange;
     private String name;
     private int markedUnit;
     int spawnRate;
@@ -118,6 +119,14 @@ public class Monster {
 
     public float getAttackSpeed() {
         return attackSpeed;
+    }
+
+    public float getAttackRange() {
+        return attackRange;
+    }
+
+    public void setAttackRange(float attackRange) {
+        this.attackRange = attackRange;
     }
 
     public void setAttackSpeed(float attackSpeed) {
