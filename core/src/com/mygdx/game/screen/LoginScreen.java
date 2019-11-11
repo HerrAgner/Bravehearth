@@ -127,8 +127,8 @@ public class LoginScreen implements Screen {
 
         logo = new Image();
         logo.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("bravehearth-logo.png")))));
-        logo.setSize(605, 89);
-        logo.setPosition(Gdx.graphics.getWidth() / 2 - 300, Gdx.graphics.getHeight() - 200f);
+        logo.setSize(605*1.5f, 89*1.5f);
+        logo.setPosition(Gdx.graphics.getWidth() / 2 - 300*1.5f, Gdx.graphics.getHeight() - 200f*1.5f);
 
 
         stage2.addActor(backgroundImage);
