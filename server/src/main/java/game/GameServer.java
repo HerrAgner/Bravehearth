@@ -66,9 +66,37 @@ public class GameServer {
     }
 
     private void initDummyMonsters() {
-        Monster monster = new Monster(5,5,"ANTONMONSTRET");
-        monster.setY(10);
-        monster.setX(10);
+        for(int i = 0; i < 5; i++) {
+            Monster monster = new Monster(5,5,"Pulsating Lump");
+            monster.setY(10 + i);
+            monster.setX(10 + i*2);
+            monster.setMaxXspeed(0.01f);
+            monster.setMaxYspeed(0.01f);
+            monster.setBoundsRadius(4f);
+            monster.setMaxHp(5);
+            monster.setType(MonsterType.PULSATINGLUMP);
+            monster.setId(1 + i);
+            monster.setMarkedUnit(-1);
+            getMh().monsterList.put(monster.getId(), monster);
+        }
+
+        for(int i = 0; i < 5; i++) {
+            Monster monster = new Monster(5,5,"Viper");
+            monster.setY(30 + i*3);
+            monster.setX(30 - i*2);
+            monster.setMaxXspeed(0.01f);
+            monster.setMaxYspeed(0.01f);
+            monster.setBoundsRadius(4f);
+            monster.setMaxHp(5);
+            monster.setType(MonsterType.VIPER);
+            monster.setId(10 + i);
+            monster.setMarkedUnit(-1);
+            getMh().monsterList.put(monster.getId(), monster);
+        }
+
+       /* Monster monster = new Monster(5,5,"ANTONMONSTRET");
+        monster.setY(30);
+        monster.setX(30);
         monster.setMaxXspeed(0.01f);
         monster.setMaxYspeed(0.01f);
         monster.setBoundsRadius(4f);
@@ -89,7 +117,7 @@ public class GameServer {
         monster2.setMarkedUnit(-1);
 
         getMh().monsterList.put(monster.getId(), monster);
-        getMh().monsterList.put(monster2.getId(), monster2);
+        getMh().monsterList.put(monster2.getId(), monster2);*/
     }
 
     public MapReader getMapReader() {

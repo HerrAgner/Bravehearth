@@ -5,6 +5,8 @@ import com.esotericsoftware.kryonet.Listener;
 import com.mygdx.game.entities.avatar.*;
 import com.mygdx.game.entities.monsters.DummyMonster;
 import com.mygdx.game.entities.monsters.Monster;
+import com.mygdx.game.entities.monsters.PulsatingLump;
+import com.mygdx.game.entities.monsters.Viper;
 import com.mygdx.game.network.networkMessages.HealthChange;
 import com.mygdx.game.network.networkMessages.Logout;
 import com.mygdx.game.network.networkMessages.Position;
@@ -36,10 +38,13 @@ public class ClientNetworkListener {
                 if (ClientConnection.getInstance().getUser() != null) {
 
                     if (object instanceof Monster) {
-                        if (((Monster) object).getType().equals(MonsterType.DUMMYMONSTER)) {
-                            DummyMonster dm = new DummyMonster((Monster) object);
-                            ClientConnection.getInstance().getActiveMonsters().put(((Monster) object).getId(), dm);
-
+                        if (((Monster) object).getType().equals(MonsterType.VIPER)) {
+                            Viper v = new Viper((Monster) object);
+                            ClientConnection.getInstance().getActiveMonsters().put(((Monster) object).getId(), v);
+                        }
+                        if (((Monster) object).getType().equals(MonsterType.PULSATINGLUMP)) {
+                            PulsatingLump pl = new PulsatingLump((Monster) object);
+                            ClientConnection.getInstance().getActiveMonsters().put(((Monster) object).getId(), pl);
                         }
                     }
 

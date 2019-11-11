@@ -21,9 +21,13 @@ import com.mygdx.game.BravehearthGame;
 import com.mygdx.game.config.GameConfig;
 import com.mygdx.game.entities.avatar.*;
 import com.mygdx.game.entities.monsters.DummyMonster;
+import com.mygdx.game.entities.monsters.Monster;
+import com.mygdx.game.entities.monsters.PulsatingLump;
+import com.mygdx.game.entities.monsters.Viper;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.util.CameraController;
 import com.mygdx.game.util.InputHandler;
+
 import java.util.HashMap;
 
 public class GameScreen implements Screen {
@@ -41,7 +45,8 @@ public class GameScreen implements Screen {
     private TiledMapTileLayer collision;
     private InputHandler inputHandler;
     private BravehearthGame game;
-    private TextureAtlas textureAtlas;
+    private TextureAtlas avatarTextureAtlas;
+    private TextureAtlas monsterTextureAtlas;
     final HashMap<String, Sprite> sprites;
     private float oneSecond;
 
@@ -51,7 +56,8 @@ public class GameScreen implements Screen {
         this.game = game;
         batch = new SpriteBatch();
         healthBar = new Texture("blank.png");
-        textureAtlas = new TextureAtlas("avatars/avatarSprites.txt");
+        avatarTextureAtlas = new TextureAtlas("avatars/avatarSprites.txt");
+        monsterTextureAtlas = new TextureAtlas("monsters/monsterSprites.txt");
         sprites = new HashMap<>();
     }
 
@@ -75,11 +81,15 @@ public class GameScreen implements Screen {
     }
 
     private void addSprites() {
-        Array<AtlasRegion> regions = textureAtlas.getRegions();
-
+        Array<AtlasRegion> regions = avatarTextureAtlas.getRegions();
         for (AtlasRegion region : regions) {
-            Sprite sprite = textureAtlas.createSprite(region.name);
+            Sprite sprite = avatarTextureAtlas.createSprite(region.name);
+            sprites.put(region.name, sprite);
+        }
 
+        Array<AtlasRegion> r = monsterTextureAtlas.getRegions();
+        for (AtlasRegion region : r) {
+            Sprite sprite = monsterTextureAtlas.createSprite(region.name);
             sprites.put(region.name, sprite);
         }
     }
@@ -103,13 +113,16 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void pause() { }
+    public void pause() {
+    }
 
     @Override
-    public void resume() { }
+    public void resume() {
+    }
 
     @Override
-    public void hide() { }
+    public void hide() {
+    }
 
     @Override
     public void dispose() {
@@ -153,10 +166,7 @@ public class GameScreen implements Screen {
 //            }
         });
         ClientConnection.getInstance().getActiveMonsters().forEach((uuid, monster) -> {
-            DummyMonster dummyMonster = (DummyMonster) monster;
-            dummyMonster.getSprite().setBounds(dummyMonster.getX(), dummyMonster.getY(), 1f, 1f);
-            dummyMonster.getSprite().draw(batch);
-
+            renderMonster(monster);
             if (monster.getHp() < monster.getMaxHp() * 0.3) {
                 batch.setColor(Color.RED);
             } else if (monster.getHp() < monster.getMaxHp() * 0.6) {
@@ -210,7 +220,23 @@ public class GameScreen implements Screen {
                 sprite.draw(batch);
                 break;
         }
+    }
 
+    private void renderMonster(Monster monster) {
+        switch (monster.getType()) {
+            case VIPER:
+                Viper viper = (Viper) monster;
+                viper.setSprite(sprites.get("viper"));
+                viper.getSprite().setBounds(viper.getX(), viper.getY(), 1f, 1f);
+                viper.getSprite().draw(batch);
+                break;
+            case PULSATINGLUMP:
+                PulsatingLump pl = (PulsatingLump) monster;
+                pl.setSprite(sprites.get("pulsating_lump"));
+                pl.getSprite().setBounds(pl.getX(), pl.getY(), 1f, 1f);
+                pl.getSprite().draw(batch);
+                break;
+        }
     }
 
     private void updatePlayer(float delta) {
