@@ -7,7 +7,7 @@ import network.networkMessages.Position;
 import network.networkMessages.avatar.Avatar;
 
 import java.util.HashMap;
-import java.util.UUID;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -51,8 +51,8 @@ public class MonsterHandler {
                     if (monster.getMarkedUnit() == -1) {
                         monster.setMarkedUnit(id);
                         ref.changed = true;
-                    } else if (calculateShortestPath(monster.getId(), avatar.getId())
-                            < calculateShortestPath(monster.getId(), monster.getMarkedUnit())) {
+                    } else if (calculateShortestPath(monster, avatar)
+                            < calculateShortestPath(monster, GameServer.getInstance().aa.get(monster.getMarkedUnit()))) {
                         monster.setMarkedUnit(id);
                         ref.changed = true;
                     }
@@ -60,7 +60,7 @@ public class MonsterHandler {
 
             });
             if (!ref.changed) {
-                if (monster.getMarkedUnit() != -1 && calculateShortestPath(monster.getId(), monster.getMarkedUnit()) > 8) {
+                if (monster.getMarkedUnit() != -1 && calculateShortestPath(monster, GameServer.getInstance().aa.get(monster.getMarkedUnit())) > 8) {
                     monster.setMarkedUnit(-1);
                 }
             }
@@ -70,32 +70,87 @@ public class MonsterHandler {
         });
     }
 
-    private float calculateShortestPath(int monster, int avatar) {
-        Monster mon = GameServer.getInstance().getMh().monsterList.get(monster);
-        Avatar av = GameServer.getInstance().aa.get(avatar);
-
-        float dx = mon.getX() - av.getX();
-        float dy = mon.getY() - av.getY();
-        return (float) Math.hypot(dx, dy);
+    private float[] calcDxDy(float x1, float y1, float x2, float y2) {
+        float dx = x1 - x2;
+        float dy = y1 - y2;
+        return new float[]{dx, dy};
     }
 
-    private float[] calculateNewPosition(int monster) {
+    private float calculateShortestPath(Monster mon, Avatar av) {
+        if (mon != null && av != null) {
+            float[] dxdy = calcDxDy(mon.getX(), mon.getY(), av.getX(), av.getY());
+            return (float) Math.hypot(dxdy[0], dxdy[1]);
+        }
+        return 0;
+    }
+
+    private float[] calculateNewPosition(int monster, boolean isBlocked, float pathSize) {
         Monster mon = GameServer.getInstance().getMh().monsterList.get(monster);
         Avatar av = GameServer.getInstance().aa.get(mon.getMarkedUnit());
+        if (av == null){
+            return null;
+        }
 
-        float dx = mon.getX() - av.getX();
-        float dy = mon.getY() - av.getY();
-        float shortestPath = (float) (mon.getMaxXspeed() / Math.hypot(dx, dy));
-        float newX = mon.getX() - dx * shortestPath;
-        float newY = mon.getY() - dy * shortestPath;
+        Random r = new Random();
+        float randomX = -(mon.getMaxXspeed()+pathSize) + r.nextFloat() * ((mon.getMaxXspeed()+pathSize) - -(mon.getMaxXspeed()+pathSize));
+        float randomY = -(mon.getMaxYspeed()+pathSize) + r.nextFloat() * ((mon.getMaxYspeed()+pathSize) - -(mon.getMaxYspeed()+pathSize));
+        float[] dxdy;
+        float newX;
+        float newY;
+        float shortestPath;
 
-        return new float[]{newX, newY};
+        if (isBlocked) {
+            dxdy = calcDxDy(mon.getX(), mon.getY(), av.getX(), av.getY());
+            shortestPath = (float) (mon.getMaxXspeed() / Math.hypot(dxdy[0], dxdy[1]));
+            newX = (mon.getX() - dxdy[0] * shortestPath) + randomX;
+            newY = (mon.getY() - dxdy[1] * shortestPath) + randomY;
+        } else {
+            dxdy = calcDxDy(mon.getX(), mon.getY(), av.getX(), av.getY());
+            shortestPath = (float) (mon.getMaxXspeed() / Math.hypot(dxdy[0], dxdy[1]));
+            newX = mon.getX() - dxdy[0] * shortestPath;
+            newY = mon.getY() - dxdy[1] * shortestPath;
+        }
+
+
+//        float shortestPath = (float) (mon.getMaxXspeed() / Math.hypot(dxdy[0], dxdy[1]));
+//        float newX = mon.getX() - dxdy[0] * shortestPath;
+//        float newY = mon.getY() - dxdy[1] * shortestPath;
+
+        if (calculateShortestPath(mon, av) <= 1) {
+            return null;
+        }
+
+        if (validateNewPosition(mon.getId(), newX, newY)) {
+            return new float[]{newX, newY};
+        } else {
+            return calculateNewPosition(monster, true, pathSize += mon.getMaxXspeed());
+        }
+    }
+
+    private boolean validateNewPosition(int monsterId, float x, float y) {
+        AtomicBoolean isBlocked = new AtomicBoolean(false);
+        GameServer.getInstance().getMh().monsterList.forEach((integer, monster) -> {
+            if (monster.getId() != monsterId) {
+                float[] dxdy = calcDxDy(monster.getX(), monster.getY(), x, y);
+                if (Math.hypot(dxdy[0], dxdy[1]) < 1) {
+                    isBlocked.set(false);
+                } else {
+                    isBlocked.set(true);
+                }
+            }
+        });
+        return isBlocked.get();
     }
 
     public void moveMonster(Monster monster) {
-
-        float newX = calculateNewPosition(monster.getId())[0];
-        float newY = calculateNewPosition(monster.getId())[1];
+        float newX = 0;
+        float newY = 0;
+        if (calculateNewPosition(monster.getId(), false,0) != null) {
+            newX = calculateNewPosition(monster.getId(), false,0)[0];
+            newY = calculateNewPosition(monster.getId(), false,0)[1];
+        } else{
+            return;
+        }
 
         monsterList.get(monster.getId()).setX(newX);
         monsterList.get(monster.getId()).setY(newY);

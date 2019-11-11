@@ -78,8 +78,8 @@ public class GameServer {
         monster.setMarkedUnit(-1);
 
         Monster monster2 = new Monster(5,5,"ANTONMONSTRETt");
-        monster2.setY(30);
-        monster2.setX(30);
+        monster2.setY(13);
+        monster2.setX(13);
         monster2.setMaxXspeed(0.01f);
         monster2.setMaxYspeed(0.01f);
         monster2.setBoundsRadius(4f);
