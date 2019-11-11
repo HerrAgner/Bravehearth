@@ -58,13 +58,15 @@ public class AttackHandler {
             targetX = monster.getX();
             targetY = monster.getY();
         } else if (attack.get(0) == 2) {
-            avatar = GameServer.getInstance().aa.get(attack.get(2));
-            monster = GameServer.getInstance().getMh().monsterList.get(attack.get(1));
-            attackerX = monster.getX();
-            attackerY = monster.getY();
-            attackerRange = monster.getAttackRange();
-            targetX = avatar.getX();
-            targetY = avatar.getY();
+            if (GameServer.getInstance().getMh().monsterList.get(attack.get(1)) != null) {
+                avatar = GameServer.getInstance().aa.get(attack.get(2));
+                monster = GameServer.getInstance().getMh().monsterList.get(attack.get(1));
+                attackerX = monster.getX();
+                attackerY = monster.getY();
+                attackerRange = monster.getAttackRange();
+                targetX = avatar.getX();
+                targetY = avatar.getY();
+            }
         }
 
 
@@ -72,7 +74,10 @@ public class AttackHandler {
                 && targetX > attackerX -1 - attackerRange)
                 && (targetY < attackerY +1 + attackerRange
                 && targetY > attackerY -1 - attackerRange)) {
-            calculateDamageDealt(attack.get(0), attack.get(1), attack.get(2));
+            try {
+                calculateDamageDealt(attack.get(0), attack.get(1), attack.get(2));
+            } catch (NullPointerException ignored) {
+            }
         }
     }
 
@@ -96,11 +101,7 @@ public class AttackHandler {
             newHealth = monster.getHp() - avatar.getAttackDamage();
             GameServer.getInstance().getMh().monsterList.get(targetId).setHp(newHealth);
             attackDistance = getAttackDistance(avatar.getAttackRange());
-            if (GameServer.getInstance().getMh().monsterList.get(targetId).getHp() <= 0) {
-                GameServer.getInstance().aa.get(attackerId).setMarkedUnit(-1);
-                GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(avatar.getId(), monster.getId(), "monster", monster.getExperiencePoints()));
-                GameServer.getInstance().getMh().monsterList.remove(targetId);
-            }
+
 
         } else {
             attackerUnit = "monster";
@@ -117,6 +118,7 @@ public class AttackHandler {
 
         try {
             validatedAttacks.put(aet);
+//
 //            validatedAttacks.put(healthChange);
         } catch (InterruptedException e) {
             System.out.println("Could not add attack to list.");

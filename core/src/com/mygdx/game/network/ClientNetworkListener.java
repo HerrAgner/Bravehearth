@@ -73,7 +73,12 @@ public class ClientNetworkListener {
                             if (ClientConnection.getInstance().getActiveMonsters().get((((AttackEnemyTarget) object).getHc()).getReceivingAvatar()) != null) {
                                 ClientConnection.getInstance().getActiveMonsters().get((((AttackEnemyTarget) object).getHc()).getReceivingAvatar())
                                         .setHp((((AttackEnemyTarget) object).getHc()).getNewHealth());
-                                ClientConnection.getInstance().getActiveAvatars().get(((AttackEnemyTarget) object).getAttacker()).setAttacking(((AttackEnemyTarget) object).getAttackType());
+                                ClientConnection.getInstance().getActiveAvatars().get(((AttackEnemyTarget) object).getAttacker())
+                                        .setAttacking(((AttackEnemyTarget) object).getAttackType());
+                                ClientConnection.getInstance().getActiveAvatars().get(((AttackEnemyTarget) object).getAttacker())
+                                        .setTargetPosition(new float[]{ClientConnection.getInstance().getActiveMonsters().get(((AttackEnemyTarget) object).getTarget()).getX(),
+                                                ClientConnection.getInstance().getActiveMonsters().get(((AttackEnemyTarget) object).getTarget()).getY()}
+                                        );
                             }
                         } else if (((AttackEnemyTarget) object).getHc().getType() == 3) {
                             ClientConnection.getInstance().getActiveAvatars().get((((AttackEnemyTarget) object).getHc()).getReceivingAvatar())

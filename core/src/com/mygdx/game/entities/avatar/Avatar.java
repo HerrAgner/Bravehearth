@@ -41,6 +41,7 @@ public class Avatar {
     private float attackLoop;
 	private String direction;
 	private String isAttacking = "";
+	private float[] targetPosition;
 
 
 
@@ -242,4 +243,12 @@ public class Avatar {
     }
 
     public String getDirection() { return direction; }
+
+    public float[] getTargetPosition() {
+        return targetPosition;
+    }
+
+    public void setTargetPosition(float[] targetPosition) {
+        this.targetPosition = targetPosition;
+    }
 }

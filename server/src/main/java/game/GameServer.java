@@ -141,5 +141,6 @@ public class GameServer {
         kryo.register(MonsterType.class);
         kryo.register(UnitDeath.class);
         kryo.register(AttackEnemyTarget.class);
+        kryo.register(float[].class);
     }
 }

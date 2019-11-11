@@ -6,6 +6,7 @@ import handlers.MonsterHandler;
 import handlers.MovementHandler;
 import network.networkMessages.AttackEnemyTarget;
 import network.networkMessages.HealthChange;
+import network.networkMessages.UnitDeath;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.Position;
 
@@ -41,7 +42,13 @@ public class GameLoop implements Runnable {
 
             if (AttackHandler.validatedAttacks.size() > 0) {
                 try {
-                    GameServer.getInstance().getServer().sendToAllTCP(AttackHandler.validatedAttacks.take());
+                    AttackEnemyTarget aet = AttackHandler.validatedAttacks.take();
+                    GameServer.getInstance().getServer().sendToAllTCP(aet);
+                    if (aet.getTargetUnit().equals("monster") && GameServer.getInstance().getMh().monsterList.get(aet.getTarget()).getHp() <= 0) {
+                        GameServer.getInstance().aa.get(aet.getAttacker()).setMarkedUnit(-1);
+                        GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(aet.getAttacker(), aet.getTarget(), "monster", GameServer.getInstance().getMh().monsterList.get(aet.getTarget()).getExperiencePoints()));
+                        GameServer.getInstance().getMh().monsterList.remove(aet.getTarget());
+                    }
                 } catch (InterruptedException e) {
                     System.out.println("Could not send attack. Trying again.");
                 }

@@ -146,11 +146,11 @@ public class GameScreen implements Screen {
             batch.setColor(Color.WHITE);
 
             if (avatar.isAttacking().equals("ranged")) {
-                Arrow arrow = new Arrow();
+                Arrow arrow = new Arrow(Gdx.graphics.getDeltaTime());
                 arrow.getPosition().x = avatar.getX();
                 arrow.getPosition().y = avatar.getY();
-                arrow.setTargetUnit(avatar.getMarkedUnit());
                 arrow.setTargetUnitType("monster");
+                arrow.setTargetPosition(new Vector2(avatar.getTargetPosition()[0], avatar.getTargetPosition()[1]));
                 this.arrows.add(arrow);
                 avatar.setAttacking("");
             } else if (avatar.isAttacking().equals("melee")) {
@@ -178,7 +178,12 @@ public class GameScreen implements Screen {
         if (this.arrows != null && this.arrows.size() > 0) {
             this.arrows.forEach(arrow -> {
                 batch.draw(arrow.getTexture(), arrow.getPosition().x, arrow.getPosition().y, 0.5f, 0.5f, 1, 1, 1, 1, arrow.getAngle());
-                arrow.update();
+                arrow.update(Gdx.graphics.getDeltaTime());
+                if (arrow.shouldDispose(Gdx.graphics.getDeltaTime())) {
+                    this.arrows.remove(arrow);
+                } else {
+                    arrow.increaseTimer(Gdx.graphics.getDeltaTime());
+                }
             });
 
         }
