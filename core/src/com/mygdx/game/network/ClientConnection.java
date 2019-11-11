@@ -60,7 +60,6 @@ public class ClientConnection {
 
     private void addAssets() {
         //avatars
-        assetManager.load("pik.png", Texture.class);
         assetManager.load("avatars/avatarSprites.png", Texture.class);
 
         //monsters

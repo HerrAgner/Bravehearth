@@ -6,16 +6,16 @@ public class Position {
     private Float y = null;
     private int type;
     private int id;
+    private String direction;
 
-    public Position(Float x, Float y, int type){
+    public Position(Float x, Float y, int type, String direction){
         this.x = x;
         this.y = y;
         this.type = type;
+        this.direction = direction;
     }
 
-    public Position() {
-
-    }
+    public Position() { }
 
     public int getId(){
         return this.id;
@@ -32,4 +32,6 @@ public class Position {
     public int getType() {
         return type;
     }
+
+    public String getDirection() { return this.direction; }
 }
