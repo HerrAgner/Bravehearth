@@ -69,14 +69,16 @@ public class ClientNetworkListener {
                             ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
                                     .setHurt(true);
                             Avatar av = ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar());
-                            if(av instanceof Warrior){
-                                ((Warrior) av).playSound();
-                            }
-                            if(av instanceof Marksman){
-                                ((Marksman) av).playSound();
-                            }
-                            if(av instanceof Sorcerer){
-                                ((Sorcerer) av).playSound();
+                            if (av.getId() == ClientConnection.getInstance().getAvatar().getId()) {
+                                if (av instanceof Warrior) {
+                                    ((Warrior) av).playSound();
+                                }
+                                if (av instanceof Marksman) {
+                                    ((Marksman) av).playSound();
+                                }
+                                if (av instanceof Sorcerer) {
+                                    ((Sorcerer) av).playSound();
+                                }
                             }
                         }
                     }
