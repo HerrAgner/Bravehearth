@@ -56,7 +56,7 @@ public class ClientNetworkListener {
 
                     if (object instanceof HealthChange) {
                         if (((HealthChange) object).getType() == 1) {
-                            if (ClientConnection.getInstance().getActiveMonsters().get(1) != null) {
+                            if (ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar()) != null) {
                                 ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar())
                                         .setHp(((HealthChange) object).getNewHealth());
                             }
