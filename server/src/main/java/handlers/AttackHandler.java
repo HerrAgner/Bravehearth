@@ -98,7 +98,7 @@ public class AttackHandler {
             attackDistance = getAttackDistance(avatar.getAttackRange());
             if (GameServer.getInstance().getMh().monsterList.get(targetId).getHp() <= 0) {
                 GameServer.getInstance().aa.get(attackerId).setMarkedUnit(-1);
-                GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(monster.getId(), "monster", monster.getExperiencePoints()));
+                GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(avatar.getId(), monster.getId(), "monster", monster.getExperiencePoints()));
                 GameServer.getInstance().getMh().monsterList.remove(targetId);
             }
 

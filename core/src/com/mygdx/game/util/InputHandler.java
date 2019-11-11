@@ -78,11 +78,16 @@ public class InputHandler implements InputProcessor {
                 if ((monster.getX() + 1 > vec.x && monster.getX() - 1 < vec.x) && (monster.getY() + 1 > vec.y && monster.getY() - 1 < vec.y)) {
                     if (user.getAvatar().getMarkedUnit() == -1) {
                         user.getAvatar().setMarkedUnit(monster.getId());
+                        ClientConnection.getInstance().getActiveAvatars().get(user.getAvatar().getId()).setMarkedUnit(monster.getId());
                     } else if (user.getAvatar().getMarkedUnit() != monster.getId()) {
+                        ClientConnection.getInstance().getActiveAvatars().get(user.getAvatar().getId()).setMarkedUnit(monster.getId());
                         user.getAvatar().setMarkedUnit(monster.getId());
                     } else {
                         user.getAvatar().setMarkedUnit(-1);
+                        ClientConnection.getInstance().getActiveAvatars().get(user.getAvatar().getId()).setMarkedUnit(-1);
+
                     }
+
                     ClientConnection.getInstance().getClient().sendTCP(new AttackEnemyTarget(user.getAvatar().getId(), user.getAvatar().getMarkedUnit()));
                 }
             });

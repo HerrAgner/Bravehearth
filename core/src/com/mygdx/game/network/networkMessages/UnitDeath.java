@@ -1,21 +1,27 @@
 package com.mygdx.game.network.networkMessages;
 
 public class UnitDeath {
-    int id;
+    int attackerId;
+    int targetId;
     String unit;
     int exp;
 
     public UnitDeath(){
     }
 
-    public UnitDeath(int id, String unit, int exp) {
-        this.id = id;
+    public UnitDeath(int attackerId, int targetId, String unit, int exp) {
+        this.attackerId = attackerId;
+        this.targetId = targetId;
         this.unit = unit;
         this.exp = exp;
     }
 
-    public int getId() {
-        return id;
+    public int getAttackerId() {
+        return attackerId;
+    }
+
+    public int getTargetId() {
+        return targetId;
     }
 
     public String getUnit() {

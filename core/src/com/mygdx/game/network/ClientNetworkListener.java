@@ -73,6 +73,7 @@ public class ClientNetworkListener {
                             if (ClientConnection.getInstance().getActiveMonsters().get((((AttackEnemyTarget) object).getHc()).getReceivingAvatar()) != null) {
                                 ClientConnection.getInstance().getActiveMonsters().get((((AttackEnemyTarget) object).getHc()).getReceivingAvatar())
                                         .setHp((((AttackEnemyTarget) object).getHc()).getNewHealth());
+                                ClientConnection.getInstance().getActiveAvatars().get(((AttackEnemyTarget) object).getAttacker()).setAttacking(((AttackEnemyTarget) object).getAttackType());
                             }
                         } else if (((AttackEnemyTarget) object).getHc().getType() == 3) {
                             ClientConnection.getInstance().getActiveAvatars().get((((AttackEnemyTarget) object).getHc()).getReceivingAvatar())
@@ -103,7 +104,7 @@ public class ClientNetworkListener {
                     if (object instanceof UnitDeath) {
                         if (((UnitDeath) object).getUnit().equals("monster")) {
                             ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
-                            ClientConnection.getInstance().getActiveMonsters().remove(((UnitDeath) object).getId());
+                            ClientConnection.getInstance().getActiveMonsters().remove(((UnitDeath) object).getTargetId());
                         }
                     }
 

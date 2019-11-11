@@ -40,6 +40,8 @@ public class Avatar {
 	private float hpRegen;
     private float attackLoop;
 	private String direction;
+	private String isAttacking = "";
+
 
 
     public Avatar(String name) {
@@ -99,6 +101,14 @@ public class Avatar {
         this.x = x;
         this.y = y;
         this.direction = direction;
+    }
+
+    public String isAttacking() {
+        return isAttacking;
+    }
+
+    public void setAttacking(String attacking) {
+        isAttacking = attacking;
     }
 
     public void setId(int id) {

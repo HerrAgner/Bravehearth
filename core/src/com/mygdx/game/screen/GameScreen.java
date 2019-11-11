@@ -10,21 +10,26 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.BravehearthGame;
 import com.mygdx.game.config.GameConfig;
+import com.mygdx.game.entities.Arrow;
 import com.mygdx.game.entities.avatar.*;
 import com.mygdx.game.entities.monsters.DummyMonster;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.util.CameraController;
 import com.mygdx.game.util.InputHandler;
+
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameScreen implements Screen {
 
@@ -44,6 +49,7 @@ public class GameScreen implements Screen {
     private TextureAtlas textureAtlas;
     final HashMap<String, Sprite> sprites;
     private float oneSecond;
+    private CopyOnWriteArrayList<Arrow> arrows;
 
     public GameScreen(BravehearthGame game) {
         inputHandler = new InputHandler();
@@ -53,6 +59,7 @@ public class GameScreen implements Screen {
         healthBar = new Texture("blank.png");
         textureAtlas = new TextureAtlas("avatars/avatarSprites.txt");
         sprites = new HashMap<>();
+        arrows = new CopyOnWriteArrayList<>();
     }
 
     @Override
@@ -103,13 +110,16 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void pause() { }
+    public void pause() {
+    }
 
     @Override
-    public void resume() { }
+    public void resume() {
+    }
 
     @Override
-    public void hide() { }
+    public void hide() {
+    }
 
     @Override
     public void dispose() {
@@ -134,6 +144,18 @@ public class GameScreen implements Screen {
             }
             batch.draw(healthBar, avatar.getX(), (float) (avatar.getY() + 1.2), (float) avatar.getHealth() / avatar.getMaxHealth(), (float) 0.2);
             batch.setColor(Color.WHITE);
+
+            if (avatar.isAttacking().equals("ranged")) {
+                Arrow arrow = new Arrow();
+                arrow.getPosition().x = avatar.getX();
+                arrow.getPosition().y = avatar.getY();
+                arrow.setTargetUnit(avatar.getMarkedUnit());
+                arrow.setTargetUnitType("monster");
+                this.arrows.add(arrow);
+                avatar.setAttacking("");
+            } else if (avatar.isAttacking().equals("melee")) {
+            }
+
             if (avatar.isHurt()) {
                 renderAvatar(avatar, Color.RED);
                 if (oneSecond > 1) {
@@ -152,6 +174,15 @@ public class GameScreen implements Screen {
 //                renderer.rect((float) (avatar.getX() - 1.1), (float) (avatar.getY() - 1.1), (float) 2.2, (float) 2.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
 //            }
         });
+
+        if (this.arrows != null && this.arrows.size() > 0) {
+            this.arrows.forEach(arrow -> {
+                batch.draw(arrow.getTexture(), arrow.getPosition().x, arrow.getPosition().y, 0.5f, 0.5f, 1, 1, 1, 1, arrow.getAngle());
+                arrow.update();
+            });
+
+        }
+
         ClientConnection.getInstance().getActiveMonsters().forEach((uuid, monster) -> {
             DummyMonster dummyMonster = (DummyMonster) monster;
             dummyMonster.getSprite().setBounds(dummyMonster.getX(), dummyMonster.getY(), 1f, 1f);

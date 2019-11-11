@@ -62,6 +62,12 @@ public class ClientConnection {
         //monsters
         assetManager.load("monsters/microbat.png", Texture.class);
 
+        //projectiles
+        assetManager.load("arrow_0.png", Texture.class);
+        assetManager.load("arrow_2.png", Texture.class);
+        assetManager.load("arrow_4.png", Texture.class);
+        assetManager.load("arrow_6.png", Texture.class);
+
         assetManager.finishLoading();
     }
 
