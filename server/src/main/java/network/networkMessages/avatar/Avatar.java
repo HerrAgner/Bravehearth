@@ -223,6 +223,5 @@ public class Avatar {
         this.equippedItems = equippedItems;
     }
 
-    public void setDirection(String direction) { this.direction = direction;
-        System.out.println("here's the new direction: " + this.direction);}
+    public void setDirection(String direction) { this.direction = direction; }
 }

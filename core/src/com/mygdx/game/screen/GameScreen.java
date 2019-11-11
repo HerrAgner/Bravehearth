@@ -189,7 +189,7 @@ public class GameScreen implements Screen {
         switch (avatar.getCharacterClass()) {
             case SORCERER:
                 Sorcerer sorc = (Sorcerer) avatar;
-                sprite = sprites.get("sorcerer_front");
+                sprite = sprites.get("sorcerer_" + avatar.getDirection());
                 sorc.setSprite(sprite);
                 sorc.getSprite().setBounds(sorc.getX(), sorc.getY(), 0.8f, 1f);
                 sorc.getSprite().setColor(color);
@@ -197,7 +197,7 @@ public class GameScreen implements Screen {
                 break;
             case WARRIOR:
                 Warrior war = (Warrior) avatar;
-                sprite = sprites.get("warrior_front");
+                sprite = sprites.get("warrior_" + avatar.getDirection());
                 war.setSprite(sprite);
                 war.getSprite().setBounds(war.getX(), war.getY(), 0.8f, 1f);
                 war.getSprite().setColor(color);
@@ -205,9 +205,6 @@ public class GameScreen implements Screen {
                 break;
             case MARKSMAN:
                 Marksman mark = (Marksman) avatar;
-                System.out.println("marksman_" + avatar.getDirection());
-                System.out.println("marksman_" + mark.getDirection());
-
                 sprite = sprites.get("marksman_" + avatar.getDirection());
                 mark.setSprite(sprite);
                 sprite.setBounds(mark.getX(), mark.getY(), 0.8f, 1f);

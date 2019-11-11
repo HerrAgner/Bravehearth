@@ -80,16 +80,14 @@ public class GameLoop implements Runnable {
                 position = new Position(avatar.getX(), avatar.getY() - avatar.getMaxYspeed() * (delta * 30), avatar.getId(), 1, "front");
                 break;
             case LEFT:
-                position = new Position(avatar.getX() - avatar.getMaxXspeed() * (delta * 30), avatar.getY(), avatar.getId(), 1, "side_left");
+                position = new Position(avatar.getX() - avatar.getMaxXspeed() * (delta * 30), avatar.getY(), avatar.getId(), 1, "left_side");
                 break;
             case RIGHT:
-                position = new Position(avatar.getX() + avatar.getMaxXspeed() * (delta * 30), avatar.getY(), avatar.getId(), 1, "side_right");
+                position = new Position(avatar.getX() + avatar.getMaxXspeed() * (delta * 30), avatar.getY(), avatar.getId(), 1, "right_side");
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + movement);
         }
-
-        System.out.println("position: " + position.getDirection());
 
         if (GameServer.getInstance().getMapReader().getMapCollision()
                 .get((int) Math.ceil(position.getX()))

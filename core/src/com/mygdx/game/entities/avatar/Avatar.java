@@ -79,6 +79,7 @@ public class Avatar {
         this.defence = avatar.defence;
         this.isHurt = avatar.isHurt;
         this.direction = avatar.direction;
+        System.out.println("direction: " + direction);
     }
 
     public Avatar() {

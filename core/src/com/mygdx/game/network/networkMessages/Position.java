@@ -33,5 +33,5 @@ public class Position {
         return type;
     }
 
-    public String getDirection() { return direction; }
+    public String getDirection() { return this.direction; }
 }
