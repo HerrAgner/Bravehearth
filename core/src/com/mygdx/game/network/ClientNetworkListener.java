@@ -73,8 +73,6 @@ public class ClientNetworkListener {
                             ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
                                     .setHurt(true);
                         }
-                    ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
-                            .setHealth(((HealthChange) object).getNewHealth());
                     }
 
                     if (object instanceof Position) {
