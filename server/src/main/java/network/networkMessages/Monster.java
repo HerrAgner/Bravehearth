@@ -22,6 +22,7 @@ public class Monster {
     private int markedUnit;
     int spawnRate;
     MonsterType type;
+    private int experiencePoints;
 
     public Monster() {
         this(3, 1, "default");
@@ -33,8 +34,14 @@ public class Monster {
         this.name = name;
         this.boundsRadius = 1;
         this.size = boundsRadius * 2;
-        this.x = 3;
-        this.y = 4;
+    }
+
+    public int getExperiencePoints() {
+        return experiencePoints;
+    }
+
+    public void setExperiencePoints(int experiencePoints) {
+        this.experiencePoints = experiencePoints;
     }
 
     public float getMaxXspeed() {

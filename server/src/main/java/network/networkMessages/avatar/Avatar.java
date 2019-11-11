@@ -51,9 +51,10 @@ public class Avatar {
     private float attackRange;
     @Column
     private float defense;
-    private int markedUnit;
+    private int markedUnit = -1;
     private boolean isHurt;
     private float hpRegen;
+    private float attackTimer;
 
     public Avatar() {
     }
@@ -83,6 +84,11 @@ public class Avatar {
         this.defense = defense;
         this.isHurt = false;
         this.hpRegen = 0.01f;
+        this.attackTimer = 0.01f;
+    }
+
+    public boolean attackIsReady() {
+        return attackTimer > attackSpeed;
     }
 
     public void startHpRegen() {
@@ -91,6 +97,14 @@ public class Avatar {
             setHealth(getHealth() + 1);
             hpRegen = 0.01f;
         }
+    }
+
+    public float getAttackTimer() {
+        return attackTimer;
+    }
+
+    public void setAttackTimer(float attackTimer) {
+        this.attackTimer = attackTimer;
     }
 
     public float getMaxXspeed() {

@@ -42,6 +42,8 @@ public class Avatar {
     private int markedUnit;
 	private boolean isHurt;
 	private float hpRegen;
+    private float attackLoop;
+
 
     public Avatar(String name) {
         this.name = name;
