@@ -80,7 +80,7 @@ public class ClientNetworkListener {
                         if (((Position) object).getType() == 1) {
                             ClientConnection.getInstance().getActiveAvatars()
                                     .get(((Position) object).getId())
-                                    .setPosition(((Position) object).getX(), ((Position) object).getY());
+                                    .setPosition(((Position) object).getX(), ((Position) object).getY(), ((Position) object).getDirection());
                         } else if (((Position) object).getType() == 2) {
                             ClientConnection.getInstance().getActiveMonsters()
                                     .get(((Position) object).getId())

@@ -158,7 +158,7 @@ public class MonsterHandler {
         monsterList.get(monster.getId()).setX(newX);
         monsterList.get(monster.getId()).setY(newY);
 
-        GameServer.getInstance().getServer().sendToAllUDP(new Position(newX, newY, monster.getId(), 2));
+        GameServer.getInstance().getServer().sendToAllUDP(new Position(newX, newY, monster.getId(), 2, "front"));
     }
 
     public void updateCounter() {

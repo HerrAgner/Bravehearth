@@ -129,42 +129,42 @@ sorcerer_front3
   orig: 32, 36
   offset: 0, 0
   index: -1
-sorcerer_side_left
+sorcerer_left_side
   rotate: false
   xy: 0, 648
   size: 32, 36
   orig: 32, 36
   offset: 0, 0
   index: -1
-sorcerer_side_left2
+sorcerer_left_side2
   rotate: false
   xy: 0, 684
   size: 32, 36
   orig: 32, 36
   offset: 0, 0
   index: -1
-sorcerer_side_left3
+sorcerer_left_side3
   rotate: false
   xy: 0, 720
   size: 32, 36
   orig: 32, 36
   offset: 0, 0
   index: -1
-sorcerer_side_right
+sorcerer_right_side
   rotate: false
   xy: 0, 756
   size: 32, 36
   orig: 32, 36
   offset: 0, 0
   index: -1
-sorcerer_side_right2
+sorcerer_right_side2
   rotate: false
   xy: 0, 792
   size: 32, 36
   orig: 32, 36
   offset: 0, 0
   index: -1
-sorcerer_side_right3
+sorcerer_right_side3
   rotate: false
   xy: 0, 828
   size: 32, 36
@@ -213,28 +213,28 @@ warrior_front3
   orig: 32, 36
   offset: 0, 0
   index: -1
-warrior_side_left
+warrior_left_side
   rotate: false
   xy: 0, 1080
   size: 32, 36
   orig: 32, 36
   offset: 0, 0
   index: -1
-warrior_side_left2
+warrior_right_side
   rotate: false
   xy: 0, 1116
   size: 32, 36
   orig: 32, 36
   offset: 0, 0
   index: -1
-warrior_side_left3
+warrior_side_left2
   rotate: false
   xy: 0, 1152
   size: 32, 36
   orig: 32, 36
   offset: 0, 0
   index: -1
-warrior_side_right
+warrior_side_left3
   rotate: false
   xy: 0, 1188
   size: 32, 36
