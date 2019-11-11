@@ -2,6 +2,7 @@ package handlers;
 
 
 import game.GameServer;
+import network.networkMessages.AttackEnemyTarget;
 import network.networkMessages.Monster;
 import network.networkMessages.UnitDeath;
 import network.networkMessages.avatar.Avatar;
@@ -17,7 +18,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class AttackHandler {
 //    private LinkedBlockingQueue<HashMap<Integer, Integer>> attackList = new LinkedBlockingQueue<>();
     private LinkedBlockingQueue<ArrayList<Integer>> attackList = new LinkedBlockingQueue<>();
-    public static LinkedBlockingQueue<HealthChange> validatedAttacks = new LinkedBlockingQueue<>();
+    public static LinkedBlockingQueue<HealthChange> validatedAttack = new LinkedBlockingQueue<>();
+    public static LinkedBlockingQueue<AttackEnemyTarget> validatedAttacks = new LinkedBlockingQueue<>();
 
     public void addAttackerToList(int attacker, int target, int targetType) {
         attackList.offer(new ArrayList<>(){{
@@ -82,10 +84,15 @@ public class AttackHandler {
         Monster monster;
         int newHealth;
         String attackDistance;
+        String attackerUnit = "";
+        String targetUnit = "";
 
         if (type == 1) {
             avatar = GameServer.getInstance().aa.get(attackerId);
             monster = GameServer.getInstance().getMh().monsterList.get(targetId);
+            attackerUnit = "avatar";
+            targetUnit = "monster";
+
             newHealth = monster.getHp() - avatar.getAttackDamage();
             GameServer.getInstance().getMh().monsterList.get(targetId).setHp(newHealth);
             attackDistance = getAttackDistance(avatar.getAttackRange());
@@ -96,6 +103,8 @@ public class AttackHandler {
             }
 
         } else {
+            attackerUnit = "monster";
+            targetUnit = "avatar";
             avatar = GameServer.getInstance().aa.get(targetId);
             monster = GameServer.getInstance().getMh().monsterList.get(attackerId);
             newHealth = avatar.getHealth() - monster.getAttackDamage();
@@ -104,9 +113,11 @@ public class AttackHandler {
         }
 
         HealthChange healthChange = new HealthChange(newHealth, targetId, attackerId, type);
+        AttackEnemyTarget aet = new AttackEnemyTarget(attackerId, targetId, attackerUnit, targetUnit, attackDistance, healthChange);
 
         try {
-            validatedAttacks.put(healthChange);
+            validatedAttacks.put(aet);
+//            validatedAttacks.put(healthChange);
         } catch (InterruptedException e) {
             System.out.println("Could not add attack to list.");
         }

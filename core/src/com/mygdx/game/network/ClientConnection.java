@@ -105,7 +105,6 @@ public class ClientConnection {
         kryo.register(MovementCommands.class);
         kryo.register(UUID.class, new UUIDSerializer());
         kryo.register(Logout.class);
-        kryo.register(AttackEnemyTarget.class);
         kryo.register(Consumable.class);
         kryo.register(Item.class);
         kryo.register(Weapon.class);
@@ -119,5 +118,6 @@ public class ClientConnection {
         kryo.register(Monster.class);
         kryo.register(MonsterType.class);
         kryo.register(UnitDeath.class);
+        kryo.register(AttackEnemyTarget.class);
     }
 }
