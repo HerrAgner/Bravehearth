@@ -72,6 +72,10 @@ public class ClientNetworkListener {
                                     .setHealth(((HealthChange) object).getNewHealth());
                             ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
                                     .setHurt(true);
+                            Avatar av = ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar());
+                            if(av instanceof Warrior){
+                                ((Warrior) av).playSound();
+                            }
                         }
                     }
 
