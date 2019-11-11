@@ -91,12 +91,13 @@ public class Avatar {
         return attackTimer > attackSpeed;
     }
 
-    public void startHpRegen() {
+    public boolean startHpRegen() {
         hpRegen += 0.01f;
-        if (hpRegen > 3f && health>0) {
-            setHealth(getHealth() + 1);
+         if (hpRegen > 3f && health>0) {
             hpRegen = 0.01f;
+            return true;
         }
+         return false;
     }
 
     public float getAttackTimer() {

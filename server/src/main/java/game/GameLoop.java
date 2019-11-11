@@ -5,6 +5,7 @@ import handlers.AttackHandler;
 import handlers.MonsterHandler;
 import handlers.MovementHandler;
 import network.networkMessages.AttackEnemyTarget;
+import network.networkMessages.HealthChange;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.Position;
 
@@ -60,10 +61,13 @@ public class GameLoop implements Runnable {
                         v.setAttackTimer(delta);
                     }
                 }
-//                if (v.getHealth() < v.getMaxHealth() && v.getHealth() > 0 ) {
-//                    v.startHpRegen();
-//                    GameServer.getInstance().getServer().sendToAllTCP(v);
-//                }
+                if (v.getHealth() < v.getMaxHealth() && v.getHealth() > 0) {
+                    if (v.startHpRegen()) {
+                        GameServer.getInstance().getServer().sendToAllTCP(new HealthChange(v.getHealth() + 1, v.getId(), v.getId(), 3));
+                        v.setHealth(v.getHealth() + 1);
+                    }
+
+                }
             });
 
 
