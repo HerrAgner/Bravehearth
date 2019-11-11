@@ -60,14 +60,19 @@ public class ClientNetworkListener {
                                 ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar())
                                         .setHp(((HealthChange) object).getNewHealth());
                             }
-                        } else {
+                        }
+
+                        else if(((HealthChange) object).getType() == 3){
+                            ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
+                                    .setHealth(((HealthChange) object).getNewHealth());
+                        }
+
+                        else {
                             ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
                                     .setHealth(((HealthChange) object).getNewHealth());
                             ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
                                     .setHurt(true);
                         }
-//                    ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
-//                            .setHealth(((HealthChange) object).getNewHealth());
                     }
 
                     if (object instanceof Position) {
