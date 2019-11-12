@@ -81,7 +81,7 @@ public class GameServer {
         }
 
         for(int i = 0; i < 5; i++) {
-            Monster monster = new Monster(5,5,"Viper");
+            Monster monster = new Monster(10,3,"Viper");
             monster.setY(30 + i*3);
             monster.setX(30 - i*2);
             monster.setMaxXspeed(0.01f);
@@ -94,30 +94,19 @@ public class GameServer {
             getMh().monsterList.put(monster.getId(), monster);
         }
 
-       /* Monster monster = new Monster(5,5,"ANTONMONSTRET");
-        monster.setY(30);
-        monster.setX(30);
-        monster.setMaxXspeed(0.01f);
-        monster.setMaxYspeed(0.01f);
-        monster.setBoundsRadius(4f);
-        monster.setMaxHp(5);
-        monster.setType(MonsterType.DUMMYMONSTER);
-        monster.setId(1);
-        monster.setMarkedUnit(-1);
-
-        Monster monster2 = new Monster(5,5,"ANTONMONSTRETt");
-        monster2.setY(13);
-        monster2.setX(13);
-        monster2.setMaxXspeed(0.01f);
-        monster2.setMaxYspeed(0.01f);
-        monster2.setBoundsRadius(4f);
-        monster2.setMaxHp(5);
-        monster2.setType(MonsterType.DUMMYMONSTER);
-        monster2.setId(2);
-        monster2.setMarkedUnit(-1);
-
-        getMh().monsterList.put(monster.getId(), monster);
-        getMh().monsterList.put(monster2.getId(), monster2);*/
+        for(int i = 0; i < 5; i++) {
+            Monster monster = new Monster(50,10,"Dragon");
+            monster.setY(70 + i);
+            monster.setX(10 - i*2);
+            monster.setMaxXspeed(0.01f);
+            monster.setMaxYspeed(0.01f);
+            monster.setBoundsRadius(4f);
+            monster.setMaxHp(5);
+            monster.setType(MonsterType.DEATHDRAKE);
+            monster.setId(20 + i);
+            monster.setMarkedUnit(-1);
+            getMh().monsterList.put(monster.getId(), monster);
+        }
     }
 
     public MapReader getMapReader() {

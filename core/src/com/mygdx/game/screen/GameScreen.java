@@ -20,10 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.BravehearthGame;
 import com.mygdx.game.config.GameConfig;
 import com.mygdx.game.entities.avatar.*;
-import com.mygdx.game.entities.monsters.DummyMonster;
-import com.mygdx.game.entities.monsters.Monster;
-import com.mygdx.game.entities.monsters.PulsatingLump;
-import com.mygdx.game.entities.monsters.Viper;
+import com.mygdx.game.entities.monsters.*;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.util.CameraController;
 import com.mygdx.game.util.InputHandler;
@@ -235,6 +232,12 @@ public class GameScreen implements Screen {
                 pl.setSprite(sprites.get("pulsating_lump"));
                 pl.getSprite().setBounds(pl.getX(), pl.getY(), 1f, 1f);
                 pl.getSprite().draw(batch);
+                break;
+            case DEATHDRAKE:
+                DeathDrake dd = (DeathDrake) monster;
+                dd.setSprite(sprites.get("death_drake"));
+                dd.getSprite().setBounds(dd.getX(), dd.getY(), 1f, 1f);
+                dd.getSprite().draw(batch);
                 break;
         }
     }
