@@ -57,12 +57,13 @@ public class GameServer {
         initDummyMonsters();
     }
 
-    public ActiveUserHandler getAUH() { return auh; }
+    public ActiveUserHandler getAUH() {
+        return auh;
+    }
 
     private static GameServer single_instance = null;
 
-    public static GameServer getInstance()
-    {
+    public static GameServer getInstance() {
         if (single_instance == null)
             single_instance = new GameServer();
 
@@ -70,7 +71,7 @@ public class GameServer {
     }
 
     private void initDummyMonsters() {
-        Monster monster = new Monster(5,5,"ANTONMONSTRET");
+        Monster monster = new Monster(5, 5, "ANTONMONSTRET");
         monster.setY(10);
         monster.setX(10);
         monster.setMaxXspeed(0.01f);
@@ -81,7 +82,7 @@ public class GameServer {
         monster.setId(1);
         monster.setMarkedUnit(-1);
 
-        Monster monster2 = new Monster(5,5,"ANTONMONSTRETt");
+        Monster monster2 = new Monster(5, 5, "ANTONMONSTRETt");
         monster2.setY(13);
         monster2.setX(13);
         monster2.setMaxXspeed(0.01f);
@@ -92,7 +93,7 @@ public class GameServer {
         monster2.setId(2);
         monster2.setMarkedUnit(-1);
 
-        Monster monster3 = new Monster(5,5,"ANTONMONSTRwETt");
+        Monster monster3 = new Monster(5, 5, "ANTONMONSTRwETt");
         monster3.setY(12);
         monster3.setX(11);
         monster3.setMaxXspeed(0.01f);
@@ -112,13 +113,15 @@ public class GameServer {
         return mapReader;
     }
 
-    private void addMonsterSpawners(){
+    private void addMonsterSpawners() {
         this.monsterSpawnLocations = new MapReader("server/src/main/resources/monsterSpawner_MonsterLayer.csv", "monster");
         this.monsterSpawnLocations.readMap();
-        this.monsterSpawnLocations.getMonsterSpawner().forEach((integer, strings) -> {
-            mh.addMonsterSpawner(new MonsterSpawner(integer, strings));
-            System.out.println(strings);
+        this.monsterSpawnLocations.getMonsterSpawner().forEach((integer, integers) -> {
+            mh.addMonsterSpawner(new MonsterSpawner(integer, integers));
+//            System.out.println(this.monsterSpawnLocations.getMonsterSpawner().get(integer).get(1)[0]);
+//            System.out.println(this.monsterSpawnLocations.getMonsterSpawner().get(integer).get(1)[1]);
         });
+
     }
 
     public MonsterHandler getMh() {
@@ -129,7 +132,7 @@ public class GameServer {
         return this.server;
     }
 
-    private void registerClasses(){
+    private void registerClasses() {
         Kryo kryo = server.getKryo();
         kryo.register(HealthChange.class);
         kryo.register(Position.class);

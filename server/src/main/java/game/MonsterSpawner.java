@@ -1,29 +1,23 @@
 package game;
 
-import network.networkMessages.Monster;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Vector;
 
 public class MonsterSpawner {
     private int monsterId;
-    private HashMap<Integer, ArrayList<String>> spawnPoints;
+    private ArrayList<Integer[]> spawnPoints;
     private float spawnRadius;
     private float spawnTimer;
     private int monsterLimit;
     private int activeMonsters;
 
-    public MonsterSpawner(int monsterId, ArrayList<String> spawnPoints) {
-        spawnPoints.forEach(s -> System.out.println(s));
-        this.spawnPoints = new HashMap<>();
+    public MonsterSpawner(int monsterId, ArrayList<Integer[]> importSpawnPoints) {
+        this.spawnPoints = importSpawnPoints;
         this.monsterId = monsterId;
-//            int x = Integer.parseInt(s.split(",")[0]);
-//            int y = Integer.parseInt(s.split(",")[1]);
-            this.spawnPoints.computeIfAbsent(monsterId, k -> spawnPoints);
-            this.spawnPoints.forEach((integer, strings) -> {
-//                this.spawnPoints.get(integer).forEach(System.out::println);
-            });
+        this.monsterLimit = 5;
+        this.spawnRadius = 10;
+        this.spawnTimer = 60f;
+        spawnPoints.forEach(integers -> System.out.println(integers[0] + " " + integers[1]));
     }
 
     public void spawnMonster() {

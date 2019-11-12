@@ -115,11 +115,6 @@ public class MonsterHandler {
             newY = mon.getY() - dxdy[1] * shortestPath;
         }
 
-
-//        float shortestPath = (float) (mon.getMaxXspeed() / Math.hypot(dxdy[0], dxdy[1]));
-//        float newX = mon.getX() - dxdy[0] * shortestPath;
-//        float newY = mon.getY() - dxdy[1] * shortestPath;
-
         if (calculateShortestPath(mon, av) <= 1) {
             return null;
         }

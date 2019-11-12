@@ -15,7 +15,7 @@ public class MapReader {
     private String type;
 
     private HashMap<Integer, ArrayList<Integer>> mapCollision = new HashMap<>();
-    private HashMap<Integer, ArrayList<String>> monsterSpawner = new HashMap<>();
+    private HashMap<Integer, ArrayList<Integer[]>> monsterSpawner = new HashMap<>();
 
     public MapReader() {
         csvFile = "server/src/main/resources/worldMap_CollisionLayer.csv";
@@ -70,14 +70,11 @@ public class MapReader {
         } else if (type.equals("monster")) {
             data = rotateClockWise(data);
             for (int j = 0; j < data.length; j++) {
-                ArrayList<String> tempArray = new ArrayList<>();
-                ArrayList<Integer> tempmonster = new ArrayList<>();
                 for (int k = 0; k < data[j].length; k++) {
                     if (!data[j][k].equals("-1")) {
-                        tempArray.add(j + "," + k);
-                        System.out.println(j+","+k);
-                        tempmonster.add(Integer.parseInt(data[j][k]));
-                        monsterSpawner.put(tempmonster.get(0), tempArray);
+                        int monsterId = Integer.parseInt(data[j][k]);
+                        monsterSpawner.computeIfAbsent(monsterId, k1 -> new ArrayList<>());
+                        monsterSpawner.get(monsterId).add(new Integer[]{j,k});
                     }
                 }
             }
@@ -102,7 +99,7 @@ public class MapReader {
         return mapCollision;
     }
 
-    public HashMap<Integer, ArrayList<String>> getMonsterSpawner() {
+    public HashMap<Integer, ArrayList<Integer[]>> getMonsterSpawner() {
         return monsterSpawner;
     }
 }
