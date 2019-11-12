@@ -88,8 +88,20 @@ public class GameServer {
         monster2.setId(2);
         monster2.setMarkedUnit(-1);
 
+        Monster monster3 = new Monster(5,5,"ANTONMONSTRwETt");
+        monster3.setY(12);
+        monster3.setX(11);
+        monster3.setMaxXspeed(0.01f);
+        monster3.setMaxYspeed(0.01f);
+        monster3.setBoundsRadius(4f);
+        monster3.setMaxHp(5);
+        monster3.setType(MonsterType.DUMMYMONSTER);
+        monster3.setId(3);
+        monster3.setMarkedUnit(-1);
+
         getMh().monsterList.put(monster.getId(), monster);
         getMh().monsterList.put(monster2.getId(), monster2);
+        getMh().monsterList.put(monster3.getId(), monster3);
     }
 
     public MapReader getMapReader() {
@@ -115,7 +127,6 @@ public class GameServer {
         kryo.register(MovementCommands.class);
         kryo.register(UUID.class, new UUIDSerializer());
         kryo.register(Logout.class);
-        kryo.register(AttackEnemyTarget.class);
         kryo.register(Consumable.class);
         kryo.register(Item.class);
         kryo.register(Weapon.class);
@@ -129,5 +140,7 @@ public class GameServer {
         kryo.register(Monster.class);
         kryo.register(MonsterType.class);
         kryo.register(UnitDeath.class);
+        kryo.register(AttackEnemyTarget.class);
+        kryo.register(float[].class);
     }
 }

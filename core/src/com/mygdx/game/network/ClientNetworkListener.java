@@ -5,11 +5,8 @@ import com.esotericsoftware.kryonet.Listener;
 import com.mygdx.game.entities.avatar.*;
 import com.mygdx.game.entities.monsters.DummyMonster;
 import com.mygdx.game.entities.monsters.Monster;
-import com.mygdx.game.network.networkMessages.HealthChange;
-import com.mygdx.game.network.networkMessages.Logout;
-import com.mygdx.game.network.networkMessages.Position;
+import com.mygdx.game.network.networkMessages.*;
 import com.mygdx.game.entities.User;
-import com.mygdx.game.network.networkMessages.UnitDeath;
 import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.util.MonsterType;
 
@@ -59,13 +56,6 @@ public class ClientNetworkListener {
                             if (ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar()) != null) {
                                 ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar())
                                         .setHp(((HealthChange) object).getNewHealth());
-
-                                int id=((HealthChange) object).getDispatchingAvatar();
-                                Avatar av = ClientConnection.getInstance().getActiveAvatars().get(id);
-                                if (av instanceof Warrior){
-                                    ((Warrior) av).setShowAttackAnimation(true);
-                                }
-
                             }
                         } else if (((HealthChange) object).getType() == 3) {
                             ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
@@ -75,7 +65,30 @@ public class ClientNetworkListener {
                                     .setHealth(((HealthChange) object).getNewHealth());
                             ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
                                     .setHurt(true);
-                            Avatar av = ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar());
+                        }
+                    }
+
+                    if (object instanceof AttackEnemyTarget) {
+                        if (((AttackEnemyTarget) object).getHc().getType() == 1) {
+                            if (ClientConnection.getInstance().getActiveMonsters().get((((AttackEnemyTarget) object).getHc()).getReceivingAvatar()) != null) {
+                                ClientConnection.getInstance().getActiveMonsters().get((((AttackEnemyTarget) object).getHc()).getReceivingAvatar())
+                                        .setHp((((AttackEnemyTarget) object).getHc()).getNewHealth());
+                                ClientConnection.getInstance().getActiveAvatars().get(((AttackEnemyTarget) object).getAttacker())
+                                        .setAttacking(((AttackEnemyTarget) object).getAttackType());
+                                ClientConnection.getInstance().getActiveAvatars().get(((AttackEnemyTarget) object).getAttacker())
+                                        .setTargetPosition(new float[]{ClientConnection.getInstance().getActiveMonsters().get(((AttackEnemyTarget) object).getTarget()).getX(),
+                                                ClientConnection.getInstance().getActiveMonsters().get(((AttackEnemyTarget) object).getTarget()).getY()}
+                                        );
+                            }
+                        } else if (((AttackEnemyTarget) object).getHc().getType() == 3) {
+                            ClientConnection.getInstance().getActiveAvatars().get((((AttackEnemyTarget) object).getHc()).getReceivingAvatar())
+                                    .setHealth((((AttackEnemyTarget) object).getHc()).getNewHealth());
+                        } else {
+                            ClientConnection.getInstance().getActiveAvatars().get((((AttackEnemyTarget) object).getHc()).getReceivingAvatar())
+                                    .setHealth((((AttackEnemyTarget) object).getHc()).getNewHealth());
+                            ClientConnection.getInstance().getActiveAvatars().get((((AttackEnemyTarget) object).getHc()).getReceivingAvatar())
+                                    .setHurt(true);
+                            Avatar av = ClientConnection.getInstance().getActiveAvatars().get((((AttackEnemyTarget) object).getHc()).getReceivingAvatar());
                             if (av.getId() == ClientConnection.getInstance().getAvatar().getId()) {
                                 if (av instanceof Warrior) {
                                     ((Warrior) av).playSound();
@@ -108,7 +121,7 @@ public class ClientNetworkListener {
                     if (object instanceof UnitDeath) {
                         if (((UnitDeath) object).getUnit().equals("monster")) {
                             ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
-                            ClientConnection.getInstance().getActiveMonsters().remove(((UnitDeath) object).getId());
+                            ClientConnection.getInstance().getActiveMonsters().remove(((UnitDeath) object).getTargetId());
                         }
                     }
 

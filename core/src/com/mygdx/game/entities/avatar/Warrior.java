@@ -1,10 +1,9 @@
 package com.mygdx.game.entities.avatar;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ai.btree.Task;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.utils.Timer;
+
 
 public class Warrior extends Avatar {
     private Sprite sprite;
@@ -13,7 +12,6 @@ public class Warrior extends Avatar {
 
     public Warrior(Avatar avatar) {
         super(avatar);
-        showAttackAnimation = false;
         hurtSound = Gdx.audio.newSound(Gdx.files.internal("audio/punch.mp3"));
     }
 
@@ -29,6 +27,7 @@ public class Warrior extends Avatar {
     }
 
     public void playSound() {
+        System.out.println("sound");
         hurtSound.play();
     }
 

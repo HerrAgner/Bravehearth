@@ -10,15 +10,19 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.BravehearthGame;
 import com.mygdx.game.config.GameConfig;
+import com.mygdx.game.entities.Arrow;
+import com.mygdx.game.entities.SlashAnimation;
 import com.mygdx.game.entities.avatar.*;
 import com.mygdx.game.entities.monsters.DummyMonster;
 import com.mygdx.game.network.ClientConnection;
@@ -26,6 +30,7 @@ import com.mygdx.game.util.CameraController;
 import com.mygdx.game.util.InputHandler;
 
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameScreen implements Screen {
 
@@ -44,17 +49,12 @@ public class GameScreen implements Screen {
     private BravehearthGame game;
     private TextureAtlas textureAtlas;
     final HashMap<String, Sprite> sprites;
-    private Texture attackAnimationR;
-    private Texture attackAnimationU;
-    private Texture attackAnimationD;
-    private Texture attackAnimationL;
     private float oneSecond;
+    private CopyOnWriteArrayList<Arrow> arrows;
+    private CopyOnWriteArrayList<SlashAnimation> slashes;
+
 
     public GameScreen(BravehearthGame game) {
-        attackAnimationR = new Texture("slashRed.png");
-        attackAnimationU = new Texture("slashRedU.png");
-        attackAnimationD = new Texture("slashRedD.png");
-        attackAnimationL = new Texture("slashRedL.png");
         inputHandler = new InputHandler();
         Gdx.input.setInputProcessor(inputHandler);
         this.game = game;
@@ -62,6 +62,8 @@ public class GameScreen implements Screen {
         healthBar = new Texture("blank.png");
         textureAtlas = new TextureAtlas("avatars/avatarSprites.txt");
         sprites = new HashMap<>();
+        arrows = new CopyOnWriteArrayList<>();
+        slashes = new CopyOnWriteArrayList<>();
     }
 
     @Override
@@ -136,6 +138,8 @@ public class GameScreen implements Screen {
 //        ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
         batch.begin();
+
+
         ClientConnection.getInstance().getActiveMonsters().forEach((uuid, monster) -> {
             DummyMonster dummyMonster = (DummyMonster) monster;
             dummyMonster.getSprite().setBounds(dummyMonster.getX(), dummyMonster.getY(), 1f, 1f);
@@ -157,6 +161,7 @@ public class GameScreen implements Screen {
             }
 
         });
+
         ClientConnection.getInstance().getActiveAvatars().forEach((Integer, avatar) -> {
             if (avatar.getHealth() < avatar.getMaxHealth() * 0.3) {
                 batch.setColor(Color.RED);
@@ -167,6 +172,24 @@ public class GameScreen implements Screen {
             }
             batch.draw(healthBar, avatar.getX(), (float) (avatar.getY() + 1.2), (float) avatar.getHealth() / avatar.getMaxHealth(), (float) 0.2);
             batch.setColor(Color.WHITE);
+
+            if (avatar.isAttacking().equals("ranged")) {
+                Arrow arrow = new Arrow(Gdx.graphics.getDeltaTime());
+                arrow.getPosition().x = avatar.getX();
+                arrow.getPosition().y = avatar.getY();
+                arrow.setTargetUnitType("monster");
+                arrow.setTargetPosition(new Vector2(avatar.getTargetPosition()[0], avatar.getTargetPosition()[1]));
+                this.arrows.add(arrow);
+                avatar.setAttacking("");
+            } else if (avatar.isAttacking().equals("melee")) {
+                SlashAnimation slashAnimation = new SlashAnimation(Gdx.graphics.getDeltaTime());
+                slashAnimation.setPosition(new Vector2(avatar.getX(), avatar.getY()));
+                slashAnimation.setTargetUnitType("monster");
+                slashAnimation.setTargetPosition(new Vector2(avatar.getTargetPosition()[0], avatar.getTargetPosition()[1]));
+                this.slashes.add(slashAnimation);
+                avatar.setAttacking("");
+            }
+
             if (avatar.isHurt()) {
                 renderAvatar(avatar, Color.RED);
                 if (oneSecond > 1) {
@@ -179,31 +202,39 @@ public class GameScreen implements Screen {
                 renderAvatar(avatar, Color.WHITE);
             }
             batch.setColor(Color.WHITE);
-            if (avatar instanceof Warrior) {
-                if (((Warrior) avatar).showAttackAnimation()) {
-                    switch (avatar.getDirection()){
-                        case "back": batch.draw(attackAnimationD, avatar.getX(), avatar.getY()+0.4f, 1, 1);
-                                ((Warrior) avatar).setShowAttackAnimation(false);
-                                break;
-                        case "front": batch.draw(attackAnimationU, avatar.getX(), avatar.getY()-0.4f, 1, 1);
-                            ((Warrior) avatar).setShowAttackAnimation(false);
-                            break;
-                        case "left_side":batch.draw(attackAnimationL, avatar.getX()-0.4f, avatar.getY(), 1, 1);
-                            ((Warrior) avatar).setShowAttackAnimation(false);
-                            break;
-                        case "right_side": batch.draw(attackAnimationR, avatar.getX()+0.4f, avatar.getY(), 1, 1);
-                            ((Warrior) avatar).setShowAttackAnimation(false);
-                            break;
-                    }
-                }
-            }
+
 
 //            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
 //                renderer.rect((float) (avatar.getX() - 1.1), (float) (avatar.getY() - 1.1), (float) 2.2, (float) 2.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
 //            }
         });
 
+        if (this.arrows != null && this.arrows.size() > 0) {
+            this.arrows.forEach(arrow -> {
+                batch.draw(arrow.getTexture(), arrow.getPosition().x, arrow.getPosition().y, 0.5f, 0.5f, 1, 1, 1, 1, arrow.getAngle());
+                arrow.update(Gdx.graphics.getDeltaTime());
+                if (arrow.shouldDispose(Gdx.graphics.getDeltaTime())) {
+                    this.arrows.remove(arrow);
+                } else {
+                    arrow.increaseTimer(Gdx.graphics.getDeltaTime());
+                }
+            });
 
+        }
+
+        if (this.slashes != null && this.slashes.size() > 0) {
+            this.slashes.forEach(slashAnimation -> {
+                slashAnimation.updateAngle();
+                slashAnimation.increaseTimer(Gdx.graphics.getDeltaTime());
+                if (slashAnimation.shouldDispose()) {
+                    this.slashes.remove(slashAnimation);
+                } else {
+                    batch.draw(slashAnimation.getTexture(), slashAnimation.getTargetPosition().x, slashAnimation.getTargetPosition().y, 0.5f, 0.5f, 1, 1, 1, 1, slashAnimation.getAngle());
+                }
+            });
+
+
+        }
         batch.end();
 
         renderer.end();

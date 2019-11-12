@@ -5,7 +5,10 @@ package com.mygdx.game.network.networkMessages;
 public class AttackEnemyTarget {
     private int attacker;
     private int target;
-    private int attackerType;
+    private String attackerUnit;
+    private String targetUnit;
+    private String attackType;
+    private HealthChange hc;
 
     public AttackEnemyTarget(int attacker, int target) {
         this.attacker = attacker;
@@ -13,4 +16,28 @@ public class AttackEnemyTarget {
     }
 
     public AttackEnemyTarget(){ }
+
+    public int getAttacker() {
+        return attacker;
+    }
+
+    public int getTarget() {
+        return target;
+    }
+
+    public String getAttackerUnit() {
+        return attackerUnit;
+    }
+
+    public String getTargetUnit() {
+        return targetUnit;
+    }
+
+    public String getAttackType() {
+        return attackType;
+    }
+
+    public HealthChange getHc() {
+        return hc;
+    }
 }
