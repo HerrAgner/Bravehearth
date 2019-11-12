@@ -2,10 +2,12 @@ package handlers;
 
 
 import game.GameServer;
+import game.MonsterSpawner;
 import network.networkMessages.Monster;
 import network.networkMessages.Position;
 import network.networkMessages.avatar.Avatar;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -15,9 +17,11 @@ public class MonsterHandler {
     public HashMap<Integer, Monster> monsterList;
     public AtomicInteger counter;
     private AttackHandler attackHandler;
+    private ArrayList<MonsterSpawner> activeMonsterSpawners;
 
 
     public MonsterHandler() {
+        activeMonsterSpawners = new ArrayList<>();
         monsterList = new HashMap<>();
         counter = new AtomicInteger();
         counter.set(0);
@@ -185,5 +189,15 @@ public class MonsterHandler {
         }
     }
 
+    public ArrayList<MonsterSpawner> getActiveMonsterSpawners() {
+        return activeMonsterSpawners;
+    }
 
+    public void addMonsterSpawner(MonsterSpawner ms){
+        this.activeMonsterSpawners.add(ms);
+    }
+
+    public void setActiveMonsterSpawners(ArrayList<MonsterSpawner> activeMonsterSpawners) {
+        this.activeMonsterSpawners = activeMonsterSpawners;
+    }
 }

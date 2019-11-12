@@ -30,6 +30,7 @@ public class GameServer {
     public HashMap<Integer, User> au;
     public ConcurrentHashMap<Integer, Avatar> aa;
     private MapReader mapReader;
+    private MapReader monsterSpawnLocations;
 
 
     private GameServer() {
@@ -45,10 +46,13 @@ public class GameServer {
         }
         this.mapReader = new MapReader();
         this.mapReader.readMap();
+        addMonsterSpawners();
+
         new Thread(gameLoop).start();
 
         this.au = getAUH().getActiveUsers();
         this.aa = getAUH().getActiveAvatars();
+
 
         initDummyMonsters();
     }
@@ -106,6 +110,15 @@ public class GameServer {
 
     public MapReader getMapReader() {
         return mapReader;
+    }
+
+    private void addMonsterSpawners(){
+        this.monsterSpawnLocations = new MapReader("server/src/main/resources/monsterSpawner_MonsterLayer.csv", "monster");
+        this.monsterSpawnLocations.readMap();
+        this.monsterSpawnLocations.getMonsterSpawner().forEach((integer, strings) -> {
+            mh.addMonsterSpawner(new MonsterSpawner(integer, strings));
+            System.out.println(strings);
+        });
     }
 
     public MonsterHandler getMh() {
