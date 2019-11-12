@@ -56,7 +56,7 @@ public class LoginScreen implements Screen {
     private void initMusic() {
         music = Gdx.audio.newMusic(Gdx.files.internal("audio/bravehearth.mp3"));
         music.play();
-        music.setVolume(0.0f);
+        music.setVolume(0.3f);
     }
 
     private void initTextField() {
