@@ -207,4 +207,40 @@ public abstract class DBQueries {
         }
         return rs;
     }
+
+    public static Weapon getWeapon(int weaponId) {
+        Weapon result = null;
+        PreparedStatement ps = prep("SELECT * FROM weapons WHERE id = ?");
+        try {
+            ps.setInt(1, weaponId);
+            result = (Weapon) new ObjectMapper<>(Weapon.class).mapOne(ps.executeQuery());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static Wearable getWearable(int wearableId) {
+        Wearable result = null;
+        PreparedStatement ps = prep("SELECT * FROM wearables WHERE id = ?");
+        try {
+            ps.setInt(1, wearableId);
+            result = (Wearable) new ObjectMapper<>(Wearable.class).mapOne(ps.executeQuery());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static Consumable getConsumable(int consumableId) {
+        Consumable result = null;
+        PreparedStatement ps = prep("SELECT * FROM consumables WHERE id = ?");
+        try {
+            ps.setInt(1, consumableId);
+            result = (Consumable) new ObjectMapper<>(Consumable.class).mapOne(ps.executeQuery());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }
