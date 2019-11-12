@@ -1,5 +1,7 @@
 package network.networkMessages;
 
 public enum MonsterType {
-    DUMMYMONSTER;
+    DUMMYMONSTER,
+    VIPER,
+    PULSATINGLUMP
 }

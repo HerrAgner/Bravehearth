@@ -139,9 +139,7 @@ public class Monster {
         this.id = id;
     }
 
-    public float getX() {
-        return x;
-    }
+    public float getX() { return x; }
 
     public void setX(float x) {
         this.x = x;
