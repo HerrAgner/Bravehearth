@@ -50,13 +50,16 @@ public class AttackHandler {
         float targetY = 0;
 
         if (attack.get(0) == 1) {
-            avatar = GameServer.getInstance().aa.get(attack.get(1));
-            monster = GameServer.getInstance().getMh().monsterList.get(attack.get(2));
-            attackerX = avatar.getX();
-            attackerY = avatar.getY();
-            attackerRange = avatar.getAttackRange();
-            targetX = monster.getX();
-            targetY = monster.getY();
+            if (GameServer.getInstance().getMh().monsterList.get(attack.get(2)) != null) {
+
+                avatar = GameServer.getInstance().aa.get(attack.get(1));
+                monster = GameServer.getInstance().getMh().monsterList.get(attack.get(2));
+                attackerX = avatar.getX();
+                attackerY = avatar.getY();
+                attackerRange = avatar.getAttackRange();
+                targetX = monster.getX();
+                targetY = monster.getY();
+            }
         } else if (attack.get(0) == 2) {
             if (GameServer.getInstance().getMh().monsterList.get(attack.get(1)) != null) {
                 avatar = GameServer.getInstance().aa.get(attack.get(2));
