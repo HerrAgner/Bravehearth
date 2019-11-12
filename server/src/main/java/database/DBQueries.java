@@ -187,4 +187,24 @@ public abstract class DBQueries {
         eq = new EquippedItems(avatarId, items);
         return eq;
     }
+
+    public static ResultSet getMonsterDrop(int monsterId) {
+        PreparedStatement ps = prep("SELECT * FROM monsterxitemdrop WHERE id = ?");
+        ResultSet rs = null;
+        try {
+            ps.setInt(1, monsterId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                int weapon = rs.getInt(2);
+                int wearable = rs.getInt(3);
+                int consumable = rs.getInt(4);
+                float dropChance = rs.getFloat(5);
+                System.out.printf("info %d, %d, %d, %d", id, weapon, wearable, consumable);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }
