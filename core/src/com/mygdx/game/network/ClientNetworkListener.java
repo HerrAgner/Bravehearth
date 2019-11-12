@@ -59,6 +59,13 @@ public class ClientNetworkListener {
                             if (ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar()) != null) {
                                 ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar())
                                         .setHp(((HealthChange) object).getNewHealth());
+
+                                int id=((HealthChange) object).getDispatchingAvatar();
+                                Avatar av = ClientConnection.getInstance().getActiveAvatars().get(id);
+                                if (av instanceof Warrior){
+                                    ((Warrior) av).setShowAttackAnimation(true);
+                                }
+
                             }
                         } else if (((HealthChange) object).getType() == 3) {
                             ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
