@@ -66,10 +66,10 @@ public class GameServer {
     }
 
     private void initDummyMonsters() {
-        for(int i = 0; i < 5; i++) {
-            Monster monster = new Monster(5,5,"Pulsating Lump");
+        for (int i = 0; i < 5; i++) {
+            Monster monster = new Monster(5, 5, "Pulsating Lump");
             monster.setY(10 + i);
-            monster.setX(10 + i*2);
+            monster.setX(10 + i * 2);
             monster.setMaxXspeed(0.01f);
             monster.setMaxYspeed(0.01f);
             monster.setBoundsRadius(4f);
@@ -80,10 +80,10 @@ public class GameServer {
             getMh().monsterList.put(monster.getId(), monster);
         }
 
-        for(int i = 0; i < 5; i++) {
-            Monster monster = new Monster(5,5,"Viper");
-            monster.setY(30 + i*3);
-            monster.setX(30 - i*2);
+        for (int i = 0; i < 5; i++) {
+            Monster monster = new Monster(5, 5, "Viper");
+            monster.setY(30 + i * 3);
+            monster.setX(30 - i * 2);
             monster.setMaxXspeed(0.01f);
             monster.setMaxYspeed(0.01f);
             monster.setBoundsRadius(4f);
@@ -118,8 +118,9 @@ public class GameServer {
 
         getMh().monsterList.put(monster.getId(), monster);
         getMh().monsterList.put(monster2.getId(), monster2);
-    }
 
+        */
+    }
     public MapReader getMapReader() {
         return mapReader;
     }

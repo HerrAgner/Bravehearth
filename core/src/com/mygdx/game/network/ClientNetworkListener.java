@@ -5,11 +5,10 @@ import com.esotericsoftware.kryonet.Listener;
 import com.mygdx.game.entities.avatar.*;
 import com.mygdx.game.entities.monsters.DummyMonster;
 import com.mygdx.game.entities.monsters.Monster;
-import com.mygdx.game.network.networkMessages.HealthChange;
-import com.mygdx.game.network.networkMessages.Logout;
-import com.mygdx.game.network.networkMessages.Position;
+import com.mygdx.game.entities.monsters.PulsatingLump;
+import com.mygdx.game.entities.monsters.Viper;
+import com.mygdx.game.network.networkMessages.*;
 import com.mygdx.game.entities.User;
-import com.mygdx.game.network.networkMessages.UnitDeath;
 import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.util.MonsterType;
 
