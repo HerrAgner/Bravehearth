@@ -138,6 +138,24 @@ public class MonsterHandler {
                 if (Math.hypot(dxdy[0], dxdy[1]) < 1) {
                     isBlocked.set(isBlocked.get()+1);
                 }
+            } else {
+                if (GameServer.getInstance().getMapReader().getMapCollision()
+                        .get((int) Math.ceil(x))
+                        .contains((int) Math.ceil(y))
+                        ||
+                        GameServer.getInstance().getMapReader().getMapCollision()
+                                .get((int) Math.ceil(x - 1))
+                                .contains((int) Math.ceil(y))
+                        ||
+                        GameServer.getInstance().getMapReader().getMapCollision()
+                                .get((int) Math.ceil(x - 1))
+                                .contains((int) Math.ceil(y - 1))
+                        ||
+                        GameServer.getInstance().getMapReader().getMapCollision()
+                                .get((int) Math.ceil(x))
+                                .contains((int) Math.ceil(y - 1))) {
+                    isBlocked.set(isBlocked.get() +1);
+                }
             }
         });
         return isBlocked.get() == 0;
