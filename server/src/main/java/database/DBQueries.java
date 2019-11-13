@@ -295,11 +295,13 @@ public abstract class DBQueries {
     }
 
     public static void saveAvatarWhenDead(Avatar avatar) {
-        PreparedStatement ps = prep("UPDATE avatars SET health = ?, experiencePoints = ?, `x` = 5, `y` = 5 WHERE id = ?");
+        PreparedStatement ps = prep("UPDATE avatars a INNER JOIN backpacks b ON a.id = b.avatarId " +
+                "SET a.health = ?, a.experiencePoints = ?, a.`x` = 15, a.`y` = 15, b.wallet = ? WHERE a.id = ?");
         try {
             ps.setInt(1, avatar.getMaxHealth());
             ps.setInt(2, 0);
-            ps.setInt(3, avatar.getId());
+            ps.setInt(3, avatar.getBackpack().getWallet() / 2);
+            ps.setInt(4, avatar.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
