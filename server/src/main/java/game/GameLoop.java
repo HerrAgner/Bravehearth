@@ -53,7 +53,6 @@ public class GameLoop implements Runnable {
                         if (aet.getTargetUnit().equals("avatar") && GameServer.getInstance().aa.get(aet.getTarget()).getHealth() <= 0) {
                             GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(GameServer.getInstance().aa.get(aet.getTarget()), "avatar"));
                             GameServer.getInstance().aa.get(aet.getTarget()).setMarkedUnit(-1);
-                            //do something to end game - new screen or something?
                             GameServer.getInstance().aa.remove(aet.getTarget());
                         }
                     }
