@@ -4,11 +4,8 @@ import enums.Movement;
 import handlers.AttackHandler;
 import handlers.MonsterHandler;
 import handlers.MovementHandler;
-import network.networkMessages.AttackEnemyTarget;
-import network.networkMessages.HealthChange;
-import network.networkMessages.UnitDeath;
+import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
-import network.networkMessages.Position;
 
 
 public class GameLoop implements Runnable {
@@ -23,7 +20,6 @@ public class GameLoop implements Runnable {
     @Override
     public void run() {
         long prevtime = System.currentTimeMillis();
-        GameServer.getInstance().getMh().getActiveMonsterSpawners().forEach(monsterSpawner -> monsterSpawner.spawnMonster());
 
         while (running) {
             long time = System.currentTimeMillis();
@@ -61,6 +57,15 @@ public class GameLoop implements Runnable {
                     GameServer.getInstance().getMh().monsterAttack(monster);
                 }
             });
+
+            GameServer.getInstance().getMh().getActiveMonsterSpawners().forEach(monsterSpawner -> {
+                monsterSpawner.setTimeCounter(monsterSpawner.getTimeCounter()+delta);
+                if (monsterSpawner.getTimeCounter() > monsterSpawner.getSpawnTimer()) {
+                    monsterSpawner.spawnMonster();
+                    monsterSpawner.setTimeCounter(delta);
+                }
+            });
+
             GameServer.getInstance().getAUH().getActiveAvatars().forEach((k, v) -> {
                 if (v.getMarkedUnit() != -1) {
                     v.setAttackTimer(v.getAttackTimer() + delta);

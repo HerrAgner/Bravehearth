@@ -12,7 +12,8 @@ public class MonsterSpawner {
     private int monsterId;
     private Integer[] spawnPoint;
     private float spawnRadius;
-    private float spawnTimer;
+    private float timeCounter;
+    private float spawnTimer = 0;
     private int monsterLimit;
     private int activeMonsters;
 
@@ -21,7 +22,7 @@ public class MonsterSpawner {
         this.monsterId = monsterId;
         this.monsterLimit = 5;
         this.spawnRadius = 10;
-        this.spawnTimer = 60f;
+        this.spawnTimer = 10f;
     }
 
     public Monster spawnMonster() {
@@ -46,6 +47,9 @@ public class MonsterSpawner {
                 monster.setMarkedUnit(-1);
                 GameServer.getInstance().getMh().monsterList.put(monster.getId(), monster);
                 this.activeMonsters += 1;
+                System.out.println(GameServer.getInstance().getMh().monsterList.size());
+                GameServer.getInstance().getServer().sendToAllTCP(monster);
+
 
             } else {
                 return spawnMonster();
@@ -55,4 +59,19 @@ public class MonsterSpawner {
         return null;
     }
 
+    public float getTimeCounter() {
+        return timeCounter;
+    }
+
+    public void setTimeCounter(float timeCounter) {
+        this.timeCounter = timeCounter;
+    }
+
+    public float getSpawnTimer() {
+        return spawnTimer;
+    }
+
+    public void setSpawnTimer(float spawnTimer) {
+        this.spawnTimer = spawnTimer;
+    }
 }
