@@ -30,6 +30,8 @@ public class Monster {
     int spawnRate;
     MonsterType type;
     private int experiencePoints;
+    private int spawnerId;
+
 
     public Monster() {
         this(3, 1, "default");
