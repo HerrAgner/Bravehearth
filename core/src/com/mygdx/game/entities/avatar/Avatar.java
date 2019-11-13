@@ -251,4 +251,8 @@ public class Avatar {
     public void setTargetPosition(float[] targetPosition) {
         this.targetPosition = targetPosition;
     }
+
+    public int getExperiencePoints() { return experiencePoints; }
+
+    public void setExperiencePoints(int xp) { this.experiencePoints = xp; }
 }

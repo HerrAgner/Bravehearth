@@ -15,8 +15,5 @@ public class Backpack {
         this.items = new ArrayList<>();
     }
 
-    public Backpack() {
-        this.items = new ArrayList<>();
-    }
-
+    public Backpack() { this.items = new ArrayList<>(); }
 }

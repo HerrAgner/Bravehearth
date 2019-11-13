@@ -13,6 +13,7 @@ import com.mygdx.game.entities.monsters.Monster;
 import com.mygdx.game.network.networkMessages.*;
 import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.util.MonsterType;
+import network.networkMessages.AvatarDeath;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -125,5 +126,6 @@ public class ClientConnection {
         kryo.register(UnitDeath.class);
         kryo.register(AttackEnemyTarget.class);
         kryo.register(float[].class);
+        kryo.register(AvatarDeath.class);
     }
 }

@@ -241,4 +241,8 @@ public class Avatar {
     }
 
     public void setDirection(String direction) { this.direction = direction; }
+
+    public int getExperiencePoints() { return experiencePoints; }
+
+    public void setExperiencePoints(int xp) { this.experiencePoints = xp; }
 }

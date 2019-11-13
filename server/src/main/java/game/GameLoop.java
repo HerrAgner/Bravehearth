@@ -4,11 +4,8 @@ import enums.Movement;
 import handlers.AttackHandler;
 import handlers.MonsterHandler;
 import handlers.MovementHandler;
-import network.networkMessages.AttackEnemyTarget;
-import network.networkMessages.HealthChange;
-import network.networkMessages.UnitDeath;
+import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
-import network.networkMessages.Position;
 
 
 public class GameLoop implements Runnable {
@@ -48,6 +45,14 @@ public class GameLoop implements Runnable {
                         GameServer.getInstance().aa.get(aet.getAttacker()).setMarkedUnit(-1);
                         GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(aet.getAttacker(), aet.getTarget(), "monster", GameServer.getInstance().getMh().monsterList.get(aet.getTarget()).getExperiencePoints()));
                         GameServer.getInstance().getMh().monsterList.remove(aet.getTarget());
+                    }
+                    if (aet.getTargetUnit().equals("avatar") && GameServer.getInstance().au.get(aet.getTarget()).getAvatar().getHealth() <= 0) {
+                        System.out.println(GameServer.getInstance().au.get(aet.getTarget()).getAvatar().getHealth());
+                        System.out.println(GameServer.getInstance().au.get(aet.getTarget()).getAvatar().getName());
+
+                        new AvatarDeath(GameServer.getInstance().au.get(aet.getTarget()).getAvatar());
+                        //tell the other players that an avatar has died?
+                        GameServer.getInstance().au.remove(aet.getTarget());
                     }
                 } catch (InterruptedException e) {
                     System.out.println("Could not send attack. Trying again.");
