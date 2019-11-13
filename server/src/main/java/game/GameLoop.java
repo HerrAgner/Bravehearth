@@ -47,8 +47,7 @@ public class GameLoop implements Runnable {
                         GameServer.getInstance().getMh().monsterList.remove(aet.getTarget());
                     }
                     if (aet.getTargetUnit().equals("avatar") && GameServer.getInstance().au.get(aet.getTarget()).getAvatar().getHealth() <= 0) {
-                        System.out.println("send avatar death");
-                        new AvatarDeath(GameServer.getInstance().au.get(aet.getTarget()).getAvatar());
+                        new UnitDeath(GameServer.getInstance().au.get(aet.getTarget()).getAvatar());
                         //do something to end game - new screen or something?
                         //tell the other players that an avatar has died?
                         //remove marked targets

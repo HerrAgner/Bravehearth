@@ -142,6 +142,5 @@ public class GameServer {
         kryo.register(UnitDeath.class);
         kryo.register(AttackEnemyTarget.class);
         kryo.register(float[].class);
-        kryo.register(AvatarDeath.class);
     }
 }

@@ -295,7 +295,6 @@ public abstract class DBQueries {
     }
 
     public static void saveAvatarWhenDead(Avatar avatar) {
-        System.out.println("and here");
         PreparedStatement ps = prep("UPDATE avatars SET health = ?, experiencePoints = ?, `x` = 5, `y` = 5 WHERE id = ?");
         try {
             ps.setInt(1, avatar.getMaxHealth());
@@ -306,7 +305,6 @@ public abstract class DBQueries {
             e.printStackTrace();
         }
 
-        System.out.println("finally here");
         PreparedStatement ps2 = prep("DELETE FROM backpackxitem WHERE id = ?");
         try {
             ps2.setInt(1, avatar.getId());

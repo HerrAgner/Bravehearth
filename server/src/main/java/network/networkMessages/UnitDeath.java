@@ -1,5 +1,8 @@
 package network.networkMessages;
 
+import database.DBQueries;
+import network.networkMessages.avatar.Avatar;
+
 public class UnitDeath {
     int attackerId;
     int targetId;
@@ -15,4 +18,6 @@ public class UnitDeath {
         this.unit = unit;
         this.exp = exp;
     }
+
+    public UnitDeath(Avatar avatar) { DBQueries.saveAvatarWhenDead(avatar);}
 }
