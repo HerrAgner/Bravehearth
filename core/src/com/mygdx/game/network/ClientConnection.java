@@ -13,7 +13,6 @@ import com.mygdx.game.entities.monsters.Monster;
 import com.mygdx.game.network.networkMessages.*;
 import com.mygdx.game.util.CharacterClass;
 import com.mygdx.game.util.MonsterType;
-import network.networkMessages.AvatarDeath;
 
 import java.io.IOException;
 import java.util.ArrayList;

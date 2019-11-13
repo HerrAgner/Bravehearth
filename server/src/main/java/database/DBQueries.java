@@ -293,4 +293,26 @@ public abstract class DBQueries {
         }
         return c;
     }
+
+    public static void saveAvatarWhenDead(Avatar avatar) {
+        System.out.println("and here");
+        PreparedStatement ps = prep("UPDATE avatars SET health = ?, experiencePoints = ?, `x` = 5, `y` = 5 WHERE id = ?");
+        try {
+            ps.setInt(1, avatar.getMaxHealth());
+            ps.setInt(2, 0);
+            ps.setInt(3, avatar.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("finally here");
+        PreparedStatement ps2 = prep("DELETE FROM backpackxitem WHERE id = ?");
+        try {
+            ps2.setInt(1, avatar.getId());
+            ps2.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
