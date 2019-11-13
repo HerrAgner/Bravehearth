@@ -36,7 +36,6 @@ public class ClientNetworkListener {
                         if (((Monster) object).getType().equals(MonsterType.DUMMYMONSTER)) {
                             DummyMonster dm = new DummyMonster((Monster) object);
                             ClientConnection.getInstance().getActiveMonsters().put(((Monster) object).getId(), dm);
-
                         }
                     }
 

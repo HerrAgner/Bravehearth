@@ -29,6 +29,7 @@ public class Monster {
     private int markedUnit;
     int spawnRate;
     MonsterType type;
+    private int spawnerId;
     private int xp;
     private String texture;
 

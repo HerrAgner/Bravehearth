@@ -2,10 +2,12 @@ package handlers;
 
 
 import game.GameServer;
+import game.MonsterSpawner;
 import network.networkMessages.Monster;
 import network.networkMessages.Position;
 import network.networkMessages.avatar.Avatar;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -14,11 +16,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MonsterHandler {
     public HashMap<Integer, Monster> monsterList;
     public AtomicInteger counter;
+    public AtomicInteger monsterId;
+    public int spawnerId;
     private AttackHandler attackHandler;
+    private ArrayList<MonsterSpawner> activeMonsterSpawners;
 
 
     public MonsterHandler() {
+        activeMonsterSpawners = new ArrayList<>();
         monsterList = new HashMap<>();
+        monsterId = new AtomicInteger(0);
         counter = new AtomicInteger();
         counter.set(0);
         attackHandler = new AttackHandler();
@@ -111,11 +118,6 @@ public class MonsterHandler {
             newY = mon.getY() - dxdy[1] * shortestPath;
         }
 
-
-//        float shortestPath = (float) (mon.getMaxXspeed() / Math.hypot(dxdy[0], dxdy[1]));
-//        float newX = mon.getX() - dxdy[0] * shortestPath;
-//        float newY = mon.getY() - dxdy[1] * shortestPath;
-
         if (calculateShortestPath(mon, av) <= 1) {
             return null;
         }
@@ -185,5 +187,31 @@ public class MonsterHandler {
         }
     }
 
+    public ArrayList<MonsterSpawner> getActiveMonsterSpawners() {
+        return activeMonsterSpawners;
+    }
 
+    public void addMonsterSpawner(MonsterSpawner ms){
+        this.activeMonsterSpawners.add(ms);
+    }
+
+    public void setActiveMonsterSpawners(ArrayList<MonsterSpawner> activeMonsterSpawners) {
+        this.activeMonsterSpawners = activeMonsterSpawners;
+    }
+
+    public AtomicInteger getMonsterId() {
+        return monsterId;
+    }
+
+    public int getNewMonsterId() {
+        return monsterId.incrementAndGet();
+    }
+
+    public int getSpawnerId() {
+        return spawnerId;
+    }
+
+    public int getNewSpawnerId() {
+        return spawnerId++;
+    }
 }

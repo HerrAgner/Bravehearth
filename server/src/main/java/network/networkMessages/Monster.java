@@ -29,6 +29,7 @@ public class Monster {
     private int markedUnit;
     int spawnRate;
     MonsterType type;
+    private int spawnerId;
     @Column
     private int xp;
     @Column
@@ -180,5 +181,13 @@ public class Monster {
 
     public void setType(MonsterType type) {
         this.type = type;
+    }
+
+    public int getSpawnerId() {
+        return spawnerId;
+    }
+
+    public void setSpawnerId(int spawnerId) {
+        this.spawnerId = spawnerId;
     }
 }
