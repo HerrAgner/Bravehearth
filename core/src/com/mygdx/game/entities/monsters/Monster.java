@@ -29,7 +29,8 @@ public class Monster {
     private int markedUnit;
     int spawnRate;
     MonsterType type;
-    private int experiencePoints;
+    private int xp;
+    private String texture;
 
     public Monster() {
         this(3, 1, "default");
