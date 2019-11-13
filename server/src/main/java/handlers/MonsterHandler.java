@@ -17,6 +17,7 @@ public class MonsterHandler {
     public HashMap<Integer, Monster> monsterList;
     public AtomicInteger counter;
     public AtomicInteger monsterId;
+    public int spawnerId;
     private AttackHandler attackHandler;
     private ArrayList<MonsterSpawner> activeMonsterSpawners;
 
@@ -93,13 +94,13 @@ public class MonsterHandler {
     private float[] calculateNewPosition(int monster, boolean isBlocked, float pathSize) {
         Monster mon = GameServer.getInstance().getMh().monsterList.get(monster);
         Avatar av = GameServer.getInstance().aa.get(mon.getMarkedUnit());
-        if (av == null){
+        if (av == null) {
             return null;
         }
 
         Random r = new Random();
-        float randomX = -(mon.getMaxXspeed()+pathSize) + r.nextFloat() * ((mon.getMaxXspeed()+pathSize) - -(mon.getMaxXspeed()+pathSize));
-        float randomY = -(mon.getMaxYspeed()+pathSize) + r.nextFloat() * ((mon.getMaxYspeed()+pathSize) - -(mon.getMaxYspeed()+pathSize));
+        float randomX = -(mon.getMaxXspeed() + pathSize) + r.nextFloat() * ((mon.getMaxXspeed() + pathSize) - -(mon.getMaxXspeed() + pathSize));
+        float randomY = -(mon.getMaxYspeed() + pathSize) + r.nextFloat() * ((mon.getMaxYspeed() + pathSize) - -(mon.getMaxYspeed() + pathSize));
         float[] dxdy;
         float newX;
         float newY;
@@ -130,14 +131,14 @@ public class MonsterHandler {
 
     private boolean validateNewPosition(int monsterId, float x, float y) {
         AtomicInteger isBlocked = new AtomicInteger(0);
-        if (GameServer.getInstance().getMh().monsterList.size() <= 1){
+        if (GameServer.getInstance().getMh().monsterList.size() <= 1) {
             return true;
         }
         GameServer.getInstance().getMh().monsterList.forEach((integer, monster) -> {
             if (monster.getId() != monsterId) {
                 float[] dxdy = calcDxDy(monster.getX(), monster.getY(), x, y);
                 if (Math.hypot(dxdy[0], dxdy[1]) < 1) {
-                    isBlocked.set(isBlocked.get()+1);
+                    isBlocked.set(isBlocked.get() + 1);
                 }
             } else {
                 if (GameServer.getInstance().getMapReader().getMapCollision()
@@ -155,7 +156,7 @@ public class MonsterHandler {
                         GameServer.getInstance().getMapReader().getMapCollision()
                                 .get((int) Math.ceil(x))
                                 .contains((int) Math.ceil(y - 1))) {
-                    isBlocked.set(isBlocked.get() +1);
+                    isBlocked.set(isBlocked.get() + 1);
                 }
             }
         });
@@ -165,10 +166,10 @@ public class MonsterHandler {
     public void moveMonster(Monster monster) {
         float newX = 0;
         float newY = 0;
-        if (calculateNewPosition(monster.getId(), false,0) != null) {
-            newX = calculateNewPosition(monster.getId(), false,0)[0];
-            newY = calculateNewPosition(monster.getId(), false,0)[1];
-        } else{
+        if (calculateNewPosition(monster.getId(), false, 0) != null) {
+            newX = calculateNewPosition(monster.getId(), false, 0)[0];
+            newY = calculateNewPosition(monster.getId(), false, 0)[1];
+        } else {
             return;
         }
 
@@ -190,7 +191,7 @@ public class MonsterHandler {
         return activeMonsterSpawners;
     }
 
-    public void addMonsterSpawner(MonsterSpawner ms){
+    public void addMonsterSpawner(MonsterSpawner ms) {
         this.activeMonsterSpawners.add(ms);
     }
 
@@ -204,5 +205,14 @@ public class MonsterHandler {
 
     public int getNewMonsterId() {
         return monsterId.incrementAndGet();
+    }
+
+    public int getSpawnerId() {
+        return spawnerId;
+    }
+
+    public int getNewSpawnerId() {
+        this.spawnerId += 1;
+        return spawnerId;
     }
 }

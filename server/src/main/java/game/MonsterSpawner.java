@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class MonsterSpawner {
+    private int spawnerId;
     private int monsterId;
     private Integer[] spawnPoint;
     private float spawnRadius;
@@ -17,12 +18,13 @@ public class MonsterSpawner {
     private int monsterLimit;
     private int activeMonsters;
 
-    public MonsterSpawner(int monsterId, Integer[] importSpawnPoints) {
+    public MonsterSpawner(int monsterId, Integer[] importSpawnPoints, int spawnerId) {
         this.spawnPoint = new Integer[]{importSpawnPoints[0], importSpawnPoints[1]};
         this.monsterId = monsterId;
         this.monsterLimit = 5;
         this.spawnRadius = 10;
         this.spawnTimer = 10f;
+        this.spawnerId = spawnerId;
     }
 
     public Monster spawnMonster() {
@@ -49,7 +51,6 @@ public class MonsterSpawner {
                 this.activeMonsters += 1;
                 System.out.println(GameServer.getInstance().getMh().monsterList.size());
                 GameServer.getInstance().getServer().sendToAllTCP(monster);
-
 
             } else {
                 return spawnMonster();

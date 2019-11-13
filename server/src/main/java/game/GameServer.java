@@ -119,7 +119,7 @@ public class GameServer {
         this.monsterSpawnLocations.readMap();
         this.monsterSpawnLocations.getMonsterSpawner().forEach((integer, integers) -> {
             this.monsterSpawnLocations.getMonsterSpawner().get(integer).forEach(integers1 -> {
-                mh.addMonsterSpawner(new MonsterSpawner(integer, integers1));
+                mh.addMonsterSpawner(new MonsterSpawner(integer, integers1, mh.getNewSpawnerId()));
             });
 //            System.out.println(this.monsterSpawnLocations.getMonsterSpawner().get(integer).get(1)[0]);
 //            System.out.println(this.monsterSpawnLocations.getMonsterSpawner().get(integer).get(1)[1]);
