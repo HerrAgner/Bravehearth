@@ -15,23 +15,27 @@ public class Monster {
 
     private float boundsRadius;
     private float size;
-    int id;
+    private int id;
 
     private float x;
     private float y;
 
+    private float maxSpeed;
     private int hp;
     private int maxHp;
     private int attackDamage;
-    float attackSpeed;
-    float attackRange;
+    private float attackSpeed;
+    private float attackRange;
     private String name;
     private int markedUnit;
-    int spawnRate;
+    private int spawnRate;
     MonsterType type;
     private int spawnerId;
     private int xp;
     private String texture;
+
+    private float attackTimer;
+    private String isAttacking;
 
     public Monster() {
         this(3, 1, "default");
@@ -50,6 +54,10 @@ public class Monster {
 
         this.hp = monster.hp;
         this.maxHp = monster.maxHp;
+        this.maxSpeed = monster.maxSpeed;
+        this.attackRange = monster.attackRange;
+        this.texture = monster.texture;
+        this.xp = monster.xp;
         this.attackDamage = monster.attackDamage;
         this.attackSpeed = monster.attackSpeed;
         this.name = monster.name;
@@ -219,5 +227,9 @@ public class Monster {
 
     public void setType(MonsterType type) {
         this.type = type;
+    }
+
+    public String getTexture() {
+        return texture;
     }
 }

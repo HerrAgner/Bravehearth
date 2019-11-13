@@ -25,6 +25,7 @@ import com.mygdx.game.entities.Arrow;
 import com.mygdx.game.entities.SlashAnimation;
 import com.mygdx.game.entities.avatar.*;
 import com.mygdx.game.entities.monsters.DummyMonster;
+import com.mygdx.game.entities.monsters.Monster;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.util.CameraController;
 import com.mygdx.game.util.InputHandler;
@@ -49,6 +50,7 @@ public class GameScreen implements Screen {
     private BravehearthGame game;
     private TextureAtlas textureAtlas;
     final HashMap<String, Sprite> sprites;
+    final HashMap<String, Sprite> monsterSprites;
     private float oneSecond;
     private CopyOnWriteArrayList<Arrow> arrows;
     private CopyOnWriteArrayList<SlashAnimation> slashes;
@@ -62,6 +64,7 @@ public class GameScreen implements Screen {
         healthBar = new Texture("blank.png");
         textureAtlas = new TextureAtlas("avatars/avatarSprites.txt");
         sprites = new HashMap<>();
+        monsterSprites = new HashMap<>();
         arrows = new CopyOnWriteArrayList<>();
         slashes = new CopyOnWriteArrayList<>();
     }
@@ -83,6 +86,7 @@ public class GameScreen implements Screen {
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / 32f);
         collision = (TiledMapTileLayer) tiledMap.getLayers().get(0);
         addSprites();
+        addMonsterSprites();
     }
 
     private void addSprites() {
@@ -92,6 +96,17 @@ public class GameScreen implements Screen {
             Sprite sprite = textureAtlas.createSprite(region.name);
 
             sprites.put(region.name, sprite);
+        }
+    }
+
+    private void addMonsterSprites() {
+        TextureAtlas ta = ClientConnection.getInstance().assetManager.get("monsters/monsterSprites.txt");
+        Array<AtlasRegion> regions = ta.getRegions();
+
+        for (AtlasRegion region : regions) {
+            Sprite sprite = ta.createSprite(region.name);
+
+            monsterSprites.put(region.name, sprite);
         }
     }
 
@@ -141,9 +156,13 @@ public class GameScreen implements Screen {
 
 
         ClientConnection.getInstance().getActiveMonsters().forEach((uuid, monster) -> {
-            DummyMonster dummyMonster = (DummyMonster) monster;
-            dummyMonster.getSprite().setBounds(dummyMonster.getX(), dummyMonster.getY(), 1f, 1f);
-            dummyMonster.getSprite().draw(batch);
+//            DummyMonster dummyMonster = (DummyMonster) monster;
+//            dummyMonster.getSprite().setBounds(dummyMonster.getX(), dummyMonster.getY(), 1f, 1f);
+//            dummyMonster.getSprite().draw(batch);
+            Monster mon = monster;
+            Sprite monsterSprite = monsterSprites.get(mon.getTexture());
+            monsterSprite.setBounds(mon.getX(), mon.getY(), 1f, 1f);
+            monsterSprite.draw(batch);
 
             if (monster.getHp() < monster.getMaxHp() * 0.3) {
                 batch.setColor(Color.RED);

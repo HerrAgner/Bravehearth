@@ -33,10 +33,13 @@ public class ClientNetworkListener {
                 if (ClientConnection.getInstance().getUser() != null) {
 
                     if (object instanceof Monster) {
-                        if (((Monster) object).getType().equals(MonsterType.DUMMYMONSTER)) {
-                            DummyMonster dm = new DummyMonster((Monster) object);
-                            ClientConnection.getInstance().getActiveMonsters().put(((Monster) object).getId(), dm);
-                        }
+//                        if (((Monster) object).getType().equals(MonsterType.DUMMYMONSTER)) {
+//                            DummyMonster dm = new DummyMonster((Monster) object);
+//                            ClientConnection.getInstance().getActiveMonsters().put(((Monster) object).getId(), dm);
+//                        }
+                        Monster mon = new Monster((Monster) object);
+                        ClientConnection.getInstance().getActiveMonsters().put(((Monster) object).getId(), mon);
+
                     }
 
                     if (object instanceof Logout) {

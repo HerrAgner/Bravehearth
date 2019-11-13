@@ -1,6 +1,7 @@
 package game;
 
 
+import database.DBQueries;
 import handlers.CollisionHandler;
 import network.networkMessages.Monster;
 import network.networkMessages.MonsterType;
@@ -23,7 +24,7 @@ public class MonsterSpawner {
         this.monsterId = monsterId;
         this.monsterLimit = 5;
         this.spawnRadius = 10;
-        this.spawnTimer = 60f;
+        this.spawnTimer = 5f;
         this.spawnerId = spawnerId;
     }
 
@@ -36,24 +37,20 @@ public class MonsterSpawner {
                 if (CollisionHandler.isAnyCollision(newX, newY)){
                     return spawnMonster();
                 }
-                System.out.println(newX);
 
-                //TODO Create monster based on monsterId;
-                Monster monster = new Monster(5, 5, "ANTONMONSTRET");
+                Monster monster = DBQueries.getMonsterById(monsterId);
+                monster.setMaxHp(monster.getHp());
+
                 monster.setX((float) Math.ceil(newX));
                 monster.setY((float) Math.ceil(newY));
-                monster.setMaxXspeed(0.01f);
-                monster.setMaxYspeed(0.01f);
-                monster.setBoundsRadius(4f);
-                monster.setMaxHp(5);
-                monster.setType(MonsterType.DUMMYMONSTER);
+                monster.setMaxXspeed(monster.getMaxSpeed());
+                monster.setMaxYspeed(monster.getMaxSpeed());
                 monster.setId(GameServer.getInstance().getMh().getNewMonsterId());
                 monster.setMarkedUnit(-1);
                 monster.setSpawnerId(this.spawnerId);
                 GameServer.getInstance().getMh().monsterList.put(monster.getId(), monster);
                 this.activeMonsters += 1;
                 GameServer.getInstance().getServer().sendToAllTCP(monster);
-                System.out.println(monster.getSpawnerId());
 
             } else {
                 return spawnMonster();

@@ -32,9 +32,7 @@ public class MonsterHandler {
     }
 
     public void monsterAttack(Monster monster) {
-        if (counter.get() == Math.floor(monster.getAttackSpeed() * 16)) {
             attackHandler.addAttackerToList(monster.getId(), monster.getMarkedUnit(), 2);
-        }
     }
 
     public void addMonster(int id, Monster monster) {
