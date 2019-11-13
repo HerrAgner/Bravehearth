@@ -1,5 +1,6 @@
 package game;
 
+import com.esotericsoftware.kryonet.Server;
 import enums.Movement;
 import handlers.AttackHandler;
 import handlers.MovementHandler;
@@ -88,8 +89,7 @@ public class GameLoop implements Runnable {
                     }
                 }
                 if (v.getExperiencePoints() >= 25*v.getLevel()*(1+v.getLevel())) {
-                    v.setLevel(v.getLevel()+1);
-                    v.setExperiencePoints(0);
+                    levelUp(v.getId());
                 }
             });
 
@@ -101,8 +101,35 @@ public class GameLoop implements Runnable {
                 e.printStackTrace();
             }
         }
+    }
 
-
+    private void levelUp(int avatarId){
+        Avatar av = GameServer.getInstance().aa.get(avatarId);
+        av.setLevel(av.getLevel()+1);
+        av.setExperiencePoints(0);
+        switch (av.getCharacterClass()) {
+            case SORCERER:
+                av.setIntelligence(av.getIntelligence()+3);
+                av.setStrength(av.getStrength()+1);
+                av.setDexterity(av.getDexterity()+1);
+                break;
+            case WARRIOR:
+                av.setIntelligence(av.getIntelligence()+1);
+                av.setStrength(av.getStrength()+3);
+                av.setDexterity(av.getDexterity()+1);
+                break;
+            case MARKSMAN:
+                av.setIntelligence(av.getIntelligence()+1);
+                av.setStrength(av.getStrength()+1);
+                av.setDexterity(av.getDexterity()+3);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + av.getCharacterClass());
+        }
+        av.setMaxHealth(av.getMaxHealth()+ av.getStrength());
+        av.setMaxMana(av.getMaxMana() + av.getIntelligence());
+        av.setHealth(av.getMaxHealth());
+        av.setMana(av.getMaxMana());
     }
 
     public Position updatePosition(Avatar avatar, Movement movement, float delta) {
