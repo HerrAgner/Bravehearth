@@ -6,7 +6,6 @@ import database.DBQueries;
 import handlers.MonsterHandler;
 import network.UUIDSerializer;
 import handlers.ActiveUserHandler;
-import network.networkMessages.MonsterType;
 import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
@@ -54,7 +53,6 @@ public class GameServer {
         this.aa = getAUH().getActiveAvatars();
 
 
-//        initDummyMonsters();
 
     }
 
@@ -69,45 +67,6 @@ public class GameServer {
             single_instance = new GameServer();
 
         return single_instance;
-    }
-
-    private void initDummyMonsters() {
-        Monster monster = new Monster(5, 5, "ANTONMONSTRET");
-        monster.setY(10);
-        monster.setX(10);
-        monster.setMaxXspeed(0.01f);
-        monster.setMaxYspeed(0.01f);
-        monster.setBoundsRadius(4f);
-        monster.setMaxHp(5);
-        monster.setType(MonsterType.DUMMYMONSTER);
-        monster.setId(1);
-        monster.setMarkedUnit(-1);
-
-        Monster monster2 = new Monster(5, 5, "ANTONMONSTRETt");
-        monster2.setY(13);
-        monster2.setX(13);
-        monster2.setMaxXspeed(0.01f);
-        monster2.setMaxYspeed(0.01f);
-        monster2.setBoundsRadius(4f);
-        monster2.setMaxHp(5);
-        monster2.setType(MonsterType.DUMMYMONSTER);
-        monster2.setId(2);
-        monster2.setMarkedUnit(-1);
-
-        Monster monster3 = new Monster(5, 5, "ANTONMONSTRwETt");
-        monster3.setY(12);
-        monster3.setX(11);
-        monster3.setMaxXspeed(0.01f);
-        monster3.setMaxYspeed(0.01f);
-        monster3.setBoundsRadius(4f);
-        monster3.setMaxHp(5);
-        monster3.setType(MonsterType.DUMMYMONSTER);
-        monster3.setId(3);
-        monster3.setMarkedUnit(-1);
-
-//        getMh().monsterList.put(monster.getId(), monster);
-//        getMh().monsterList.put(monster2.getId(), monster2);
-//        getMh().monsterList.put(monster3.getId(), monster3);
     }
 
     public MapReader getMapReader() {
@@ -157,7 +116,6 @@ public class GameServer {
         kryo.register(ArrayList.class);
         kryo.register(HashMap.class);
         kryo.register(Monster.class);
-        kryo.register(MonsterType.class);
         kryo.register(UnitDeath.class);
         kryo.register(AttackEnemyTarget.class);
         kryo.register(float[].class);

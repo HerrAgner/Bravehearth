@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.config.GameConfig;
-import com.mygdx.game.util.MonsterType;
 
 import java.util.UUID;
 
@@ -15,23 +14,26 @@ public class Monster {
 
     private float boundsRadius;
     private float size;
-    int id;
+    private int id;
 
     private float x;
     private float y;
 
+    private float maxSpeed;
     private int hp;
     private int maxHp;
     private int attackDamage;
-    float attackSpeed;
-    float attackRange;
+    private float attackSpeed;
+    private float attackRange;
     private String name;
     private int markedUnit;
-    int spawnRate;
-    MonsterType type;
+    private int spawnRate;
     private int spawnerId;
     private int xp;
     private String texture;
+
+    private float attackTimer;
+    private String isAttacking;
 
     public Monster() {
         this(3, 1, "default");
@@ -50,12 +52,15 @@ public class Monster {
 
         this.hp = monster.hp;
         this.maxHp = monster.maxHp;
+        this.maxSpeed = monster.maxSpeed;
+        this.attackRange = monster.attackRange;
+        this.texture = monster.texture;
+        this.xp = monster.xp;
         this.attackDamage = monster.attackDamage;
         this.attackSpeed = monster.attackSpeed;
         this.name = monster.name;
         this.markedUnit = monster.markedUnit;
         this.spawnRate = monster.spawnRate;
-        this.type = monster.type;
     }
 
     public Monster(int hp, int attack, String name) {
@@ -213,11 +218,7 @@ public class Monster {
         this.spawnRate = spawnRate;
     }
 
-    public MonsterType getType() {
-        return type;
-    }
-
-    public void setType(MonsterType type) {
-        this.type = type;
+    public String getTexture() {
+        return texture;
     }
 }

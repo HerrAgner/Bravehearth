@@ -44,14 +44,13 @@ public class GameLoop implements Runnable {
                 try {
                     AttackEnemyTarget aet = AttackHandler.validatedAttacks.take();
                     GameServer.getInstance().getServer().sendToAllTCP(aet);
-                    System.out.println(GameServer.getInstance().getMh().monsterList.get(aet.getTarget()).getHp());
                     if (aet.getTargetUnit().equals("monster") && GameServer.getInstance().getMh().monsterList.get(aet.getTarget()).getHp() <= 0) {
                         Monster mon = GameServer.getInstance().getMh().monsterList.get(aet.getTarget());
                         GameServer.getInstance().aa.get(aet.getAttacker()).setMarkedUnit(-1);
                         GameServer.getInstance().getMh().getActiveMonsterSpawners().get(mon.getSpawnerId()).decreaseActiveMonstersByOne();
-                        System.out.println(mon.getId());
                         GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(aet.getAttacker(), aet.getTarget(), "monster", GameServer.getInstance().getMh().monsterList.get(aet.getTarget()).getExperiencePoints()));
                         GameServer.getInstance().getMh().monsterList.remove(mon.getId());
+                        GameServer.getInstance().aa.get(aet.getAttacker()).setExperiencePoints(mon.getExperiencePoints());
                     }
                     if (GameServer.getInstance().aa.get(aet.getTarget()) != null) {
                         if (aet.getTargetUnit().equals("avatar") && GameServer.getInstance().aa.get(aet.getTarget()).getHealth() <= 0) {
@@ -68,12 +67,16 @@ public class GameLoop implements Runnable {
             GameServer.getInstance().getMh().monsterTargetAvatar();
             GameServer.getInstance().getMh().monsterList.values().forEach(monster -> {
                 if (monster.getMarkedUnit() != -1) {
-                    GameServer.getInstance().getMh().monsterAttack(monster);
+                    monster.setAttackTimer(monster.getAttackTimer() + delta);
+                    if (monster.getAttackTimer() > monster.getAttackSpeed()) {
+                        GameServer.getInstance().getMh().monsterAttack(monster);
+                        monster.setAttackTimer(delta);
+                    }
                 }
             });
 
             GameServer.getInstance().getMh().getActiveMonsterSpawners().forEach(monsterSpawner -> {
-                monsterSpawner.setTimeCounter(monsterSpawner.getTimeCounter()+delta);
+                monsterSpawner.setTimeCounter(monsterSpawner.getTimeCounter() + delta);
                 if (monsterSpawner.getTimeCounter() > monsterSpawner.getSpawnTimer()) {
                     monsterSpawner.spawnMonster();
                     monsterSpawner.setTimeCounter(delta);
@@ -93,8 +96,11 @@ public class GameLoop implements Runnable {
                         GameServer.getInstance().getServer().sendToAllTCP(new HealthChange(v.getHealth() + 1, v.getId(), v.getId(), 3));
                         v.setHealth(v.getHealth() + 1);
                     }
-
                 }
+//                if (v.getExperiencePoints() > (v.getLevel() + 9) * Math.sqrt(v.getLevel()) * 10) {
+//                    v.setLevel(v.getLevel()+1);
+//                    v.setExperiencePoints(0);
+//                }
             });
 
 

@@ -8,6 +8,7 @@ public class Monster {
     private float maxXspeed = 0.001f;
     private float maxYspeed = 0.001f;
 
+
     private float boundsRadius;
     private float size;
     int id;
@@ -16,7 +17,10 @@ public class Monster {
     private float y;
 
     @Column
+    private float maxSpeed;
+    @Column
     private int hp;
+    @Column
     private int maxHp;
     @Column
     private int attackDamage;
@@ -28,12 +32,14 @@ public class Monster {
     private String name;
     private int markedUnit;
     int spawnRate;
-    MonsterType type;
     private int spawnerId;
     @Column
     private int xp;
     @Column
     private String texture;
+
+    private float attackTimer;
+    private String isAttacking;
 
     public Monster() {
         this(3, 1, "default");
@@ -175,13 +181,6 @@ public class Monster {
         this.spawnRate = spawnRate;
     }
 
-    public MonsterType getType() {
-        return type;
-    }
-
-    public void setType(MonsterType type) {
-        this.type = type;
-    }
 
     public int getSpawnerId() {
         return spawnerId;
@@ -189,5 +188,29 @@ public class Monster {
 
     public void setSpawnerId(int spawnerId) {
         this.spawnerId = spawnerId;
+    }
+
+    public float getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public void setMaxSpeed(float maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    public float getAttackTimer() {
+        return attackTimer;
+    }
+
+    public void setAttackTimer(float attackTimer) {
+        this.attackTimer = attackTimer;
+    }
+
+    public String getIsAttacking() {
+        return isAttacking;
+    }
+
+    public void setIsAttacking(String isAttacking) {
+        this.isAttacking = isAttacking;
     }
 }

@@ -198,7 +198,6 @@ public abstract class DBQueries {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("result " + result.getName());
         return result;
     }
 
