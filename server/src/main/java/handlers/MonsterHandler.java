@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MonsterHandler {
     public HashMap<Integer, Monster> monsterList;
     public AtomicInteger counter;
+    public AtomicInteger monsterId;
     private AttackHandler attackHandler;
     private ArrayList<MonsterSpawner> activeMonsterSpawners;
 
@@ -23,6 +24,7 @@ public class MonsterHandler {
     public MonsterHandler() {
         activeMonsterSpawners = new ArrayList<>();
         monsterList = new HashMap<>();
+        monsterId = new AtomicInteger(0);
         counter = new AtomicInteger();
         counter.set(0);
         attackHandler = new AttackHandler();
@@ -194,5 +196,13 @@ public class MonsterHandler {
 
     public void setActiveMonsterSpawners(ArrayList<MonsterSpawner> activeMonsterSpawners) {
         this.activeMonsterSpawners = activeMonsterSpawners;
+    }
+
+    public AtomicInteger getMonsterId() {
+        return monsterId;
+    }
+
+    public int getNewMonsterId() {
+        return monsterId.incrementAndGet();
     }
 }

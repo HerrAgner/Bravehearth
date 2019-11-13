@@ -54,7 +54,8 @@ public class GameServer {
         this.aa = getAUH().getActiveAvatars();
 
 
-        initDummyMonsters();
+//        initDummyMonsters();
+
     }
 
     public ActiveUserHandler getAUH() {
@@ -104,9 +105,9 @@ public class GameServer {
         monster3.setId(3);
         monster3.setMarkedUnit(-1);
 
-        getMh().monsterList.put(monster.getId(), monster);
-        getMh().monsterList.put(monster2.getId(), monster2);
-        getMh().monsterList.put(monster3.getId(), monster3);
+//        getMh().monsterList.put(monster.getId(), monster);
+//        getMh().monsterList.put(monster2.getId(), monster2);
+//        getMh().monsterList.put(monster3.getId(), monster3);
     }
 
     public MapReader getMapReader() {
@@ -117,7 +118,9 @@ public class GameServer {
         this.monsterSpawnLocations = new MapReader("server/src/main/resources/monsterSpawner_MonsterLayer.csv", "monster");
         this.monsterSpawnLocations.readMap();
         this.monsterSpawnLocations.getMonsterSpawner().forEach((integer, integers) -> {
-            mh.addMonsterSpawner(new MonsterSpawner(integer, integers));
+            this.monsterSpawnLocations.getMonsterSpawner().get(integer).forEach(integers1 -> {
+                mh.addMonsterSpawner(new MonsterSpawner(integer, integers1));
+            });
 //            System.out.println(this.monsterSpawnLocations.getMonsterSpawner().get(integer).get(1)[0]);
 //            System.out.println(this.monsterSpawnLocations.getMonsterSpawner().get(integer).get(1)[1]);
         });
