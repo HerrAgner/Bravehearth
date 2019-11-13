@@ -47,6 +47,7 @@ public class GameLoop implements Runnable {
                         GameServer.getInstance().getMh().getActiveMonsterSpawners().get(mon.getSpawnerId()).decreaseActiveMonstersByOne();
                         GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(aet.getAttacker(), aet.getTarget(), "monster", GameServer.getInstance().getMh().monsterList.get(aet.getTarget()).getExperiencePoints()));
                         GameServer.getInstance().getMh().monsterList.remove(mon.getId());
+                        GameServer.getInstance().aa.get(aet.getAttacker()).setExperiencePoints(mon.getExperiencePoints());
                     }
                 } catch (InterruptedException e) {
                     System.out.println("Could not send attack. Trying again.");
@@ -65,7 +66,7 @@ public class GameLoop implements Runnable {
             });
 
             GameServer.getInstance().getMh().getActiveMonsterSpawners().forEach(monsterSpawner -> {
-                monsterSpawner.setTimeCounter(monsterSpawner.getTimeCounter()+delta);
+                monsterSpawner.setTimeCounter(monsterSpawner.getTimeCounter() + delta);
                 if (monsterSpawner.getTimeCounter() > monsterSpawner.getSpawnTimer()) {
                     monsterSpawner.spawnMonster();
                     monsterSpawner.setTimeCounter(delta);
@@ -85,8 +86,11 @@ public class GameLoop implements Runnable {
                         GameServer.getInstance().getServer().sendToAllTCP(new HealthChange(v.getHealth() + 1, v.getId(), v.getId(), 3));
                         v.setHealth(v.getHealth() + 1);
                     }
-
                 }
+//                if (v.getExperiencePoints() > (v.getLevel() + 9) * Math.sqrt(v.getLevel()) * 10) {
+//                    v.setLevel(v.getLevel()+1);
+//                    v.setExperiencePoints(0);
+//                }
             });
 
 

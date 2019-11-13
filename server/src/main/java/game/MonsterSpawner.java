@@ -5,7 +5,6 @@ import database.DBQueries;
 import handlers.CollisionHandler;
 import network.networkMessages.Monster;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class MonsterSpawner {

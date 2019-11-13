@@ -52,7 +52,7 @@ public class MonsterHandler {
                 ref.dx = monster.getX() - avatar.getX();
                 ref.dy = monster.getY() - avatar.getY();
                 ref.len = (float) Math.hypot(ref.dx, ref.dy);
-                if (ref.len < 5) {
+                if (ref.len < 8) {
                     if (monster.getMarkedUnit() == -1) {
                         monster.setMarkedUnit(id);
                         ref.changed = true;
@@ -65,7 +65,7 @@ public class MonsterHandler {
 
             });
             if (!ref.changed) {
-                if (monster.getMarkedUnit() != -1 && calculateShortestPath(monster, GameServer.getInstance().aa.get(monster.getMarkedUnit())) > 8) {
+                if (monster.getMarkedUnit() != -1 && calculateShortestPath(monster, GameServer.getInstance().aa.get(monster.getMarkedUnit())) > 10) {
                     monster.setMarkedUnit(-1);
                 }
             }
