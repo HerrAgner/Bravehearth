@@ -188,59 +188,95 @@ public abstract class DBQueries {
         return eq;
     }
 
-    public static ResultSet getMonsterDrop(int monsterId) {
+    public static HashMap<Item, Float> getMonsterDrop(int monsterId) {
+        HashMap<Item, Float> drop = new HashMap<>();
         PreparedStatement ps = prep("SELECT * FROM monsterxitemdrop WHERE id = ?");
-        ResultSet rs = null;
         try {
             ps.setInt(1, monsterId);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt(1);
-                int weapon = rs.getInt(2);
-                int wearable = rs.getInt(3);
-                int consumable = rs.getInt(4);
                 float dropChance = rs.getFloat(5);
-                System.out.printf("info %d, %d, %d, %d", id, weapon, wearable, consumable);
+                if(rs.getInt(2) != 0) { drop.put(getWeapon(rs.getInt(2)), dropChance); }
+                if(rs.getInt(3) != 0) { drop.put(getWearable(rs.getInt(3)), dropChance); }
+                if(rs.getInt(4) != 0) { drop.put(getConsumable(rs.getInt(4)), dropChance); }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs;
+        drop.entrySet().forEach(entry->{
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        });
+        return drop;
     }
 
     public static Weapon getWeapon(int weaponId) {
-        Weapon result = null;
-        PreparedStatement ps = prep("SELECT * FROM weapons WHERE id = ?");
+        Weapon w = null;
+
+        PreparedStatement ps = prep("SELECT `name`, weaponType, speed, damage, `range`, levelRequirement, type " +
+                "FROM weapons WHERE id = ?");
         try {
             ps.setInt(1, weaponId);
-            result = (Weapon) new ObjectMapper<>(Weapon.class).mapOne(ps.executeQuery());
-        } catch (Exception e) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString(1);
+                WeaponType weaponType = WeaponType.valueOf(rs.getString(2));
+                int speed = rs.getInt(3);
+                int damage = rs.getInt(4);
+                int range = rs.getInt(5);
+                int levelRequirement = rs.getInt(6);
+                WearableType wearType = WearableType.valueOf(rs.getString(7));
+                w = new Weapon(new Item(name, levelRequirement), damage, speed, range, weaponType, wearType);
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;
+        return w;
     }
 
     public static Wearable getWearable(int wearableId) {
-        Wearable result = null;
-        PreparedStatement ps = prep("SELECT * FROM wearables WHERE id = ?");
+        Wearable w = null;
+        PreparedStatement ps2 = prep("SELECT name, type, defense, statChange, statToAffect, levelRequirement " +
+                "FROM wearables WHERE id = ?");
         try {
-            ps.setInt(1, wearableId);
-            result = (Wearable) new ObjectMapper<>(Wearable.class).mapOne(ps.executeQuery());
-        } catch (Exception e) {
+            ps2.setInt(1, wearableId);
+            ResultSet rs = ps2.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString(1);
+                WearableType type = WearableType.valueOf(rs.getString(2));
+                int defense = rs.getInt(3);
+                float statChange = rs.getFloat(4);
+                String statToAffect = rs.getString(5);
+                int levelRequirement = rs.getInt(6);
+                HashMap<String, Float> map = new HashMap<>();
+                map.put(statToAffect, statChange);
+                w = new Wearable(new Item(name, levelRequirement), map, defense, type);
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;
+        return w;
     }
 
     public static Consumable getConsumable(int consumableId) {
-        Consumable result = null;
-        PreparedStatement ps = prep("SELECT * FROM consumables WHERE id = ?");
+        Consumable c = null;
+        PreparedStatement ps3 = prep("SELECT name, statChange, statToAffect, levelRequirement " +
+                "FROM consumables WHERE id = ?");
         try {
-            ps.setInt(1, consumableId);
-            result = (Consumable) new ObjectMapper<>(Consumable.class).mapOne(ps.executeQuery());
-        } catch (Exception e) {
+            ps3.setInt(1, consumableId);
+            ResultSet rs = ps3.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString(1);
+                float statChange = rs.getFloat(2);
+                String statToAffect = rs.getString(3);
+                int levelRequirement = rs.getInt(4);
+                HashMap<String, Float> map = new HashMap<>();
+                map.put(statToAffect, statChange);
+                c = new Consumable(new Item(name, levelRequirement), map);
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;
+        return c;
     }
 }
