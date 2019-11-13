@@ -2,7 +2,6 @@ package game;
 
 import enums.Movement;
 import handlers.AttackHandler;
-import handlers.MonsterHandler;
 import handlers.MovementHandler;
 import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
@@ -47,7 +46,8 @@ public class GameLoop implements Runnable {
                         GameServer.getInstance().getMh().getActiveMonsterSpawners().get(mon.getSpawnerId()).decreaseActiveMonstersByOne();
                         GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(aet.getAttacker(), aet.getTarget(), "monster", GameServer.getInstance().getMh().monsterList.get(aet.getTarget()).getExperiencePoints()));
                         GameServer.getInstance().getMh().monsterList.remove(mon.getId());
-                        GameServer.getInstance().aa.get(aet.getAttacker()).setExperiencePoints(mon.getExperiencePoints());
+                        GameServer.getInstance().aa.get(aet.getAttacker()).addExperiencePoints(mon.getExperiencePoints());
+                        GameServer.getInstance().aa.get(aet.getAttacker()).getBackpack().addGold(mon.getGold());
                     }
                 } catch (InterruptedException e) {
                     System.out.println("Could not send attack. Trying again.");
@@ -87,10 +87,10 @@ public class GameLoop implements Runnable {
                         v.setHealth(v.getHealth() + 1);
                     }
                 }
-//                if (v.getExperiencePoints() > (v.getLevel() + 9) * Math.sqrt(v.getLevel()) * 10) {
-//                    v.setLevel(v.getLevel()+1);
-//                    v.setExperiencePoints(0);
-//                }
+                if (v.getExperiencePoints() >= 25*v.getLevel()*(1+v.getLevel())) {
+                    v.setLevel(v.getLevel()+1);
+                    v.setExperiencePoints(0);
+                }
             });
 
 

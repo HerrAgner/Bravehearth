@@ -10,7 +10,6 @@ import network.networkMessages.avatar.Avatar;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MonsterHandler {

@@ -34,6 +34,7 @@ public class Monster {
 
     private float attackTimer;
     private String isAttacking;
+    private int gold;
 
     public Monster() {
         this(3, 1, "default");

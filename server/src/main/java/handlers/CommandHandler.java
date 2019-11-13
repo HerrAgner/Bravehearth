@@ -5,7 +5,10 @@ import com.esotericsoftware.kryonet.Server;
 import database.DBQueries;
 import enums.Command;
 import game.GameServer;
-import network.networkMessages.*;
+import network.networkMessages.AttackEnemyTarget;
+import network.networkMessages.Login;
+import network.networkMessages.Logout;
+import network.networkMessages.User;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
 
@@ -109,6 +112,7 @@ public class CommandHandler {
             Backpack bp = DBQueries.getBackpack(avatar.getId());
             bp.setItems(DBQueries.getBpItems(bp.getId()));
             avatar.setEquippedItems(DBQueries.getEquippedItems(avatar.getId()));
+            avatar.setBackpack(bp);
             user.setAvatar(avatar);
         } catch (NullPointerException e) {
             System.out.println("No avatar found for user.");
