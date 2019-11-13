@@ -38,6 +38,7 @@ public class GameLoop implements Runnable {
                     }));
 
             if (AttackHandler.validatedAttacks.size() > 0) {
+
                 try {
                     AttackEnemyTarget aet = AttackHandler.validatedAttacks.take();
                     GameServer.getInstance().getServer().sendToAllTCP(aet);
@@ -46,12 +47,13 @@ public class GameLoop implements Runnable {
                         GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(aet.getAttacker(), aet.getTarget(), "monster", GameServer.getInstance().getMh().monsterList.get(aet.getTarget()).getExperiencePoints()));
                         GameServer.getInstance().getMh().monsterList.remove(aet.getTarget());
                     }
-                    if (aet.getTargetUnit().equals("avatar") && GameServer.getInstance().au.get(aet.getTarget()).getAvatar().getHealth() <= 0) {
-                        new UnitDeath(GameServer.getInstance().au.get(aet.getTarget()).getAvatar());
-                        //do something to end game - new screen or something?
-                        //tell the other players that an avatar has died?
-                        //remove marked targets
-                        GameServer.getInstance().au.remove(aet.getTarget());
+                    if (GameServer.getInstance().aa.get(aet.getTarget()) != null) {
+                        if (aet.getTargetUnit().equals("avatar") && GameServer.getInstance().aa.get(aet.getTarget()).getHealth() <= 0) {
+                            GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(GameServer.getInstance().aa.get(aet.getTarget())));
+                            GameServer.getInstance().aa.get(aet.getTarget()).setMarkedUnit(-1);
+                            //do something to end game - new screen or something?
+                            GameServer.getInstance().aa.remove(aet.getTarget());
+                        }
                     }
                 } catch (InterruptedException e) {
                     System.out.println("Could not send attack. Trying again.");
