@@ -18,7 +18,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
@@ -153,7 +153,6 @@ public class GameScreen implements Screen {
 //        ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
         batch.begin();
-
 
         ClientConnection.getInstance().getActiveMonsters().forEach((uuid, monster) -> {
             Monster mon = monster;
@@ -293,7 +292,6 @@ public class GameScreen implements Screen {
 
     private void updatePlayer(float delta) {
         ClientConnection.getInstance().getActiveAvatars().forEach((o, o2) -> {
-
             o2.update(delta);
         });
     }
@@ -307,20 +305,15 @@ public class GameScreen implements Screen {
 
     public static void youDiedPopUp() {
         Stage stage = new Stage();
+        Skin skin = new Skin(Gdx.files.internal("terra-mother/skin/terra-mother-ui.json"));
 
-        Image backgroundImage = new Image();
-        backgroundImage.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("tomb.jpg")))));
-        backgroundImage.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        backgroundImage.setScaling(Scaling.fill);
-
-        Image logo = new Image();
-        logo.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("youDied.png")))));
-        logo.setSize(605*1.5f, 89*1.5f);
-        logo.setPosition(Gdx.graphics.getWidth() / 2 - 300*1.5f, Gdx.graphics.getHeight() - 200f*1.5f);
-
-        stage.addActor(backgroundImage);
-        stage.addActor(logo);
-
+        Window death = new Window("YOU DIED", skin);
+        death.add(new TextArea("Respawning...", skin));
+        death.pack();
+        float newWidth = 400, newHeight = 200;
+        death.setBounds((Gdx.graphics.getWidth() - newWidth ) / 2,
+                (Gdx.graphics.getHeight() - newHeight ) / 2, newWidth , newHeight );
+        stage.addActor(death);
         stage.draw();
     }
 
