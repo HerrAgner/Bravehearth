@@ -87,6 +87,18 @@ public class ClientNetworkListener {
                                     .setHealth((((AttackEnemyTarget) object).getHc()).getNewHealth());
                             ClientConnection.getInstance().getActiveAvatars().get((((AttackEnemyTarget) object).getHc()).getReceivingAvatar())
                                     .setHurt(true);
+                            Avatar av = ClientConnection.getInstance().getActiveAvatars().get((((AttackEnemyTarget) object).getHc()).getReceivingAvatar());
+                            if (av.getId() == ClientConnection.getInstance().getAvatar().getId()) {
+                                if (av instanceof Warrior) {
+                                    ((Warrior) av).playSound();
+                                }
+                                if (av instanceof Marksman) {
+                                    ((Marksman) av).playSound();
+                                }
+                                if (av instanceof Sorcerer) {
+                                    ((Sorcerer) av).playSound();
+                                }
+                            }
                         }
                     }
 

@@ -65,6 +65,8 @@ public class ClientConnection {
         //projectiles
         assetManager.load("arrow_6.png", Texture.class);
 
+        assetManager.load("slash.png", Texture.class);
+
         assetManager.finishLoading();
     }
 

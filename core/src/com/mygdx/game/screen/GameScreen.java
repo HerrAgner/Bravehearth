@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.BravehearthGame;
 import com.mygdx.game.config.GameConfig;
 import com.mygdx.game.entities.Arrow;
+import com.mygdx.game.entities.SlashAnimation;
 import com.mygdx.game.entities.avatar.*;
 import com.mygdx.game.entities.monsters.DummyMonster;
 import com.mygdx.game.network.ClientConnection;
@@ -50,6 +51,8 @@ public class GameScreen implements Screen {
     final HashMap<String, Sprite> sprites;
     private float oneSecond;
     private CopyOnWriteArrayList<Arrow> arrows;
+    private CopyOnWriteArrayList<SlashAnimation> slashes;
+
 
     public GameScreen(BravehearthGame game) {
         inputHandler = new InputHandler();
@@ -60,6 +63,7 @@ public class GameScreen implements Screen {
         textureAtlas = new TextureAtlas("avatars/avatarSprites.txt");
         sprites = new HashMap<>();
         arrows = new CopyOnWriteArrayList<>();
+        slashes = new CopyOnWriteArrayList<>();
     }
 
     @Override
@@ -134,6 +138,30 @@ public class GameScreen implements Screen {
 //        ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
         batch.begin();
+
+
+        ClientConnection.getInstance().getActiveMonsters().forEach((uuid, monster) -> {
+            DummyMonster dummyMonster = (DummyMonster) monster;
+            dummyMonster.getSprite().setBounds(dummyMonster.getX(), dummyMonster.getY(), 1f, 1f);
+            dummyMonster.getSprite().draw(batch);
+
+            if (monster.getHp() < monster.getMaxHp() * 0.3) {
+                batch.setColor(Color.RED);
+            } else if (monster.getHp() < monster.getMaxHp() * 0.6) {
+                batch.setColor(Color.YELLOW);
+            } else {
+                batch.setColor(Color.GREEN);
+            }
+            batch.draw(healthBar, monster.getX(), monster.getY() + 1.2f, (float) monster.getHp() / monster.getMaxHp(), 0.2f);
+            batch.setColor(Color.WHITE);
+
+
+            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != -1 && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() == monster.getId()) {
+                renderer.rect((float) (monster.getX() - 0.1), (float) (monster.getY() - 0.1), (float) 1.2, (float) 1.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
+            }
+
+        });
+
         ClientConnection.getInstance().getActiveAvatars().forEach((Integer, avatar) -> {
             if (avatar.getHealth() < avatar.getMaxHealth() * 0.3) {
                 batch.setColor(Color.RED);
@@ -154,6 +182,12 @@ public class GameScreen implements Screen {
                 this.arrows.add(arrow);
                 avatar.setAttacking("");
             } else if (avatar.isAttacking().equals("melee")) {
+                SlashAnimation slashAnimation = new SlashAnimation(Gdx.graphics.getDeltaTime());
+                slashAnimation.setPosition(new Vector2(avatar.getX(), avatar.getY()));
+                slashAnimation.setTargetUnitType("monster");
+                slashAnimation.setTargetPosition(new Vector2(avatar.getTargetPosition()[0], avatar.getTargetPosition()[1]));
+                this.slashes.add(slashAnimation);
+                avatar.setAttacking("");
             }
 
             if (avatar.isHurt()) {
@@ -188,27 +222,19 @@ public class GameScreen implements Screen {
 
         }
 
-        ClientConnection.getInstance().getActiveMonsters().forEach((uuid, monster) -> {
-            DummyMonster dummyMonster = (DummyMonster) monster;
-            dummyMonster.getSprite().setBounds(dummyMonster.getX(), dummyMonster.getY(), 1f, 1f);
-            dummyMonster.getSprite().draw(batch);
-
-            if (monster.getHp() < monster.getMaxHp() * 0.3) {
-                batch.setColor(Color.RED);
-            } else if (monster.getHp() < monster.getMaxHp() * 0.6) {
-                batch.setColor(Color.YELLOW);
-            } else {
-                batch.setColor(Color.GREEN);
-            }
-            batch.draw(healthBar, monster.getX(), monster.getY() + 1.2f, (float) monster.getHp() / monster.getMaxHp(), 0.2f);
-            batch.setColor(Color.WHITE);
+        if (this.slashes != null && this.slashes.size() > 0) {
+            this.slashes.forEach(slashAnimation -> {
+                slashAnimation.updateAngle();
+                slashAnimation.increaseTimer(Gdx.graphics.getDeltaTime());
+                if (slashAnimation.shouldDispose()) {
+                    this.slashes.remove(slashAnimation);
+                } else {
+                    batch.draw(slashAnimation.getTexture(), slashAnimation.getTargetPosition().x, slashAnimation.getTargetPosition().y, 0.5f, 0.5f, 1, 1, 1, 1, slashAnimation.getAngle());
+                }
+            });
 
 
-            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != -1 && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() == monster.getId()) {
-                renderer.rect((float) (monster.getX() - 0.1), (float) (monster.getY() - 0.1), (float) 1.2, (float) 1.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
-            }
-
-        });
+        }
         batch.end();
 
         renderer.end();
