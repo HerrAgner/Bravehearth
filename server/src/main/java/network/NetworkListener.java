@@ -7,7 +7,10 @@ import game.GameServer;
 import handlers.ActiveUserHandler;
 import handlers.CommandHandler;
 import handlers.MovementHandler;
-import network.networkMessages.*;
+import network.networkMessages.AttackEnemyTarget;
+import network.networkMessages.Login;
+import network.networkMessages.Logout;
+import network.networkMessages.MovementCommands;
 
 public class NetworkListener {
 

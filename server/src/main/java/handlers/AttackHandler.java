@@ -3,16 +3,11 @@ package handlers;
 
 import game.GameServer;
 import network.networkMessages.AttackEnemyTarget;
-import network.networkMessages.Monster;
-import network.networkMessages.UnitDeath;
-import network.networkMessages.avatar.Avatar;
 import network.networkMessages.HealthChange;
+import network.networkMessages.Monster;
+import network.networkMessages.avatar.Avatar;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class AttackHandler {

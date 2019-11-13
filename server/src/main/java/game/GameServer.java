@@ -2,10 +2,9 @@ package game;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Server;
-import database.DBQueries;
+import handlers.ActiveUserHandler;
 import handlers.MonsterHandler;
 import network.UUIDSerializer;
-import handlers.ActiveUserHandler;
 import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
@@ -15,7 +14,6 @@ import network.networkMessages.items.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 

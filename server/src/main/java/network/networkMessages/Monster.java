@@ -2,8 +2,6 @@ package network.networkMessages;
 
 import database.Column;
 
-import java.util.UUID;
-
 public class Monster {
     private float maxXspeed = 0.001f;
     private float maxYspeed = 0.001f;
@@ -37,6 +35,8 @@ public class Monster {
     private int xp;
     @Column
     private String texture;
+    @Column
+    private int gold;
 
     private float attackTimer;
     private String isAttacking;
@@ -212,5 +212,9 @@ public class Monster {
 
     public void setIsAttacking(String isAttacking) {
         this.isAttacking = isAttacking;
+    }
+
+    public int getGold() {
+        return gold;
     }
 }
