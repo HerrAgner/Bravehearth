@@ -22,7 +22,7 @@ public class MonsterSpawner {
         this.monsterId = monsterId;
         this.monsterLimit = 5;
         this.spawnRadius = 10;
-        this.spawnTimer = 5f;
+        this.spawnTimer = 20f;
         this.spawnerId = spawnerId;
     }
 
