@@ -1,5 +1,7 @@
 package network.networkMessages;
 
+import database.Column;
+
 import java.util.UUID;
 
 public class Monster {
@@ -13,16 +15,24 @@ public class Monster {
     private float x;
     private float y;
 
+    @Column
     private int hp;
     private int maxHp;
+    @Column
     private int attackDamage;
+    @Column
     float attackSpeed;
+    @Column
     float attackRange;
+    @Column
     private String name;
     private int markedUnit;
     int spawnRate;
     MonsterType type;
-    private int experiencePoints;
+    @Column
+    private int xp;
+    @Column
+    private String texture;
 
     public Monster() {
         this(3, 1, "default");
@@ -37,11 +47,11 @@ public class Monster {
     }
 
     public int getExperiencePoints() {
-        return experiencePoints;
+        return xp;
     }
 
     public void setExperiencePoints(int experiencePoints) {
-        this.experiencePoints = experiencePoints;
+        this.xp = experiencePoints;
     }
 
     public float getMaxXspeed() {

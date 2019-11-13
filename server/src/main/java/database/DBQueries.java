@@ -1,6 +1,7 @@
 package database;
 
 import network.networkMessages.CharacterClass;
+import network.networkMessages.Monster;
 import network.networkMessages.User;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
@@ -186,6 +187,19 @@ public abstract class DBQueries {
         }
         eq = new EquippedItems(avatarId, items);
         return eq;
+    }
+
+    public static Monster getMonsterById(int monsterId) {
+        Monster result = null;
+        PreparedStatement ps = prep("SELECT * FROM monsters WHERE id = ?");
+        try {
+            ps.setInt(1, monsterId);
+            result = (Monster) new ObjectMapper<>(Monster.class).mapOne(ps.executeQuery());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("result " + result.getName());
+        return result;
     }
 
     public static HashMap<Item, Float> getMonsterDrop(int monsterId) {
