@@ -27,7 +27,6 @@ public class Warrior extends Avatar {
     }
 
     public void playSound() {
-        System.out.println("sound");
         hurtSound.play();
     }
 
