@@ -24,7 +24,6 @@ import com.mygdx.game.config.GameConfig;
 import com.mygdx.game.entities.Arrow;
 import com.mygdx.game.entities.SlashAnimation;
 import com.mygdx.game.entities.avatar.*;
-import com.mygdx.game.entities.monsters.DummyMonster;
 import com.mygdx.game.entities.monsters.Monster;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.util.CameraController;
@@ -156,9 +155,6 @@ public class GameScreen implements Screen {
 
 
         ClientConnection.getInstance().getActiveMonsters().forEach((uuid, monster) -> {
-//            DummyMonster dummyMonster = (DummyMonster) monster;
-//            dummyMonster.getSprite().setBounds(dummyMonster.getX(), dummyMonster.getY(), 1f, 1f);
-//            dummyMonster.getSprite().draw(batch);
             Monster mon = monster;
             Sprite monsterSprite = monsterSprites.get(mon.getTexture());
             monsterSprite.setBounds(mon.getX(), mon.getY(), 1f, 1f);

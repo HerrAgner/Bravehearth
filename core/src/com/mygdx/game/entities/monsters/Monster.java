@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.config.GameConfig;
-import com.mygdx.game.util.MonsterType;
 
 import java.util.UUID;
 
@@ -29,7 +28,6 @@ public class Monster {
     private String name;
     private int markedUnit;
     private int spawnRate;
-    MonsterType type;
     private int spawnerId;
     private int xp;
     private String texture;
@@ -63,7 +61,6 @@ public class Monster {
         this.name = monster.name;
         this.markedUnit = monster.markedUnit;
         this.spawnRate = monster.spawnRate;
-        this.type = monster.type;
     }
 
     public Monster(int hp, int attack, String name) {
@@ -219,14 +216,6 @@ public class Monster {
 
     public void setSpawnRate(int spawnRate) {
         this.spawnRate = spawnRate;
-    }
-
-    public MonsterType getType() {
-        return type;
-    }
-
-    public void setType(MonsterType type) {
-        this.type = type;
     }
 
     public String getTexture() {

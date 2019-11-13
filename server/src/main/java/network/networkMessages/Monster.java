@@ -32,7 +32,6 @@ public class Monster {
     private String name;
     private int markedUnit;
     int spawnRate;
-    MonsterType type;
     private int spawnerId;
     @Column
     private int xp;
@@ -182,13 +181,6 @@ public class Monster {
         this.spawnRate = spawnRate;
     }
 
-    public MonsterType getType() {
-        return type;
-    }
-
-    public void setType(MonsterType type) {
-        this.type = type;
-    }
 
     public int getSpawnerId() {
         return spawnerId;

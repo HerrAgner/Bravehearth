@@ -4,7 +4,6 @@ package game;
 import database.DBQueries;
 import handlers.CollisionHandler;
 import network.networkMessages.Monster;
-import network.networkMessages.MonsterType;
 
 import java.util.ArrayList;
 import java.util.Random;
