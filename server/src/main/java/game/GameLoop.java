@@ -28,12 +28,14 @@ public class GameLoop implements Runnable {
 
             MovementHandler.movementLoopList.forEach((key, value) ->
                     value.forEach(movement -> {
-                        Position pos = updatePosition(GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()), movement, delta);
-                        if (pos != null) {
-                            GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setX(pos.getX());
-                            GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setY(pos.getY());
-                            GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setDirection(pos.getDirection());
-                            GameServer.getInstance().getServer().sendToAllUDP(pos);
+                        if (GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()) != null) {
+                            Position pos = updatePosition(GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()), movement, delta);
+                            if (pos != null) {
+                                GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setX(pos.getX());
+                                GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setY(pos.getY());
+                                GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setDirection(pos.getDirection());
+                                GameServer.getInstance().getServer().sendToAllUDP(pos);
+                            }
                         }
                     }));
 
@@ -49,7 +51,7 @@ public class GameLoop implements Runnable {
                     }
                     if (GameServer.getInstance().aa.get(aet.getTarget()) != null) {
                         if (aet.getTargetUnit().equals("avatar") && GameServer.getInstance().aa.get(aet.getTarget()).getHealth() <= 0) {
-                            GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(GameServer.getInstance().aa.get(aet.getTarget())));
+                            GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(GameServer.getInstance().aa.get(aet.getTarget()), "avatar"));
                             GameServer.getInstance().aa.get(aet.getTarget()).setMarkedUnit(-1);
                             //do something to end game - new screen or something?
                             GameServer.getInstance().aa.remove(aet.getTarget());

@@ -18,7 +18,6 @@ public class ActiveUserHandler {
 
     public void addToActiveUsers(int connectionId, User user) {
         activeUsers.put(connectionId, user);
-        System.out.println("add to AU " + connectionId + user.getUsername());
         addToActiveAvatars(user.getAvatar());
     }
 
@@ -28,7 +27,6 @@ public class ActiveUserHandler {
 
     private void addToActiveAvatars(Avatar avatar) {
         activeAvatars.put(avatar.getId(), avatar);
-        System.out.println("add to AA " + avatar.getId() + " " + avatar.getName());
 //        sendAvatarToClient(com.mygdx.game.entities.avatar);
     }
 

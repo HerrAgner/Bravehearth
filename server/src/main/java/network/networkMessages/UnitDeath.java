@@ -19,5 +19,8 @@ public class UnitDeath {
         this.exp = exp;
     }
 
-    public UnitDeath(Avatar avatar) { DBQueries.saveAvatarWhenDead(avatar);}
+    public UnitDeath(Avatar avatar, String unitType) {
+        DBQueries.saveAvatarWhenDead(avatar);
+        this.unit = unitType;
+    }
 }
