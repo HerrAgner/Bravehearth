@@ -295,4 +295,23 @@ public abstract class DBQueries {
         }
         return c;
     }
+
+    public static void saveAvatarOnLevelUp(Avatar avatar) {
+        PreparedStatement ps = prep("UPDATE avatars SET health = ?, maxHealth = ?, maxMana = ?, " +
+                "strength = ?, dexterity = ?, intelligence = ?, `level` = ?, experiencepoints = 0 WHERE id = ?");
+        try {
+            ps.setInt(1, avatar.getMaxHealth());
+            ps.setInt(2, avatar.getMaxHealth());
+            ps.setInt(3, avatar.getMaxMana());
+            ps.setInt(4, avatar.getStrength());
+            ps.setInt(5, avatar.getDexterity());
+            ps.setInt(6, avatar.getIntelligence());
+            ps.setInt(7, avatar.getLevel());
+            ps.setInt(8, avatar.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("update successful");
+    }
 }
