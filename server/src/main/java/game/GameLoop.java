@@ -56,6 +56,7 @@ public class GameLoop implements Runnable {
                         if (aet.getTargetUnit().equals("avatar") && GameServer.getInstance().aa.get(aet.getTarget()).getHealth() <= 0) {
                             GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(GameServer.getInstance().aa.get(aet.getTarget()), "avatar"));
                             GameServer.getInstance().aa.get(aet.getTarget()).setMarkedUnit(-1);
+                            GameServer.getInstance().au.remove(aet.getTarget()).getAvatar().getId();
                             GameServer.getInstance().aa.remove(aet.getTarget());
                         }
                     }

@@ -14,8 +14,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
@@ -56,6 +58,7 @@ public class GameScreen implements Screen {
     private CopyOnWriteArrayList<SlashAnimation> slashes;
     private TextButton respawn;
     private TextButton endGame;
+    private Stage deathStage;
 
 
     public GameScreen(BravehearthGame game) {
@@ -73,6 +76,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        deathStage = new Stage();
         camera = new OrthographicCamera(GameConfig.WIDTH, GameConfig.HEIGHT);
         camera.setToOrtho(false, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT);
         //  viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
@@ -305,8 +309,7 @@ public class GameScreen implements Screen {
     }
 
     private void youDiedPopUp() {
-        Stage stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(deathStage);
         Skin skin = new Skin(Gdx.files.internal("terra-mother/skin/terra-mother-ui.json"));
 
         Window death = new Window("YOU DIED", skin);
@@ -314,29 +317,32 @@ public class GameScreen implements Screen {
         respawn.setWidth(80f);
         respawn.setHeight(40f);
         respawn.setPosition(Gdx.graphics.getWidth() / 2 - 40f, Gdx.graphics.getHeight() / 2 - 110f);
+        respawn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("here I am");
+                game.setScreen(new GameScreen(game));
+            }
+        });
 
         endGame = new TextButton("End Game", skin, "default");
         endGame.setWidth(200f);
         endGame.setHeight(40f);
         endGame.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 - 110f);
+        endGame.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("here I am once again");
+                game.setScreen(new LoginScreen(game));
+            }
+        });
 
         death.add(respawn, endGame);
         death.pack();
         float newWidth = 400, newHeight = 200;
         death.setBounds((Gdx.graphics.getWidth() - newWidth ) / 2, (Gdx.graphics.getHeight() - newHeight ) / 2, newWidth , newHeight );
 
-        stage.addActor(death);
-        stage.draw();
-        
-        if (Gdx.input.isButtonJustPressed(0)) {
-            System.out.println(Gdx.input.getX());
-            System.out.println("respawn" + this.respawn.getX());
-            System.out.println("endGame" + this.endGame.getX());
-            if (this.respawn.getClickListener().isPressed()) {
-                System.out.println("respawn clicked"); }
-            if (this.endGame.getClickListener().isPressed()) {
-                System.out.println("end game clicked");
-            }
-        }
+        deathStage.addActor(death);
+        deathStage.draw();
     }
 }
