@@ -2,10 +2,7 @@ package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -57,6 +54,8 @@ public class GameScreen implements Screen {
     private float oneSecond;
     private CopyOnWriteArrayList<Arrow> arrows;
     private CopyOnWriteArrayList<SlashAnimation> slashes;
+    private TextButton respawn;
+    private TextButton endGame;
 
 
     public GameScreen(BravehearthGame game) {
@@ -307,9 +306,8 @@ public class GameScreen implements Screen {
 
     private void youDiedPopUp() {
         Stage stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
         Skin skin = new Skin(Gdx.files.internal("terra-mother/skin/terra-mother-ui.json"));
-        TextButton respawn;
-        TextButton endGame;
 
         Window death = new Window("YOU DIED", skin);
         respawn = new TextButton("Respawn", skin, "default");
@@ -329,11 +327,16 @@ public class GameScreen implements Screen {
 
         stage.addActor(death);
         stage.draw();
-
-
+        
         if (Gdx.input.isButtonJustPressed(0)) {
-            if (respawn.getClickListener().isPressed()) { game.setScreen(new GameScreen(game)); }
-            if (endGame.getClickListener().isPressed()) { game.setScreen(new LoginScreen(game));}
+            System.out.println(Gdx.input.getX());
+            System.out.println("respawn" + this.respawn.getX());
+            System.out.println("endGame" + this.endGame.getX());
+            if (this.respawn.getClickListener().isPressed()) {
+                System.out.println("respawn clicked"); }
+            if (this.endGame.getClickListener().isPressed()) {
+                System.out.println("end game clicked");
+            }
         }
     }
 }
