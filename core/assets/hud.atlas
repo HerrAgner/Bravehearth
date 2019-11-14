@@ -1,0 +1,103 @@
+hud.png
+size: 114, 257
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+3x3boxes
+  rotate: false
+  xy: 0, 143
+  size: 114, 114
+  orig: 114, 114
+  offset: 0, 0
+  index: -1
+amuBox
+  rotate: false
+  xy: 74, 63
+  size: 36, 40
+  orig: 36, 40
+  offset: 0, 0
+  index: -1
+amulet
+  rotate: false
+  xy: 84, 0
+  size: 16, 23
+  orig: 16, 23
+  offset: 0, 0
+  index: -1
+bootBox
+  rotate: false
+  xy: 0, 103
+  size: 36, 40
+  orig: 36, 40
+  offset: 0, 0
+  index: -1
+boots
+  rotate: false
+  xy: 0, 0
+  size: 28, 17
+  orig: 28, 17
+  offset: 0, 0
+  index: -1
+chest
+  rotate: false
+  xy: 28, 0
+  size: 28, 21
+  orig: 28, 21
+  offset: 0, 0
+  index: -1
+chestBox
+  rotate: false
+  xy: 36, 103
+  size: 36, 40
+  orig: 36, 40
+  offset: 0, 0
+  index: -1
+helmet
+  rotate: false
+  xy: 56, 0
+  size: 28, 21
+  orig: 28, 21
+  offset: 0, 0
+  index: -1
+helmetBox
+  rotate: false
+  xy: 72, 103
+  size: 36, 40
+  orig: 36, 40
+  offset: 0, 0
+  index: -1
+hudboxleftgray
+  rotate: false
+  xy: 0, 63
+  size: 38, 40
+  orig: 38, 40
+  offset: 0, 0
+  index: -1
+hudboxmiddlegray
+  rotate: false
+  xy: 62, 23
+  size: 36, 40
+  orig: 36, 40
+  offset: 0, 0
+  index: -1
+hudboxrightgray
+  rotate: false
+  xy: 24, 23
+  size: 38, 40
+  orig: 38, 40
+  offset: 0, 0
+  index: -1
+weapon
+  rotate: false
+  xy: 0, 23
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+weaponBox
+  rotate: false
+  xy: 38, 63
+  size: 36, 40
+  orig: 36, 40
+  offset: 0, 0
+  index: -1

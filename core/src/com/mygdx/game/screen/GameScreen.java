@@ -1,6 +1,7 @@
 package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -52,6 +53,7 @@ public class GameScreen implements Screen {
     private float oneSecond;
     private CopyOnWriteArrayList<Arrow> arrows;
     private CopyOnWriteArrayList<SlashAnimation> slashes;
+    private Inventory inventory;
 
 
     public GameScreen(BravehearthGame game) {
@@ -64,6 +66,7 @@ public class GameScreen implements Screen {
         sprites = new HashMap<>();
         arrows = new CopyOnWriteArrayList<>();
         slashes = new CopyOnWriteArrayList<>();
+        inventory = new Inventory();
     }
 
     @Override
@@ -106,6 +109,7 @@ public class GameScreen implements Screen {
         tiledMapRenderer.render();
         renderViewportUtils();
         update(delta);
+        openInventory();
     }
 
     @Override
@@ -289,6 +293,17 @@ public class GameScreen implements Screen {
         cameraController.updatePosition(
                 av.getX(),
                 av.getY());
+    }
+
+    private void openInventory(){
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
+            inventory.toggleInventory();
+        }
+
+        if(inventory.isOpen()){
+            inventory.getStage().draw();
+        }
     }
 
 

@@ -65,7 +65,7 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
-        return false;
+            return false;
     }
 
     @Override
