@@ -5,7 +5,10 @@ import com.esotericsoftware.kryonet.Server;
 import database.DBQueries;
 import enums.Command;
 import game.GameServer;
-import network.networkMessages.*;
+import network.networkMessages.AttackEnemyTarget;
+import network.networkMessages.Login;
+import network.networkMessages.Logout;
+import network.networkMessages.User;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
 
@@ -64,14 +67,16 @@ public class CommandHandler {
                 auh.getActiveAvatars().values().forEach(avatar ->
                         server.sendToTCP(connection.getID(), avatar));
                 server.sendToAllExceptTCP(connection.getID(), user.getAvatar());
+
+                GameServer.getInstance().getMh().monsterList.forEach((integer, monster1) -> server.sendToTCP(connection.getID(), monster1));
             }
         }
 
-        /*if (o instanceof AttackEnemyTarget) {
+        if (o instanceof AttackEnemyTarget) {
             AttackEnemyTarget aet = (AttackEnemyTarget) o;
             auh.getActiveAvatars().get(aet.getAttacker()).setMarkedUnit(aet.getTarget());
-            ah.addAttackerToList(aet.getAttacker(), aet.getTarget());
-        }*/
+//            ah.addAttackerToList(aet.getAttacker(), aet.getTarget(), 1);
+        }
 
         if (o instanceof Logout) {
             server.sendToAllTCP(o);
@@ -102,12 +107,12 @@ public class CommandHandler {
     private User createUser(Object object) {
         Login loginObject = (Login) object;
         User user = DBQueries.getMatchingUser(loginObject.getUsername(), loginObject.getPassword());
-        Avatar avatar = DBQueries.getUserAvatar(user.getId());
-        System.out.println(avatar.getCharacterClass());
         try {
+            Avatar avatar = DBQueries.getUserAvatar(user.getId());
             Backpack bp = DBQueries.getBackpack(avatar.getId());
             bp.setItems(DBQueries.getBpItems(bp.getId()));
             avatar.setEquippedItems(DBQueries.getEquippedItems(avatar.getId()));
+            avatar.setBackpack(bp);
             user.setAvatar(avatar);
         } catch (NullPointerException e) {
             System.out.println("No avatar found for user.");

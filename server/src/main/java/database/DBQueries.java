@@ -1,12 +1,16 @@
 package database;
 
 import network.networkMessages.CharacterClass;
+import network.networkMessages.Monster;
 import network.networkMessages.User;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
 import network.networkMessages.avatar.EquippedItems;
 import network.networkMessages.items.*;
-import java.sql.*;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -186,5 +190,109 @@ public abstract class DBQueries {
         }
         eq = new EquippedItems(avatarId, items);
         return eq;
+    }
+
+    public static Monster getMonsterById(int monsterId) {
+        Monster result = null;
+        PreparedStatement ps = prep("SELECT * FROM monsters WHERE id = ?");
+        try {
+            ps.setInt(1, monsterId);
+            result = (Monster) new ObjectMapper<>(Monster.class).mapOne(ps.executeQuery());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static HashMap<Item, Float> getMonsterDrop(int monsterId) {
+        HashMap<Item, Float> drop = new HashMap<>();
+        PreparedStatement ps = prep("SELECT * FROM monsterxitemdrop WHERE id = ?");
+        try {
+            ps.setInt(1, monsterId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                float dropChance = rs.getFloat(5);
+                if(rs.getInt(2) != 0) { drop.put(getWeapon(rs.getInt(2)), dropChance); }
+                if(rs.getInt(3) != 0) { drop.put(getWearable(rs.getInt(3)), dropChance); }
+                if(rs.getInt(4) != 0) { drop.put(getConsumable(rs.getInt(4)), dropChance); }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        drop.entrySet().forEach(entry->{
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        });
+        return drop;
+    }
+
+    public static Weapon getWeapon(int weaponId) {
+        Weapon w = null;
+
+        PreparedStatement ps = prep("SELECT `name`, weaponType, speed, damage, `range`, levelRequirement, type " +
+                "FROM weapons WHERE id = ?");
+        try {
+            ps.setInt(1, weaponId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString(1);
+                WeaponType weaponType = WeaponType.valueOf(rs.getString(2));
+                int speed = rs.getInt(3);
+                int damage = rs.getInt(4);
+                int range = rs.getInt(5);
+                int levelRequirement = rs.getInt(6);
+                WearableType wearType = WearableType.valueOf(rs.getString(7));
+                w = new Weapon(new Item(name, levelRequirement), damage, speed, range, weaponType, wearType);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return w;
+    }
+
+    public static Wearable getWearable(int wearableId) {
+        Wearable w = null;
+        PreparedStatement ps2 = prep("SELECT name, type, defense, statChange, statToAffect, levelRequirement " +
+                "FROM wearables WHERE id = ?");
+        try {
+            ps2.setInt(1, wearableId);
+            ResultSet rs = ps2.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString(1);
+                WearableType type = WearableType.valueOf(rs.getString(2));
+                int defense = rs.getInt(3);
+                float statChange = rs.getFloat(4);
+                String statToAffect = rs.getString(5);
+                int levelRequirement = rs.getInt(6);
+                HashMap<String, Float> map = new HashMap<>();
+                map.put(statToAffect, statChange);
+                w = new Wearable(new Item(name, levelRequirement), map, defense, type);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return w;
+    }
+
+    public static Consumable getConsumable(int consumableId) {
+        Consumable c = null;
+        PreparedStatement ps3 = prep("SELECT name, statChange, statToAffect, levelRequirement " +
+                "FROM consumables WHERE id = ?");
+        try {
+            ps3.setInt(1, consumableId);
+            ResultSet rs = ps3.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString(1);
+                float statChange = rs.getFloat(2);
+                String statToAffect = rs.getString(3);
+                int levelRequirement = rs.getInt(4);
+                HashMap<String, Float> map = new HashMap<>();
+                map.put(statToAffect, statChange);
+                c = new Consumable(new Item(name, levelRequirement), map);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return c;
     }
 }

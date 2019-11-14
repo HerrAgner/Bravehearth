@@ -1,67 +1,48 @@
-package com.mygdx.game.entities.monsters;
+package network.networkMessages;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.Timer;
-import com.mygdx.game.config.GameConfig;
-
-import java.util.UUID;
+import database.Column;
 
 public class Monster {
-    private float maxXspeed;
-    private float maxYspeed;
+    private float maxXspeed = 0.001f;
+    private float maxYspeed = 0.001f;
+
 
     private float boundsRadius;
     private float size;
-    private int id;
+    int id;
 
     private float x;
     private float y;
 
+    @Column
     private float maxSpeed;
+    @Column
     private int hp;
+    @Column
     private int maxHp;
+    @Column
     private int attackDamage;
-    private float attackSpeed;
-    private float attackRange;
+    @Column
+    float attackSpeed;
+    @Column
+    float attackRange;
+    @Column
     private String name;
     private int markedUnit;
-    private int spawnRate;
+    int spawnRate;
     private int spawnerId;
+    @Column
     private int xp;
+    @Column
     private String texture;
+    @Column
+    private int gold;
 
     private float attackTimer;
     private String isAttacking;
-    private int gold;
 
     public Monster() {
         this(3, 1, "default");
-    }
-
-    public Monster(Monster monster) {
-        this.maxXspeed = monster.maxXspeed;
-        this.maxYspeed = monster.maxYspeed;
-
-        this.boundsRadius = monster.boundsRadius;
-        this.size = monster.size;
-        this.id = monster.id;
-
-        this.x = monster.x;
-        this.y = monster.y;
-
-        this.hp = monster.hp;
-        this.maxHp = monster.maxHp;
-        this.maxSpeed = monster.maxSpeed;
-        this.attackRange = monster.attackRange;
-        this.texture = monster.texture;
-        this.xp = monster.xp;
-        this.attackDamage = monster.attackDamage;
-        this.attackSpeed = monster.attackSpeed;
-        this.name = monster.name;
-        this.markedUnit = monster.markedUnit;
-        this.spawnRate = monster.spawnRate;
     }
 
     public Monster(int hp, int attack, String name) {
@@ -70,41 +51,14 @@ public class Monster {
         this.name = name;
         this.boundsRadius = 1;
         this.size = boundsRadius * 2;
-        this.x = 3;
-        this.y = 4;
     }
 
-    public void update(float delta) {
-        float xSpeed = 0;
-        float ySpeed = 0;
-        if (MathUtils.randomBoolean()) {
-            xSpeed = MathUtils.random(0, 1) * 10;
-            ySpeed = MathUtils.random(0, 1) * 10;
-        } else {
-            xSpeed = -MathUtils.random(0, 1) * 10;
-            ySpeed = -MathUtils.random(0, 1) * 10;
-        }
-        validMovement(x += xSpeed * delta, y += ySpeed * delta);
+    public int getExperiencePoints() {
+        return xp;
     }
 
-
-    public void validMovement(float x, float y) {
-        if (x < 0 + size / 2) {
-            this.x = 0 + size / 2;
-        }
-        if (x > GameConfig.WORLD_WIDTH - size / 2) {
-            this.x = GameConfig.WORLD_WIDTH - size / 2;
-        }
-        if (y < 0 + size / 2) {
-            this.y = 0 + size / 2;
-        }
-        if (y > GameConfig.WORLD_HEIGHT - size / 2) {
-            this.y = GameConfig.WORLD_HEIGHT - size / 2;
-        }
-    }
-    public void setPosition(float x, float y) {
-        this.x = x;
-        this.y = y;
+    public void setExperiencePoints(int experiencePoints) {
+        this.xp = experiencePoints;
     }
 
     public float getMaxXspeed() {
@@ -191,6 +145,14 @@ public class Monster {
         return attackSpeed;
     }
 
+    public float getAttackRange() {
+        return attackRange;
+    }
+
+    public void setAttackRange(float attackRange) {
+        this.attackRange = attackRange;
+    }
+
     public void setAttackSpeed(float attackSpeed) {
         this.attackSpeed = attackSpeed;
     }
@@ -219,7 +181,40 @@ public class Monster {
         this.spawnRate = spawnRate;
     }
 
-    public String getTexture() {
-        return texture;
+
+    public int getSpawnerId() {
+        return spawnerId;
+    }
+
+    public void setSpawnerId(int spawnerId) {
+        this.spawnerId = spawnerId;
+    }
+
+    public float getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public void setMaxSpeed(float maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    public float getAttackTimer() {
+        return attackTimer;
+    }
+
+    public void setAttackTimer(float attackTimer) {
+        this.attackTimer = attackTimer;
+    }
+
+    public String getIsAttacking() {
+        return isAttacking;
+    }
+
+    public void setIsAttacking(String isAttacking) {
+        this.isAttacking = isAttacking;
+    }
+
+    public int getGold() {
+        return gold;
     }
 }

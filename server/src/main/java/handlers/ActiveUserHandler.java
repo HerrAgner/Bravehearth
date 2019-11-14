@@ -1,8 +1,9 @@
 package handlers;
 
 import game.GameServer;
-import network.networkMessages.avatar.Avatar;
 import network.networkMessages.User;
+import network.networkMessages.avatar.Avatar;
+
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 

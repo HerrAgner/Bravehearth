@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.entities.User;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.network.Sender;
+import com.mygdx.game.network.networkMessages.AttackEnemyTarget;
 import com.mygdx.game.screen.GameScreen;
 
 public class InputHandler implements InputProcessor {
@@ -29,7 +30,8 @@ public class InputHandler implements InputProcessor {
             return true;
         }
         if (keycode == Input.Keys.A) {
-            sender.sendInputPressed(Input.Keys.A);;
+            sender.sendInputPressed(Input.Keys.A);
+            ;
             return true;
         }
         if (keycode == Input.Keys.D) {
@@ -50,7 +52,8 @@ public class InputHandler implements InputProcessor {
             return true;
         }
         if (keycode == Input.Keys.A) {
-            sender.sendInputReleased(Input.Keys.A);;
+            sender.sendInputReleased(Input.Keys.A);
+            ;
             return true;
         }
         if (keycode == Input.Keys.D) {
@@ -68,23 +71,27 @@ public class InputHandler implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         User user = ClientConnection.getInstance().getUser();
-        Vector3 vec=new Vector3(screenX,screenY,0);
-//        GameScreen.camera.unproject(vec);
-       /*if (button == Input.Buttons.RIGHT) {
-           ClientConnection.getInstance().getActiveAvatars().values().forEach(avatar -> {
-               if ((avatar.getX()+1 > vec.x && avatar.getX()-1 < vec.x) && (avatar.getY()+1 > vec.y && avatar.getY()-1 < vec.y)) {
-                   if (avatar.getId() != (user.getAvatar().getId())) {
-                       if (user.getAvatar().getMarkedUnit() == null) {
-                           user.getAvatar().setMarkedUnit(avatar.getId());
-                       } else if (!user.getAvatar().getMarkedUnit().equals(avatar.getId())) {
-                           user.getAvatar().setMarkedUnit(avatar.getId());
-                       } else {
-                           user.getAvatar().setMarkedUnit(null);
-                       }
-                   }
-               }
-           });
-       }*/
+        Vector3 vec = new Vector3(screenX, screenY, 0);
+        GameScreen.camera.unproject(vec);
+        if (button == Input.Buttons.RIGHT) {
+            ClientConnection.getInstance().getActiveMonsters().values().forEach(monster -> {
+                if ((monster.getX() + 1 > vec.x && monster.getX() - 1 < vec.x) && (monster.getY() + 1 > vec.y && monster.getY() - 1 < vec.y)) {
+                    if (user.getAvatar().getMarkedUnit() == -1) {
+                        user.getAvatar().setMarkedUnit(monster.getId());
+                        ClientConnection.getInstance().getActiveAvatars().get(user.getAvatar().getId()).setMarkedUnit(monster.getId());
+                    } else if (user.getAvatar().getMarkedUnit() != monster.getId()) {
+                        ClientConnection.getInstance().getActiveAvatars().get(user.getAvatar().getId()).setMarkedUnit(monster.getId());
+                        user.getAvatar().setMarkedUnit(monster.getId());
+                    } else {
+                        user.getAvatar().setMarkedUnit(-1);
+                        ClientConnection.getInstance().getActiveAvatars().get(user.getAvatar().getId()).setMarkedUnit(-1);
+
+                    }
+
+                    ClientConnection.getInstance().getClient().sendTCP(new AttackEnemyTarget(user.getAvatar().getId(), user.getAvatar().getMarkedUnit()));
+                }
+            });
+        }
         return false;
     }
 

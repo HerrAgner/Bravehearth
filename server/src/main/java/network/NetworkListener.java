@@ -7,7 +7,10 @@ import game.GameServer;
 import handlers.ActiveUserHandler;
 import handlers.CommandHandler;
 import handlers.MovementHandler;
-import network.networkMessages.*;
+import network.networkMessages.AttackEnemyTarget;
+import network.networkMessages.Login;
+import network.networkMessages.Logout;
+import network.networkMessages.MovementCommands;
 
 public class NetworkListener {
 
@@ -22,14 +25,12 @@ public class NetworkListener {
 
 
                 if (object instanceof Login) {
-                    System.out.println(((Login) object).getUsername());
-                    System.out.println(((Login) object).getPassword());
                     ch.addToQueue(connection, object);
                 }
 
-                /*if (object instanceof AttackEnemyTarget) {
+                if (object instanceof AttackEnemyTarget) {
                     ch.addToQueue(connection, object);
-                }*/
+                }
 
                 if (object instanceof Logout){
                     ch.addToQueue(connection, object);

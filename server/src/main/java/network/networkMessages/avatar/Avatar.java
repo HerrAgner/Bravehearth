@@ -2,7 +2,6 @@ package network.networkMessages.avatar;
 
 import database.Column;
 import network.networkMessages.CharacterClass;
-import java.util.UUID;
 
 public class Avatar {
     private float maxXspeed = 0.07f;
@@ -50,15 +49,22 @@ public class Avatar {
     private float attackRange;
     @Column
     private float defense;
-    private UUID markedUnit;
+    private int markedUnit = -1;
+    private boolean isHurt;
+    private float hpRegen;
+    private String direction;
+    private float attackTimer;
+    private String isAttacking;
+    private float[] targetPosition;
 
-    public Avatar() {}
+    public Avatar() {
+    }
 
     public Avatar(String name) {
         this.name = name;
     }
 
-    public Avatar(float x, float y, String name, int health, int maxHealth, int mana, int attackDamage, float attackSpeed, float attackRange,  int id, CharacterClass characterClass, int maxMana, int strength, int dexterity, int intelligence, int level, int experiencePoints, float defense) {
+    public Avatar(float x, float y, String name, int health, int maxHealth, int mana, int attackDamage, float attackSpeed, float attackRange, int id, CharacterClass characterClass, int maxMana, int strength, int dexterity, int intelligence, int level, int experiencePoints, float defense) {
         this.x = x;
         this.y = y;
         this.name = name;
@@ -77,6 +83,31 @@ public class Avatar {
         this.level = level;
         this.experiencePoints = experiencePoints;
         this.defense = defense;
+        this.isHurt = false;
+        this.hpRegen = 0.01f;
+        this.attackTimer = 0.01f;
+        this.direction = "front";
+    }
+
+    public boolean attackIsReady() {
+        return attackTimer > attackSpeed;
+    }
+
+    public boolean startHpRegen() {
+        hpRegen += 0.01f;
+         if (hpRegen > 3f && health>0) {
+            hpRegen = 0.01f;
+            return true;
+        }
+         return false;
+    }
+
+    public float getAttackTimer() {
+        return attackTimer;
+    }
+
+    public void setAttackTimer(float attackTimer) {
+        this.attackTimer = attackTimer;
     }
 
     public float getMaxXspeed() {
@@ -143,15 +174,19 @@ public class Avatar {
         this.mana = mana;
     }
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
-    public void setId(int id) { this.id = id; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public UUID getMarkedUnit() {
+    public int getMarkedUnit() {
         return markedUnit;
     }
 
-    public void setMarkedUnit(UUID markedUnit) {
+    public void setMarkedUnit(int markedUnit) {
         this.markedUnit = markedUnit;
     }
 
@@ -187,11 +222,40 @@ public class Avatar {
         this.characterClass = characterClass;
     }
 
-    public Backpack getBackpack() { return backpack; }
+    public Backpack getBackpack() {
+        return backpack;
+    }
 
-    public void setBackpack(Backpack backpack) { this.backpack = backpack; }
+    public void setBackpack(Backpack backpack) {
+        this.backpack = backpack;
+    }
 
-    public EquippedItems getEquippedItems() { return equippedItems; }
+    public EquippedItems getEquippedItems() {
+        return equippedItems;
+    }
 
-    public void setEquippedItems(EquippedItems equippedItems) { this.equippedItems = equippedItems; }
+    public void setEquippedItems(EquippedItems equippedItems) {
+        this.equippedItems = equippedItems;
+    }
+
+    public void setDirection(String direction) { this.direction = direction; }
+
+    public int getExperiencePoints() {
+        return experiencePoints;
+    }
+
+    public void setExperiencePoints(int experiencePoints) {
+        this.experiencePoints = experiencePoints;
+    }
+    public void addExperiencePoints(int exp) {
+        this.experiencePoints += exp;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
 }
