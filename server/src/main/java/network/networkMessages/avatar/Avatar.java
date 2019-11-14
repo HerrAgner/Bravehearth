@@ -56,6 +56,7 @@ public class Avatar {
     private float attackTimer;
     private String isAttacking;
     private float[] targetPosition;
+    private boolean isDead = false;
 
     public Avatar() {
     }

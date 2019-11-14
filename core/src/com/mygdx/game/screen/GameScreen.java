@@ -178,6 +178,8 @@ public class GameScreen implements Screen {
         });
 
         ClientConnection.getInstance().getActiveAvatars().forEach((Integer, avatar) -> {
+            if(ClientConnection.getInstance().getUser().getAvatar().getIsDead()) { youDiedPopUp(); }
+
             if (avatar.getHealth() < avatar.getMaxHealth() * 0.3) {
                 batch.setColor(Color.RED);
             } else if (avatar.getHealth() < avatar.getMaxHealth() * 0.6) {
@@ -303,18 +305,35 @@ public class GameScreen implements Screen {
                 av.getY());
     }
 
-    public static void youDiedPopUp() {
+    private void youDiedPopUp() {
         Stage stage = new Stage();
         Skin skin = new Skin(Gdx.files.internal("terra-mother/skin/terra-mother-ui.json"));
+        TextButton respawn;
+        TextButton endGame;
 
         Window death = new Window("YOU DIED", skin);
-        death.add(new TextArea("Respawning...", skin));
+        respawn = new TextButton("Respawn", skin, "default");
+        respawn.setWidth(80f);
+        respawn.setHeight(40f);
+        respawn.setPosition(Gdx.graphics.getWidth() / 2 - 40f, Gdx.graphics.getHeight() / 2 - 110f);
+
+        endGame = new TextButton("End Game", skin, "default");
+        endGame.setWidth(200f);
+        endGame.setHeight(40f);
+        endGame.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 - 110f);
+
+        death.add(respawn, endGame);
         death.pack();
         float newWidth = 400, newHeight = 200;
-        death.setBounds((Gdx.graphics.getWidth() - newWidth ) / 2,
-                (Gdx.graphics.getHeight() - newHeight ) / 2, newWidth , newHeight );
+        death.setBounds((Gdx.graphics.getWidth() - newWidth ) / 2, (Gdx.graphics.getHeight() - newHeight ) / 2, newWidth , newHeight );
+
         stage.addActor(death);
         stage.draw();
-    }
 
+
+        if (Gdx.input.isButtonJustPressed(0)) {
+            if (respawn.getClickListener().isPressed()) { game.setScreen(new GameScreen(game)); }
+            if (endGame.getClickListener().isPressed()) { game.setScreen(new LoginScreen(game));}
+        }
+    }
 }

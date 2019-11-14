@@ -122,6 +122,7 @@ public class ClientNetworkListener {
                         }
                         else if (((UnitDeath) object).getUnit().equals("avatar")) {
                             ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
+                            ClientConnection.getInstance().getUser().getAvatar().setIsDead(true);
                             ClientConnection.getInstance().getActiveAvatars().remove(((UnitDeath) object).getTargetId());
                         }
                     }
