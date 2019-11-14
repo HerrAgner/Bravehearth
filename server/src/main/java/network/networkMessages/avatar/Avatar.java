@@ -243,7 +243,6 @@ public class Avatar {
     public int getExperiencePoints() {
         return experiencePoints;
     }
-
     public void setExperiencePoints(int experiencePoints) {
         this.experiencePoints = experiencePoints;
     }
@@ -254,7 +253,6 @@ public class Avatar {
     public int getLevel() {
         return level;
     }
-
     public void setLevel(int level) {
         this.level = level;
     }
