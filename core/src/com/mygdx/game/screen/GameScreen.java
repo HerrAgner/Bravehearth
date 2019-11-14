@@ -2,6 +2,7 @@ package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -54,11 +55,12 @@ public class GameScreen implements Screen {
     private CopyOnWriteArrayList<Arrow> arrows;
     private CopyOnWriteArrayList<SlashAnimation> slashes;
     private Inventory inventory;
+    private InputMultiplexer im;
 
 
     public GameScreen(BravehearthGame game) {
+        im = new InputMultiplexer();
         inputHandler = new InputHandler();
-        Gdx.input.setInputProcessor(inputHandler);
         this.game = game;
         batch = new SpriteBatch();
         healthBar = new Texture("blank.png");
@@ -71,6 +73,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        im.addProcessor(inputHandler);
+        im.addProcessor(inventory.getStage());
+        Gdx.input.setInputProcessor(im);
         camera = new OrthographicCamera(GameConfig.WIDTH, GameConfig.HEIGHT);
         camera.setToOrtho(false, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT);
         //  viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
