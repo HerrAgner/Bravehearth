@@ -28,14 +28,17 @@ public class GameLoop implements Runnable {
 
             MovementHandler.movementLoopList.forEach((key, value) ->
                     value.forEach(movement -> {
-                        Position pos = updatePosition(GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()), movement, delta);
-                        if (pos != null) {
-                            GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setX(pos.getX());
-                            GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setY(pos.getY());
-                            GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setDirection(pos.getDirection());
-                            GameServer.getInstance().getServer().sendToAllUDP(pos);
-                        }
-                    }));
+                                if (GameServer.getInstance().au.get(key.getID()) != null) {
+                                    Position pos = updatePosition(GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()), movement, delta);
+                                    if (pos != null) {
+                                        GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setX(pos.getX());
+                                        GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setY(pos.getY());
+                                        GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setDirection(pos.getDirection());
+                                        GameServer.getInstance().getServer().sendToAllUDP(pos);
+                                    }
+                                }
+                            }
+                    ));
 
             if (AttackHandler.validatedAttacks.size() > 0) {
                 try {
@@ -88,7 +91,7 @@ public class GameLoop implements Runnable {
                         v.setHealth(v.getHealth() + 1);
                     }
                 }
-                if (v.getExperiencePoints() >= 25*v.getLevel()*(1+v.getLevel())) {
+                if (v.getExperiencePoints() >= 25 * v.getLevel() * (1 + v.getLevel())) {
                     levelUp(v.getId());
                 }
             });
@@ -103,30 +106,30 @@ public class GameLoop implements Runnable {
         }
     }
 
-    private void levelUp(int avatarId){
+    private void levelUp(int avatarId) {
         Avatar av = GameServer.getInstance().aa.get(avatarId);
-        av.setLevel(av.getLevel()+1);
+        av.setLevel(av.getLevel() + 1);
         av.setExperiencePoints(0);
         switch (av.getCharacterClass()) {
             case SORCERER:
-                av.setIntelligence(av.getIntelligence()+3);
-                av.setStrength(av.getStrength()+1);
-                av.setDexterity(av.getDexterity()+1);
+                av.setIntelligence(av.getIntelligence() + 3);
+                av.setStrength(av.getStrength() + 1);
+                av.setDexterity(av.getDexterity() + 1);
                 break;
             case WARRIOR:
-                av.setIntelligence(av.getIntelligence()+1);
-                av.setStrength(av.getStrength()+3);
-                av.setDexterity(av.getDexterity()+1);
+                av.setIntelligence(av.getIntelligence() + 1);
+                av.setStrength(av.getStrength() + 3);
+                av.setDexterity(av.getDexterity() + 1);
                 break;
             case MARKSMAN:
-                av.setIntelligence(av.getIntelligence()+1);
-                av.setStrength(av.getStrength()+1);
-                av.setDexterity(av.getDexterity()+3);
+                av.setIntelligence(av.getIntelligence() + 1);
+                av.setStrength(av.getStrength() + 1);
+                av.setDexterity(av.getDexterity() + 3);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + av.getCharacterClass());
         }
-        av.setMaxHealth(av.getMaxHealth()+ av.getStrength());
+        av.setMaxHealth(av.getMaxHealth() + av.getStrength());
         av.setMaxMana(av.getMaxMana() + av.getIntelligence());
         av.setHealth(av.getMaxHealth());
         av.setMana(av.getMaxMana());

@@ -82,6 +82,11 @@ public class CommandHandler {
             server.sendToAllTCP(o);
             auh.getActiveAvatars().remove(((Logout) o).getAvatar());
             auh.getActiveUsers().remove(c.getID());
+            GameServer.getInstance().getMh().monsterList.forEach((integer, monster) -> {
+                if (monster.getMarkedUnit() == ((Logout) o).getAvatar()){
+                    monster.setMarkedUnit(-1);
+                }
+            });
         }
 
     }
