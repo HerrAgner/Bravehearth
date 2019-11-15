@@ -11,6 +11,7 @@ import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.network.ClientNetworkListener;
 import com.mygdx.game.network.networkMessages.Logout;
 import com.mygdx.game.screen.GameScreen;
+import com.mygdx.game.screen.Inventory;
 import com.mygdx.game.screen.LoginScreen;
 import com.mygdx.game.screen.TiledMapScreen;
 import com.mygdx.game.util.AttackLoop;
@@ -25,9 +26,7 @@ public class BravehearthGame extends Game {
 	@Override
 	public void create() {
 		init();
-
 		setScreen(new LoginScreen(this));
-//		setScreen(new GameScreen());
 	}
 
 	public void render() {

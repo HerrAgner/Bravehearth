@@ -1,6 +1,8 @@
 package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -53,23 +55,29 @@ public class GameScreen implements Screen {
     private float oneSecond;
     private CopyOnWriteArrayList<Arrow> arrows;
     private CopyOnWriteArrayList<SlashAnimation> slashes;
+    private Inventory inventory;
+    private InputMultiplexer im;
 
 
     public GameScreen(BravehearthGame game) {
+        im = new InputMultiplexer();
         inputHandler = new InputHandler();
-        Gdx.input.setInputProcessor(inputHandler);
         this.game = game;
         batch = new SpriteBatch();
         healthBar = new Texture("blank.png");
-        textureAtlas = new TextureAtlas("avatars/avatarSprites.txt");
+        textureAtlas = ClientConnection.getInstance().assetManager.get("avatars/avatarSprites.txt");
         sprites = new HashMap<>();
         monsterSprites = new HashMap<>();
         arrows = new CopyOnWriteArrayList<>();
         slashes = new CopyOnWriteArrayList<>();
+        inventory = new Inventory();
     }
 
     @Override
     public void show() {
+        im.addProcessor(inputHandler);
+        im.addProcessor(inventory.getStage());
+        Gdx.input.setInputProcessor(im);
         camera = new OrthographicCamera(GameConfig.WIDTH, GameConfig.HEIGHT);
         camera.setToOrtho(false, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT);
         //  viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
@@ -120,6 +128,7 @@ public class GameScreen implements Screen {
         tiledMapRenderer.render();
         renderViewportUtils();
         update(delta);
+        openInventory();
     }
 
     @Override
@@ -305,6 +314,17 @@ public class GameScreen implements Screen {
         cameraController.updatePosition(
                 av.getX(),
                 av.getY());
+    }
+
+    private void openInventory(){
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
+            inventory.toggleInventory();
+        }
+
+        if(inventory.isOpen()){
+            inventory.getStage().draw();
+        }
     }
 
 

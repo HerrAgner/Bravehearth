@@ -20,10 +20,7 @@ public class Backpack {
     public Backpack() {
         this.items = new ArrayList<>();
     }
-
-    public List<Item> getItems() {
-        return items;
-    }
+    
 
     public void setItems(List items) {
         this.items = items;
@@ -51,5 +48,8 @@ public class Backpack {
 
     public void setId(int id) {
         this.id = id;
+    }
+    public List<Item> getItems() {
+        return items;
     }
 }
