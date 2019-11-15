@@ -15,4 +15,12 @@ public class Wearable extends Item{
     }
 
     public Wearable() { }
+
+    public int getDefence() {
+        return defence;
+    }
+
+    public WearableType getWearableType() {
+        return wearableType;
+    }
 }
