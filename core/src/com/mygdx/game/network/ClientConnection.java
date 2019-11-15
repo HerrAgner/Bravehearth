@@ -64,6 +64,7 @@ public class ClientConnection {
         assetManager.load("monsters/microbat.png", Texture.class);
         assetManager.load("items/items.atlas", TextureAtlas.class);
         assetManager.load("monsters/monsterSprites.txt", TextureAtlas.class);
+        assetManager.load("avatars/avatarSprites.txt", TextureAtlas.class);
 
         //projectiles
         assetManager.load("arrow_6.png", Texture.class);
