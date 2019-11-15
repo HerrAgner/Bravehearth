@@ -119,8 +119,9 @@ public class ClientNetworkListener {
 
                     if (object instanceof UnitDeath) {
                         if (((UnitDeath) object).getUnit().equals("monster")) {
-                            Monster mon = ClientConnection.getInstance().getActiveMonsters().get(((UnitDeath) object).getTargetId());
-                            ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
+                            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() == ((UnitDeath) object).getTargetId()) {
+                                ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
+                            }
                             ClientConnection.getInstance().getActiveMonsters().remove(((UnitDeath) object).getTargetId());
                         }
                     }

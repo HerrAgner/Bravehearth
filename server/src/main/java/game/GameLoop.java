@@ -46,8 +46,10 @@ public class GameLoop implements Runnable {
                 try {
                     AttackEnemyTarget aet = AttackHandler.validatedAttacks.take();
                     server.getServer().sendToAllTCP(aet);
-                    if (aet.getTargetUnit().equals("monster") && server.getMh().monsterList.get(aet.getTarget()).getHp() <= 0) {
-                        monsterDeath(aet);
+                    if (server.getMh().monsterList.get(aet.getTarget()) != null) {
+                        if (aet.getTargetUnit().equals("monster") && server.getMh().monsterList.get(aet.getTarget()).getHp() <= 0) {
+                            monsterDeath(aet);
+                        }
                     }
                 } catch (InterruptedException e) {
                     System.out.println("Could not send attack. Trying again.");
@@ -125,7 +127,11 @@ public class GameLoop implements Runnable {
 
     private void monsterDeath(AttackEnemyTarget aet) {
         Monster mon = server.getMh().monsterList.get(aet.getTarget());
-        server.aa.get(aet.getAttacker()).setMarkedUnit(-1);
+        server.aa.forEach((integer, avatar) -> {
+            if (avatar.getMarkedUnit() == mon.getId()) {
+                avatar.setMarkedUnit(-1);
+            }
+        });
         if (mon.getLoot().size() > 0) {
             mon.getLoot().forEach(item -> {
                 server.getMh().itemsOnGround.put(new Float[]{mon.getX(), mon.getY()}, item);
