@@ -2,8 +2,10 @@ package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -45,18 +47,31 @@ public class Inventory {
                 itemSlots.row();
             }
             Image slot = new Image();
-
             itemSlot.add(slot);
             Image image = new Image();
             image.setDrawable(skin, "hudboxmiddlegray");
             images.add(image);
             int finalI = i;
-            slot.addListener(new ClickListener() {
+            slot.addListener(new ClickListener(-1) {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    getBackPackSlot(finalI);
-
+                    if (event.getButton() == 0) {
+                        getBackPackSlot(finalI);
+                    }
+                    else{
+                        System.out.println("haha");
+                    }
                 }
+
+
+//                @Override
+//               public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
+//                    System.out.println(pointer);
+//                }
+//                @Override
+//                public void exit (InputEvent event, float x, float y, int pointer, Actor toActor) {
+//                    System.out.println("Hej");
+//                }
             });
             table.add(image).width(60).height(60);
             itemSlots.add(slot).width(60).height(60);
@@ -76,7 +91,7 @@ public class Inventory {
 
     public void toggleInventory() {
         isOpen = !isOpen;
-        if (isOpen){
+        if (isOpen) {
             AtomicInteger i = new AtomicInteger();
             ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().forEach(item -> {
                 itemSlot.get(i.getAndIncrement()).setDrawable(itemSkin, item.getName().replace(" ", "_").toLowerCase());
