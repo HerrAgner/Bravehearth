@@ -68,6 +68,7 @@ public class Inventory {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     removeDialog();
+                    dropOrEquip(finalI);
                 }
 
                 @Override
@@ -89,6 +90,7 @@ public class Inventory {
         itemSlots.row();
         table.setFillParent(true);
         itemSlots.setFillParent(true);
+        itemSlots.setPosition(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 + 200);
         stage.addActor(table);
         stage.addActor(itemSlots);
     }
@@ -108,16 +110,36 @@ public class Inventory {
         }
     }
 
-    public void getBackPackSlot(int i) {
-        System.out.println(itemSlot.get(i));
-    }
 
     public boolean isOpen() {
         return isOpen;
     }
 
     public void dropOrEquip(int i) {
+        Window newWindow = new Window("", dropSkin);
+        newWindow.setBounds(Gdx.input.getX(), Gdx.input.getY(), 75 , 100);
+        TextButton equip = new TextButton("Equip", dropSkin, "default");
+        TextButton drop = new TextButton("Drop", dropSkin, "default");
+        equip.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent two, float x, float y){
 
+            }
+        });
+        drop.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent two, float x, float y){
+                ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().remove(i);
+                System.out.println(itemSlot);
+                itemSlot.remove(i);
+                System.out.println(itemSlot);
+                newWindow.remove();
+            }
+        });
+        newWindow.add(equip);
+        newWindow.row();
+        newWindow.add(drop);
+        stage.addActor(newWindow);
     }
 
     public void displayItemInfo(int i) {
