@@ -120,13 +120,12 @@ public class ClientNetworkListener {
                     if (object instanceof UnitDeath) {
                         if (((UnitDeath) object).getUnit().equals("monster")) {
                             Monster mon = ClientConnection.getInstance().getActiveMonsters().get(((UnitDeath) object).getTargetId());
-                            mon.getLoot().forEach(item -> {
-                                ClientConnection.getInstance().getItemsOnGround().put(new Float[]{mon.getX(), mon.getY()}, item);
-                                System.out.println(item);
-                            });
                             ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
                             ClientConnection.getInstance().getActiveMonsters().remove(((UnitDeath) object).getTargetId());
                         }
+                    }
+                    if (object instanceof ItemDrop) {
+                        ClientConnection.getInstance().getItemsOnGround().put(new Float[]{((ItemDrop) object).getX(), ((ItemDrop) object).getY()}, ((ItemDrop) object).getItem());
                     }
 
                 }

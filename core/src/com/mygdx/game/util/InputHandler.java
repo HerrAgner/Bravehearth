@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.entities.User;
+import com.mygdx.game.entities.avatar.Avatar;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.network.Sender;
 import com.mygdx.game.network.networkMessages.AttackEnemyTarget;
@@ -13,9 +14,10 @@ import com.mygdx.game.screen.GameScreen;
 public class InputHandler implements InputProcessor {
 
     private Sender sender;
+    private Avatar av;
 
     public InputHandler() {
-
+        av = ClientConnection.getInstance().getActiveAvatars().get(ClientConnection.getInstance().getUser().getAvatar().getId());
         sender = new Sender();
     }
 
@@ -94,7 +96,10 @@ public class InputHandler implements InputProcessor {
         } else if (button == Input.Buttons.LEFT) {
             ClientConnection.getInstance().getItemsOnGround().forEach((floats, item) -> {
                 if ((floats[0] +1f > vec.x && floats[0] < vec.x) && (floats[1] +1 > vec.y && floats[1] < vec.y)){
-                    System.out.println("hej");
+                    if ((floats[0] +2f > av.getX() && floats[0]-1f < av.getX()) && (floats[1] +2f > av.getY() && floats[1]-1f < av.getY())) {
+                        //Send loot to server/open loot menu
+                        System.out.println("looting: " + item.getName());
+                    }
                 }
             });
         }

@@ -138,5 +138,7 @@ public class ClientConnection {
         kryo.register(UnitDeath.class);
         kryo.register(AttackEnemyTarget.class);
         kryo.register(float[].class);
+        kryo.register(ItemDrop.class);
+        kryo.register(ItemPickup.class);
     }
 }
