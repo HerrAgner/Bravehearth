@@ -75,7 +75,7 @@ public class InputHandler implements InputProcessor {
         GameScreen.camera.unproject(vec);
         if (button == Input.Buttons.RIGHT) {
             ClientConnection.getInstance().getActiveMonsters().values().forEach(monster -> {
-                if ((monster.getX() + 1 > vec.x && monster.getX() - 1 < vec.x) && (monster.getY() + 1 > vec.y && monster.getY() - 1 < vec.y)) {
+                if ((monster.getX() + 1 > vec.x && monster.getX() < vec.x) && (monster.getY() + 1 > vec.y && monster.getY() < vec.y)) {
                     if (user.getAvatar().getMarkedUnit() == -1) {
                         user.getAvatar().setMarkedUnit(monster.getId());
                         ClientConnection.getInstance().getActiveAvatars().get(user.getAvatar().getId()).setMarkedUnit(monster.getId());
@@ -91,8 +91,14 @@ public class InputHandler implements InputProcessor {
                     ClientConnection.getInstance().getClient().sendTCP(new AttackEnemyTarget(user.getAvatar().getId(), user.getAvatar().getMarkedUnit()));
                 }
             });
+        } else if (button == Input.Buttons.LEFT) {
+            ClientConnection.getInstance().getItemsOnGround().forEach((floats, item) -> {
+                if ((floats[0] +1f > vec.x && floats[0] < vec.x) && (floats[1] +1 > vec.y && floats[1] < vec.y)){
+                    System.out.println("hej");
+                }
+            });
         }
-        return false;
+            return false;
     }
 
     @Override
