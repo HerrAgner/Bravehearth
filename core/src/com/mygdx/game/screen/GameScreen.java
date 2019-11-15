@@ -65,7 +65,7 @@ public class GameScreen implements Screen {
         this.game = game;
         batch = new SpriteBatch();
         healthBar = new Texture("blank.png");
-        textureAtlas = new TextureAtlas("avatars/avatarSprites.txt");
+        textureAtlas = ClientConnection.getInstance().assetManager.get("avatars/avatarSprites.txt");
         sprites = new HashMap<>();
         monsterSprites = new HashMap<>();
         arrows = new CopyOnWriteArrayList<>();

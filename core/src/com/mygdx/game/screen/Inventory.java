@@ -79,7 +79,7 @@ public class Inventory {
         if (isOpen){
             AtomicInteger i = new AtomicInteger();
             ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().forEach(item -> {
-                itemSlot.get(i.getAndIncrement()).setDrawable(itemSkin, item.getName().replace(" ", "_").toLowerCase());
+                itemSlot.get(i.getAndIncrement()).setDrawable(itemSkin, item.getTexture());
             });
         }
     }
