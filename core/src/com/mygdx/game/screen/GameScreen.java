@@ -19,6 +19,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.BravehearthGame;
@@ -50,8 +53,11 @@ public class GameScreen implements Screen {
     private InputHandler inputHandler;
     private BravehearthGame game;
     private TextureAtlas textureAtlas;
+    private TextureAtlas itemAtlas;
+    private Skin itemSkin;
     final HashMap<String, Sprite> sprites;
     final HashMap<String, Sprite> monsterSprites;
+    final HashMap<String, Sprite> itemSprites;
     private float oneSecond;
     private CopyOnWriteArrayList<Arrow> arrows;
     private CopyOnWriteArrayList<SlashAnimation> slashes;
@@ -59,6 +65,8 @@ public class GameScreen implements Screen {
     private InputMultiplexer im;
     private Sprite monsterSprite;
     private Monster mon;
+    private Stage itemsOnGroundStage;
+    Sprite item;
 
 
     public GameScreen(BravehearthGame game) {
@@ -66,10 +74,15 @@ public class GameScreen implements Screen {
         inputHandler = new InputHandler();
         this.game = game;
         batch = new SpriteBatch();
+        itemsOnGroundStage = new Stage();
         healthBar = new Texture("blank.png");
         textureAtlas = ClientConnection.getInstance().assetManager.get("avatars/avatarSprites.txt");
+        itemAtlas = ClientConnection.getInstance().assetManager.get("items/items.atlas");
+        itemSkin = new Skin();
+        itemSkin.addRegions(itemAtlas);
         sprites = new HashMap<>();
         monsterSprites = new HashMap<>();
+        itemSprites = new HashMap<>();
         arrows = new CopyOnWriteArrayList<>();
         slashes = new CopyOnWriteArrayList<>();
         inventory = new Inventory();
@@ -96,6 +109,9 @@ public class GameScreen implements Screen {
         collision = (TiledMapTileLayer) tiledMap.getLayers().get(0);
         addSprites();
         addMonsterSprites();
+        addItemSprites();
+
+
     }
 
     private void addSprites() {
@@ -116,6 +132,17 @@ public class GameScreen implements Screen {
             Sprite sprite = ta.createSprite(region.name);
 
             monsterSprites.put(region.name, sprite);
+        }
+    }
+    private void addItemSprites() {
+        TextureAtlas ta = ClientConnection.getInstance().assetManager.get("items/items.atlas");
+
+        Array<AtlasRegion> regions = ta.getRegions();
+
+        for (AtlasRegion region : regions) {
+            Sprite sprite = ta.createSprite(region.name);
+
+           itemSprites.put(region.name, sprite);
         }
     }
 
@@ -230,6 +257,7 @@ public class GameScreen implements Screen {
             batch.setColor(Color.WHITE);
 
 
+
 //            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
 //                renderer.rect((float) (avatar.getX() - 1.1), (float) (avatar.getY() - 1.1), (float) 2.2, (float) 2.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
 //            }
@@ -245,7 +273,6 @@ public class GameScreen implements Screen {
                     arrow.increaseTimer(Gdx.graphics.getDeltaTime());
                 }
             });
-
         }
 
         if (this.slashes != null && this.slashes.size() > 0) {
@@ -261,6 +288,8 @@ public class GameScreen implements Screen {
 
 
         }
+
+        renderItemsOnGround();
         batch.end();
 
         renderer.end();
@@ -299,6 +328,16 @@ public class GameScreen implements Screen {
                 break;
         }
 
+    }
+
+    private void renderItemsOnGround(){
+        if (ClientConnection.getInstance().getItemsOnGround().size() > 0) {
+            ClientConnection.getInstance().getItemsOnGround().forEach((floats, item1) -> {
+                item = itemSprites.get(item1.getTexture());
+                item.setBounds(floats[0],floats[1],1,1);
+                item.draw(batch);
+            });
+        }
     }
 
     private void updatePlayer(float delta) {

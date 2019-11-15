@@ -8,6 +8,8 @@ import com.mygdx.game.network.networkMessages.*;
 import com.mygdx.game.entities.User;
 import com.mygdx.game.util.CharacterClass;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class ClientNetworkListener {
     public ClientNetworkListener() {
         ClientConnection.getInstance().getClient().addListener(new Listener() {
@@ -117,6 +119,11 @@ public class ClientNetworkListener {
 
                     if (object instanceof UnitDeath) {
                         if (((UnitDeath) object).getUnit().equals("monster")) {
+                            Monster mon = ClientConnection.getInstance().getActiveMonsters().get(((UnitDeath) object).getTargetId());
+                            mon.getLoot().forEach(item -> {
+                                ClientConnection.getInstance().getItemsOnGround().put(new Float[]{mon.getX(), mon.getY()}, item);
+                                System.out.println(item);
+                            });
                             ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
                             ClientConnection.getInstance().getActiveMonsters().remove(((UnitDeath) object).getTargetId());
                         }

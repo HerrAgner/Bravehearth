@@ -28,12 +28,14 @@ public class ClientConnection {
     private User user;
     private ConcurrentHashMap<Integer, Avatar> activeAvatars;
     private ConcurrentHashMap<Integer, Monster> activeMonsters;
+    private ConcurrentHashMap<Float[], Item> itemsOnGround;
     public AssetManager assetManager = new AssetManager();
 
 
     private ClientConnection() {
         activeAvatars = new ConcurrentHashMap<>();
         client = new Client();
+        itemsOnGround = new ConcurrentHashMap<>();
         activeMonsters = new ConcurrentHashMap<>();
         registerClasses();
         addAssets();
@@ -97,6 +99,14 @@ public class ClientConnection {
 
     public Avatar getAvatar() {
         return user.getAvatar();
+    }
+
+    public ConcurrentHashMap<Float[], Item> getItemsOnGround() {
+        return itemsOnGround;
+    }
+
+    public void setItemsOnGround(ConcurrentHashMap<Float[], Item> itemsOnGround) {
+        this.itemsOnGround = itemsOnGround;
     }
 
     public void login(String username, String password) {

@@ -65,6 +65,7 @@ public class Monster {
         this.name = monster.name;
         this.markedUnit = monster.markedUnit;
         this.spawnRate = monster.spawnRate;
+        this.loot = monster.loot;
     }
 
     public Monster(int hp, int attack, String name) {
@@ -224,5 +225,9 @@ public class Monster {
 
     public String getTexture() {
         return texture;
+    }
+
+    public ArrayList<Item> getLoot() {
+        return loot;
     }
 }
