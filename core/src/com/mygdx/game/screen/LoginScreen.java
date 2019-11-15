@@ -127,8 +127,8 @@ public class LoginScreen implements Screen {
 
         logo = new Image();
         logo.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("bravehearth-logo.png")))));
-        logo.setSize(605*1.5f, 89*1.5f);
-        logo.setPosition(Gdx.graphics.getWidth() / 2 - 300*1.5f, Gdx.graphics.getHeight() - 200f*1.5f);
+        logo.setSize(605 * 1.5f, 89 * 1.5f);
+        logo.setPosition(Gdx.graphics.getWidth() / 2 - 300 * 1.5f, Gdx.graphics.getHeight() - 200f * 1.5f);
 
 
         stage2.addActor(backgroundImage);
@@ -157,20 +157,24 @@ public class LoginScreen implements Screen {
         if (Gdx.input.isButtonJustPressed(0)) {
             if (this.button.getClickListener().isPressed()) {
                 ClientConnection.getInstance().login(usernameTextField.getText(), passwordTextField.getText());
-                try {
-
-                    Thread.sleep(2500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if (ClientConnection.getInstance().getUser() != null) {
-                    music.dispose();
-                    game.setScreen(new GameScreen(game));
-                } else {
-                    button.remove();
-                    buttonWindow.remove();
-                    stage.addActor(failed);
-                    stage2.addActor(failedWindow);
+                int i = 0;
+                while (i < 300) {
+                    if (ClientConnection.getInstance().getUser() != null && ClientConnection.getInstance().loggedIn) {
+                        music.dispose();
+                        game.setScreen(new GameScreen(game));
+                        i = 300;
+                    } else {
+                        button.remove();
+                        buttonWindow.remove();
+                        stage.addActor(failed);
+                        stage2.addActor(failedWindow);
+                    }
+                    try {
+                        Thread.sleep(16);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    i++;
                 }
             }
             if (this.failed.getClickListener().isPressed()) {

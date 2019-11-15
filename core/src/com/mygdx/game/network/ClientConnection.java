@@ -30,6 +30,7 @@ public class ClientConnection {
     private ConcurrentHashMap<Integer, Monster> activeMonsters;
     private ConcurrentHashMap<Float[], Item> itemsOnGround;
     public AssetManager assetManager = new AssetManager();
+    public boolean loggedIn;
 
 
     private ClientConnection() {

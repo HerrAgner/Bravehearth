@@ -68,6 +68,7 @@ public class CommandHandler {
                     server.sendToTCP(connection.getID(), new ItemDrop(floats[0], floats[1], item));
                 });
                 GameServer.getInstance().getMh().monsterList.forEach((integer, monster1) -> server.sendToTCP(connection.getID(), monster1));
+                GameServer.getInstance().getServer().sendToTCP(connection.getID(), "finished");
             }
         }
 

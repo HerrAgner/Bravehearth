@@ -96,7 +96,7 @@ public class GameLoop implements Runnable {
         }
     }
 
-    private void levelUp(int avatarId) {
+    private Avatar levelUp(int avatarId) {
         Avatar av = server.aa.get(avatarId);
         av.setLevel(av.getLevel() + 1);
         av.setExperiencePoints(0);
@@ -123,6 +123,7 @@ public class GameLoop implements Runnable {
         av.setMaxMana(av.getMaxMana() + av.getIntelligence());
         av.setHealth(av.getMaxHealth());
         av.setMana(av.getMaxMana());
+        return av;
     }
 
     private void monsterDeath(AttackEnemyTarget aet) {

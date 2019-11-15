@@ -2,8 +2,8 @@ package com.mygdx.game.config;
 
 public class GameConfig {
 
-    public static final float WIDTH = 1920f;
-    public static final float HEIGHT = 1080f;
+    public static final float WIDTH = 1280f;
+    public static final float HEIGHT = 720f;
 
     public static final float WORLD_WIDTH = 1920/70f;
     public static final float WORLD_HEIGHT = 1080/70f;
@@ -13,6 +13,6 @@ public class GameConfig {
 
     public static final boolean FULLSCREEN = true;
     public static final boolean FORCE_EXIT_FALSE = false;
-    public static final int FPS_30 = 30;
+    public static final int FPS_30 = 60;
 
 }

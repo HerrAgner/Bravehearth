@@ -19,6 +19,9 @@ public class ClientNetworkListener {
                     ClientConnection.getInstance().setUser((User) object);
                 }
                 if (object instanceof Avatar) {
+//                    if (ClientConnection.getInstance().getActiveAvatars().contains(object)) {
+//                        ClientConnection.getInstance().getActiveAvatars().remove(((Avatar) object).getId());
+//                    }
                     if (((Avatar) object).getCharacterClass() == CharacterClass.SORCERER) {
                         Sorcerer sorc = new Sorcerer((Avatar) object);
                         ClientConnection.getInstance().addActiveAvatar(sorc);
@@ -47,6 +50,9 @@ public class ClientNetworkListener {
                     }
 
                     if (object instanceof String) {
+                        if (object.equals("finished")){
+                            ClientConnection.getInstance().loggedIn = true;
+                        }
                         System.out.println(object);
                     }
 
