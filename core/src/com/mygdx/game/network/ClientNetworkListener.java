@@ -22,6 +22,7 @@ public class ClientNetworkListener {
                     if (((Avatar) object).getCharacterClass() == CharacterClass.SORCERER) {
                         Sorcerer sorc = new Sorcerer((Avatar) object);
                         ClientConnection.getInstance().addActiveAvatar(sorc);
+                        System.out.println(ClientConnection.getInstance().getUser().getAvatar().getBackpack());
                     } else if (((Avatar) object).getCharacterClass() == CharacterClass.WARRIOR) {
                         Warrior war = new Warrior((Avatar) object);
                         ClientConnection.getInstance().addActiveAvatar(war);

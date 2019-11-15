@@ -1,11 +1,13 @@
 package network.networkMessages.avatar;
 
 import database.Column;
+import network.networkMessages.items.Item;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Backpack {
-    private List items;
+    private List<Item> items;
     @Column
     private int avatarId;
     @Column

@@ -8,14 +8,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.game.network.ClientConnection;
 
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Inventory {
     private Stage stage;
     private Skin skin;
+    private Skin itemSkin;
     private TextureAtlas atlas;
+    private TextureAtlas itemAtlas;
     private Table table;
     private Table itemSlots;
     private boolean isOpen;
@@ -26,7 +30,10 @@ public class Inventory {
         stage = new Stage();
         table = new Table();
         skin = new Skin();
+        itemSkin = new Skin();
         itemSlots = new Table();
+        itemAtlas = ClientConnection.getInstance().assetManager.get("items/items.atlas");
+        itemSkin.addRegions(itemAtlas);
         atlas = new TextureAtlas(Gdx.files.internal("hud.atlas"));
         skin.addRegions(atlas);
         images = new ArrayList<>();
@@ -69,6 +76,12 @@ public class Inventory {
 
     public void toggleInventory() {
         isOpen = !isOpen;
+        if (isOpen){
+            AtomicInteger i = new AtomicInteger();
+            ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().forEach(item -> {
+                itemSlot.get(i.getAndIncrement()).setDrawable(itemSkin, item.getName().replace(" ", "_").toLowerCase());
+            });
+        }
     }
 
     public void getBackPackSlot(int i) {
@@ -78,4 +91,6 @@ public class Inventory {
     public boolean isOpen() {
         return isOpen;
     }
+
+
 }

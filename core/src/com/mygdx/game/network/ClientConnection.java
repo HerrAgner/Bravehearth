@@ -2,6 +2,7 @@ package com.mygdx.game.network;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.mygdx.game.entities.Backpack;
@@ -61,6 +62,7 @@ public class ClientConnection {
     private void addAssets() {
         //monsters
         assetManager.load("monsters/microbat.png", Texture.class);
+        assetManager.load("items/items.atlas", TextureAtlas.class);
 
         //projectiles
         assetManager.load("arrow_6.png", Texture.class);

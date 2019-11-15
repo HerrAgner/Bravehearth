@@ -3,14 +3,14 @@ size: 64, 32
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-leather_armor
+leather_jerkin
   rotate: false
   xy: 0, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
-  index: 1
-short_sword_2_old
+  index: -1
+short_sword
   rotate: false
   xy: 32, 0
   size: 32, 32

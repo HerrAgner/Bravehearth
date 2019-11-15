@@ -15,4 +15,8 @@ public class Item {
     }
     public Item(){ }
 
+    public String getName() {
+        return name;
+    }
+
 }

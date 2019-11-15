@@ -3,7 +3,7 @@ size: 64, 32
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-leather_jerkin
+le
   rotate: false
   xy: 0, 0
   size: 32, 32

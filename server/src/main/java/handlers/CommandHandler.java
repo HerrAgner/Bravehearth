@@ -108,6 +108,7 @@ public class CommandHandler {
             Avatar avatar = DBQueries.getUserAvatar(user.getId());
             Backpack bp = DBQueries.getBackpack(avatar.getId());
             bp.setItems(DBQueries.getBpItems(bp.getId()));
+            avatar.setBackpack(bp);
             avatar.setEquippedItems(DBQueries.getEquippedItems(avatar.getId()));
             user.setAvatar(avatar);
         } catch (NullPointerException e) {

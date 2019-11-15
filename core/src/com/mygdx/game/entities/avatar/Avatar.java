@@ -251,4 +251,12 @@ public class Avatar {
     public void setTargetPosition(float[] targetPosition) {
         this.targetPosition = targetPosition;
     }
+
+    public Backpack getBackpack() {
+        return backpack;
+    }
+
+    public void setBackpack(Backpack backpack) {
+        this.backpack = backpack;
+    }
 }
