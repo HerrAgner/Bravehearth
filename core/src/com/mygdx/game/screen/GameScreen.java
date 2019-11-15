@@ -322,6 +322,7 @@ public class GameScreen implements Screen {
         }
 
         if(inventory.isOpen()){
+            inventory.getStage().act();
             inventory.getStage().draw();
         }
     }

@@ -6,9 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.network.ClientConnection;
 
@@ -53,25 +51,24 @@ public class Inventory {
             images.add(image);
             int finalI = i;
             slot.addListener(new ClickListener(-1) {
+
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     if (event.getButton() == 0) {
                         getBackPackSlot(finalI);
                     }
                     else{
-                        System.out.println("haha");
+                        dropOrEquip(finalI);
                     }
                 }
-
-
-//                @Override
-//               public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
-//                    System.out.println(pointer);
-//                }
-//                @Override
-//                public void exit (InputEvent event, float x, float y, int pointer, Actor toActor) {
-//                    System.out.println("Hej");
-//                }
+                @Override
+               public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
+                    System.out.println(pointer);
+                }
+                @Override
+                public void exit (InputEvent event, float x, float y, int pointer, Actor toActor) {
+                    System.out.println("Hej");
+                }
             });
             table.add(image).width(60).height(60);
             itemSlots.add(slot).width(60).height(60);
@@ -105,6 +102,10 @@ public class Inventory {
 
     public boolean isOpen() {
         return isOpen;
+    }
+
+    public void dropOrEquip(int i ){
+
     }
 
 
