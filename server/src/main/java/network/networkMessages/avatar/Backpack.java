@@ -28,4 +28,15 @@ public class Backpack {
     public void setItems(List bpItems) { this.items = bpItems;}
 
     public List getItems() { return items; }
+
+    public int getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(int wallet) {
+        this.wallet = wallet;
+    }
+    public void addGold(int gold){
+        this.wallet += gold;
+    }
 }

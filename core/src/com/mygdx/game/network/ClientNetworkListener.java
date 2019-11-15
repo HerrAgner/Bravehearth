@@ -3,12 +3,10 @@ package com.mygdx.game.network;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.mygdx.game.entities.avatar.*;
-import com.mygdx.game.entities.monsters.DummyMonster;
 import com.mygdx.game.entities.monsters.Monster;
 import com.mygdx.game.network.networkMessages.*;
 import com.mygdx.game.entities.User;
 import com.mygdx.game.util.CharacterClass;
-import com.mygdx.game.util.MonsterType;
 
 public class ClientNetworkListener {
     public ClientNetworkListener() {
@@ -34,11 +32,10 @@ public class ClientNetworkListener {
                 if (ClientConnection.getInstance().getUser() != null) {
 
                     if (object instanceof Monster) {
-                        if (((Monster) object).getType().equals(MonsterType.DUMMYMONSTER)) {
-                            DummyMonster dm = new DummyMonster((Monster) object);
-                            ClientConnection.getInstance().getActiveMonsters().put(((Monster) object).getId(), dm);
+//
+                        Monster mon = new Monster((Monster) object);
+                        ClientConnection.getInstance().getActiveMonsters().put(((Monster) object).getId(), mon);
 
-                        }
                     }
 
                     if (object instanceof Logout) {

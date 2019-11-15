@@ -3,8 +3,6 @@ package network.networkMessages.avatar;
 import database.Column;
 import network.networkMessages.CharacterClass;
 
-import java.util.UUID;
-
 public class Avatar {
     private float maxXspeed = 0.07f;
     private float maxYspeed = 0.07f;
@@ -241,4 +239,53 @@ public class Avatar {
     }
 
     public void setDirection(String direction) { this.direction = direction; }
+
+    public int getExperiencePoints() {
+        return experiencePoints;
+    }
+    public void setExperiencePoints(int experiencePoints) {
+        this.experiencePoints = experiencePoints;
+    }
+    public void addExperiencePoints(int exp) {
+        this.experiencePoints += exp;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+    public int getDexterity() {
+        return dexterity;
+    }
+
+    public void setDexterity(int dexterity) {
+        this.dexterity = dexterity;
+    }
+
+    public int getIntelligence() {
+        return intelligence;
+    }
+
+    public void setIntelligence(int intelligence) {
+        this.intelligence = intelligence;
+    }
+
+    public int getMaxMana() {
+        return maxMana;
+    }
+
+    public void setMaxMana(int maxMana) {
+        this.maxMana = maxMana;
+    }
 }

@@ -3,16 +3,11 @@ package handlers;
 
 import game.GameServer;
 import network.networkMessages.AttackEnemyTarget;
-import network.networkMessages.Monster;
-import network.networkMessages.UnitDeath;
-import network.networkMessages.avatar.Avatar;
 import network.networkMessages.HealthChange;
+import network.networkMessages.Monster;
+import network.networkMessages.avatar.Avatar;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class AttackHandler {
@@ -50,8 +45,7 @@ public class AttackHandler {
         float targetY = 0;
 
         if (attack.get(0) == 1) {
-            if (GameServer.getInstance().getMh().monsterList.get(attack.get(2)) != null) {
-
+            if (GameServer.getInstance().getMh().monsterList.get(attack.get(2)) != null && GameServer.getInstance().aa.get(attack.get(1)) != null) {
                 avatar = GameServer.getInstance().aa.get(attack.get(1));
                 monster = GameServer.getInstance().getMh().monsterList.get(attack.get(2));
                 attackerX = avatar.getX();
@@ -61,7 +55,7 @@ public class AttackHandler {
                 targetY = monster.getY();
             }
         } else if (attack.get(0) == 2) {
-            if (GameServer.getInstance().getMh().monsterList.get(attack.get(1)) != null) {
+            if (GameServer.getInstance().getMh().monsterList.get(attack.get(1)) != null && GameServer.getInstance().aa.get(attack.get(2)) != null) {
                 avatar = GameServer.getInstance().aa.get(attack.get(2));
                 monster = GameServer.getInstance().getMh().monsterList.get(attack.get(1));
                 attackerX = monster.getX();

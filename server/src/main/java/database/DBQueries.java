@@ -7,7 +7,10 @@ import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
 import network.networkMessages.avatar.EquippedItems;
 import network.networkMessages.items.*;
-import java.sql.*;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -198,7 +201,6 @@ public abstract class DBQueries {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("result " + result.getName());
         return result;
     }
 
@@ -292,5 +294,24 @@ public abstract class DBQueries {
             e.printStackTrace();
         }
         return c;
+    }
+
+    public static void saveAvatarOnLevelUp(Avatar avatar) {
+        PreparedStatement ps = prep("UPDATE avatars SET health = ?, maxHealth = ?, maxMana = ?, " +
+                "strength = ?, dexterity = ?, intelligence = ?, `level` = ?, experiencepoints = 0 WHERE id = ?");
+        try {
+            ps.setInt(1, avatar.getMaxHealth());
+            ps.setInt(2, avatar.getMaxHealth());
+            ps.setInt(3, avatar.getMaxMana());
+            ps.setInt(4, avatar.getStrength());
+            ps.setInt(5, avatar.getDexterity());
+            ps.setInt(6, avatar.getIntelligence());
+            ps.setInt(7, avatar.getLevel());
+            ps.setInt(8, avatar.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("update successful");
     }
 }

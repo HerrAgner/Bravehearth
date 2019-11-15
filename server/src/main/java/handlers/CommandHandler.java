@@ -5,7 +5,10 @@ import com.esotericsoftware.kryonet.Server;
 import database.DBQueries;
 import enums.Command;
 import game.GameServer;
-import network.networkMessages.*;
+import network.networkMessages.AttackEnemyTarget;
+import network.networkMessages.Login;
+import network.networkMessages.Logout;
+import network.networkMessages.User;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
 
@@ -79,6 +82,11 @@ public class CommandHandler {
             server.sendToAllTCP(o);
             auh.getActiveAvatars().remove(((Logout) o).getAvatar());
             auh.getActiveUsers().remove(c.getID());
+            GameServer.getInstance().getMh().monsterList.forEach((integer, monster) -> {
+                if (monster.getMarkedUnit() == ((Logout) o).getAvatar()){
+                    monster.setMarkedUnit(-1);
+                }
+            });
         }
 
     }
@@ -110,6 +118,7 @@ public class CommandHandler {
             bp.setItems(DBQueries.getBpItems(bp.getId()));
             avatar.setBackpack(bp);
             avatar.setEquippedItems(DBQueries.getEquippedItems(avatar.getId()));
+            avatar.setBackpack(bp);
             user.setAvatar(avatar);
         } catch (NullPointerException e) {
             System.out.println("No avatar found for user.");

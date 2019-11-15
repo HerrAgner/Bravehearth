@@ -1,8 +1,6 @@
 
 package network.networkMessages;
 
-import java.util.UUID;
-
 public class AttackEnemyTarget {
     private int attacker;
     private int target;
