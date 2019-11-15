@@ -190,6 +190,7 @@ public class GameScreen implements Screen {
 //        ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
         batch.begin();
+        renderItemsOnGround();
 
 
         ClientConnection.getInstance().getActiveMonsters().forEach((uuid, monster) -> {
@@ -289,7 +290,6 @@ public class GameScreen implements Screen {
 
         }
 
-        renderItemsOnGround();
         batch.end();
 
         renderer.end();

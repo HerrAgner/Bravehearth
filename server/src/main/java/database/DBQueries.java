@@ -225,9 +225,6 @@ public abstract class DBQueries {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//        drop.entrySet().forEach(entry->{
-//            System.out.println(entry.getKey() + " " + entry.getValue());
-//        });
         return drop;
     }
 

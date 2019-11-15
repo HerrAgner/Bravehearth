@@ -9,6 +9,7 @@ import com.mygdx.game.entities.avatar.Avatar;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.network.Sender;
 import com.mygdx.game.network.networkMessages.AttackEnemyTarget;
+import com.mygdx.game.network.networkMessages.ItemPickup;
 import com.mygdx.game.screen.GameScreen;
 
 public class InputHandler implements InputProcessor {
@@ -97,8 +98,7 @@ public class InputHandler implements InputProcessor {
             ClientConnection.getInstance().getItemsOnGround().forEach((floats, item) -> {
                 if ((floats[0] +1f > vec.x && floats[0] < vec.x) && (floats[1] +1 > vec.y && floats[1] < vec.y)){
                     if ((floats[0] +2f > av.getX() && floats[0]-1f < av.getX()) && (floats[1] +2f > av.getY() && floats[1]-1f < av.getY())) {
-                        //Send loot to server/open loot menu
-                        System.out.println("looting: " + item.getName());
+                        ClientConnection.getInstance().getClient().sendTCP(new ItemPickup(av.getId(), item, floats[0], floats[1]));
                     }
                 }
             });

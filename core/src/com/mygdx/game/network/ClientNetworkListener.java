@@ -127,6 +127,16 @@ public class ClientNetworkListener {
                     if (object instanceof ItemDrop) {
                         ClientConnection.getInstance().getItemsOnGround().put(new Float[]{((ItemDrop) object).getX(), ((ItemDrop) object).getY()}, ((ItemDrop) object).getItem());
                     }
+                    if (object instanceof ItemPickup) {
+                        ClientConnection.getInstance().getItemsOnGround().forEach((floats, item) -> {
+                            if (floats[0] == ((ItemPickup) object).getX() && floats[1] == ((ItemPickup) object).getY() && item.getName().equals(((ItemPickup) object).getItem().getName())) {
+                                ClientConnection.getInstance().getItemsOnGround().remove(floats);
+                            }
+                        });
+                        if (((ItemPickup) object).getAvatarId() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
+                            ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().add(((ItemPickup) object).getItem());
+                        }
+                    }
 
                 }
             }

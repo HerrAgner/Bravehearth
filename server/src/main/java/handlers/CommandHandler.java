@@ -5,10 +5,7 @@ import com.esotericsoftware.kryonet.Server;
 import database.DBQueries;
 import enums.Command;
 import game.GameServer;
-import network.networkMessages.AttackEnemyTarget;
-import network.networkMessages.Login;
-import network.networkMessages.Logout;
-import network.networkMessages.User;
+import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
 
@@ -67,7 +64,9 @@ public class CommandHandler {
                 auh.getActiveAvatars().values().forEach(avatar ->
                         server.sendToTCP(connection.getID(), avatar));
                 server.sendToAllExceptTCP(connection.getID(), user.getAvatar());
-
+                GameServer.getInstance().getMh().itemsOnGround.forEach((floats, item) -> {
+                    server.sendToTCP(connection.getID(), new ItemDrop(floats[0], floats[1], item));
+                });
                 GameServer.getInstance().getMh().monsterList.forEach((integer, monster1) -> server.sendToTCP(connection.getID(), monster1));
             }
         }
@@ -87,6 +86,15 @@ public class CommandHandler {
                     monster.setMarkedUnit(-1);
                 }
             });
+        }
+        if (o instanceof ItemPickup) {
+            GameServer.getInstance().getMh().itemsOnGround.forEach((floats, item) -> {
+                if (floats[0] == ((ItemPickup) o).getX() && floats[1] == ((ItemPickup) o).getY() && item.getName().equals(((ItemPickup) o).getItem().getName())) {
+                    GameServer.getInstance().getMh().itemsOnGround.remove(floats);
+                }
+            });
+            GameServer.getInstance().aa.get(((ItemPickup) o).getAvatarId()).getBackpack().getItems().add(((ItemPickup) o).getItem());
+            GameServer.getInstance().getServer().sendToAllTCP(o);
         }
 
     }
