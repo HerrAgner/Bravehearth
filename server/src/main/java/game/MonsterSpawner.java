@@ -35,18 +35,17 @@ public class MonsterSpawner {
             float newX = (spawnPoint[0] - spawnRadius) + r.nextFloat() * ((spawnPoint[0] + spawnRadius) - (spawnPoint[0] - spawnRadius));
             float newY = (spawnPoint[1] - spawnRadius) + r.nextFloat() * ((spawnPoint[1] + spawnRadius) - (spawnPoint[1] - spawnRadius));
             if (newX > 1 && newX < 199 && newY > 1 && newY < 199) {
-                if (CollisionHandler.isAnyCollision(newX, newY)){
+                if (CollisionHandler.isAnyCollision(newX, newY)) {
                     return spawnMonster();
                 }
                 randomizeSpawnTimer();
                 Monster monster = DBQueries.getMonsterById(monsterId);
                 HashMap<Item, Float> dropList = DBQueries.getMonsterDrop(monsterId);
                 dropList.forEach((item, aFloat) -> {
-                    if (r.nextFloat() < aFloat){
+                    if (r.nextFloat() < aFloat) {
                         monster.getLoot().add(item);
                     }
                 });
-
                 monster.setMaxHp(monster.getHp());
                 monster.setX((float) Math.ceil(newX));
                 monster.setY((float) Math.ceil(newY));
@@ -57,6 +56,7 @@ public class MonsterSpawner {
                 monster.setSpawnerId(this.spawnerId);
                 GameServer.getInstance().getMh().monsterList.put(monster.getId(), monster);
                 this.activeMonsters += 1;
+                GameServer.getInstance().getServer().sendToAllTCP(monster);
             } else {
                 return spawnMonster();
 
@@ -77,22 +77,23 @@ public class MonsterSpawner {
         return spawnTimer;
     }
 
-    public void randomizeSpawnTimer(){
-        this.spawnTimer =  2 + r.nextFloat() * (30 - 2);
+    public void randomizeSpawnTimer() {
+        this.spawnTimer = 2 + r.nextFloat() * (30 - 2);
     }
 
     public void setSpawnTimer(float spawnTimer) {
         this.spawnTimer = spawnTimer;
     }
 
-    public void decreaseActiveMonstersByOne(){
+    public void decreaseActiveMonstersByOne() {
         this.activeMonsters -= 1;
     }
-    public int getActiveMonsters(){
+
+    public int getActiveMonsters() {
         return this.activeMonsters;
     }
 
-    public int getId(){
+    public int getId() {
         return this.spawnerId;
     }
 }

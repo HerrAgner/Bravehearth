@@ -10,10 +10,11 @@ import network.networkMessages.avatar.Avatar;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MonsterHandler {
-    public HashMap<Integer, Monster> monsterList;
+    public ConcurrentHashMap<Integer, Monster> monsterList;
     public AtomicInteger counter;
     public AtomicInteger monsterId;
     public int spawnerId;
@@ -23,7 +24,7 @@ public class MonsterHandler {
 
     public MonsterHandler() {
         activeMonsterSpawners = new ArrayList<>();
-        monsterList = new HashMap<>();
+        monsterList = new ConcurrentHashMap<>();
         monsterId = new AtomicInteger(0);
         counter = new AtomicInteger();
         counter.set(0);

@@ -225,6 +225,10 @@ public class Monster {
         return gold;
     }
 
+    public String getTexture() {
+        return texture;
+    }
+
     public ArrayList<Item> getLoot() {
         return loot;
     }

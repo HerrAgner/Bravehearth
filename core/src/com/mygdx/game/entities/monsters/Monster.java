@@ -5,7 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.config.GameConfig;
+import com.mygdx.game.entities.Items.Item;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Monster {
@@ -35,6 +37,7 @@ public class Monster {
     private float attackTimer;
     private String isAttacking;
     private int gold;
+    private ArrayList<Item> loot;
 
     public Monster() {
         this(3, 1, "default");

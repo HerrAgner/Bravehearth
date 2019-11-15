@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GameServer {
 
     private Server server;
-    private GameLoop gameLoop = new GameLoop();
+//    private GameLoop gameLoop = new GameLoop();
     public Avatar avatar;
     private ActiveUserHandler auh;
     private MonsterHandler mh;
@@ -45,7 +45,8 @@ public class GameServer {
         this.mapReader.readMap();
         addMonsterSpawners();
 
-        new Thread(gameLoop).start();
+        new Thread(new GameLoop()).start();
+        new Thread(new MonsterSpawnLoop()).start();
 
         this.au = getAUH().getActiveUsers();
         this.aa = getAUH().getActiveAvatars();
