@@ -1,6 +1,12 @@
 package network.networkMessages;
 
 import database.Column;
+import database.DBQueries;
+import network.networkMessages.items.Item;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 public class Monster {
     private float maxXspeed = 0.001f;
@@ -37,12 +43,13 @@ public class Monster {
     private String texture;
     @Column
     private int gold;
+    private ArrayList<Item> loot;
 
     private float attackTimer;
     private String isAttacking;
 
     public Monster() {
-        this(3, 1, "default");
+        loot = new ArrayList<>();
     }
 
     public Monster(int hp, int attack, String name) {
@@ -216,5 +223,9 @@ public class Monster {
 
     public int getGold() {
         return gold;
+    }
+
+    public ArrayList<Item> getLoot() {
+        return loot;
     }
 }

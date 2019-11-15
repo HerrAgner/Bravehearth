@@ -4,7 +4,9 @@ package game;
 import database.DBQueries;
 import handlers.CollisionHandler;
 import network.networkMessages.Monster;
+import network.networkMessages.items.Item;
 
+import java.util.HashMap;
 import java.util.Random;
 
 public class MonsterSpawner {
@@ -17,6 +19,7 @@ public class MonsterSpawner {
     private int monsterLimit;
     private int activeMonsters;
     Random r = new Random();
+
 
     public MonsterSpawner(int monsterId, Integer[] importSpawnPoints, int spawnerId) {
         this.spawnPoint = new Integer[]{importSpawnPoints[0], importSpawnPoints[1]};
@@ -37,8 +40,14 @@ public class MonsterSpawner {
                 }
                 randomizeSpawnTimer();
                 Monster monster = DBQueries.getMonsterById(monsterId);
-                monster.setMaxHp(monster.getHp());
+                HashMap<Item, Float> dropList = DBQueries.getMonsterDrop(monsterId);
+                dropList.forEach((item, aFloat) -> {
+                    if (r.nextFloat() < aFloat){
+                        monster.getLoot().add(item);
+                    }
+                });
 
+                monster.setMaxHp(monster.getHp());
                 monster.setX((float) Math.ceil(newX));
                 monster.setY((float) Math.ceil(newY));
                 monster.setMaxXspeed(monster.getMaxSpeed());
@@ -48,7 +57,6 @@ public class MonsterSpawner {
                 monster.setSpawnerId(this.spawnerId);
                 GameServer.getInstance().getMh().monsterList.put(monster.getId(), monster);
                 this.activeMonsters += 1;
-                GameServer.getInstance().getServer().sendToAllTCP(monster);
             } else {
                 return spawnMonster();
 
@@ -70,7 +78,7 @@ public class MonsterSpawner {
     }
 
     public void randomizeSpawnTimer(){
-        this.spawnTimer =  20 + r.nextFloat() * (60 - 20);
+        this.spawnTimer =  2 + r.nextFloat() * (30 - 2);
     }
 
     public void setSpawnTimer(float spawnTimer) {

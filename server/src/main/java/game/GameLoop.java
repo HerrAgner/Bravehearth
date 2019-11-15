@@ -72,7 +72,10 @@ public class GameLoop implements Runnable {
             GameServer.getInstance().getMh().getActiveMonsterSpawners().forEach(monsterSpawner -> {
                 monsterSpawner.setTimeCounter(monsterSpawner.getTimeCounter() + delta);
                 if (monsterSpawner.getTimeCounter() > monsterSpawner.getSpawnTimer()) {
-                    monsterSpawner.spawnMonster();
+                    Monster monster = monsterSpawner.spawnMonster();
+                    if (monster != null) {
+                        GameServer.getInstance().getServer().sendToAllTCP(monster);
+                    }
                     monsterSpawner.setTimeCounter(delta);
                 }
             });
