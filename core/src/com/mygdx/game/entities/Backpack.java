@@ -20,7 +20,7 @@ public class Backpack {
     public Backpack() {
         this.items = new ArrayList<>();
     }
-    
+
 
     public void setItems(List items) {
         this.items = items;

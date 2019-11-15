@@ -16,18 +16,18 @@ public class MonsterSpawner {
     private float spawnTimer;
     private int monsterLimit;
     private int activeMonsters;
+    Random r = new Random();
 
     public MonsterSpawner(int monsterId, Integer[] importSpawnPoints, int spawnerId) {
         this.spawnPoint = new Integer[]{importSpawnPoints[0], importSpawnPoints[1]};
         this.monsterId = monsterId;
         this.monsterLimit = 5;
         this.spawnRadius = 10;
-        this.spawnTimer = 20f;
         this.spawnerId = spawnerId;
+        randomizeSpawnTimer();
     }
 
     public Monster spawnMonster() {
-        Random r = new Random();
         if (this.activeMonsters < this.monsterLimit) {
             float newX = (spawnPoint[0] - spawnRadius) + r.nextFloat() * ((spawnPoint[0] + spawnRadius) - (spawnPoint[0] - spawnRadius));
             float newY = (spawnPoint[1] - spawnRadius) + r.nextFloat() * ((spawnPoint[1] + spawnRadius) - (spawnPoint[1] - spawnRadius));
@@ -35,7 +35,7 @@ public class MonsterSpawner {
                 if (CollisionHandler.isAnyCollision(newX, newY)){
                     return spawnMonster();
                 }
-
+                randomizeSpawnTimer();
                 Monster monster = DBQueries.getMonsterById(monsterId);
                 monster.setMaxHp(monster.getHp());
 
@@ -49,7 +49,6 @@ public class MonsterSpawner {
                 GameServer.getInstance().getMh().monsterList.put(monster.getId(), monster);
                 this.activeMonsters += 1;
                 GameServer.getInstance().getServer().sendToAllTCP(monster);
-
             } else {
                 return spawnMonster();
 
@@ -68,6 +67,10 @@ public class MonsterSpawner {
 
     public float getSpawnTimer() {
         return spawnTimer;
+    }
+
+    public void randomizeSpawnTimer(){
+        this.spawnTimer =  20 + r.nextFloat() * (60 - 20);
     }
 
     public void setSpawnTimer(float spawnTimer) {
