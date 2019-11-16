@@ -2,8 +2,8 @@ package com.mygdx.game.config;
 
 public class GameConfig {
 
-    public static final float WIDTH = 1280f;
-    public static final float HEIGHT = 720f;
+    public static final float WIDTH = 1920f;
+    public static final float HEIGHT = 1080f;
 
     public static final float WORLD_WIDTH = 1920/70f;
     public static final float WORLD_HEIGHT = 1080/70f;

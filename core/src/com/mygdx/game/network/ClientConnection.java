@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.mygdx.game.entities.Backpack;
@@ -68,6 +69,7 @@ public class ClientConnection {
         assetManager.load("items/items.atlas", TextureAtlas.class);
         assetManager.load("monsters/monsterSprites.txt", TextureAtlas.class);
         assetManager.load("avatars/avatarSprites.txt", TextureAtlas.class);
+        assetManager.load("terra-mother/skin/terra-mother-ui.json", Skin.class);
 
         //projectiles
         assetManager.load("arrow_6.png", Texture.class);
