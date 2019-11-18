@@ -43,7 +43,7 @@ public class ClientConnection {
         addAssets();
         client.start();
         try {
-            client.connect(20000, "localhost", 54555, 54777);
+            client.connect(20000, "localhost", 54556, 54778);
         } catch (IOException e) {
             e.printStackTrace();
         }

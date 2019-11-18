@@ -112,10 +112,7 @@ public class GameScreen implements Screen {
         cameraController = new CameraController();
 
         cameraController.setStartPosition(ClientConnection.getInstance().getUser().getAvatar().getX(), ClientConnection.getInstance().getUser().getAvatar().getY());
-        if (ClientConnection.getInstance().getUser().getAvatar().getCharacterClass() != null) {
-            ClientConnection.getInstance().getUser()
-                    .setAvatar(ClientConnection.getInstance().getUser().getAvatar());
-        }
+
         tiledMap = new TmxMapLoader().load("worldMap.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / 32f);
         collision = (TiledMapTileLayer) tiledMap.getLayers().get(0);
@@ -388,10 +385,12 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
             inventory.toggleInventory();
         }
-
         if(inventory.isOpen()){
             inventory.getStage().draw();
+        } else {
+            inventory.getStage().unfocusAll();
         }
+
     }
 
 
