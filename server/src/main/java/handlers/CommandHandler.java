@@ -185,7 +185,8 @@ public class CommandHandler {
                 av.setDexterity(av.getDexterity() + (int) ref.amount);
                 break;
             case "HP":
-                av.setMaxHealth(av.getMaxHealth() + (int) ref.amount);
+                int newHealth = av.getMaxHealth() + (int) ref.amount;
+                av.setMaxHealth(newHealth);
                 av.setHealth(av.getMaxHealth());
                 break;
             case "MANA":
@@ -196,5 +197,6 @@ public class CommandHandler {
         av.setAttackDamage(ref.attackDamage);
         av.setAttackSpeed(ref.attackSpeed);
         av.setAttackRange(ref.attackRange);
+
     }
 }

@@ -99,9 +99,9 @@ public class AttackHandler {
             attackDistance = getAttackDistance(avatar.getAttackRange());
 
             if (attackDistance.equals("ranged")) {
-                damageDone = avatar.getAttackDamage() + (avatar.getDexterity() % 3);
+                damageDone = avatar.getAttackDamage() + (avatar.getDexterity() % 6);
             } else if (attackDistance.equals("melee")){
-                damageDone = avatar.getAttackDamage() + (avatar.getStrength() % 3);
+                damageDone = avatar.getAttackDamage() + (avatar.getStrength() % 6);
             }
             damageDone = (int) ((damageDone*0.9f) + r.nextFloat() * ((damageDone*1.1f) - (damageDone*0.9f)));
             newHealth = monster.getHp() - damageDone;
@@ -114,9 +114,14 @@ public class AttackHandler {
             avatar = GameServer.getInstance().aa.get(targetId);
             monster = GameServer.getInstance().getMh().monsterList.get(attackerId);
 
-            damageDone = (int) ((monster.getAttackDamage() * monster.getAttackDamage()) / (monster.getAttackDamage() +avatar.getDefense()));
-            damageDone = (int) ((damageDone*0.9f) + r.nextFloat() * ((damageDone*1.1f) - (damageDone*0.9f)));
-
+            damageDone = (int) ((monster.getAttackDamage() * monster.getAttackDamage()) / (monster.getAttackDamage() +(avatar.getDefense()/2)));
+            if (damageDone> 1){
+                damageDone = (int) ((damageDone*0.9f) + r.nextFloat() * ((damageDone*1.1f) - (damageDone*0.9f)));
+            } else {
+                damageDone = (int) (0 + r.nextFloat() * 2);
+                System.out.println(damageDone);
+            }
+            System.out.println((int) Math.ceil(damageDone));
             newHealth = avatar.getHealth() - (int) Math.ceil(damageDone);
             GameServer.getInstance().aa.get(targetId).setHealth(newHealth);
             attackDistance = getAttackDistance(monster.getAttackRange());

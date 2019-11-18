@@ -75,6 +75,7 @@ public class GameLoop implements Runnable {
                         v.setAttackTimer(delta);
                     }
                 }
+//                System.out.println(v.getHealth());
                 if (v.getHealth() < v.getMaxHealth() && v.getHealth() > 0) {
                     if (v.startHpRegen()) {
                         GameServer.getInstance().getServer().sendToAllTCP(new HealthChange(v.getHealth() + 1, v.getId(), v.getId(), 3));
