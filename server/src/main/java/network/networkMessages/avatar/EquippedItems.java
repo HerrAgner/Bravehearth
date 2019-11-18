@@ -14,7 +14,7 @@ public class EquippedItems {
         this.equippedItems = equippedItems;
     }
 
-    public HashMap getEquippedItems() { return equippedItems; }
+    public HashMap<WearableType, Item> getItems() { return equippedItems; }
 
     public EquippedItems() { }
 }

@@ -8,6 +8,9 @@ import game.GameServer;
 import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
+import network.networkMessages.items.Weapon;
+import network.networkMessages.items.Wearable;
+import network.networkMessages.items.WearableType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -137,10 +140,72 @@ public class CommandHandler {
             avatar.setBackpack(bp);
             avatar.setEquippedItems(DBQueries.getEquippedItems(avatar.getId()));
             avatar.setBackpack(bp);
+            addEquippedItemStatsToAvatar(avatar);
             user.setAvatar(avatar);
         } catch (NullPointerException e) {
             System.out.println("No avatar found for user.");
         }
         return user;
+    }
+
+    private void addEquippedItemStatsToAvatar(Avatar avatar) {
+        Avatar av = avatar;
+        var ref = new Object() {
+            float newDefence = 0;
+            float attackRange = 0;
+            int attackDamage = 0;
+            float attackSpeed = 0;
+            String stat;
+            float amount;
+        };
+        av.getEquippedItems().getItems().forEach((o, o2) -> {
+            switch (o) {
+                case ACCESSORY:
+                    Wearable accessory = (Wearable) o2;
+                    ref.newDefence += accessory.getDefence();
+                    Map.Entry<String, Float> entry = accessory.getStatChange().entrySet().iterator().next();
+                    ref.stat = entry.getKey();
+                    ref.amount = entry.getValue();
+                    break;
+                case FEET:
+                case HEAD:
+                case LEGS:
+                case CHEST:
+                    Wearable wearable = (Wearable) o2;
+                    ref.newDefence += wearable.getDefence();
+                    break;
+                case WEAPON:
+                    Weapon weapon = (Weapon) o2;
+                    ref.attackDamage = weapon.getDamage();
+                    ref.attackRange = weapon.getRange();
+                    ref.attackSpeed = weapon.getSpeed();
+                    break;
+                default:
+            }
+        });
+        switch (ref.stat) {
+            case "STRENGTH":
+                av.setStrength(av.getStrength() + (int) ref.amount);
+                break;
+            case "INTELLIGENCE":
+                av.setIntelligence(av.getIntelligence() + (int) ref.amount);
+                break;
+            case "DEXTERITY":
+                av.setDexterity(av.getDexterity() + (int) ref.amount);
+                break;
+            case "HP":
+                int newHealth = av.getMaxHealth() + (int) ref.amount;
+                av.setMaxHealth(newHealth);
+                av.setHealth(av.getMaxHealth());
+                break;
+            case "MANA":
+                av.setMaxMana(av.getMaxMana() + (int) ref.amount);
+                break;
+        }
+        av.setDefense(ref.newDefence);
+        av.setAttackDamage(ref.attackDamage);
+        av.setAttackSpeed(ref.attackSpeed);
+        av.setAttackRange(ref.attackRange);
+
     }
 }
