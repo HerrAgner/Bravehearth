@@ -44,6 +44,9 @@ public class NetworkListener {
                 if (object instanceof ItemPickup) {
                     ch.addToQueue(connection, object);
                 }
+                if (object instanceof ItemDrop) {
+                    ch.addToQueue(connection, object);
+                }
 
             }
         });

@@ -7,8 +7,12 @@ public class ItemDrop {
      float x;
      float y;
      Item item;
+     private int avatarId;
+     private int id;
 
      public ItemDrop() {
+         avatarId = -1;
+         id = 0;
      }
 
     public float getX() {
@@ -33,5 +37,21 @@ public class ItemDrop {
 
     public void setItem(Item item) {
         this.item = item;
+    }
+
+    public int getAvatarId() {
+        return avatarId;
+    }
+
+    public void setAvatarId(int avatarId) {
+        this.avatarId = avatarId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
