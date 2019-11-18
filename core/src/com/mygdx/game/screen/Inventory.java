@@ -31,9 +31,10 @@ public class Inventory {
     private Window window;
     private Table windowTable;
     private Skin dropSkin;
-    private Window equipWindow;
+    private Window selectWindow;
     private TextButton equip;
     private TextButton drop;
+    private Window equippedWindow;
 
     public Inventory() {
         dropSkin = new Skin(Gdx.files.internal("terra-mother/skin/terra-mother-ui.json"));
@@ -51,7 +52,9 @@ public class Inventory {
         itemSlot = new ArrayList<>();
         isOpen = false;
         window = new Window("default", dropSkin);
+        equippedWindow = new Window("default", dropSkin);
         initInventoryWindow();
+        initEquippedItems();
     }
 
     private void initInventoryWindow() {
@@ -115,6 +118,16 @@ public class Inventory {
         stage.addActor(itemSlots);
     }
 
+    private void initEquippedItems() {
+        equippedWindow.setSize(200, 200);
+        equippedWindow.setPosition(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 + 500);
+        ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems()
+        for (int i = 0; i < 6; i++) {
+            Image equippedItem = new Image();
+
+        }
+    }
+
 
     public Stage getStage() {
         return stage;
@@ -136,11 +149,11 @@ public class Inventory {
     }
 
     public void dropOrEquip(int i) {
-        equipWindow = new Window("", dropSkin);
+        selectWindow = new Window("", dropSkin);
         equip = new TextButton("Equip", dropSkin, "default");
         drop = new TextButton("Drop", dropSkin, "default");
         if (itemSlot.get(i).getDrawable() != null) {
-            equipWindow.setBounds(Gdx.input.getX(), Gdx.input.getY(), 75, 100);
+            selectWindow.setBounds(Gdx.input.getX(), Gdx.input.getY(), 75, 100);
             equip.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent two, float x, float y) {
@@ -158,17 +171,16 @@ public class Inventory {
                     ClientConnection.getInstance().getClient().sendTCP(itemDrop);
                     initInventoryWindow();
                     isOpen = false;
-                    equipWindow.remove();
+                    selectWindow.remove();
 
                 }
             });
-            equipWindow.add(equip);
-            equipWindow.row();
-            equipWindow.add(drop);
-            stage.addActor(equipWindow);
-        }
-        else{
-            equipWindow.remove();
+            selectWindow.add(equip);
+            selectWindow.row();
+            selectWindow.add(drop);
+            stage.addActor(selectWindow);
+        } else {
+            selectWindow.remove();
         }
     }
 
