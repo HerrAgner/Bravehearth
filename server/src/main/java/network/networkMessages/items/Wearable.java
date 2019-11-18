@@ -22,4 +22,28 @@ public class Wearable extends Item{
     public String toString() {
         return this.name;
     }
+
+    public HashMap<String, Float> getStatChange() {
+        return statChange;
+    }
+
+    public void setStatChange(HashMap<String, Float> statChange) {
+        this.statChange = statChange;
+    }
+
+    public int getDefence() {
+        return defence;
+    }
+
+    public void setDefence(int defence) {
+        this.defence = defence;
+    }
+
+    public WearableType getWearableType() {
+        return wearableType;
+    }
+
+    public void setWearableType(WearableType wearableType) {
+        this.wearableType = wearableType;
+    }
 }

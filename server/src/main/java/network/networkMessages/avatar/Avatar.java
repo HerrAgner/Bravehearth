@@ -288,4 +288,12 @@ public class Avatar {
     public void setMaxMana(int maxMana) {
         this.maxMana = maxMana;
     }
+
+    public float getDefense() {
+        return defense;
+    }
+
+    public void setDefense(float defense) {
+        this.defense = defense;
+    }
 }
