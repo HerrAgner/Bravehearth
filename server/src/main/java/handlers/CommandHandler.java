@@ -83,7 +83,7 @@ public class CommandHandler {
             auh.getActiveAvatars().remove(((Logout) o).getAvatar());
             auh.getActiveUsers().remove(c.getID());
             GameServer.getInstance().getMh().monsterList.forEach((integer, monster) -> {
-                if (monster.getMarkedUnit() == ((Logout) o).getAvatar()){
+                if (monster.getMarkedUnit() == ((Logout) o).getAvatar()) {
                     monster.setMarkedUnit(-1);
                 }
             });
@@ -96,6 +96,15 @@ public class CommandHandler {
             });
             GameServer.getInstance().aa.get(((ItemPickup) o).getAvatarId()).getBackpack().getItems().add(((ItemPickup) o).getItem());
             GameServer.getInstance().getServer().sendToAllTCP(o);
+        }
+
+        if (o instanceof ItemDrop) {
+            if (((ItemDrop) o).getAvatarId() != -1) {
+                System.out.println(GameServer.getInstance().aa.get(((ItemDrop) o).getAvatarId()).getBackpack().getItems().size()
+                );
+                GameServer.getInstance().aa.get(((ItemDrop) o).getAvatarId()).getBackpack().getItems().remove(((ItemDrop) o).getId());
+                GameServer.getInstance().getServer().sendToAllTCP(o);
+            }
         }
 
     }

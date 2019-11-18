@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.entities.Items.Consumable;
@@ -14,6 +12,7 @@ import com.mygdx.game.entities.Items.Item;
 import com.mygdx.game.entities.Items.Weapon;
 import com.mygdx.game.entities.Items.Wearable;
 import com.mygdx.game.network.ClientConnection;
+import com.mygdx.game.network.networkMessages.ItemDrop;
 
 
 import java.util.ArrayList;
@@ -30,13 +29,15 @@ public class Inventory {
     private boolean isOpen;
     private ArrayList<Image> images;
     private ArrayList<Image> itemSlot;
-    private Dialog dialog;
     private Window window;
     private Table windowTable;
     private Skin dropSkin;
+    private Window equipWindow;
+    private TextButton equip;
+    private TextButton drop;
 
     public Inventory() {
-        dropSkin=new Skin(Gdx.files.internal("terra-mother/skin/terra-mother-ui.json"));
+        dropSkin = new Skin(Gdx.files.internal("terra-mother/skin/terra-mother-ui.json"));
         windowTable = new Table();
         stage = new Stage();
         table = new Table();
@@ -51,6 +52,13 @@ public class Inventory {
         itemSlot = new ArrayList<>();
         isOpen = false;
         window = new Window("default", dropSkin);
+        equipWindow = new Window("", dropSkin);
+        equip = new TextButton("Equip", dropSkin, "default");
+        drop = new TextButton("Drop", dropSkin, "default");
+        initInventoryWindow();
+    }
+
+    private void initInventoryWindow() {
         window.setSize(200, 200);
         window.setPosition(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 + 200);
         for (int i = 0; i < 30; i++) {
@@ -67,6 +75,7 @@ public class Inventory {
             slot.addListener(new ClickListener(-1) {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    equipWindow.clear();
                     removeDialog();
                     dropOrEquip(finalI);
                 }
@@ -90,7 +99,7 @@ public class Inventory {
         itemSlots.row();
         table.setFillParent(true);
         itemSlots.setFillParent(true);
-        itemSlots.setPosition(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 + 200);
+        //     itemSlots.setPosition(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 + 200);
         stage.addActor(table);
         stage.addActor(itemSlots);
     }
@@ -116,30 +125,34 @@ public class Inventory {
     }
 
     public void dropOrEquip(int i) {
-        Window newWindow = new Window("", dropSkin);
-        newWindow.setBounds(Gdx.input.getX(), Gdx.input.getY(), 75 , 100);
-        TextButton equip = new TextButton("Equip", dropSkin, "default");
-        TextButton drop = new TextButton("Drop", dropSkin, "default");
-        equip.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent two, float x, float y){
-
-            }
-        });
-        drop.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent two, float x, float y){
-                ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().remove(i);
-                System.out.println(itemSlot);
-                itemSlot.remove(i);
-                System.out.println(itemSlot);
-                newWindow.remove();
-            }
-        });
-        newWindow.add(equip);
-        newWindow.row();
-        newWindow.add(drop);
-        stage.addActor(newWindow);
+        if (itemSlot.get(i).getDrawable() != null) {
+            equipWindow.setBounds(Gdx.input.getX(), Gdx.input.getY(), 75, 100);
+            equip.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent two, float x, float y) {
+                }
+            });
+            drop.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent two, float x, float y) {
+                    ItemDrop itemDrop = new ItemDrop();
+                    itemDrop.setX(ClientConnection.getInstance().getActiveAvatars().get(ClientConnection.getInstance().getUser().getAvatar().getId()).getX());
+                    itemDrop.setY(ClientConnection.getInstance().getActiveAvatars().get(ClientConnection.getInstance().getUser().getAvatar().getId()).getY());
+                    itemDrop.setItem(ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().get(i));
+                    itemDrop.setAvatarId(ClientConnection.getInstance().getUser().getId());
+                    itemDrop.setId(i);
+                    ClientConnection.getInstance().getClient().sendTCP(itemDrop);
+                    equipWindow.remove();
+                }
+            });
+            equipWindow.add(equip);
+            equipWindow.row();
+            equipWindow.add(drop);
+            stage.addActor(equipWindow);
+        }
+        else{
+            equipWindow.remove();
+        }
     }
 
     public void displayItemInfo(int i) {
