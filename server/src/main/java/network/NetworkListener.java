@@ -45,6 +45,7 @@ public class NetworkListener {
                     ch.addToQueue(connection, object);
                 }
                 if (object instanceof ItemDrop) {
+                    System.out.println(((ItemDrop) object).getId());
                     ch.addToQueue(connection, object);
                 }
 

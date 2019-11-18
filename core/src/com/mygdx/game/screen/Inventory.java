@@ -12,8 +12,7 @@ import com.mygdx.game.entities.Items.Item;
 import com.mygdx.game.entities.Items.Weapon;
 import com.mygdx.game.entities.Items.Wearable;
 import com.mygdx.game.network.ClientConnection;
-import com.mygdx.game.network.networkMessages.ItemDrop;
-
+import com.mygdx.game.network.networkMessages.ItemDropClient;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -52,13 +51,14 @@ public class Inventory {
         itemSlot = new ArrayList<>();
         isOpen = false;
         window = new Window("default", dropSkin);
-        equipWindow = new Window("", dropSkin);
-        equip = new TextButton("Equip", dropSkin, "default");
-        drop = new TextButton("Drop", dropSkin, "default");
         initInventoryWindow();
     }
 
     private void initInventoryWindow() {
+        itemSlot.clear();
+        table.clear();
+        itemSlots.clear();
+        images.clear();
         window.setSize(200, 200);
         window.setPosition(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 + 200);
         for (int i = 0; i < 30; i++) {
@@ -75,9 +75,20 @@ public class Inventory {
             slot.addListener(new ClickListener(-1) {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    equipWindow.clear();
                     removeDialog();
+//                    ItemDropClient itemDrop = new ItemDropClient();
+//                    itemDrop.setX(ClientConnection.getInstance().getActiveAvatars().get(ClientConnection.getInstance().getUser().getAvatar().getId()).getX());
+//                    itemDrop.setY(ClientConnection.getInstance().getActiveAvatars().get(ClientConnection.getInstance().getUser().getAvatar().getId()).getY());
+//                    itemDrop.setItem(ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().get(i));
+//                    itemDrop.setAvatarId(ClientConnection.getInstance().getUser().getId());
+//                    itemDrop.setId(i);
+//                    itemSlots.removeActor(itemSlot.get(i));
+//                    itemSlot.get(i).getListeners().forEach(eventListener -> itemSlot.get(i).removeListener(eventListener));
+//                    itemSlot.remove(i);
+//                    ClientConnection.getInstance().getClient().sendTCP(itemDrop);
+//                    initInventoryWindow();
                     dropOrEquip(finalI);
+
                 }
 
                 @Override
@@ -125,6 +136,9 @@ public class Inventory {
     }
 
     public void dropOrEquip(int i) {
+        equipWindow = new Window("", dropSkin);
+        equip = new TextButton("Equip", dropSkin, "default");
+        drop = new TextButton("Drop", dropSkin, "default");
         if (itemSlot.get(i).getDrawable() != null) {
             equipWindow.setBounds(Gdx.input.getX(), Gdx.input.getY(), 75, 100);
             equip.addListener(new ClickListener() {
@@ -135,14 +149,17 @@ public class Inventory {
             drop.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent two, float x, float y) {
-                    ItemDrop itemDrop = new ItemDrop();
+                    ItemDropClient itemDrop = new ItemDropClient();
                     itemDrop.setX(ClientConnection.getInstance().getActiveAvatars().get(ClientConnection.getInstance().getUser().getAvatar().getId()).getX());
                     itemDrop.setY(ClientConnection.getInstance().getActiveAvatars().get(ClientConnection.getInstance().getUser().getAvatar().getId()).getY());
                     itemDrop.setItem(ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().get(i));
                     itemDrop.setAvatarId(ClientConnection.getInstance().getUser().getId());
                     itemDrop.setId(i);
                     ClientConnection.getInstance().getClient().sendTCP(itemDrop);
+                    initInventoryWindow();
+                    isOpen = false;
                     equipWindow.remove();
+
                 }
             });
             equipWindow.add(equip);

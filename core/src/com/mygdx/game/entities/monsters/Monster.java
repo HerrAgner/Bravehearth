@@ -1,14 +1,10 @@
 package com.mygdx.game.entities.monsters;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.config.GameConfig;
 import com.mygdx.game.entities.Items.Item;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class Monster {
     private float maxXspeed;

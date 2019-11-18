@@ -1,6 +1,5 @@
 package com.mygdx.game.network;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -141,7 +140,7 @@ public class ClientConnection {
         kryo.register(UnitDeath.class);
         kryo.register(AttackEnemyTarget.class);
         kryo.register(float[].class);
-        kryo.register(ItemDrop.class);
+        kryo.register(ItemDropClient.class);
         kryo.register(ItemPickup.class);
     }
 }

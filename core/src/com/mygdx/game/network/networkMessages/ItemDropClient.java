@@ -3,14 +3,14 @@ package com.mygdx.game.network.networkMessages;
 
 import com.mygdx.game.entities.Items.Item;
 
-public class ItemDrop {
+public class ItemDropClient {
      float x;
      float y;
      Item item;
      private int avatarId;
      private int id;
 
-     public ItemDrop() {
+     public ItemDropClient() {
          avatarId = -1;
          id = 0;
      }

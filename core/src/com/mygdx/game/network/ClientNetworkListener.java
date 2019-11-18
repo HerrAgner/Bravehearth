@@ -2,13 +2,14 @@ package com.mygdx.game.network;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import com.mygdx.game.entities.avatar.*;
+import com.mygdx.game.entities.User;
+import com.mygdx.game.entities.avatar.Avatar;
+import com.mygdx.game.entities.avatar.Marksman;
+import com.mygdx.game.entities.avatar.Sorcerer;
+import com.mygdx.game.entities.avatar.Warrior;
 import com.mygdx.game.entities.monsters.Monster;
 import com.mygdx.game.network.networkMessages.*;
-import com.mygdx.game.entities.User;
 import com.mygdx.game.util.CharacterClass;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ClientNetworkListener {
     public ClientNetworkListener() {
@@ -131,8 +132,11 @@ public class ClientNetworkListener {
                             ClientConnection.getInstance().getActiveMonsters().remove(((UnitDeath) object).getTargetId());
                         }
                     }
-                    if (object instanceof ItemDrop) {
-                        ClientConnection.getInstance().getItemsOnGround().put(new Float[]{((ItemDrop) object).getX(), ((ItemDrop) object).getY()}, ((ItemDrop) object).getItem());
+                    if (object instanceof ItemDropClient) {
+                        if (((ItemDropClient) object).getAvatarId() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
+                            ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().remove(((ItemDropClient) object).getId());
+                        }
+                        ClientConnection.getInstance().getItemsOnGround().put(new Float[]{((ItemDropClient) object).getX(), ((ItemDropClient) object).getY()}, ((ItemDropClient) object).getItem());
                     }
                     if (object instanceof ItemPickup) {
                         ClientConnection.getInstance().getItemsOnGround().forEach((floats, item) -> {

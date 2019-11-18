@@ -2,11 +2,10 @@ package com.mygdx.game.network;
 
 import com.badlogic.gdx.Input;
 import com.esotericsoftware.kryonet.Client;
-//import com.mygdx.game.network.networkMessages.AttackEnemyTarget;
 import com.mygdx.game.network.networkMessages.AttackEnemyTarget;
 import com.mygdx.game.network.networkMessages.MovementCommands;
 
-import java.util.UUID;
+//import com.mygdx.game.network.networkMessages.AttackEnemyTarget;
 
 public class Sender {
 
