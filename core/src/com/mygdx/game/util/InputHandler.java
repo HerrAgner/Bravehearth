@@ -101,6 +101,13 @@ public class InputHandler implements InputProcessor {
                     }
                 }
             });
+            if (Math.floor(vec.x) == 13 && Math.floor(vec.y) == 182) {
+                if (ClientConnection.getInstance().getUser().getAvatar().getDirection().equals("NORTH")){
+                    if (ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().get(0).getName().equals("Steroids")){
+
+                    }
+                }
+            }
         }
             return false;
     }

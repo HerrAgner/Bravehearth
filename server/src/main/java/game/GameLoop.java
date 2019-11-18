@@ -120,7 +120,7 @@ public class GameLoop implements Runnable {
             default:
                 throw new IllegalStateException("Unexpected value: " + av.getCharacterClass());
         }
-        av.setMaxHealth(av.getMaxHealth() + av.getStrength());
+        av.setMaxHealth(av.getMaxHealth() + 5);
         av.setMaxMana(av.getMaxMana() + av.getIntelligence());
         av.setHealth(av.getMaxHealth());
         av.setMana(av.getMaxMana());
