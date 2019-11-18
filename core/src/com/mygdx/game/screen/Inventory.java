@@ -55,6 +55,10 @@ public class Inventory {
         equipWindow = new Window("", dropSkin);
         equip = new TextButton("Equip", dropSkin, "default");
         drop = new TextButton("Drop", dropSkin, "default");
+        initInventoryWindow();
+    }
+
+    private void initInventoryWindow() {
         window.setSize(200, 200);
         window.setPosition(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 + 200);
         for (int i = 0; i < 30; i++) {
@@ -95,7 +99,7 @@ public class Inventory {
         itemSlots.row();
         table.setFillParent(true);
         itemSlots.setFillParent(true);
-   //     itemSlots.setPosition(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 + 200);
+        //     itemSlots.setPosition(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 + 200);
         stage.addActor(table);
         stage.addActor(itemSlots);
     }
