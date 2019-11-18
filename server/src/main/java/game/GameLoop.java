@@ -1,6 +1,6 @@
 package game;
 
-import com.esotericsoftware.kryonet.Server;
+import database.DBQueries;
 import enums.Movement;
 import handlers.AttackHandler;
 import handlers.MovementHandler;
@@ -124,6 +124,7 @@ public class GameLoop implements Runnable {
         av.setMaxMana(av.getMaxMana() + av.getIntelligence());
         av.setHealth(av.getMaxHealth());
         av.setMana(av.getMaxMana());
+        DBQueries.saveAvatarOnLevelUp(av);
         return av;
     }
 
