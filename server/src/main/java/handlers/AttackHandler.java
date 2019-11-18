@@ -8,6 +8,7 @@ import network.networkMessages.Monster;
 import network.networkMessages.avatar.Avatar;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class AttackHandler {
@@ -81,23 +82,30 @@ public class AttackHandler {
     private void calculateDamageDealt(int type, int attackerId, int targetId){
         // Check attacker damage vs attacker defence
         // Need maybe hit chance in % and make a roll if the attack hits or misses
-
+        Random r = new Random();
         Avatar avatar;
         Monster monster;
         int newHealth;
         String attackDistance;
         String attackerUnit = "";
         String targetUnit = "";
+        int damageDone = 0;
 
         if (type == 1) {
             avatar = GameServer.getInstance().aa.get(attackerId);
             monster = GameServer.getInstance().getMh().monsterList.get(targetId);
             attackerUnit = "avatar";
             targetUnit = "monster";
-
-            newHealth = monster.getHp() - avatar.getAttackDamage();
-            GameServer.getInstance().getMh().monsterList.get(targetId).setHp(newHealth);
             attackDistance = getAttackDistance(avatar.getAttackRange());
+
+            if (attackDistance.equals("ranged")) {
+                damageDone = avatar.getAttackDamage() + (avatar.getDexterity() % 3);
+            } else if (attackDistance.equals("melee")){
+                damageDone = avatar.getAttackDamage() + (avatar.getStrength() % 3);
+            }
+            damageDone = (int) ((damageDone*0.9f) + r.nextFloat() * ((damageDone*1.1f) - (damageDone*0.9f)));
+            newHealth = monster.getHp() - damageDone;
+            GameServer.getInstance().getMh().monsterList.get(targetId).setHp(newHealth);
 
 
         } else {
@@ -105,7 +113,11 @@ public class AttackHandler {
             targetUnit = "avatar";
             avatar = GameServer.getInstance().aa.get(targetId);
             monster = GameServer.getInstance().getMh().monsterList.get(attackerId);
-            newHealth = avatar.getHealth() - monster.getAttackDamage();
+
+            damageDone = (int) ((monster.getAttackDamage() * monster.getAttackDamage()) / (monster.getAttackDamage() +avatar.getDefense()));
+            damageDone = (int) ((damageDone*0.9f) + r.nextFloat() * ((damageDone*1.1f) - (damageDone*0.9f)));
+
+            newHealth = avatar.getHealth() - (int) Math.ceil(damageDone);
             GameServer.getInstance().aa.get(targetId).setHealth(newHealth);
             attackDistance = getAttackDistance(monster.getAttackRange());
         }
