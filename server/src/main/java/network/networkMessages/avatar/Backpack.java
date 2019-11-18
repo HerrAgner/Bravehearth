@@ -14,6 +14,7 @@ public class Backpack {
     private int wallet;
     @Column
     private int id;
+    private boolean changed;
 
     public Backpack(int avatarId) {
         this.avatarId = avatarId;

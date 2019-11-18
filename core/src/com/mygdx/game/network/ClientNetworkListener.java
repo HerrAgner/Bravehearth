@@ -135,6 +135,7 @@ public class ClientNetworkListener {
                     if (object instanceof ItemDropClient) {
                         if (((ItemDropClient) object).getAvatarId() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
                             ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().remove(((ItemDropClient) object).getId());
+                            ClientConnection.getInstance().getUser().getAvatar().getBackpack().setChanged(true);
                         }
                         ClientConnection.getInstance().getItemsOnGround().put(new Float[]{((ItemDropClient) object).getX(), ((ItemDropClient) object).getY()}, ((ItemDropClient) object).getItem());
                     }

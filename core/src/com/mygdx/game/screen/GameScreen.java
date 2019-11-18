@@ -251,6 +251,7 @@ public class GameScreen implements Screen {
                 avatar.setAttacking("");
             }
 
+
             if (avatar.isHurt()) {
                 renderAvatar(avatar, Color.RED);
                 if (oneSecond > 1) {
@@ -379,7 +380,6 @@ public class GameScreen implements Screen {
     }
 
     private void openInventory(){
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
             inventory.toggleInventory();
         }
@@ -389,8 +389,12 @@ public class GameScreen implements Screen {
         } else {
             inventory.getStage().unfocusAll();
         }
-
+        if (ClientConnection.getInstance().getUser().getAvatar().getBackpack().isChanged()) {
+            inventory.render();
+            ClientConnection.getInstance().getUser().getAvatar().getBackpack().setChanged(false);
+        }
     }
+
 
 
 }
