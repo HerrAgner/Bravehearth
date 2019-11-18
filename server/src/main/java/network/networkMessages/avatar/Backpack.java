@@ -27,7 +27,7 @@ public class Backpack {
 
     public void setItems(List bpItems) { this.items = bpItems;}
 
-    public List getItems() { return items; }
+    public List<Item> getItems() { return items; }
 
     public int getWallet() {
         return wallet;

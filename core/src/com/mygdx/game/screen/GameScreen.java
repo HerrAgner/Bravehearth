@@ -8,17 +8,19 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.BravehearthGame;
@@ -50,13 +52,26 @@ public class GameScreen implements Screen {
     private InputHandler inputHandler;
     private BravehearthGame game;
     private TextureAtlas textureAtlas;
+    private TextureAtlas itemAtlas;
+    private Skin itemSkin;
+    private Skin uiSkin;
     final HashMap<String, Sprite> sprites;
     final HashMap<String, Sprite> monsterSprites;
+    final HashMap<String, Sprite> itemSprites;
     private float oneSecond;
     private CopyOnWriteArrayList<Arrow> arrows;
     private CopyOnWriteArrayList<SlashAnimation> slashes;
     private Inventory inventory;
     private InputMultiplexer im;
+    private Sprite monsterSprite;
+    private Monster mon;
+    private Stage itemsOnGroundStage;
+    Sprite item;
+    BitmapFont name;
+    BitmapFont nameShadow;
+    FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("calibrib.ttf"));
+    FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
 
 
     public GameScreen(BravehearthGame game) {
@@ -64,13 +79,25 @@ public class GameScreen implements Screen {
         inputHandler = new InputHandler();
         this.game = game;
         batch = new SpriteBatch();
+        itemsOnGroundStage = new Stage();
+        uiSkin = ClientConnection.getInstance().assetManager.get("terra-mother/skin/terra-mother-ui.json");
         healthBar = new Texture("blank.png");
         textureAtlas = ClientConnection.getInstance().assetManager.get("avatars/avatarSprites.txt");
+        itemAtlas = ClientConnection.getInstance().assetManager.get("items/items.atlas");
+        itemSkin = new Skin();
+        itemSkin.addRegions(itemAtlas);
         sprites = new HashMap<>();
         monsterSprites = new HashMap<>();
+        itemSprites = new HashMap<>();
         arrows = new CopyOnWriteArrayList<>();
         slashes = new CopyOnWriteArrayList<>();
         inventory = new Inventory();
+        parameter.size = 50;
+        name = new BitmapFont();
+        nameShadow = new BitmapFont();
+        name = generator.generateFont(parameter);
+        nameShadow = generator.generateFont(parameter);
+        generator.dispose();
     }
 
     @Override
@@ -85,15 +112,15 @@ public class GameScreen implements Screen {
         cameraController = new CameraController();
 
         cameraController.setStartPosition(ClientConnection.getInstance().getUser().getAvatar().getX(), ClientConnection.getInstance().getUser().getAvatar().getY());
-        if (ClientConnection.getInstance().getUser().getAvatar().getCharacterClass() != null) {
-            ClientConnection.getInstance().getUser()
-                    .setAvatar(ClientConnection.getInstance().getUser().getAvatar());
-        }
+
         tiledMap = new TmxMapLoader().load("worldMap.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / 32f);
         collision = (TiledMapTileLayer) tiledMap.getLayers().get(0);
         addSprites();
         addMonsterSprites();
+        addItemSprites();
+
+
     }
 
     private void addSprites() {
@@ -114,6 +141,17 @@ public class GameScreen implements Screen {
             Sprite sprite = ta.createSprite(region.name);
 
             monsterSprites.put(region.name, sprite);
+        }
+    }
+    private void addItemSprites() {
+        TextureAtlas ta = ClientConnection.getInstance().assetManager.get("items/items.atlas");
+
+        Array<AtlasRegion> regions = ta.getRegions();
+
+        for (AtlasRegion region : regions) {
+            Sprite sprite = ta.createSprite(region.name);
+
+           itemSprites.put(region.name, sprite);
         }
     }
 
@@ -161,11 +199,12 @@ public class GameScreen implements Screen {
 //        ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
         batch.begin();
+        renderItemsOnGround();
 
 
         ClientConnection.getInstance().getActiveMonsters().forEach((uuid, monster) -> {
-            Monster mon = monster;
-            Sprite monsterSprite = monsterSprites.get(mon.getTexture());
+            mon = monster;
+            monsterSprite = monsterSprites.get(mon.getTexture());
             monsterSprite.setBounds(mon.getX(), mon.getY(), 1f, 1f);
             monsterSprite.draw(batch);
 
@@ -194,7 +233,7 @@ public class GameScreen implements Screen {
             } else {
                 batch.setColor(Color.GREEN);
             }
-            batch.draw(healthBar, avatar.getX(), (float) (avatar.getY() + 1.2), (float) avatar.getHealth() / avatar.getMaxHealth(), (float) 0.2);
+            batch.draw(healthBar, avatar.getX(), (float) (avatar.getY() + 1.1), (float) avatar.getHealth() / avatar.getMaxHealth(), (float) 0.2);
             batch.setColor(Color.WHITE);
 
             if (avatar.isAttacking().equals("ranged")) {
@@ -227,6 +266,7 @@ public class GameScreen implements Screen {
             }
             batch.setColor(Color.WHITE);
 
+            drawName(avatar.getName(), avatar.getX(), avatar.getY(), new Color(0.2f,1f,0.2f,0.7f), 0.01f);
 
 //            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
 //                renderer.rect((float) (avatar.getX() - 1.1), (float) (avatar.getY() - 1.1), (float) 2.2, (float) 2.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
@@ -243,7 +283,6 @@ public class GameScreen implements Screen {
                     arrow.increaseTimer(Gdx.graphics.getDeltaTime());
                 }
             });
-
         }
 
         if (this.slashes != null && this.slashes.size() > 0) {
@@ -299,6 +338,32 @@ public class GameScreen implements Screen {
 
     }
 
+    private void drawName(String nameToPrint, float x, float y, Color color, float size) {
+
+        final GlyphLayout layout = new GlyphLayout(name, nameToPrint);
+        final GlyphLayout layoutShadow = new GlyphLayout(nameShadow, nameToPrint);
+        final float fontX = x + (1 - layout.width) / 2;
+        final float fontY = y + (3.4f + layout.height) / 2;
+        nameShadow.getData().setScale(size, size);
+        nameShadow.setUseIntegerPositions(false);
+        nameShadow.setColor(0.1f,0.1f,0.1f,1f);
+        name.getData().setScale(size,size);
+        name.setUseIntegerPositions(false);
+        name.setColor(color);
+        nameShadow.draw(batch, layoutShadow, fontX+0.019f, fontY-0.019f);
+        name.draw(batch, layout, fontX, fontY);
+    }
+
+    private void renderItemsOnGround(){
+        if (ClientConnection.getInstance().getItemsOnGround().size() > 0) {
+            ClientConnection.getInstance().getItemsOnGround().forEach((floats, item1) -> {
+                item = itemSprites.get(item1.getTexture());
+                item.setBounds(floats[0],floats[1],1,1);
+                item.draw(batch);
+            });
+        }
+    }
+
     private void updatePlayer(float delta) {
         ClientConnection.getInstance().getActiveAvatars().forEach((o, o2) -> {
 
@@ -320,11 +385,13 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
             inventory.toggleInventory();
         }
-
         if(inventory.isOpen()){
             inventory.getStage().act();
             inventory.getStage().draw();
+        } else {
+            inventory.getStage().unfocusAll();
         }
+
     }
 
 

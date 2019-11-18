@@ -6,14 +6,17 @@ import game.MonsterSpawner;
 import network.networkMessages.Monster;
 import network.networkMessages.Position;
 import network.networkMessages.avatar.Avatar;
+import network.networkMessages.items.Item;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MonsterHandler {
-    public HashMap<Integer, Monster> monsterList;
+    public ConcurrentHashMap<Integer, Monster> monsterList;
+    public ConcurrentHashMap<Float[], Item> itemsOnGround;
     public AtomicInteger counter;
     public AtomicInteger monsterId;
     public int spawnerId;
@@ -23,7 +26,8 @@ public class MonsterHandler {
 
     public MonsterHandler() {
         activeMonsterSpawners = new ArrayList<>();
-        monsterList = new HashMap<>();
+        monsterList = new ConcurrentHashMap<>();
+        itemsOnGround = new ConcurrentHashMap<>();
         monsterId = new AtomicInteger(0);
         counter = new AtomicInteger();
         counter.set(0);
