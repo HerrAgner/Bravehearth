@@ -147,6 +147,7 @@ public class ClientNetworkListener {
                         });
                         if (((ItemPickup) object).getAvatarId() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
                             ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().add(((ItemPickup) object).getItem());
+                            ClientConnection.getInstance().getUser().getAvatar().getBackpack().setChanged(true);
                         }
                     }
 
