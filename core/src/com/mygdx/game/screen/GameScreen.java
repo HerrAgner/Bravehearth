@@ -229,8 +229,6 @@ public class GameScreen implements Screen {
         });
 
         ClientConnection.getInstance().getActiveAvatars().forEach((Integer, avatar) -> {
-
-
             if (avatar.getHealth() < avatar.getMaxHealth() * 0.3) {
                 batch.setColor(Color.RED);
             } else if (avatar.getHealth() < avatar.getMaxHealth() * 0.6) {
@@ -273,7 +271,6 @@ public class GameScreen implements Screen {
 
             drawName(avatar.getName(), avatar.getX(), avatar.getY(), new Color(0.2f,1f,0.2f,0.7f), 0.01f);
 
-//            name.draw(batch, avatar.getName(),avatar.getX() +(1 - GameConfig.WIDTH) /2,avatar.getY()+2);
 //            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
 //                renderer.rect((float) (avatar.getX() - 1.1), (float) (avatar.getY() - 1.1), (float) 2.2, (float) 2.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
 //            }
@@ -304,8 +301,6 @@ public class GameScreen implements Screen {
 
 
         }
-
-
         batch.end();
 
         renderer.end();
