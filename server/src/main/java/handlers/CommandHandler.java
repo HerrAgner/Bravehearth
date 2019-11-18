@@ -86,7 +86,7 @@ public class CommandHandler {
             auh.getActiveAvatars().remove(((Logout) o).getAvatar());
             auh.getActiveUsers().remove(c.getID());
             GameServer.getInstance().getMh().monsterList.forEach((integer, monster) -> {
-                if (monster.getMarkedUnit() == ((Logout) o).getAvatar()){
+                if (monster.getMarkedUnit() == ((Logout) o).getAvatar()) {
                     monster.setMarkedUnit(-1);
                 }
             });
@@ -146,14 +146,22 @@ public class CommandHandler {
             float attackRange = 0;
             int attackDamage = 0;
             float attackSpeed = 0;
+            String stat;
+            float amount;
         };
         av.getEquippedItems().getItems().forEach((o, o2) -> {
             switch (o) {
+                case ACCESSORY:
+                    Wearable accessory = (Wearable) o2;
+                    ref.newDefence += accessory.getDefence();
+                    Map.Entry<String, Float> entry = accessory.getStatChange().entrySet().iterator().next();
+                    ref.stat = entry.getKey();
+                    ref.amount = entry.getValue();
+                    break;
                 case FEET:
                 case HEAD:
                 case LEGS:
                 case CHEST:
-                case ACCESSORY:
                     Wearable wearable = (Wearable) o2;
                     ref.newDefence += wearable.getDefence();
                     break;
@@ -166,6 +174,24 @@ public class CommandHandler {
                 default:
             }
         });
+        switch (ref.stat) {
+            case "STRENGTH":
+                av.setStrength(av.getStrength() + (int) ref.amount);
+                break;
+            case "INTELLIGENCE":
+                av.setIntelligence(av.getIntelligence() + (int) ref.amount);
+                break;
+            case "DEXTERITY":
+                av.setDexterity(av.getDexterity() + (int) ref.amount);
+                break;
+            case "HP":
+                av.setMaxHealth(av.getMaxHealth() + (int) ref.amount);
+                av.setHealth(av.getMaxHealth());
+                break;
+            case "MANA":
+                av.setMaxMana(av.getMaxMana() + (int) ref.amount);
+                break;
+        }
         av.setDefense(ref.newDefence);
         av.setAttackDamage(ref.attackDamage);
         av.setAttackSpeed(ref.attackSpeed);
