@@ -45,6 +45,7 @@ public class GameServer {
         this.mapReader.readMap();
         addMonsterSpawners();
 
+
         new Thread(new GameLoop()).start();
         new Thread(new MonsterSpawnLoop()).start();
 

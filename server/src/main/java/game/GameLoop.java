@@ -11,7 +11,8 @@ import network.networkMessages.avatar.Avatar;
 public class GameLoop implements Runnable {
     private boolean running;
     private AttackHandler ah;
-    GameServer server;
+
+
 
     public GameLoop() {
         this.running = true;
@@ -21,7 +22,6 @@ public class GameLoop implements Runnable {
     @Override
     public void run() {
         long prevtime = System.currentTimeMillis();
-        server = GameServer.getInstance();
 
         while (running) {
             long time = System.currentTimeMillis();
@@ -30,13 +30,13 @@ public class GameLoop implements Runnable {
 
             MovementHandler.movementLoopList.forEach((key, value) ->
                     value.forEach(movement -> {
-                                if (server.au.get(key.getID()) != null) {
-                                    Position pos = updatePosition(server.aa.get(server.au.get(key.getID()).getAvatar().getId()), movement, delta);
+                                if (GameServer.getInstance().au.get(key.getID()) != null) {
+                                    Position pos = updatePosition(GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()), movement, delta);
                                     if (pos != null) {
-                                        server.aa.get(server.au.get(key.getID()).getAvatar().getId()).setX(pos.getX());
-                                        server.aa.get(server.au.get(key.getID()).getAvatar().getId()).setY(pos.getY());
-                                        server.aa.get(server.au.get(key.getID()).getAvatar().getId()).setDirection(pos.getDirection());
-                                        server.getServer().sendToAllUDP(pos);
+                                        GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setX(pos.getX());
+                                        GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setY(pos.getY());
+                                        GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setDirection(pos.getDirection());
+                                        GameServer.getInstance().getServer().sendToAllUDP(pos);
                                     }
                                 }
                             }
@@ -45,9 +45,9 @@ public class GameLoop implements Runnable {
             if (AttackHandler.validatedAttacks.size() > 0) {
                 try {
                     AttackEnemyTarget aet = AttackHandler.validatedAttacks.take();
-                    server.getServer().sendToAllTCP(aet);
-                    if (server.getMh().monsterList.get(aet.getTarget()) != null) {
-                        if (aet.getTargetUnit().equals("monster") && server.getMh().monsterList.get(aet.getTarget()).getHp() <= 0) {
+                    GameServer.getInstance().getServer().sendToAllTCP(aet);
+                    if (GameServer.getInstance().getMh().monsterList.get(aet.getTarget()) != null) {
+                        if (aet.getTargetUnit().equals("monster") && GameServer.getInstance().getMh().monsterList.get(aet.getTarget()).getHp() <= 0) {
                             monsterDeath(aet);
                         }
                     }
@@ -55,19 +55,19 @@ public class GameLoop implements Runnable {
                     System.out.println("Could not send attack. Trying again.");
                 }
             }
-            server.getMh().updateCounter();
-            server.getMh().monsterTargetAvatar();
-            server.getMh().monsterList.values().forEach(monster -> {
+            GameServer.getInstance().getMh().updateCounter();
+            GameServer.getInstance().getMh().monsterTargetAvatar();
+            GameServer.getInstance().getMh().monsterList.values().forEach(monster -> {
                 if (monster.getMarkedUnit() != -1) {
                     monster.setAttackTimer(monster.getAttackTimer() + delta);
                     if (monster.getAttackTimer() > monster.getAttackSpeed()) {
-                        server.getMh().monsterAttack(monster);
+                        GameServer.getInstance().getMh().monsterAttack(monster);
                         monster.setAttackTimer(delta);
                     }
                 }
             });
 
-            server.getAUH().getActiveAvatars().forEach((k, v) -> {
+            GameServer.getInstance().getAUH().getActiveAvatars().forEach((k, v) -> {
                 if (v.getMarkedUnit() != -1) {
                     v.setAttackTimer(v.getAttackTimer() + delta);
                     if (v.attackIsReady()) {
@@ -77,7 +77,7 @@ public class GameLoop implements Runnable {
                 }
                 if (v.getHealth() < v.getMaxHealth() && v.getHealth() > 0) {
                     if (v.startHpRegen()) {
-                        server.getServer().sendToAllTCP(new HealthChange(v.getHealth() + 1, v.getId(), v.getId(), 3));
+                        GameServer.getInstance().getServer().sendToAllTCP(new HealthChange(v.getHealth() + 1, v.getId(), v.getId(), 3));
                         v.setHealth(v.getHealth() + 1);
                     }
                 }
@@ -97,7 +97,7 @@ public class GameLoop implements Runnable {
     }
 
     private Avatar levelUp(int avatarId) {
-        Avatar av = server.aa.get(avatarId);
+        Avatar av = GameServer.getInstance().aa.get(avatarId);
         av.setLevel(av.getLevel() + 1);
         av.setExperiencePoints(0);
         switch (av.getCharacterClass()) {
@@ -127,23 +127,23 @@ public class GameLoop implements Runnable {
     }
 
     private void monsterDeath(AttackEnemyTarget aet) {
-        Monster mon = server.getMh().monsterList.get(aet.getTarget());
-        server.aa.forEach((integer, avatar) -> {
+        Monster mon = GameServer.getInstance().getMh().monsterList.get(aet.getTarget());
+        GameServer.getInstance().aa.forEach((integer, avatar) -> {
             if (avatar.getMarkedUnit() == mon.getId()) {
                 avatar.setMarkedUnit(-1);
             }
         });
         if (mon.getLoot().size() > 0) {
             mon.getLoot().forEach(item -> {
-                server.getMh().itemsOnGround.put(new Float[]{mon.getX(), mon.getY()}, item);
-                server.getServer().sendToAllTCP(new ItemDrop(mon.getX(), mon.getY(), item));
+                GameServer.getInstance().getMh().itemsOnGround.put(new Float[]{mon.getX(), mon.getY()}, item);
+                GameServer.getInstance().getServer().sendToAllTCP(new ItemDrop(mon.getX(), mon.getY(), item));
             });
         }
-        server.getMh().getActiveMonsterSpawners().get(mon.getSpawnerId()).decreaseActiveMonstersByOne();
-        server.getServer().sendToAllTCP(new UnitDeath(aet.getAttacker(), aet.getTarget(), "monster", server.getMh().monsterList.get(aet.getTarget()).getExperiencePoints()));
-        server.getMh().monsterList.remove(mon.getId());
-        server.aa.get(aet.getAttacker()).addExperiencePoints(mon.getExperiencePoints());
-        server.aa.get(aet.getAttacker()).getBackpack().addGold(mon.getGold());
+        GameServer.getInstance().getMh().getActiveMonsterSpawners().get(mon.getSpawnerId()).decreaseActiveMonstersByOne();
+        GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(aet.getAttacker(), aet.getTarget(), "monster", GameServer.getInstance().getMh().monsterList.get(aet.getTarget()).getExperiencePoints()));
+        GameServer.getInstance().getMh().monsterList.remove(mon.getId());
+        GameServer.getInstance().aa.get(aet.getAttacker()).addExperiencePoints(mon.getExperiencePoints());
+        GameServer.getInstance().aa.get(aet.getAttacker()).getBackpack().addGold(mon.getGold());
     }
 
     public Position updatePosition(Avatar avatar, Movement movement, float delta) {
@@ -166,19 +166,19 @@ public class GameLoop implements Runnable {
                 throw new IllegalStateException("Unexpected value: " + movement);
         }
 
-        if (server.getMapReader().getMapCollision()
+        if (GameServer.getInstance().getMapReader().getMapCollision()
                 .get((int) Math.ceil(position.getX()))
                 .contains((int) Math.ceil(position.getY()))
                 ||
-                server.getMapReader().getMapCollision()
+                GameServer.getInstance().getMapReader().getMapCollision()
                         .get((int) Math.ceil(position.getX() - 1))
                         .contains((int) Math.ceil(position.getY()))
                 ||
-                server.getMapReader().getMapCollision()
+                GameServer.getInstance().getMapReader().getMapCollision()
                         .get((int) Math.ceil(position.getX() - 1))
                         .contains((int) Math.ceil(position.getY() - 1))
                 ||
-                server.getMapReader().getMapCollision()
+                GameServer.getInstance().getMapReader().getMapCollision()
                         .get((int) Math.ceil(position.getX()))
                         .contains((int) Math.ceil(position.getY() - 1))
         ) {
@@ -187,7 +187,7 @@ public class GameLoop implements Runnable {
             var ref = new Object() {
                 boolean isValidMove = true;
             };
-            server.aa.forEach((key, value) -> {
+            GameServer.getInstance().aa.forEach((key, value) -> {
                 if (key != avatar.getId()) {
                     if (Math.max(value.getX(), position.getX()) - Math.min(value.getX(), position.getX()) < 1 &&
                             Math.max(value.getY(), position.getY()) - Math.min(value.getY(), position.getY()) < 1) {
@@ -195,7 +195,7 @@ public class GameLoop implements Runnable {
                     }
                 }
             });
-//            server.getMh().monsterList.forEach((integer, monster) -> {
+//            GameServer.getInstance().getMh().monsterList.forEach((integer, monster) -> {
 //
 //            });
             if (ref.isValidMove) {
