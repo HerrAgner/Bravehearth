@@ -21,6 +21,34 @@ public class Backpack {
         this.items = new ArrayList<>();
     }
 
+
+    public void setItems(List items) {
+        this.items = items;
+    }
+
+    public int getAvatarId() {
+        return avatarId;
+    }
+
+    public void setAvatarId(int avatarId) {
+        this.avatarId = avatarId;
+    }
+
+    public int getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(int wallet) {
+        this.wallet = wallet;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     public List<Item> getItems() {
         return items;
     }

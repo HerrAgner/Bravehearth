@@ -8,6 +8,8 @@ import com.mygdx.game.network.networkMessages.*;
 import com.mygdx.game.entities.User;
 import com.mygdx.game.util.CharacterClass;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class ClientNetworkListener {
     public ClientNetworkListener() {
         ClientConnection.getInstance().getClient().addListener(new Listener() {
@@ -17,6 +19,9 @@ public class ClientNetworkListener {
                     ClientConnection.getInstance().setUser((User) object);
                 }
                 if (object instanceof Avatar) {
+//                    if (ClientConnection.getInstance().getActiveAvatars().contains(object)) {
+//                        ClientConnection.getInstance().getActiveAvatars().remove(((Avatar) object).getId());
+//                    }
                     if (((Avatar) object).getCharacterClass() == CharacterClass.SORCERER) {
                         Sorcerer sorc = new Sorcerer((Avatar) object);
                         ClientConnection.getInstance().addActiveAvatar(sorc);
@@ -45,6 +50,9 @@ public class ClientNetworkListener {
                     }
 
                     if (object instanceof String) {
+                        if (object.equals("finished")){
+                            ClientConnection.getInstance().loggedIn = true;
+                        }
                         System.out.println(object);
                     }
 
@@ -117,8 +125,23 @@ public class ClientNetworkListener {
 
                     if (object instanceof UnitDeath) {
                         if (((UnitDeath) object).getUnit().equals("monster")) {
-                            ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
+                            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() == ((UnitDeath) object).getTargetId()) {
+                                ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
+                            }
                             ClientConnection.getInstance().getActiveMonsters().remove(((UnitDeath) object).getTargetId());
+                        }
+                    }
+                    if (object instanceof ItemDrop) {
+                        ClientConnection.getInstance().getItemsOnGround().put(new Float[]{((ItemDrop) object).getX(), ((ItemDrop) object).getY()}, ((ItemDrop) object).getItem());
+                    }
+                    if (object instanceof ItemPickup) {
+                        ClientConnection.getInstance().getItemsOnGround().forEach((floats, item) -> {
+                            if (floats[0] == ((ItemPickup) object).getX() && floats[1] == ((ItemPickup) object).getY() && item.getName().equals(((ItemPickup) object).getItem().getName())) {
+                                ClientConnection.getInstance().getItemsOnGround().remove(floats);
+                            }
+                        });
+                        if (((ItemPickup) object).getAvatarId() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
+                            ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().add(((ItemPickup) object).getItem());
                         }
                     }
 
