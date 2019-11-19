@@ -266,4 +266,60 @@ public class Avatar {
     public void setBackpack(Backpack backpack) {
         this.backpack = backpack;
     }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public int getDexterity() {
+        return dexterity;
+    }
+
+    public int getIntelligence() {
+        return intelligence;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public float getDefence() {
+        return defence;
+    }
+
+    public float getMaxXspeed() {
+        return maxXspeed;
+    }
+
+    public float getMaxYspeed() {
+        return maxYspeed;
+    }
+
+    public int getMana() {
+        return mana;
+    }
+
+    public int getMaxMana() {
+        return maxMana;
+    }
+
+    public EquippedItems getEquippedItems() {
+        return equippedItems;
+    }
+
+    public float getHpRegen() {
+        return hpRegen;
+    }
+
+    public float getAttackLoop() {
+        return attackLoop;
+    }
+
+    public String getIsAttacking() {
+        return isAttacking;
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
 }

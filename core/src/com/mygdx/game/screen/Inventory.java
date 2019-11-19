@@ -1,12 +1,14 @@
 package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.game.GUI.Stats;
 import com.mygdx.game.entities.Items.Consumable;
 import com.mygdx.game.entities.Items.Item;
 import com.mygdx.game.entities.Items.Weapon;
@@ -34,9 +36,12 @@ public class Inventory {
     private Window equipWindow;
     private TextButton equip;
     private TextButton drop;
+    private SpriteBatch batch;
+    public Stats stats;
 
 
-    public Inventory() {
+    public Inventory(SpriteBatch batch) {
+        this.batch = batch;
         dropSkin = ClientConnection.getInstance().assetManager.get("terra-mother/skin/terra-mother-ui.json");
         windowTable = new Table();
         stage = new Stage();
@@ -53,6 +58,7 @@ public class Inventory {
         isOpen = false;
         window = new Window("default", dropSkin);
         initInventoryWindow();
+        stats = new Stats(batch);
     }
 
     private void initInventoryWindow() {

@@ -96,7 +96,7 @@ public class GameScreen implements Screen {
         itemSprites = new HashMap<>();
         arrows = new CopyOnWriteArrayList<>();
         slashes = new CopyOnWriteArrayList<>();
-        inventory = new Inventory();
+        inventory = new Inventory(game.batch);
         parameter.size = 50;
         name = new BitmapFont();
         nameShadow = new BitmapFont();
@@ -434,8 +434,10 @@ public class GameScreen implements Screen {
         if(inventory.isOpen()){
             inventory.getStage().act();
             inventory.getStage().draw();
+            inventory.stats.draw();
         } else {
             inventory.getStage().unfocusAll();
+
         }
         if (ClientConnection.getInstance().getUser().getAvatar().getBackpack().isChanged()) {
             inventory.render();
