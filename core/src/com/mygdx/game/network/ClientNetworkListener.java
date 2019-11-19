@@ -58,6 +58,7 @@ public class ClientNetworkListener {
                     }
 
                     if (object instanceof HealthChange) {
+                        
                         if (((HealthChange) object).getType() == 1){
                             if (((HealthChange) object).getReceivingAvatar() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
                                 ClientConnection.getInstance().getUser().getAvatar().setMaxHealth(((HealthChange) object).getNewHealth());
