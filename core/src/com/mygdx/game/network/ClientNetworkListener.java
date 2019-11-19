@@ -51,7 +51,7 @@ public class ClientNetworkListener {
                     }
 
                     if (object instanceof String) {
-                        if (object.equals("finished")){
+                        if (object.equals("finished")) {
                             ClientConnection.getInstance().loggedIn = true;
                         }
                         System.out.println(object);
@@ -149,6 +149,10 @@ public class ClientNetworkListener {
                             ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().add(((ItemPickup) object).getItem());
                             ClientConnection.getInstance().getUser().getAvatar().getBackpack().setChanged(true);
                         }
+                    }
+
+                    if (object instanceof EquippedItemChange) {
+                        ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems().remove(((EquippedItemChange) object).getType());
                     }
 
                 }

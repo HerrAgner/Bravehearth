@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.entities.Items.*;
 import com.mygdx.game.network.ClientConnection;
+import com.mygdx.game.network.networkMessages.EquippedItemChange;
 import com.mygdx.game.network.networkMessages.ItemDropClient;
 
 import java.util.ArrayList;
@@ -139,21 +140,57 @@ public class Inventory {
             switch (k) {
                 case HEAD:
                     head.setDrawable(itemSkin, v.getTexture());
+                    head.addListener(new ClickListener(-1) {
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+                            dropEquippedItem(k, v);
+                        }
+                    });
                     break;
                 case ACCESSORY:
                     amulet.setDrawable(itemSkin, v.getTexture());
+                    amulet.addListener(new ClickListener(-1) {
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+                            dropEquippedItem(k, v);
+                        }
+                    });
                     break;
                 case WEAPON:
                     weapon.setDrawable(itemSkin, v.getTexture());
+                    weapon.addListener(new ClickListener(-1) {
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+                            dropEquippedItem(k, v);
+                        }
+                    });
                     break;
                 case CHEST:
                     chest.setDrawable(itemSkin, v.getTexture());
+                    chest.addListener(new ClickListener(-1) {
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+                            dropEquippedItem(k, v);
+                        }
+                    });
                     break;
                 case LEGS:
                     legs.setDrawable(itemSkin, v.getTexture());
+                    legs.addListener(new ClickListener(-1) {
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+                            dropEquippedItem(k, v);
+                        }
+                    });
                     break;
                 case FEET:
                     boots.setDrawable(itemSkin, v.getTexture());
+                    boots.addListener(new ClickListener(-1) {
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+                            dropEquippedItem(k, v);
+                        }
+                    });
                     break;
             }
         });
@@ -189,6 +226,11 @@ public class Inventory {
         return stage;
     }
 
+    public void dropEquippedItem(WearableType type, Item item){
+        int avatarId = ClientConnection.getInstance().getUser().getId();
+        ClientConnection.getInstance().getClient().sendTCP(new EquippedItemChange(type, item, avatarId));
+    }
+
     public void updateInventory() {
         AtomicInteger i = new AtomicInteger();
         ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().forEach(item -> {
@@ -215,13 +257,13 @@ public class Inventory {
     }
 
     public void dropOrEquip(int i) {
-        if(selectWindow != null){
+        if (selectWindow != null) {
             selectWindow.remove();
         }
         selectWindow = new Window("", dropSkin);
         equip = new TextButton("Equip", dropSkin, "default");
         drop = new TextButton("Drop", dropSkin, "default");
-        if (itemSlot.get(i).getDrawable() != null ) {
+        if (itemSlot.get(i).getDrawable() != null) {
             selectWindow.setBounds(Gdx.input.getX(), Gdx.input.getY(), 75, 100);
             equip.addListener(new ClickListener() {
                 @Override

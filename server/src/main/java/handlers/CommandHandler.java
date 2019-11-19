@@ -8,6 +8,7 @@ import game.GameServer;
 import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
+import network.networkMessages.avatar.EquippedItems;
 import network.networkMessages.items.Weapon;
 import network.networkMessages.items.Wearable;
 
@@ -102,11 +103,14 @@ public class CommandHandler {
 
         if (o instanceof ItemDrop) {
             if (((ItemDrop) o).getAvatarId() != -1) {
-                System.out.println(GameServer.getInstance().aa.get(((ItemDrop) o).getAvatarId()).getBackpack().getItems().size()
-                );
                 GameServer.getInstance().aa.get(((ItemDrop) o).getAvatarId()).getBackpack().getItems().remove(((ItemDrop) o).getId());
                 GameServer.getInstance().getServer().sendToAllTCP(o);
             }
+        }
+        if (o instanceof EquippedItemChange) {
+           GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems().remove(((EquippedItemChange) o).getType());
+            System.out.println(GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems());
+           GameServer.getInstance().getServer().sendToTCP(connection.getID(), o);
         }
 
     }

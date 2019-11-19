@@ -163,7 +163,6 @@ public abstract class DBQueries {
                 int levelRequirement = rs.getInt(6);
                 WearableType wearType = WearableType.valueOf(rs.getString(7));
                 String texture = rs.getString(8);
-                System.out.println(texture);
                 items.put(wearType, new Weapon(new Item(name, levelRequirement, texture), damage, speed, range, weaponType, wearType));
             }
         } catch (SQLException e) {
