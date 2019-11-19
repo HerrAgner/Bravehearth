@@ -34,7 +34,6 @@ public class Inventory {
     private Window selectWindow;
     private TextButton equip;
     private TextButton drop;
-    private Window equippedWindow;
 
     public Inventory() {
         dropSkin = new Skin(Gdx.files.internal("terra-mother/skin/terra-mother-ui.json"));
@@ -52,7 +51,6 @@ public class Inventory {
         itemSlot = new ArrayList<>();
         isOpen = false;
         window = new Window("default", dropSkin);
-        equippedWindow = new Window("default", dropSkin);
         initInventoryWindow();
         initEquippedItems();
     }
@@ -119,13 +117,49 @@ public class Inventory {
     }
 
     private void initEquippedItems() {
-        equippedWindow.setSize(200, 200);
-        equippedWindow.setPosition(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 + 500);
-        ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems()
-        for (int i = 0; i < 6; i++) {
-            Image equippedItem = new Image();
+       Table equippedTable = new Table();
+       Table backgroundTable = new Table();
+       backgroundTable.setPosition(Gdx.graphics.getWidth()/2 + 400, Gdx.graphics.getHeight()/2);
+       equippedTable.setPosition(Gdx.graphics.getWidth()/2 + 400, Gdx.graphics.getHeight()/2);
+       Image head = new Image();
+       Image amulet = new Image();
+       Image chest = new Image();
+       Image weapon = new Image();
+       Image empty = new Image();
+       Image boots = new Image();
 
-        }
+       head.setDrawable(skin, "helmetBox");
+       amulet.setDrawable(skin, "amuBox");
+       chest.setDrawable(skin, "chestBox");
+       weapon.setDrawable(skin, "weaponBox");
+       empty.setDrawable(skin, "hudboxmiddlegray");
+       boots.setDrawable(skin, "bootBox");
+
+       backgroundTable.add(empty).width(60).height(60);
+       backgroundTable.row();
+       backgroundTable.add(empty).width(60).height(60);
+       backgroundTable.row();
+       backgroundTable.add(empty).width(60).height(60);
+       backgroundTable.add(empty).width(60).height(60);
+       backgroundTable.row();
+       backgroundTable.add(empty).width(60).height(60);
+       backgroundTable.row();
+       backgroundTable.add(empty).width(60).height(60);
+
+
+       equippedTable.add(head).width(60).height(60);
+       equippedTable.row();
+       equippedTable.add(amulet).width(60).height(60);
+       equippedTable.row();
+       equippedTable.add(chest).width(60).height(60);
+       equippedTable.add(weapon).width(60).height(60);
+       equippedTable.row();
+       equippedTable.add(empty).width(60).height(60);
+       equippedTable.row();
+       equippedTable.add(boots).width(60).height(60);
+
+       stage.addActor(backgroundTable);
+       stage.addActor(equippedTable);
     }
 
 
