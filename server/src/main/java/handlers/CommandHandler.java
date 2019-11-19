@@ -142,7 +142,6 @@ public class CommandHandler {
             avatar.setBackpack(bp);
             addEquippedItemStatsToAvatar(avatar);
             user.setAvatar(avatar);
-            System.out.println(user.getAvatar().getAttackSpeed());
         } catch (NullPointerException e) {
             System.out.println("No avatar found for user.");
         }

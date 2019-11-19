@@ -130,6 +130,9 @@ public class ClientNetworkListener {
                             if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() == ((UnitDeath) object).getTargetId()) {
                                 ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
                             }
+                            if (((UnitDeath) object).getAttackerId() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
+                                ClientConnection.getInstance().getUser().getAvatar().setExperiencePoints(ClientConnection.getInstance().getUser().getAvatar().getExperiencePoints()+((UnitDeath) object).getExp());
+                            }
                             ClientConnection.getInstance().getActiveMonsters().remove(((UnitDeath) object).getTargetId());
                         }
                         else if (((UnitDeath) object).getUnit().equals("avatar")) {
