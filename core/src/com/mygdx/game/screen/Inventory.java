@@ -215,10 +215,13 @@ public class Inventory {
     }
 
     public void dropOrEquip(int i) {
+        if(selectWindow != null){
+            selectWindow.remove();
+        }
         selectWindow = new Window("", dropSkin);
         equip = new TextButton("Equip", dropSkin, "default");
         drop = new TextButton("Drop", dropSkin, "default");
-        if (itemSlot.get(i).getDrawable() != null) {
+        if (itemSlot.get(i).getDrawable() != null ) {
             selectWindow.setBounds(Gdx.input.getX(), Gdx.input.getY(), 75, 100);
             equip.addListener(new ClickListener() {
                 @Override
