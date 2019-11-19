@@ -83,14 +83,6 @@ public class GameLoop implements Runnable {
                 }
             });
 
-            GameServer.getInstance().getMh().getActiveMonsterSpawners().forEach(monsterSpawner -> {
-                monsterSpawner.setTimeCounter(monsterSpawner.getTimeCounter() + delta);
-                if (monsterSpawner.getTimeCounter() > monsterSpawner.getSpawnTimer()) {
-                    monsterSpawner.spawnMonster();
-                    monsterSpawner.setTimeCounter(delta);
-                }
-            });
-
             GameServer.getInstance().getAUH().getActiveAvatars().forEach((k, v) -> {
                 if (v.getMarkedUnit() != -1) {
                     v.setAttackTimer(v.getAttackTimer() + delta);
@@ -99,7 +91,6 @@ public class GameLoop implements Runnable {
                         v.setAttackTimer(delta);
                     }
                 }
-//                System.out.println(v.getHealth());
                 if (v.getHealth() < v.getMaxHealth() && v.getHealth() > 0) {
                     if (v.startHpRegen()) {
                         GameServer.getInstance().getServer().sendToAllTCP(new HealthChange(v.getHealth() + 1, v.getId(), v.getId(), 3));

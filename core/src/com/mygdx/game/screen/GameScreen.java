@@ -312,7 +312,7 @@ public class GameScreen implements Screen {
     }
 
     private void update(float delta) {
-        updatePlayer(delta);
+//        updatePlayer(delta);
         updateCamera();
     }
 
