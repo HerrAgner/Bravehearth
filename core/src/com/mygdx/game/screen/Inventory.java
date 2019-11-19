@@ -34,8 +34,9 @@ public class Inventory {
     private TextButton equip;
     private TextButton drop;
 
+
     public Inventory() {
-        dropSkin = new Skin(Gdx.files.internal("terra-mother/skin/terra-mother-ui.json"));
+        dropSkin = ClientConnection.getInstance().assetManager.get("terra-mother/skin/terra-mother-ui.json");
         windowTable = new Table();
         stage = new Stage();
         table = new Table();
@@ -44,7 +45,7 @@ public class Inventory {
         itemSlots = new Table();
         itemAtlas = ClientConnection.getInstance().assetManager.get("items/items.atlas");
         itemSkin.addRegions(itemAtlas);
-        atlas = new TextureAtlas(Gdx.files.internal("hud.atlas"));
+        atlas = ClientConnection.getInstance().assetManager.get("hud.atlas");
         skin.addRegions(atlas);
         images = new ArrayList<>();
         itemSlot = new ArrayList<>();
@@ -55,10 +56,6 @@ public class Inventory {
     }
 
     private void initInventoryWindow() {
-        itemSlot.clear();
-        table.clear();
-        itemSlots.clear();
-        images.clear();
         window.setSize(200, 200);
         window.setPosition(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 + 200);
         for (int i = 0; i < 30; i++) {
@@ -76,17 +73,6 @@ public class Inventory {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     removeDialog();
-//                    ItemDropClient itemDrop = new ItemDropClient();
-//                    itemDrop.setX(ClientConnection.getInstance().getActiveAvatars().get(ClientConnection.getInstance().getUser().getAvatar().getId()).getX());
-//                    itemDrop.setY(ClientConnection.getInstance().getActiveAvatars().get(ClientConnection.getInstance().getUser().getAvatar().getId()).getY());
-//                    itemDrop.setItem(ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().get(i));
-//                    itemDrop.setAvatarId(ClientConnection.getInstance().getUser().getId());
-//                    itemDrop.setId(i);
-//                    itemSlots.removeActor(itemSlot.get(i));
-//                    itemSlot.get(i).getListeners().forEach(eventListener -> itemSlot.get(i).removeListener(eventListener));
-//                    itemSlot.remove(i);
-//                    ClientConnection.getInstance().getClient().sendTCP(itemDrop);
-//                    initInventoryWindow();
                     dropOrEquip(finalI);
 
                 }
@@ -173,6 +159,16 @@ public class Inventory {
         return stage;
     }
 
+    public void updateInventory(){
+        AtomicInteger i = new AtomicInteger();
+        ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().forEach(item -> {
+            itemSlot.get(i.get()).setDrawable(itemSkin, item.getTexture());
+            i.getAndIncrement();
+        });
+        itemSlot.get(ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().size()).setDrawable(null);
+
+    }
+
     public void toggleInventory() {
         isOpen = !isOpen;
         if (isOpen) {
@@ -209,10 +205,7 @@ public class Inventory {
                     itemDrop.setAvatarId(ClientConnection.getInstance().getUser().getId());
                     itemDrop.setId(i);
                     ClientConnection.getInstance().getClient().sendTCP(itemDrop);
-                    initInventoryWindow();
-                    isOpen = false;
                     selectWindow.remove();
-
                 }
             });
             selectWindow.add(equip);
@@ -270,6 +263,10 @@ public class Inventory {
     public void removeDialog() {
         window.clear();
         window.remove();
+    }
+
+    public void render(){
+        updateInventory();
     }
 }
 

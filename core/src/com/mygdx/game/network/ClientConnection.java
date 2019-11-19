@@ -68,6 +68,7 @@ public class ClientConnection {
         assetManager.load("items/items.atlas", TextureAtlas.class);
         assetManager.load("monsters/monsterSprites.txt", TextureAtlas.class);
         assetManager.load("avatars/avatarSprites.txt", TextureAtlas.class);
+        assetManager.load("hud.atlas", TextureAtlas.class);
         assetManager.load("terra-mother/skin/terra-mother-ui.json", Skin.class);
 
         //projectiles

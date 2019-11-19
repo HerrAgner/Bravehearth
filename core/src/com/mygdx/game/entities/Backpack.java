@@ -10,6 +10,7 @@ public class Backpack {
     private int avatarId;
     private int wallet;
     private int id;
+    private boolean changed;
 
     public Backpack(int avatarId) {
         this.avatarId = avatarId;
@@ -51,5 +52,13 @@ public class Backpack {
     }
     public List<Item> getItems() {
         return items;
+    }
+
+    public boolean isChanged() {
+        return changed;
+    }
+
+    public void setChanged(boolean changed) {
+        this.changed = changed;
     }
 }

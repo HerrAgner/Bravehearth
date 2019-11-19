@@ -10,7 +10,6 @@ import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
 import network.networkMessages.items.Weapon;
 import network.networkMessages.items.Wearable;
-import network.networkMessages.items.WearableType;
 
 import java.util.HashMap;
 import java.util.Map;
