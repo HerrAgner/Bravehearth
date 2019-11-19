@@ -321,4 +321,26 @@ public abstract class DBQueries {
         }
         System.out.println("update successful");
     }
+
+    public static void saveAvatarWhenDead(Avatar avatar) {
+        PreparedStatement ps = prep("UPDATE avatars a INNER JOIN backpacks b ON a.id = b.avatarId " +
+                "SET a.health = ?, a.experiencePoints = ?, a.x = 50, a.y = 50, b.wallet = ? WHERE a.id = ?");
+        try {
+            ps.setInt(1, avatar.getMaxHealth());
+            ps.setInt(2, 0);
+            ps.setInt(3, avatar.getBackpack().getWallet() / 2);
+            ps.setInt(4, avatar.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        PreparedStatement ps2 = prep("DELETE FROM backpackxitem WHERE id = ?");
+        try {
+            ps2.setInt(1, avatar.getId());
+            ps2.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

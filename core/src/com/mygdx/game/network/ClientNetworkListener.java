@@ -132,6 +132,14 @@ public class ClientNetworkListener {
                             }
                             ClientConnection.getInstance().getActiveMonsters().remove(((UnitDeath) object).getTargetId());
                         }
+                        else if (((UnitDeath) object).getUnit().equals("avatar")) {
+                            if (((UnitDeath) object).getTargetId() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
+                                ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
+                                ClientConnection.getInstance().getUser().getAvatar().setIsDead(true);
+                                ClientConnection.getInstance().getActiveAvatars().get(((UnitDeath) object).getTargetId()).setHealth(ClientConnection.getInstance().getActiveAvatars().get(((UnitDeath) object).getTargetId()).getMaxHealth());
+                            }
+//                            ClientConnection.getInstance().getActiveAvatars().remove(((UnitDeath) object).getTargetId());
+                        }
                     }
                     if (object instanceof ItemDropClient) {
                         if (((ItemDropClient) object).getAvatarId() == ClientConnection.getInstance().getUser().getAvatar().getId()) {

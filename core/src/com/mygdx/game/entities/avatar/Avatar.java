@@ -42,8 +42,7 @@ public class Avatar {
 	private String direction;
 	private String isAttacking = "";
 	private float[] targetPosition;
-
-
+    private boolean isDead = false;
 
     public Avatar(String name) {
         this.name = name;
@@ -251,6 +250,14 @@ public class Avatar {
     public void setTargetPosition(float[] targetPosition) {
         this.targetPosition = targetPosition;
     }
+
+    public int getExperiencePoints() { return experiencePoints; }
+
+    public void setExperiencePoints(int xp) { this.experiencePoints = xp; }
+
+    public boolean getIsDead() { return isDead; }
+
+    public void setIsDead(boolean isDead) { this.isDead = isDead; }
 
     public Backpack getBackpack() {
         return backpack;
