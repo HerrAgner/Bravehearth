@@ -19,7 +19,7 @@ public class EquippedItems {
         this.equippedItems = new HashMap<>();
     }
 
-    public HashMap<WearableType, Item> getEquippedItems() {
+    public HashMap<WearableType, Item> getItems() {
         return equippedItems;
     }
 

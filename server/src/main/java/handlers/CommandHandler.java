@@ -114,9 +114,10 @@ public class CommandHandler {
                 GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getBackpack().getItems().add(item);
                 GameServer.getInstance().getServer().sendToTCP(connection.getID(), o);
             } else {
-                Item item = GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems().remove(((EquippedItemChange) o).getType());
-                GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getBackpack().getItems();
+                Item previousItem = GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems().remove(((EquippedItemChange) o).getType());
+                GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getBackpack().getItems().add(previousItem);
                 GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems().put(((EquippedItemChange) o).getType(), ((EquippedItemChange) o).getItem());
+                GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getBackpack().getItems().remove(((EquippedItemChange) o).getItem());
                 GameServer.getInstance().getServer().sendToTCP(connection.getID(), o);
             }
         }
