@@ -228,10 +228,32 @@ public class Inventory {
     private void unEquipItem(WearableType type, Item item) {
         int avatarId = ClientConnection.getInstance().getUser().getId();
         ClientConnection.getInstance().getClient().sendTCP(new EquippedItemChange(type, item, avatarId, true));
-        equippedItems.get(type).setDrawable(skin, "helmetBox");
+        switch (type) {
+            case HEAD:
+                equippedItems.get(type).setDrawable(skin, "helmetBox");
+                break;
+            case ACCESSORY:
+                equippedItems.get(type).setDrawable(skin, "amuBox");
+                break;
+            case CHEST:
+                equippedItems.get(type).setDrawable(skin, "chestBox");
+                break;
+            case WEAPON:
+                equippedItems.get(type).setDrawable(skin, "weaponBox");
+                break;
+            case LEGS:
+                equippedItems.get(type).setDrawable(skin, "hudboxmiddlegray");
+                break;
+            case FEET:
+                equippedItems.get(type).setDrawable(skin, "bootBox");
+                break;
+        }
     }
 
-    public void updateInventory() {
+//    private void
+
+
+    private void updateInventory() {
         AtomicInteger i = new AtomicInteger();
         ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().forEach(item -> {
             itemSlot.get(i.get()).setDrawable(itemSkin, item.getTexture());
@@ -265,7 +287,7 @@ public class Inventory {
         return isOpen;
     }
 
-    public void dropOrEquip(int i) {
+    private void dropOrEquip(int i) {
         if (selectWindow != null) {
             selectWindow.remove();
         }
@@ -301,7 +323,7 @@ public class Inventory {
         }
     }
 
-    public void displayItemInfo(int i) {
+    private void displayItemInfo(int i) {
         try {
             Item item = ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().get(i);
 
@@ -344,7 +366,7 @@ public class Inventory {
         }
     }
 
-    public void removeDialog() {
+    private void removeDialog() {
         window.clear();
         window.remove();
     }
