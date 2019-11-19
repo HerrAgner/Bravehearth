@@ -13,7 +13,6 @@ public class GameLoop implements Runnable {
     private AttackHandler ah;
 
 
-
     public GameLoop() {
         this.running = true;
         this.ah = new AttackHandler();
@@ -61,7 +60,7 @@ public class GameLoop implements Runnable {
                             av.setY(50);
                             av.setHealth(av.getMaxHealth());
                             av.setExperiencePoints(0);
-                            av.getBackpack().setWallet(av.getBackpack().getWallet() /2);
+                            av.getBackpack().setWallet(av.getBackpack().getWallet() / 2);
                             av.getBackpack().getItems().clear();
                             GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(aet.getAttacker(), aet.getTarget(), "avatar", 0));
                             DBQueries.saveAvatarWhenDead(GameServer.getInstance().aa.get(aet.getTarget()));
@@ -120,6 +119,7 @@ public class GameLoop implements Runnable {
                 e.printStackTrace();
             }
         }
+    }
 
     private Avatar levelUp(int avatarId) {
         Avatar av = GameServer.getInstance().aa.get(avatarId);

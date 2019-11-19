@@ -17,8 +17,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -397,7 +395,7 @@ public class GameScreen implements Screen {
         Window death = new Window("YOU DIED", skin);
         respawn = new TextButton("Respawn", skin, "default");
         float newWidth = 400, newHeight = 200;
-        death.setBounds((Gdx.graphics.getWidth() - newWidth ) / 2, (Gdx.graphics.getHeight() - newHeight ) / 2, newWidth , newHeight );
+        death.setBounds((Gdx.graphics.getWidth() - newWidth) / 2, (Gdx.graphics.getHeight() - newHeight) / 2, newWidth, newHeight);
         respawn.setWidth(80f);
         respawn.setHeight(40f);
         respawn.padRight(20f);
@@ -409,24 +407,6 @@ public class GameScreen implements Screen {
                 Gdx.input.setInputProcessor(inputHandler);
             }
         });
-    private void openInventory(){
-        if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
-            inventory.toggleInventory();
-        }
-        if(inventory.isOpen()){
-            inventory.getStage().act();
-            inventory.getStage().draw();
-        } else {
-            inventory.getStage().unfocusAll();
-        }
-        if (ClientConnection.getInstance().getUser().getAvatar().getBackpack().isChanged()) {
-            inventory.render();
-            ClientConnection.getInstance().getUser().getAvatar().getBackpack().setChanged(false);
-        }
-    }
-
-
-
 
         endGame = new TextButton("End Game", skin, "default");
         endGame.setWidth(80f);
@@ -445,5 +425,21 @@ public class GameScreen implements Screen {
 
         deathStage.addActor(death);
         deathStage.draw();
+    }
+
+    private void openInventory(){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
+            inventory.toggleInventory();
+        }
+        if(inventory.isOpen()){
+            inventory.getStage().act();
+            inventory.getStage().draw();
+        } else {
+            inventory.getStage().unfocusAll();
+        }
+        if (ClientConnection.getInstance().getUser().getAvatar().getBackpack().isChanged()) {
+            inventory.render();
+            ClientConnection.getInstance().getUser().getAvatar().getBackpack().setChanged(false);
+        }
     }
 }

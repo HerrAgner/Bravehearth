@@ -136,7 +136,6 @@ public class ClientNetworkListener {
                                 ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
                                 ClientConnection.getInstance().getUser().getAvatar().setIsDead(true);
                                 ClientConnection.getInstance().getActiveAvatars().get(((UnitDeath) object).getTargetId()).setHealth(ClientConnection.getInstance().getActiveAvatars().get(((UnitDeath) object).getTargetId()).getMaxHealth());
-                                System.out.println("hej");
                             }
 //                            ClientConnection.getInstance().getActiveAvatars().remove(((UnitDeath) object).getTargetId());
                         }
