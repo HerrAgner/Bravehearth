@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class EquippedItems {
     private HashMap<WearableType, Item> equippedItems;
     private int avatarId;
+    private boolean isChanged;
 
     public EquippedItems(int avatarId) {
         this.avatarId = avatarId;
@@ -20,5 +21,13 @@ public class EquippedItems {
 
     public HashMap<WearableType, Item> getEquippedItems() {
         return equippedItems;
+    }
+
+    public void setChanged(boolean changed) {
+        isChanged = changed;
+    }
+
+    public boolean isChanged() {
+        return isChanged;
     }
 }

@@ -14,7 +14,6 @@ import com.mygdx.game.network.networkMessages.ItemDropClient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Inventory {
@@ -34,11 +33,13 @@ public class Inventory {
     private Window selectWindow;
     private TextButton equip;
     private TextButton drop;
+    HashMap<WearableType, Image> equippedItems;
 
 
     public Inventory() {
         dropSkin = ClientConnection.getInstance().assetManager.get("terra-mother/skin/terra-mother-ui.json");
         windowTable = new Table();
+        equippedItems = new HashMap<>();
         stage = new Stage();
         table = new Table();
         skin = new Skin();
@@ -54,6 +55,7 @@ public class Inventory {
         window = new Window("default", dropSkin);
         initInventoryWindow();
         initEquippedItems();
+        updateEquippedItems();
     }
 
     private void initInventoryWindow() {
@@ -135,65 +137,62 @@ public class Inventory {
         empty5.setDrawable(skin, "hudboxmiddlegray");
         empty6.setDrawable(skin, "hudboxmiddlegray");
 
-        HashMap<WearableType, Item> equippedItems = ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems();
-        equippedItems.forEach((k, v) -> {
-            switch (k) {
-                case HEAD:
-                    head.setDrawable(itemSkin, v.getTexture());
-                    head.addListener(new ClickListener(-1) {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            dropEquippedItem(k, v);
-                        }
-                    });
-                    break;
-                case ACCESSORY:
-                    amulet.setDrawable(itemSkin, v.getTexture());
-                    amulet.addListener(new ClickListener(-1) {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            dropEquippedItem(k, v);
-                        }
-                    });
-                    break;
-                case WEAPON:
-                    weapon.setDrawable(itemSkin, v.getTexture());
-                    weapon.addListener(new ClickListener(-1) {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            dropEquippedItem(k, v);
-                        }
-                    });
-                    break;
-                case CHEST:
-                    chest.setDrawable(itemSkin, v.getTexture());
-                    chest.addListener(new ClickListener(-1) {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            dropEquippedItem(k, v);
-                        }
-                    });
-                    break;
-                case LEGS:
-                    legs.setDrawable(itemSkin, v.getTexture());
-                    legs.addListener(new ClickListener(-1) {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            dropEquippedItem(k, v);
-                        }
-                    });
-                    break;
-                case FEET:
-                    boots.setDrawable(itemSkin, v.getTexture());
-                    boots.addListener(new ClickListener(-1) {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            dropEquippedItem(k, v);
-                        }
-                    });
-                    break;
+
+        head.addListener(new ClickListener(-1) {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems().get(WearableType.HEAD) != null) {
+                    unEquipItem(WearableType.HEAD, ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems().get(WearableType.HEAD));
+                }
             }
         });
+        amulet.addListener(new ClickListener(-1) {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems().get(WearableType.ACCESSORY) != null) {
+                    unEquipItem(WearableType.ACCESSORY, ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems().get(WearableType.ACCESSORY));
+                }
+            }
+        });
+        weapon.addListener(new ClickListener(-1) {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems().get(WearableType.WEAPON) != null) {
+                    unEquipItem(WearableType.WEAPON, ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems().get(WearableType.WEAPON));
+                }
+            }
+        });
+        chest.addListener(new ClickListener(-1) {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems().get(WearableType.CHEST) != null) {
+                    unEquipItem(WearableType.CHEST, ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems().get(WearableType.CHEST));
+                }
+            }
+        });
+        legs.addListener(new ClickListener(-1) {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems().get(WearableType.LEGS) != null) {
+                    unEquipItem(WearableType.LEGS, ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems().get(WearableType.LEGS));
+                }
+            }
+        });
+        boots.addListener(new ClickListener(-1) {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems().get(WearableType.FEET) != null) {
+                    unEquipItem(WearableType.FEET, ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems().get(WearableType.FEET));
+                }
+            }
+        });
+        equippedItems.put(WearableType.HEAD, head);
+        equippedItems.put(WearableType.ACCESSORY, amulet);
+        equippedItems.put(WearableType.CHEST, chest);
+        equippedItems.put(WearableType.LEGS, legs);
+        equippedItems.put(WearableType.FEET, boots);
+        equippedItems.put(WearableType.WEAPON, weapon);
+
 
         backgroundTable.add(empty1).width(60).height(60);
         backgroundTable.row();
@@ -226,9 +225,10 @@ public class Inventory {
         return stage;
     }
 
-    public void dropEquippedItem(WearableType type, Item item){
+    private void unEquipItem(WearableType type, Item item) {
         int avatarId = ClientConnection.getInstance().getUser().getId();
-        ClientConnection.getInstance().getClient().sendTCP(new EquippedItemChange(type, item, avatarId));
+        ClientConnection.getInstance().getClient().sendTCP(new EquippedItemChange(type, item, avatarId, true));
+        equippedItems.get(type).setDrawable(skin, "helmetBox");
     }
 
     public void updateInventory() {
@@ -238,6 +238,15 @@ public class Inventory {
             i.getAndIncrement();
         });
         itemSlot.get(ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().size()).setDrawable(null);
+    }
+
+    private void updateEquippedItems() {
+        HashMap<WearableType, Item> allItems = ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems();
+        equippedItems.forEach((k, v) -> {
+            if (allItems.get(k) != null) {
+                v.setDrawable(itemSkin, allItems.get(k).getTexture());
+            }
+        });
 
     }
 
@@ -342,6 +351,7 @@ public class Inventory {
 
     public void render() {
         updateInventory();
+        updateEquippedItems();
     }
 }
 

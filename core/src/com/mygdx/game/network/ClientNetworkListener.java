@@ -152,7 +152,12 @@ public class ClientNetworkListener {
                     }
 
                     if (object instanceof EquippedItemChange) {
+                        if (((EquippedItemChange) object).isUnequipping()){
                         ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems().remove(((EquippedItemChange) object).getType());
+                        ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().add(((EquippedItemChange) object).getItem());
+                        ClientConnection.getInstance().getUser().getAvatar().getBackpack().setChanged(true);
+                        ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().setChanged(true);
+                        }
                     }
 
                 }

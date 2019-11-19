@@ -267,4 +267,6 @@ public class Avatar {
     public void setEquippedItems(EquippedItems equippedItems) {
         this.equippedItems = equippedItems;
     }
+
+
 }

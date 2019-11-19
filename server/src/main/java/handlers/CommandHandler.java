@@ -9,6 +9,7 @@ import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
 import network.networkMessages.avatar.EquippedItems;
+import network.networkMessages.items.Item;
 import network.networkMessages.items.Weapon;
 import network.networkMessages.items.Wearable;
 
@@ -108,11 +109,17 @@ public class CommandHandler {
             }
         }
         if (o instanceof EquippedItemChange) {
-           GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems().remove(((EquippedItemChange) o).getType());
-            System.out.println(GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems());
-           GameServer.getInstance().getServer().sendToTCP(connection.getID(), o);
+            if (((EquippedItemChange) o).isUnequipping()) {
+                Item item = GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems().remove(((EquippedItemChange) o).getType());
+                GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getBackpack().getItems().add(item);
+                GameServer.getInstance().getServer().sendToTCP(connection.getID(), o);
+            } else {
+                Item item = GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems().remove(((EquippedItemChange) o).getType());
+                GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getBackpack().getItems();
+                GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems().put(((EquippedItemChange) o).getType(), ((EquippedItemChange) o).getItem());
+                GameServer.getInstance().getServer().sendToTCP(connection.getID(), o);
+            }
         }
-
     }
 
     private void handleCommand(String command) {

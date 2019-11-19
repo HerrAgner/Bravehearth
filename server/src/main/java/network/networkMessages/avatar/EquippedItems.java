@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class EquippedItems {
     private HashMap<WearableType, Item> equippedItems;
     private int avatarId;
+    private boolean isChanged;
 
     public EquippedItems(int avatarId, HashMap<WearableType, Item> equippedItems) {
         this.avatarId = avatarId;
