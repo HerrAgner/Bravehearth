@@ -110,34 +110,64 @@ public class Inventory {
         Image amulet = new Image();
         Image chest = new Image();
         Image weapon = new Image();
-        Image empty = new Image();
+        Image legs = new Image();
         Image boots = new Image();
 
-        HashMap<WearableType, Item> equippedItems = ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems();
-        equippedItems.forEach((k, v) -> {
-            if (k == WearableType.WEAPON) {
-                 weapon.setDrawable(itemSkin, v.getTexture());
-                System.out.println(v.getTexture());
-            }
-        });
+        Image empty1 = new Image();
+        Image empty2 = new Image();
+        Image empty3 = new Image();
+        Image empty4 = new Image();
+        Image empty5 = new Image();
+        Image empty6 = new Image();
 
         head.setDrawable(skin, "helmetBox");
         amulet.setDrawable(skin, "amuBox");
         chest.setDrawable(skin, "chestBox");
-
-        empty.setDrawable(skin, "hudboxmiddlegray");
+        weapon.setDrawable(skin, "weaponBox");
+        legs.setDrawable(skin, "hudboxmiddlegray");
         boots.setDrawable(skin, "bootBox");
 
-        backgroundTable.add(empty).width(60).height(60);
+        empty1.setDrawable(skin, "hudboxmiddlegray");
+        empty2.setDrawable(skin, "hudboxmiddlegray");
+        empty3.setDrawable(skin, "hudboxmiddlegray");
+        empty4.setDrawable(skin, "hudboxmiddlegray");
+        empty5.setDrawable(skin, "hudboxmiddlegray");
+        empty6.setDrawable(skin, "hudboxmiddlegray");
+
+        HashMap<WearableType, Item> equippedItems = ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems();
+        equippedItems.forEach((k, v) -> {
+            switch (k) {
+                case HEAD:
+                    head.setDrawable(itemSkin, v.getTexture());
+                    break;
+                case ACCESSORY:
+                    amulet.setDrawable(itemSkin, v.getTexture());
+                    break;
+                case WEAPON:
+                    weapon.setDrawable(itemSkin, v.getTexture());
+                    break;
+                case CHEST:
+                    chest.setDrawable(itemSkin, v.getTexture());
+                    break;
+                case LEGS:
+                    legs.setDrawable(itemSkin, v.getTexture());
+                    break;
+                case FEET:
+                    boots.setDrawable(itemSkin, v.getTexture());
+                    break;
+            }
+        });
+
+        backgroundTable.add(empty1).width(60).height(60);
         backgroundTable.row();
-        backgroundTable.add(head).width(60).height(60);
+        backgroundTable.add(empty2).width(60).height(60);
         backgroundTable.row();
-        backgroundTable.add(empty).width(60).height(60);
-        backgroundTable.add(empty).width(60).height(60);
+        backgroundTable.add(empty3).width(60).height(60);
+        backgroundTable.add(empty4).width(60).height(60);
         backgroundTable.row();
-        backgroundTable.add(empty).width(60).height(60);
+        backgroundTable.add(empty5).width(60).height(60);
         backgroundTable.row();
-        backgroundTable.add(empty).width(60).height(60);
+        backgroundTable.add(empty6).width(60).height(60);
 
         equippedTable.add(head).width(60).height(60);
         equippedTable.row();
@@ -146,7 +176,7 @@ public class Inventory {
         equippedTable.add(chest).width(60).height(60);
         equippedTable.add(weapon).width(60).height(60);
         equippedTable.row();
-        equippedTable.add(empty).width(60).height(60);
+        equippedTable.add(legs).width(60).height(60);
         equippedTable.row();
         equippedTable.add(boots).width(60).height(60);
 
@@ -159,7 +189,7 @@ public class Inventory {
         return stage;
     }
 
-    public void updateInventory(){
+    public void updateInventory() {
         AtomicInteger i = new AtomicInteger();
         ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().forEach(item -> {
             itemSlot.get(i.get()).setDrawable(itemSkin, item.getTexture());
@@ -265,7 +295,7 @@ public class Inventory {
         window.remove();
     }
 
-    public void render(){
+    public void render() {
         updateInventory();
     }
 }
