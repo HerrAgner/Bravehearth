@@ -19,4 +19,24 @@ public class Weapon extends Item {
     }
 
     public Weapon() { }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public float getRange() {
+        return range;
+    }
+
+    public int getLevelRequirement() {
+        return levelRequirement;
+    }
+
+    public WeaponType getWeaponType() {
+        return weaponType;
+    }
 }

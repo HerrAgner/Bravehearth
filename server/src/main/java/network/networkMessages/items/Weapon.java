@@ -34,4 +34,28 @@ public class Weapon extends Item{
     public String toString() {
         return this.name;
     }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    public float getRange() {
+        return range;
+    }
+
+    public void setRange(float range) {
+        this.range = range;
+    }
 }

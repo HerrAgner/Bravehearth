@@ -1,9 +1,9 @@
 package com.mygdx.game.network;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.mygdx.game.entities.Backpack;
@@ -28,18 +28,21 @@ public class ClientConnection {
     private User user;
     private ConcurrentHashMap<Integer, Avatar> activeAvatars;
     private ConcurrentHashMap<Integer, Monster> activeMonsters;
+    private ConcurrentHashMap<Float[], Item> itemsOnGround;
     public AssetManager assetManager = new AssetManager();
+    public boolean loggedIn;
 
 
     private ClientConnection() {
         activeAvatars = new ConcurrentHashMap<>();
         client = new Client();
+        itemsOnGround = new ConcurrentHashMap<>();
         activeMonsters = new ConcurrentHashMap<>();
         registerClasses();
         addAssets();
         client.start();
         try {
-            client.connect(20000, "localhost", 54555, 54777);
+            client.connect(20000, "localhost", 54556, 54778);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,7 +65,11 @@ public class ClientConnection {
     private void addAssets() {
         //monsters
         assetManager.load("monsters/microbat.png", Texture.class);
+        assetManager.load("items/items.atlas", TextureAtlas.class);
         assetManager.load("monsters/monsterSprites.txt", TextureAtlas.class);
+        assetManager.load("avatars/avatarSprites.txt", TextureAtlas.class);
+        assetManager.load("hud.atlas", TextureAtlas.class);
+        assetManager.load("terra-mother/skin/terra-mother-ui.json", Skin.class);
 
         //projectiles
         assetManager.load("arrow_6.png", Texture.class);
@@ -97,6 +104,14 @@ public class ClientConnection {
         return user.getAvatar();
     }
 
+    public ConcurrentHashMap<Float[], Item> getItemsOnGround() {
+        return itemsOnGround;
+    }
+
+    public void setItemsOnGround(ConcurrentHashMap<Float[], Item> itemsOnGround) {
+        this.itemsOnGround = itemsOnGround;
+    }
+
     public void login(String username, String password) {
         client.sendTCP(new Login(username, password));
     }
@@ -126,5 +141,7 @@ public class ClientConnection {
         kryo.register(UnitDeath.class);
         kryo.register(AttackEnemyTarget.class);
         kryo.register(float[].class);
+        kryo.register(ItemDropClient.class);
+        kryo.register(ItemPickup.class);
     }
 }

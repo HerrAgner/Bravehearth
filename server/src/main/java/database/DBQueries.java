@@ -81,8 +81,8 @@ public abstract class DBQueries {
     }
 
     public static List getBpItems(int bpId) {
-        List items = new ArrayList();
-        PreparedStatement ps = prep("SELECT name, weaponType, speed, damage, `range`, levelRequirement, type " +
+        List<Item> items = new ArrayList();
+        PreparedStatement ps = prep("SELECT name, weaponType, speed, damage, `range`, levelRequirement, type, texture " +
                 "FROM backpackxitem b INNER JOIN weapons weap ON b.weapon = weap.id WHERE b.id = ?");
         try {
             ps.setInt(1, bpId);
@@ -95,13 +95,14 @@ public abstract class DBQueries {
                 int range = rs.getInt(5);
                 int levelRequirement = rs.getInt(6);
                 WearableType wearType = WearableType.valueOf(rs.getString(7));
-                items.add(new Weapon(new Item(name, levelRequirement), damage, speed, range, weaponType, wearType));
+                String texture = rs.getString(8);
+                items.add(new Weapon(new Item(name, levelRequirement, texture), damage, speed, range, weaponType, wearType));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        PreparedStatement ps2 = prep("SELECT name, type, defense, statChange, statToAffect, levelRequirement " +
+        PreparedStatement ps2 = prep("SELECT name, type, defense, statChange, statToAffect, levelRequirement, texture " +
                 "FROM backpackxitem b INNER JOIN wearables wear ON b.wearable = wear.id WHERE b.id = ?");
         try {
             ps2.setInt(1, bpId);
@@ -113,15 +114,16 @@ public abstract class DBQueries {
                 float statChange = rs.getFloat(4);
                 String statToAffect = rs.getString(5);
                 int levelRequirement = rs.getInt(6);
+                String texture = rs.getString(7);
                 HashMap<String, Float> map = new HashMap<>();
                 map.put(statToAffect, statChange);
-                items.add(new Wearable(new Item(name, levelRequirement), map, defense, type));
+                items.add(new Wearable(new Item(name, levelRequirement, texture), map, defense, type));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        PreparedStatement ps3 = prep("SELECT name, statChange, statToAffect, levelRequirement " +
+        PreparedStatement ps3 = prep("SELECT name, statChange, statToAffect, levelRequirement, texture " +
                 "FROM backpackxitem b INNER JOIN consumables c ON b.consumable = c.id WHERE b.id = ?");
         try {
             ps3.setInt(1, bpId);
@@ -131,9 +133,10 @@ public abstract class DBQueries {
                 float statChange = rs.getFloat(2);
                 String statToAffect = rs.getString(3);
                 int levelRequirement = rs.getInt(4);
+                String texture = rs.getString(5);
                 HashMap<String, Float> map = new HashMap<>();
                 map.put(statToAffect, statChange);
-                items.add(new Consumable(new Item(name, levelRequirement), map));
+                items.add(new Consumable(new Item(name, levelRequirement, texture), map));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -145,7 +148,7 @@ public abstract class DBQueries {
         HashMap<WearableType, Item> items = new HashMap<>();
         EquippedItems eq;
 
-        PreparedStatement ps = prep("SELECT `name`, weaponType, speed, damage, `range`, levelRequirement, type " +
+        PreparedStatement ps = prep("SELECT `name`, weaponType, speed, damage, `range`, levelRequirement, type, texture " +
                 "FROM equippedItems INNER JOIN weapons ON equippedItems.offHandSlot = weapons.id " +
                 "OR equippedItems.weaponSlot = weapons.id WHERE equippedItems.avatar = ?");
         try {
@@ -159,13 +162,14 @@ public abstract class DBQueries {
                 int range = rs.getInt(5);
                 int levelRequirement = rs.getInt(6);
                 WearableType wearType = WearableType.valueOf(rs.getString(7));
-                items.put(wearType, new Weapon(new Item(name, levelRequirement), damage, speed, range, weaponType, wearType));
+                String texture = rs.getString(8);
+                items.put(wearType, new Weapon(new Item(name, levelRequirement, texture), damage, speed, range, weaponType, wearType));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        PreparedStatement ps2 = prep("SELECT name, type, defense, statChange, statToAffect, levelRequirement " +
+        PreparedStatement ps2 = prep("SELECT name, type, defense, statChange, statToAffect, levelRequirement, texture " +
                 "FROM equippedItems INNER JOIN wearables ON equippedItems.headSlot = wearables.id " +
                 "OR equippedItems.chestSlot = wearables.id OR equippedItems.legSlot = wearables.id " +
                 "OR equippedItems.feetSlot = wearables.id OR equippedItems.accessorySlot = wearables.id " +
@@ -180,10 +184,11 @@ public abstract class DBQueries {
                 float statChange = rs.getFloat(4);
                 String statToAffect = rs.getString(5);
                 int levelRequirement = rs.getInt(6);
+                String texture = rs.getString(7);
 
                 HashMap<String, Float> map = new HashMap<>();
                 map.put(statToAffect, statChange);
-                items.put(type, new Wearable(new Item(name, levelRequirement), map, defense, type));
+                items.put(type, new Wearable(new Item(name, levelRequirement, texture), map, defense, type));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -220,16 +225,13 @@ public abstract class DBQueries {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        drop.entrySet().forEach(entry->{
-            System.out.println(entry.getKey() + " " + entry.getValue());
-        });
         return drop;
     }
 
     public static Weapon getWeapon(int weaponId) {
         Weapon w = null;
 
-        PreparedStatement ps = prep("SELECT `name`, weaponType, speed, damage, `range`, levelRequirement, type " +
+        PreparedStatement ps = prep("SELECT `name`, weaponType, speed, damage, `range`, levelRequirement, type, texture " +
                 "FROM weapons WHERE id = ?");
         try {
             ps.setInt(1, weaponId);
@@ -242,7 +244,8 @@ public abstract class DBQueries {
                 int range = rs.getInt(5);
                 int levelRequirement = rs.getInt(6);
                 WearableType wearType = WearableType.valueOf(rs.getString(7));
-                w = new Weapon(new Item(name, levelRequirement), damage, speed, range, weaponType, wearType);
+                String texture = rs.getString(8);
+                w = new Weapon(new Item(name, levelRequirement, texture), damage, speed, range, weaponType, wearType);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -252,7 +255,7 @@ public abstract class DBQueries {
 
     public static Wearable getWearable(int wearableId) {
         Wearable w = null;
-        PreparedStatement ps2 = prep("SELECT name, type, defense, statChange, statToAffect, levelRequirement " +
+        PreparedStatement ps2 = prep("SELECT name, type, defense, statChange, statToAffect, levelRequirement, texture " +
                 "FROM wearables WHERE id = ?");
         try {
             ps2.setInt(1, wearableId);
@@ -264,9 +267,10 @@ public abstract class DBQueries {
                 float statChange = rs.getFloat(4);
                 String statToAffect = rs.getString(5);
                 int levelRequirement = rs.getInt(6);
+                String texture = rs.getString(7);
                 HashMap<String, Float> map = new HashMap<>();
                 map.put(statToAffect, statChange);
-                w = new Wearable(new Item(name, levelRequirement), map, defense, type);
+                w = new Wearable(new Item(name, levelRequirement, texture), map, defense, type);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -276,7 +280,7 @@ public abstract class DBQueries {
 
     public static Consumable getConsumable(int consumableId) {
         Consumable c = null;
-        PreparedStatement ps3 = prep("SELECT name, statChange, statToAffect, levelRequirement " +
+        PreparedStatement ps3 = prep("SELECT name, statChange, statToAffect, levelRequirement, texture " +
                 "FROM consumables WHERE id = ?");
         try {
             ps3.setInt(1, consumableId);
@@ -286,14 +290,36 @@ public abstract class DBQueries {
                 float statChange = rs.getFloat(2);
                 String statToAffect = rs.getString(3);
                 int levelRequirement = rs.getInt(4);
+                String texture = rs.getString(5);
                 HashMap<String, Float> map = new HashMap<>();
                 map.put(statToAffect, statChange);
-                c = new Consumable(new Item(name, levelRequirement), map);
+                c = new Consumable(new Item(name, levelRequirement, texture), map);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return c;
+    }
+
+    public static void saveAvatarOnLevelUp(Avatar avatar) {
+        PreparedStatement ps = prep("UPDATE avatars SET health = ?, maxHealth = ?, maxMana = ?, " +
+                "strength = ?, dexterity = ?, intelligence = ?, `level` = ?, experiencePoints = 0, x = ?, y = ? WHERE id = ?");
+        try {
+            ps.setInt(1, avatar.getHealth());
+            ps.setInt(2, avatar.getMaxHealth());
+            ps.setInt(3, avatar.getMaxMana());
+            ps.setInt(4, avatar.getStrength());
+            ps.setInt(5, avatar.getDexterity());
+            ps.setInt(6, avatar.getIntelligence());
+            ps.setInt(7, avatar.getLevel());
+            ps.setFloat(8, avatar.getX());
+            ps.setFloat(9, avatar.getY());
+            ps.setInt(10, avatar.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("update successful");
     }
 
     public static void saveAvatarWhenDead(Avatar avatar) {

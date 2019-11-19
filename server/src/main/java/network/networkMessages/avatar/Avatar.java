@@ -244,7 +244,6 @@ public class Avatar {
     public int getExperiencePoints() {
         return experiencePoints;
     }
-
     public void setExperiencePoints(int experiencePoints) {
         this.experiencePoints = experiencePoints;
     }
@@ -255,12 +254,51 @@ public class Avatar {
     public int getLevel() {
         return level;
     }
-
     public void setLevel(int level) {
         this.level = level;
     }
 
     public void setDead(boolean dead) {
         isDead = dead;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+    public int getDexterity() {
+        return dexterity;
+    }
+
+    public void setDexterity(int dexterity) {
+        this.dexterity = dexterity;
+    }
+
+    public int getIntelligence() {
+        return intelligence;
+    }
+
+    public void setIntelligence(int intelligence) {
+        this.intelligence = intelligence;
+    }
+
+    public int getMaxMana() {
+        return maxMana;
+    }
+
+    public void setMaxMana(int maxMana) {
+        this.maxMana = maxMana;
+    }
+
+    public float getDefense() {
+        return defense;
+    }
+
+    public void setDefense(float defense) {
+        this.defense = defense;
     }
 }

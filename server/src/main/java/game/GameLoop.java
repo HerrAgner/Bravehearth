@@ -12,6 +12,8 @@ public class GameLoop implements Runnable {
     private boolean running;
     private AttackHandler ah;
 
+
+
     public GameLoop() {
         this.running = true;
         this.ah = new AttackHandler();
@@ -28,30 +30,27 @@ public class GameLoop implements Runnable {
 
             MovementHandler.movementLoopList.forEach((key, value) ->
                     value.forEach(movement -> {
-                        if (GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()) != null) {
-                            Position pos = updatePosition(GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()), movement, delta);
-                            if (pos != null) {
-                                GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setX(pos.getX());
-                                GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setY(pos.getY());
-                                GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setDirection(pos.getDirection());
-                                GameServer.getInstance().getServer().sendToAllUDP(pos);
+                                if (GameServer.getInstance().au.get(key.getID()) != null) {
+                                    Position pos = updatePosition(GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()), movement, delta);
+                                    if (pos != null) {
+                                        GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setX(pos.getX());
+                                        GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setY(pos.getY());
+                                        GameServer.getInstance().aa.get(GameServer.getInstance().au.get(key.getID()).getAvatar().getId()).setDirection(pos.getDirection());
+                                        GameServer.getInstance().getServer().sendToAllUDP(pos);
+                                    }
+                                }
                             }
-                        }
-                    }));
+                    ));
 
             if (AttackHandler.validatedAttacks.size() > 0) {
 
                 try {
                     AttackEnemyTarget aet = AttackHandler.validatedAttacks.take();
                     GameServer.getInstance().getServer().sendToAllTCP(aet);
-                    if (aet.getTargetUnit().equals("monster") && GameServer.getInstance().getMh().monsterList.get(aet.getTarget()).getHp() <= 0) {
-                        Monster mon = GameServer.getInstance().getMh().monsterList.get(aet.getTarget());
-                        GameServer.getInstance().aa.get(aet.getAttacker()).setMarkedUnit(-1);
-                        GameServer.getInstance().getMh().getActiveMonsterSpawners().get(mon.getSpawnerId()).decreaseActiveMonstersByOne();
-                        GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(aet.getAttacker(), aet.getTarget(), "monster", GameServer.getInstance().getMh().monsterList.get(aet.getTarget()).getExperiencePoints()));
-                        GameServer.getInstance().getMh().monsterList.remove(mon.getId());
-                        GameServer.getInstance().aa.get(aet.getAttacker()).addExperiencePoints(mon.getExperiencePoints());
-                        GameServer.getInstance().aa.get(aet.getAttacker()).getBackpack().addGold(mon.getGold());
+                    if (GameServer.getInstance().getMh().monsterList.get(aet.getTarget()) != null) {
+                        if (aet.getTargetUnit().equals("monster") && GameServer.getInstance().getMh().monsterList.get(aet.getTarget()).getHp() <= 0) {
+                            monsterDeath(aet);
+                        }
                     }
                     if (GameServer.getInstance().aa.get(aet.getTarget()) != null) {
                         if (aet.getTargetUnit().equals("avatar") && GameServer.getInstance().aa.get(aet.getTarget()).getHealth() <= 0) {
@@ -101,6 +100,7 @@ public class GameLoop implements Runnable {
                         v.setAttackTimer(delta);
                     }
                 }
+//                System.out.println(v.getHealth());
                 if (v.getHealth() < v.getMaxHealth() && v.getHealth() > 0) {
                     if (v.startHpRegen()) {
                         GameServer.getInstance().getServer().sendToAllTCP(new HealthChange(v.getHealth() + 1, v.getId(), v.getId(), 3));
@@ -108,8 +108,7 @@ public class GameLoop implements Runnable {
                     }
                 }
                 if (v.getExperiencePoints() >= 25 * v.getLevel() * (1 + v.getLevel())) {
-                    v.setLevel(v.getLevel() + 1);
-                    v.setExperiencePoints(0);
+                    levelUp(v.getId());
                 }
             });
 
@@ -122,7 +121,56 @@ public class GameLoop implements Runnable {
             }
         }
 
+    private Avatar levelUp(int avatarId) {
+        Avatar av = GameServer.getInstance().aa.get(avatarId);
+        av.setLevel(av.getLevel() + 1);
+        av.setExperiencePoints(0);
+        switch (av.getCharacterClass()) {
+            case SORCERER:
+                av.setIntelligence(av.getIntelligence() + 3);
+                av.setStrength(av.getStrength() + 1);
+                av.setDexterity(av.getDexterity() + 1);
+                break;
+            case WARRIOR:
+                av.setIntelligence(av.getIntelligence() + 1);
+                av.setStrength(av.getStrength() + 3);
+                av.setDexterity(av.getDexterity() + 1);
+                break;
+            case MARKSMAN:
+                av.setIntelligence(av.getIntelligence() + 1);
+                av.setStrength(av.getStrength() + 1);
+                av.setDexterity(av.getDexterity() + 3);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + av.getCharacterClass());
+        }
+        av.setMaxHealth(av.getMaxHealth() + 5);
+        av.setMaxMana(av.getMaxMana() + av.getIntelligence());
+        av.setHealth(av.getMaxHealth());
+        av.setMana(av.getMaxMana());
+        DBQueries.saveAvatarOnLevelUp(av);
+        GameServer.getInstance().getServer().sendToAllTCP(new HealthChange(av.getMaxHealth(), av.getId(), av.getId(), 1));
+        return av;
+    }
 
+    private void monsterDeath(AttackEnemyTarget aet) {
+        Monster mon = GameServer.getInstance().getMh().monsterList.get(aet.getTarget());
+        GameServer.getInstance().aa.forEach((integer, avatar) -> {
+            if (avatar.getMarkedUnit() == mon.getId()) {
+                avatar.setMarkedUnit(-1);
+            }
+        });
+        if (mon.getLoot().size() > 0) {
+            mon.getLoot().forEach(item -> {
+                GameServer.getInstance().getMh().itemsOnGround.put(new Float[]{mon.getX(), mon.getY()}, item);
+                GameServer.getInstance().getServer().sendToAllTCP(new ItemDrop(mon.getX(), mon.getY(), item));
+            });
+        }
+        GameServer.getInstance().getMh().getActiveMonsterSpawners().get(mon.getSpawnerId()).decreaseActiveMonstersByOne();
+        GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(aet.getAttacker(), aet.getTarget(), "monster", GameServer.getInstance().getMh().monsterList.get(aet.getTarget()).getExperiencePoints()));
+        GameServer.getInstance().getMh().monsterList.remove(mon.getId());
+        GameServer.getInstance().aa.get(aet.getAttacker()).addExperiencePoints(mon.getExperiencePoints());
+        GameServer.getInstance().aa.get(aet.getAttacker()).getBackpack().addGold(mon.getGold());
     }
 
     public Position updatePosition(Avatar avatar, Movement movement, float delta) {

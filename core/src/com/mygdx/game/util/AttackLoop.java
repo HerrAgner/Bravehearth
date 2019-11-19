@@ -1,6 +1,5 @@
 package com.mygdx.game.util;
 
-import com.mygdx.game.entities.User;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.network.Sender;
 

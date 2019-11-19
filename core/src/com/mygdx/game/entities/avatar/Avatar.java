@@ -258,4 +258,12 @@ public class Avatar {
     public boolean getIsDead() { return isDead; }
 
     public void setIsDead(boolean isDead) { this.isDead = isDead; }
+
+    public Backpack getBackpack() {
+        return backpack;
+    }
+
+    public void setBackpack(Backpack backpack) {
+        this.backpack = backpack;
+    }
 }

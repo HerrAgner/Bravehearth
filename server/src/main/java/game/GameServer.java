@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GameServer {
 
     private Server server;
-    private GameLoop gameLoop = new GameLoop();
+//    private GameLoop gameLoop = new GameLoop();
     public Avatar avatar;
     private ActiveUserHandler auh;
     private MonsterHandler mh;
@@ -37,7 +37,7 @@ public class GameServer {
         registerClasses();
         server.start();
         try {
-            server.bind(54555, 54777);
+            server.bind(54556, 54778);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,7 +45,9 @@ public class GameServer {
         this.mapReader.readMap();
         addMonsterSpawners();
 
-        new Thread(gameLoop).start();
+
+        new Thread(new GameLoop()).start();
+        new Thread(new MonsterSpawnLoop()).start();
 
         this.au = getAUH().getActiveUsers();
         this.aa = getAUH().getActiveAvatars();
@@ -78,8 +80,6 @@ public class GameServer {
             this.monsterSpawnLocations.getMonsterSpawner().get(integer).forEach(integers1 -> {
                 mh.addMonsterSpawner(new MonsterSpawner(integer, integers1, mh.getNewSpawnerId()));
             });
-//            System.out.println(this.monsterSpawnLocations.getMonsterSpawner().get(integer).get(1)[0]);
-//            System.out.println(this.monsterSpawnLocations.getMonsterSpawner().get(integer).get(1)[1]);
         });
 
     }
@@ -117,5 +117,7 @@ public class GameServer {
         kryo.register(UnitDeath.class);
         kryo.register(AttackEnemyTarget.class);
         kryo.register(float[].class);
+        kryo.register(ItemDrop.class);
+        kryo.register(ItemPickup.class);
     }
 }

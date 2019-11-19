@@ -5,12 +5,11 @@ import com.esotericsoftware.kryonet.Server;
 import database.DBQueries;
 import enums.Command;
 import game.GameServer;
-import network.networkMessages.AttackEnemyTarget;
-import network.networkMessages.Login;
-import network.networkMessages.Logout;
-import network.networkMessages.User;
+import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
+import network.networkMessages.items.Weapon;
+import network.networkMessages.items.Wearable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,8 +66,11 @@ public class CommandHandler {
                 auh.getActiveAvatars().values().forEach(avatar ->
                         server.sendToTCP(connection.getID(), avatar));
                 server.sendToAllExceptTCP(connection.getID(), user.getAvatar());
-
+                GameServer.getInstance().getMh().itemsOnGround.forEach((floats, item) -> {
+                    server.sendToTCP(connection.getID(), new ItemDrop(floats[0], floats[1], item));
+                });
                 GameServer.getInstance().getMh().monsterList.forEach((integer, monster1) -> server.sendToTCP(connection.getID(), monster1));
+                GameServer.getInstance().getServer().sendToTCP(connection.getID(), "finished");
             }
         }
 
@@ -80,8 +82,32 @@ public class CommandHandler {
 
         if (o instanceof Logout) {
             server.sendToAllTCP(o);
+            DBQueries.saveAvatarOnLevelUp(auh.getActiveAvatars().get(((Logout) o).getAvatar()));
             auh.getActiveAvatars().remove(((Logout) o).getAvatar());
             auh.getActiveUsers().remove(c.getID());
+            GameServer.getInstance().getMh().monsterList.forEach((integer, monster) -> {
+                if (monster.getMarkedUnit() == ((Logout) o).getAvatar()) {
+                    monster.setMarkedUnit(-1);
+                }
+            });
+        }
+        if (o instanceof ItemPickup) {
+            GameServer.getInstance().getMh().itemsOnGround.forEach((floats, item) -> {
+                if (floats[0] == ((ItemPickup) o).getX() && floats[1] == ((ItemPickup) o).getY() && item.getName().equals(((ItemPickup) o).getItem().getName())) {
+                    GameServer.getInstance().getMh().itemsOnGround.remove(floats);
+                }
+            });
+            GameServer.getInstance().aa.get(((ItemPickup) o).getAvatarId()).getBackpack().getItems().add(((ItemPickup) o).getItem());
+            GameServer.getInstance().getServer().sendToAllTCP(o);
+        }
+
+        if (o instanceof ItemDrop) {
+            if (((ItemDrop) o).getAvatarId() != -1) {
+                System.out.println(GameServer.getInstance().aa.get(((ItemDrop) o).getAvatarId()).getBackpack().getItems().size()
+                );
+                GameServer.getInstance().aa.get(((ItemDrop) o).getAvatarId()).getBackpack().getItems().remove(((ItemDrop) o).getId());
+                GameServer.getInstance().getServer().sendToAllTCP(o);
+            }
         }
 
     }
@@ -114,10 +140,72 @@ public class CommandHandler {
             avatar.setBackpack(bp);
             avatar.setEquippedItems(DBQueries.getEquippedItems(avatar.getId()));
             avatar.setBackpack(bp);
+            addEquippedItemStatsToAvatar(avatar);
             user.setAvatar(avatar);
         } catch (NullPointerException e) {
             System.out.println("No avatar found for user.");
         }
         return user;
+    }
+
+    private void addEquippedItemStatsToAvatar(Avatar avatar) {
+        Avatar av = avatar;
+        var ref = new Object() {
+            float newDefence = 0;
+            float attackRange = 0;
+            int attackDamage = 0;
+            float attackSpeed = 0;
+            String stat;
+            float amount;
+        };
+        av.getEquippedItems().getItems().forEach((o, o2) -> {
+            switch (o) {
+                case ACCESSORY:
+                    Wearable accessory = (Wearable) o2;
+                    ref.newDefence += accessory.getDefence();
+                    Map.Entry<String, Float> entry = accessory.getStatChange().entrySet().iterator().next();
+                    ref.stat = entry.getKey();
+                    ref.amount = entry.getValue();
+                    break;
+                case FEET:
+                case HEAD:
+                case LEGS:
+                case CHEST:
+                    Wearable wearable = (Wearable) o2;
+                    ref.newDefence += wearable.getDefence();
+                    break;
+                case WEAPON:
+                    Weapon weapon = (Weapon) o2;
+                    ref.attackDamage = weapon.getDamage();
+                    ref.attackRange = weapon.getRange();
+                    ref.attackSpeed = weapon.getSpeed();
+                    break;
+                default:
+            }
+        });
+        switch (ref.stat) {
+            case "STRENGTH":
+                av.setStrength(av.getStrength() + (int) ref.amount);
+                break;
+            case "INTELLIGENCE":
+                av.setIntelligence(av.getIntelligence() + (int) ref.amount);
+                break;
+            case "DEXTERITY":
+                av.setDexterity(av.getDexterity() + (int) ref.amount);
+                break;
+            case "HP":
+                int newHealth = av.getMaxHealth() + (int) ref.amount;
+                av.setMaxHealth(newHealth);
+                av.setHealth(av.getMaxHealth());
+                break;
+            case "MANA":
+                av.setMaxMana(av.getMaxMana() + (int) ref.amount);
+                break;
+        }
+        av.setDefense(ref.newDefence);
+        av.setAttackDamage(ref.attackDamage);
+        av.setAttackSpeed(ref.attackSpeed);
+        av.setAttackRange(ref.attackRange);
+
     }
 }

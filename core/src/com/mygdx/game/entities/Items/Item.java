@@ -5,6 +5,7 @@ public class Item {
     private int price;
     private int levelReq;
     private boolean equipped;
+    private String texture;
 
     public Item(Item item){
         this.name = item.name;
@@ -15,4 +16,12 @@ public class Item {
     }
     public Item(){ }
 
+    public String getName() {
+        return name;
+    }
+
+
+    public String getTexture() {
+        return texture;
+    }
 }

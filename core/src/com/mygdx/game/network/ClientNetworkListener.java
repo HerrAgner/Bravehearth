@@ -2,10 +2,13 @@ package com.mygdx.game.network;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import com.mygdx.game.entities.avatar.*;
+import com.mygdx.game.entities.User;
+import com.mygdx.game.entities.avatar.Avatar;
+import com.mygdx.game.entities.avatar.Marksman;
+import com.mygdx.game.entities.avatar.Sorcerer;
+import com.mygdx.game.entities.avatar.Warrior;
 import com.mygdx.game.entities.monsters.Monster;
 import com.mygdx.game.network.networkMessages.*;
-import com.mygdx.game.entities.User;
 import com.mygdx.game.util.CharacterClass;
 
 public class ClientNetworkListener {
@@ -17,6 +20,9 @@ public class ClientNetworkListener {
                     ClientConnection.getInstance().setUser((User) object);
                 }
                 if (object instanceof Avatar) {
+//                    if (ClientConnection.getInstance().getActiveAvatars().contains(object)) {
+//                        ClientConnection.getInstance().getActiveAvatars().remove(((Avatar) object).getId());
+//                    }
                     if (((Avatar) object).getCharacterClass() == CharacterClass.SORCERER) {
                         Sorcerer sorc = new Sorcerer((Avatar) object);
                         ClientConnection.getInstance().addActiveAvatar(sorc);
@@ -45,23 +51,26 @@ public class ClientNetworkListener {
                     }
 
                     if (object instanceof String) {
+                        if (object.equals("finished")){
+                            ClientConnection.getInstance().loggedIn = true;
+                        }
                         System.out.println(object);
                     }
 
                     if (object instanceof HealthChange) {
-                        if (((HealthChange) object).getType() == 1) {
-                            if (ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar()) != null) {
-                                ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar())
-                                        .setHp(((HealthChange) object).getNewHealth());
+                        if (((HealthChange) object).getType() == 1){
+                            if (((HealthChange) object).getReceivingAvatar() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
+                                ClientConnection.getInstance().getUser().getAvatar().setMaxHealth(((HealthChange) object).getNewHealth());
                             }
-                        } else if (((HealthChange) object).getType() == 3) {
+                            ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
+                                    .setMaxHealth(((HealthChange) object).getNewHealth());
                             ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
                                     .setHealth(((HealthChange) object).getNewHealth());
-                        } else {
+
+                        }
+                        else if (((HealthChange) object).getType() == 3) {
                             ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
                                     .setHealth(((HealthChange) object).getNewHealth());
-                            ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
-                                    .setHurt(true);
                         }
                     }
 
@@ -117,7 +126,9 @@ public class ClientNetworkListener {
 
                     if (object instanceof UnitDeath) {
                         if (((UnitDeath) object).getUnit().equals("monster")) {
-                            ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
+                            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() == ((UnitDeath) object).getTargetId()) {
+                                ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
+                            }
                             ClientConnection.getInstance().getActiveMonsters().remove(((UnitDeath) object).getTargetId());
                         }
                         else if (((UnitDeath) object).getUnit().equals("avatar")) {
@@ -128,6 +139,24 @@ public class ClientNetworkListener {
                                 System.out.println("hej");
                             }
 //                            ClientConnection.getInstance().getActiveAvatars().remove(((UnitDeath) object).getTargetId());
+                        }
+                    }
+                    if (object instanceof ItemDropClient) {
+                        if (((ItemDropClient) object).getAvatarId() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
+                            ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().remove(((ItemDropClient) object).getId());
+                            ClientConnection.getInstance().getUser().getAvatar().getBackpack().setChanged(true);
+                        }
+                        ClientConnection.getInstance().getItemsOnGround().put(new Float[]{((ItemDropClient) object).getX(), ((ItemDropClient) object).getY()}, ((ItemDropClient) object).getItem());
+                    }
+                    if (object instanceof ItemPickup) {
+                        ClientConnection.getInstance().getItemsOnGround().forEach((floats, item) -> {
+                            if (floats[0] == ((ItemPickup) object).getX() && floats[1] == ((ItemPickup) object).getY() && item.getName().equals(((ItemPickup) object).getItem().getName())) {
+                                ClientConnection.getInstance().getItemsOnGround().remove(floats);
+                            }
+                        });
+                        if (((ItemPickup) object).getAvatarId() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
+                            ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().add(((ItemPickup) object).getItem());
+                            ClientConnection.getInstance().getUser().getAvatar().getBackpack().setChanged(true);
                         }
                     }
 

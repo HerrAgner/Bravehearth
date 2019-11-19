@@ -1,24 +1,21 @@
 package com.mygdx.game.screen;
 
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.assets.loaders.AssetLoader;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.mygdx.game.BravehearthGame;
 import com.mygdx.game.network.ClientConnection;
-
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class LoginScreen implements Screen {
 
@@ -45,7 +42,7 @@ public class LoginScreen implements Screen {
         stage2 = new Stage();
         camera = new OrthographicCamera();
         Gdx.input.setInputProcessor(stage);
-        skin = new Skin(Gdx.files.internal("terra-mother/skin/terra-mother-ui.json"));
+        skin = ClientConnection.getInstance().assetManager.get("terra-mother/skin/terra-mother-ui.json");
         initBackground();
         initTextField();
         initWindows();
@@ -56,7 +53,7 @@ public class LoginScreen implements Screen {
     private void initMusic() {
         music = Gdx.audio.newMusic(Gdx.files.internal("audio/bravehearth.mp3"));
         music.play();
-        music.setVolume(0.3f);
+        music.setVolume(0.0f);
     }
 
     private void initTextField() {
@@ -127,8 +124,8 @@ public class LoginScreen implements Screen {
 
         logo = new Image();
         logo.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("bravehearth-logo.png")))));
-        logo.setSize(605*1.5f, 89*1.5f);
-        logo.setPosition(Gdx.graphics.getWidth() / 2 - 300*1.5f, Gdx.graphics.getHeight() - 200f*1.5f);
+        logo.setSize(605 * 1.5f, 89 * 1.5f);
+        logo.setPosition(Gdx.graphics.getWidth() / 2 - 300 * 1.5f, Gdx.graphics.getHeight() - 200f * 1.5f);
 
 
         stage2.addActor(backgroundImage);
@@ -157,20 +154,24 @@ public class LoginScreen implements Screen {
         if (Gdx.input.isButtonJustPressed(0)) {
             if (this.button.getClickListener().isPressed()) {
                 ClientConnection.getInstance().login(usernameTextField.getText(), passwordTextField.getText());
-                try {
-
-                    Thread.sleep(2500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if (ClientConnection.getInstance().getUser() != null) {
-                    music.dispose();
-                    game.setScreen(new GameScreen(game));
-                } else {
-                    button.remove();
-                    buttonWindow.remove();
-                    stage.addActor(failed);
-                    stage2.addActor(failedWindow);
+                int i = 0;
+                while (i < 300) {
+                    if (ClientConnection.getInstance().getUser() != null && ClientConnection.getInstance().loggedIn) {
+                        music.dispose();
+                        game.setScreen(new GameScreen(game));
+                        i = 300;
+                    } else {
+                        button.remove();
+                        buttonWindow.remove();
+                        stage.addActor(failed);
+                        stage2.addActor(failedWindow);
+                    }
+                    try {
+                        Thread.sleep(16);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    i++;
                 }
             }
             if (this.failed.getClickListener().isPressed()) {

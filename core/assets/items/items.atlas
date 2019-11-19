@@ -1,0 +1,173 @@
+items.png
+size: 768, 32
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+battle_axe_1
+  rotate: false
+  xy: 0, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+boots_1_brown_new
+  rotate: false
+  xy: 32, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+boots_iron_2
+  rotate: false
+  xy: 64, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+broad_axe_1
+  rotate: false
+  xy: 96, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+bubbly
+  rotate: false
+  xy: 128, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+cloak_1_leather
+  rotate: false
+  xy: 160, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+cloak_2
+  rotate: false
+  xy: 192, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+club_new
+  rotate: false
+  xy: 224, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+cyan_new
+  rotate: false
+  xy: 256, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+elven_leather_helm
+  rotate: false
+  xy: 288, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+gold_green
+  rotate: false
+  xy: 320, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+greatsword_1_new
+  rotate: false
+  xy: 352, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+helmet_5
+  rotate: false
+  xy: 384, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+leather_armor_1
+  rotate: false
+  xy: 416, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+longbow_2
+  rotate: false
+  xy: 448, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+mace_1_new
+  rotate: false
+  xy: 480, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+pizza_new
+  rotate: false
+  xy: 512, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+plate_mail_1
+  rotate: false
+  xy: 544, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+prompt_no
+  rotate: false
+  xy: 576, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+ring_topaz
+  rotate: false
+  xy: 608, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+ruby
+  rotate: false
+  xy: 640, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+ruby_new
+  rotate: false
+  xy: 672, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+short_sword_2_old
+  rotate: false
+  xy: 704, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+shortbow_1
+  rotate: false
+  xy: 736, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
