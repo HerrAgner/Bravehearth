@@ -2,12 +2,14 @@ package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -16,11 +18,11 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.BravehearthGame;
 import com.mygdx.game.config.GameConfig;
@@ -314,33 +316,35 @@ public class GameScreen implements Screen {
 
         Window death = new Window("YOU DIED", skin);
         respawn = new TextButton("Respawn", skin, "default");
+        float newWidth = 400, newHeight = 200;
+        death.setBounds((Gdx.graphics.getWidth() - newWidth ) / 2, (Gdx.graphics.getHeight() - newHeight ) / 2, newWidth , newHeight );
         respawn.setWidth(80f);
         respawn.setHeight(40f);
-        respawn.setPosition(Gdx.graphics.getWidth() / 2 - 40f, Gdx.graphics.getHeight() / 2 - 110f);
+        respawn.padRight(20f);
         respawn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("here I am");
-                game.setScreen(new GameScreen(game));
+                ClientConnection.getInstance().getUser().getAvatar().setIsDead(false);
+                deathStage.unfocusAll();
+                Gdx.input.setInputProcessor(inputHandler);
             }
         });
 
+
         endGame = new TextButton("End Game", skin, "default");
-        endGame.setWidth(200f);
+        endGame.setWidth(80f);
         endGame.setHeight(40f);
-        endGame.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 - 110f);
+        endGame.padLeft(20f);
         endGame.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("here I am once again");
                 game.setScreen(new LoginScreen(game));
             }
         });
 
-        death.add(respawn, endGame);
-        death.pack();
-        float newWidth = 400, newHeight = 200;
-        death.setBounds((Gdx.graphics.getWidth() - newWidth ) / 2, (Gdx.graphics.getHeight() - newHeight ) / 2, newWidth , newHeight );
+        death.add(respawn);
+        death.add(endGame);
+
 
         deathStage.addActor(death);
         deathStage.draw();

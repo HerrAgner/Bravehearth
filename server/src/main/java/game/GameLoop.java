@@ -1,5 +1,6 @@
 package game;
 
+import database.DBQueries;
 import enums.Movement;
 import handlers.AttackHandler;
 import handlers.MovementHandler;
@@ -54,10 +55,18 @@ public class GameLoop implements Runnable {
                     }
                     if (GameServer.getInstance().aa.get(aet.getTarget()) != null) {
                         if (aet.getTargetUnit().equals("avatar") && GameServer.getInstance().aa.get(aet.getTarget()).getHealth() <= 0) {
-                            GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(GameServer.getInstance().aa.get(aet.getTarget()), "avatar"));
-                            GameServer.getInstance().aa.get(aet.getTarget()).setMarkedUnit(-1);
-                            GameServer.getInstance().au.remove(aet.getTarget()).getAvatar().getId();
-                            GameServer.getInstance().aa.remove(aet.getTarget());
+                            Avatar av = GameServer.getInstance().aa.get(aet.getTarget());
+                            av.setMarkedUnit(-1);
+                            GameServer.getInstance().getServer().sendToAllTCP(new Position(50f, 50f, aet.getTarget(), 1, "front"));
+                            av.setX(50);
+                            av.setY(50);
+                            av.setHealth(av.getMaxHealth());
+                            av.setExperiencePoints(0);
+                            av.getBackpack().setWallet(av.getBackpack().getWallet() /2);
+                            av.getBackpack().getItems().clear();
+                            GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(aet.getAttacker(), aet.getTarget(), "avatar", 0));
+                            DBQueries.saveAvatarWhenDead(GameServer.getInstance().aa.get(aet.getTarget()));
+
                         }
                     }
                 } catch (InterruptedException e) {
@@ -98,8 +107,8 @@ public class GameLoop implements Runnable {
                         v.setHealth(v.getHealth() + 1);
                     }
                 }
-                if (v.getExperiencePoints() >= 25*v.getLevel()*(1+v.getLevel())) {
-                    v.setLevel(v.getLevel()+1);
+                if (v.getExperiencePoints() >= 25 * v.getLevel() * (1 + v.getLevel())) {
+                    v.setLevel(v.getLevel() + 1);
                     v.setExperiencePoints(0);
                 }
             });
