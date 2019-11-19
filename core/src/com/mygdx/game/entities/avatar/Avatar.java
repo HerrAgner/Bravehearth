@@ -259,4 +259,12 @@ public class Avatar {
     public void setBackpack(Backpack backpack) {
         this.backpack = backpack;
     }
+
+    public EquippedItems getEquippedItems() {
+        return equippedItems;
+    }
+
+    public void setEquippedItems(EquippedItems equippedItems) {
+        this.equippedItems = equippedItems;
+    }
 }

@@ -7,14 +7,13 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.mygdx.game.entities.Items.Consumable;
-import com.mygdx.game.entities.Items.Item;
-import com.mygdx.game.entities.Items.Weapon;
-import com.mygdx.game.entities.Items.Wearable;
+import com.mygdx.game.entities.Items.*;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.network.networkMessages.ItemDropClient;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Inventory {
@@ -117,49 +116,56 @@ public class Inventory {
     }
 
     private void initEquippedItems() {
-       Table equippedTable = new Table();
-       Table backgroundTable = new Table();
-       backgroundTable.setPosition(Gdx.graphics.getWidth()/2 + 400, Gdx.graphics.getHeight()/2);
-       equippedTable.setPosition(Gdx.graphics.getWidth()/2 + 400, Gdx.graphics.getHeight()/2);
-       Image head = new Image();
-       Image amulet = new Image();
-       Image chest = new Image();
-       Image weapon = new Image();
-       Image empty = new Image();
-       Image boots = new Image();
+        Table equippedTable = new Table();
+        Table backgroundTable = new Table();
+        backgroundTable.setPosition(Gdx.graphics.getWidth() / 2 + 400, Gdx.graphics.getHeight() / 2);
+        equippedTable.setPosition(Gdx.graphics.getWidth() / 2 + 400, Gdx.graphics.getHeight() / 2);
+        Image head = new Image();
+        Image amulet = new Image();
+        Image chest = new Image();
+        Image weapon = new Image();
+        Image empty = new Image();
+        Image boots = new Image();
 
-       head.setDrawable(skin, "helmetBox");
-       amulet.setDrawable(skin, "amuBox");
-       chest.setDrawable(skin, "chestBox");
-       weapon.setDrawable(skin, "weaponBox");
-       empty.setDrawable(skin, "hudboxmiddlegray");
-       boots.setDrawable(skin, "bootBox");
+        HashMap<WearableType, Item> equippedItems = ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getEquippedItems();
+        equippedItems.forEach((k, v) -> {
+            if (k == WearableType.WEAPON) {
+                 weapon.setDrawable(itemSkin, v.getTexture());
+                System.out.println(v.getTexture());
+            }
+        });
 
-       backgroundTable.add(empty).width(60).height(60);
-       backgroundTable.row();
-       backgroundTable.add(empty).width(60).height(60);
-       backgroundTable.row();
-       backgroundTable.add(empty).width(60).height(60);
-       backgroundTable.add(empty).width(60).height(60);
-       backgroundTable.row();
-       backgroundTable.add(empty).width(60).height(60);
-       backgroundTable.row();
-       backgroundTable.add(empty).width(60).height(60);
+        head.setDrawable(skin, "helmetBox");
+        amulet.setDrawable(skin, "amuBox");
+        chest.setDrawable(skin, "chestBox");
 
+        empty.setDrawable(skin, "hudboxmiddlegray");
+        boots.setDrawable(skin, "bootBox");
 
-       equippedTable.add(head).width(60).height(60);
-       equippedTable.row();
-       equippedTable.add(amulet).width(60).height(60);
-       equippedTable.row();
-       equippedTable.add(chest).width(60).height(60);
-       equippedTable.add(weapon).width(60).height(60);
-       equippedTable.row();
-       equippedTable.add(empty).width(60).height(60);
-       equippedTable.row();
-       equippedTable.add(boots).width(60).height(60);
+        backgroundTable.add(empty).width(60).height(60);
+        backgroundTable.row();
+        backgroundTable.add(head).width(60).height(60);
+        backgroundTable.row();
+        backgroundTable.add(empty).width(60).height(60);
+        backgroundTable.add(empty).width(60).height(60);
+        backgroundTable.row();
+        backgroundTable.add(empty).width(60).height(60);
+        backgroundTable.row();
+        backgroundTable.add(empty).width(60).height(60);
 
-       stage.addActor(backgroundTable);
-       stage.addActor(equippedTable);
+        equippedTable.add(head).width(60).height(60);
+        equippedTable.row();
+        equippedTable.add(amulet).width(60).height(60);
+        equippedTable.row();
+        equippedTable.add(chest).width(60).height(60);
+        equippedTable.add(weapon).width(60).height(60);
+        equippedTable.row();
+        equippedTable.add(empty).width(60).height(60);
+        equippedTable.row();
+        equippedTable.add(boots).width(60).height(60);
+
+        stage.addActor(backgroundTable);
+        stage.addActor(equippedTable);
     }
 
 
