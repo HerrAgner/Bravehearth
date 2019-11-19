@@ -58,19 +58,19 @@ public class ClientNetworkListener {
                     }
 
                     if (object instanceof HealthChange) {
-                        if (((HealthChange) object).getType() == 1) {
-                            if (ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar()) != null) {
-                                ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar())
-                                        .setHp(((HealthChange) object).getNewHealth());
+                        if (((HealthChange) object).getType() == 1){
+                            if (((HealthChange) object).getReceivingAvatar() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
+                                ClientConnection.getInstance().getUser().getAvatar().setMaxHealth(((HealthChange) object).getNewHealth());
                             }
-                        } else if (((HealthChange) object).getType() == 3) {
+                            ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
+                                    .setMaxHealth(((HealthChange) object).getNewHealth());
                             ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
                                     .setHealth(((HealthChange) object).getNewHealth());
-                        } else {
+
+                        }
+                        else if (((HealthChange) object).getType() == 3) {
                             ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
                                     .setHealth(((HealthChange) object).getNewHealth());
-                            ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
-                                    .setHurt(true);
                         }
                     }
 

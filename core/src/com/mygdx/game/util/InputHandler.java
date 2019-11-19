@@ -1,7 +1,9 @@
 package com.mygdx.game.util;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.entities.User;
 import com.mygdx.game.entities.avatar.Avatar;
@@ -104,7 +106,8 @@ public class InputHandler implements InputProcessor {
             if (Math.floor(vec.x) == 13 && Math.floor(vec.y) == 182) {
                 if (ClientConnection.getInstance().getUser().getAvatar().getDirection().equals("NORTH")){
                     if (ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().get(0).getName().equals("Steroids")){
-
+                        Music music = Gdx.audio.newMusic(Gdx.files.internal("audio/town.mp3"));
+                        music.play();
                     }
                 }
             }
