@@ -3,6 +3,7 @@ package game;
 import database.DBQueries;
 import enums.Movement;
 import handlers.AttackHandler;
+import handlers.CollisionHandler;
 import handlers.MovementHandler;
 import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
@@ -55,9 +56,9 @@ public class GameLoop implements Runnable {
                         if (aet.getTargetUnit().equals("avatar") && GameServer.getInstance().aa.get(aet.getTarget()).getHealth() <= 0) {
                             Avatar av = GameServer.getInstance().aa.get(aet.getTarget());
                             av.setMarkedUnit(-1);
-                            GameServer.getInstance().getServer().sendToAllTCP(new Position(50f, 50f, aet.getTarget(), 1, "front"));
-                            av.setX(50);
-                            av.setY(50);
+                            Float[] newPosition = CollisionHandler.newValidPosition(99,57);
+                            av.setPosition(newPosition[0], newPosition[1]);
+                            GameServer.getInstance().getServer().sendToAllTCP(new Position(newPosition[0], newPosition[1], aet.getTarget(), 1, "front"));
                             av.setHealth(av.getMaxHealth());
                             av.setExperiencePoints(0);
                             av.getBackpack().setWallet(av.getBackpack().getWallet() / 2);

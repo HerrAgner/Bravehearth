@@ -143,5 +143,6 @@ public class ClientConnection {
         kryo.register(float[].class);
         kryo.register(ItemDropClient.class);
         kryo.register(ItemPickup.class);
+        kryo.register(EquippedItemChange.class);
     }
 }

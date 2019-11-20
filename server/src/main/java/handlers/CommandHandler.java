@@ -8,6 +8,8 @@ import game.GameServer;
 import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
+import network.networkMessages.avatar.EquippedItems;
+import network.networkMessages.items.Item;
 import network.networkMessages.items.Weapon;
 import network.networkMessages.items.Wearable;
 
@@ -103,13 +105,23 @@ public class CommandHandler {
 
         if (o instanceof ItemDrop) {
             if (((ItemDrop) o).getAvatarId() != -1) {
-                System.out.println(GameServer.getInstance().aa.get(((ItemDrop) o).getAvatarId()).getBackpack().getItems().size()
-                );
                 GameServer.getInstance().aa.get(((ItemDrop) o).getAvatarId()).getBackpack().getItems().remove(((ItemDrop) o).getId());
                 GameServer.getInstance().getServer().sendToAllTCP(o);
             }
         }
-
+        if (o instanceof EquippedItemChange) {
+            if (((EquippedItemChange) o).isUnequipping()) {
+                Item item = GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems().remove(((EquippedItemChange) o).getType());
+                GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getBackpack().getItems().add(item);
+                GameServer.getInstance().getServer().sendToTCP(connection.getID(), o);
+            } else {
+                Item previousItem = GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems().remove(((EquippedItemChange) o).getType());
+                GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getBackpack().getItems().add(previousItem);
+                GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems().put(((EquippedItemChange) o).getType(), ((EquippedItemChange) o).getItem());
+                GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getBackpack().getItems().remove(((EquippedItemChange) o).getItem());
+                GameServer.getInstance().getServer().sendToTCP(connection.getID(), o);
+            }
+        }
     }
 
     private void handleCommand(String command) {
@@ -141,6 +153,8 @@ public class CommandHandler {
             avatar.setEquippedItems(DBQueries.getEquippedItems(avatar.getId()));
             avatar.setBackpack(bp);
             addEquippedItemStatsToAvatar(avatar);
+            Float[] position = CollisionHandler.newValidPosition(avatar.getX(), avatar.getY());
+            avatar.setPosition(position[0], position[1]);
             user.setAvatar(avatar);
         } catch (NullPointerException e) {
             System.out.println("No avatar found for user.");

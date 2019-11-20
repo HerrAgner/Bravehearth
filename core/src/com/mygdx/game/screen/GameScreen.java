@@ -443,5 +443,9 @@ public class GameScreen implements Screen {
             inventory.render();
             ClientConnection.getInstance().getUser().getAvatar().getBackpack().setChanged(false);
         }
+        if(ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().isChanged()){
+            inventory.render();
+            ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().setChanged(false);
+        }
     }
 }

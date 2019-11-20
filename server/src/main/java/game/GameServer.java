@@ -119,5 +119,6 @@ public class GameServer {
         kryo.register(float[].class);
         kryo.register(ItemDrop.class);
         kryo.register(ItemPickup.class);
+        kryo.register(EquippedItemChange.class);
     }
 }

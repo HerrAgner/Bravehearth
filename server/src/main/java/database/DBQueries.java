@@ -333,7 +333,7 @@ public abstract class DBQueries {
 
     public static void saveAvatarWhenDead(Avatar avatar) {
         PreparedStatement ps = prep("UPDATE avatars a INNER JOIN backpacks b ON a.id = b.avatarId " +
-                "SET a.health = ?, a.experiencePoints = ?, a.x = 50, a.y = 50, b.wallet = ? WHERE a.id = ?");
+                "SET a.health = ?, a.experiencePoints = ?, a.x = 99, a.y = 57, b.wallet = ? WHERE a.id = ?");
         try {
             ps.setInt(1, avatar.getMaxHealth());
             ps.setInt(2, 0);
