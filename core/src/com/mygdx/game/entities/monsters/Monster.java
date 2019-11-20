@@ -107,30 +107,6 @@ public class Monster {
         this.y = y;
     }
 
-    public float getMaxXspeed() {
-        return maxXspeed;
-    }
-
-    public void setMaxXspeed(float maxXspeed) {
-        this.maxXspeed = maxXspeed;
-    }
-
-    public float getMaxYspeed() {
-        return maxYspeed;
-    }
-
-    public void setMaxYspeed(float maxYspeed) {
-        this.maxYspeed = maxYspeed;
-    }
-
-    public float getBoundsRadius() {
-        return boundsRadius;
-    }
-
-    public void setBoundsRadius(float boundsRadius) {
-        this.boundsRadius = boundsRadius;
-    }
-
     public float getSize() {
         return size;
     }
@@ -175,55 +151,7 @@ public class Monster {
         return maxHp;
     }
 
-    public void setMaxHp(int maxHp) {
-        this.maxHp = maxHp;
-    }
-
-    public int getAttackDamage() {
-        return attackDamage;
-    }
-
-    public void setAttackDamage(int attackDamage) {
-        this.attackDamage = attackDamage;
-    }
-
-    public float getAttackSpeed() {
-        return attackSpeed;
-    }
-
-    public void setAttackSpeed(float attackSpeed) {
-        this.attackSpeed = attackSpeed;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getMarkedUnit() {
-        return markedUnit;
-    }
-
-    public void setMarkedUnit(int markedUnit) {
-        this.markedUnit = markedUnit;
-    }
-
-    public int getSpawnRate() {
-        return spawnRate;
-    }
-
-    public void setSpawnRate(int spawnRate) {
-        this.spawnRate = spawnRate;
-    }
-
     public String getTexture() {
         return texture;
-    }
-
-    public ArrayList<Item> getLoot() {
-        return loot;
     }
 }

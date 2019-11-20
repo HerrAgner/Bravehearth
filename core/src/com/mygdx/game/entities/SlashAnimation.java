@@ -47,7 +47,6 @@ public class SlashAnimation {
         this.targetPosition = targetPosition;
     }
 
-
     public Vector2 getTargetPosition() {
         return targetPosition;
     }

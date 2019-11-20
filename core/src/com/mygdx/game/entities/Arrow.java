@@ -64,20 +64,8 @@ public class Arrow {
         return position;
     }
 
-    public String getTargetUnitType() {
-        return targetUnitType;
-    }
-
     public void setTargetUnitType(String targetUnitType) {
         this.targetUnitType = targetUnitType;
-    }
-
-    public int getTargetUnit() {
-        return targetUnit;
-    }
-
-    public void setTargetUnit(int targetUnit) {
-        this.targetUnit = targetUnit;
     }
 
     public float getAngle() {

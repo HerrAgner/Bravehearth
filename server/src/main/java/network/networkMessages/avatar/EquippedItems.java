@@ -2,7 +2,6 @@ package network.networkMessages.avatar;
 
 import network.networkMessages.items.Item;
 import network.networkMessages.items.WearableType;
-
 import java.util.HashMap;
 
 public class EquippedItems {

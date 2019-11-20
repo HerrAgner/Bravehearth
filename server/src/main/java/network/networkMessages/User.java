@@ -21,8 +21,6 @@ public class User {
         return avatar;
     }
 
-    public String getUsername() { return username; }
-
     public void setAvatar(Avatar avatar) {
         this.avatar = avatar;
     }

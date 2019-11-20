@@ -1,17 +1,13 @@
 package network.networkMessages;
 
 import database.Column;
-import database.DBQueries;
 import network.networkMessages.items.Item;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
+
 
 public class Monster {
     private float maxXspeed = 0.001f;
     private float maxYspeed = 0.001f;
-
 
     private float boundsRadius;
     private float size;
@@ -64,10 +60,6 @@ public class Monster {
         return xp;
     }
 
-    public void setExperiencePoints(int experiencePoints) {
-        this.xp = experiencePoints;
-    }
-
     public float getMaxXspeed() {
         return maxXspeed;
     }
@@ -82,22 +74,6 @@ public class Monster {
 
     public void setMaxYspeed(float maxYspeed) {
         this.maxYspeed = maxYspeed;
-    }
-
-    public float getBoundsRadius() {
-        return boundsRadius;
-    }
-
-    public void setBoundsRadius(float boundsRadius) {
-        this.boundsRadius = boundsRadius;
-    }
-
-    public float getSize() {
-        return size;
-    }
-
-    public void setSize(float size) {
-        this.size = size;
     }
 
     public int getId() {
@@ -132,20 +108,12 @@ public class Monster {
         this.hp = hp;
     }
 
-    public int getMaxHp() {
-        return maxHp;
-    }
-
     public void setMaxHp(int maxHp) {
         this.maxHp = maxHp;
     }
 
     public int getAttackDamage() {
         return attackDamage;
-    }
-
-    public void setAttackDamage(int attackDamage) {
-        this.attackDamage = attackDamage;
     }
 
     public float getAttackSpeed() {
@@ -156,22 +124,6 @@ public class Monster {
         return attackRange;
     }
 
-    public void setAttackRange(float attackRange) {
-        this.attackRange = attackRange;
-    }
-
-    public void setAttackSpeed(float attackSpeed) {
-        this.attackSpeed = attackSpeed;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getMarkedUnit() {
         return markedUnit;
     }
@@ -179,15 +131,6 @@ public class Monster {
     public void setMarkedUnit(int markedUnit) {
         this.markedUnit = markedUnit;
     }
-
-    public int getSpawnRate() {
-        return spawnRate;
-    }
-
-    public void setSpawnRate(int spawnRate) {
-        this.spawnRate = spawnRate;
-    }
-
 
     public int getSpawnerId() {
         return spawnerId;
@@ -201,10 +144,6 @@ public class Monster {
         return maxSpeed;
     }
 
-    public void setMaxSpeed(float maxSpeed) {
-        this.maxSpeed = maxSpeed;
-    }
-
     public float getAttackTimer() {
         return attackTimer;
     }
@@ -213,20 +152,8 @@ public class Monster {
         this.attackTimer = attackTimer;
     }
 
-    public String getIsAttacking() {
-        return isAttacking;
-    }
-
-    public void setIsAttacking(String isAttacking) {
-        this.isAttacking = isAttacking;
-    }
-
     public int getGold() {
         return gold;
-    }
-
-    public String getTexture() {
-        return texture;
     }
 
     public ArrayList<Item> getLoot() {

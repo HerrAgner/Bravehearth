@@ -20,8 +20,6 @@ public class User {
 
     public void setAvatar(Avatar avatar) { this.avatar = avatar; }
 
-    public String getUsername() { return username; }
-
     public int getId() {
         return id;
     }
