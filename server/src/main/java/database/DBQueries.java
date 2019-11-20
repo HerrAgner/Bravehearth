@@ -368,4 +368,20 @@ public abstract class DBQueries {
             e.printStackTrace();
         }
     }
+
+    public static void removeFromBackpack(int bpId, Item item) {
+        PreparedStatement ps;
+        try {
+            if(item instanceof Weapon) {
+                ps = prep("DELETE FROM backpackxitem WHERE id = ? AND weapon = ? LIMIT 1");
+            } else if(item instanceof Wearable) {
+                ps = prep("DELETE FROM backpackxitem WHERE id = ? AND wearable = ? LIMIT 1");
+            } else ps = prep("DELETE FROM backpackxitem WHERE id = ? AND consumable = ? LIMIT 1");
+            ps.setInt(1, bpId);
+            ps.setInt(2, item.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
