@@ -1,6 +1,5 @@
 package network.networkMessages;
 
-
 import network.networkMessages.items.Item;
 
 public class ItemPickup {
@@ -9,8 +8,7 @@ public class ItemPickup {
     float x;
     float y;
 
-    public ItemPickup() {
-    }
+    public ItemPickup() { }
 
     public ItemPickup(int avatarId, Item item, float x, float y) {
         this.avatarId = avatarId;
@@ -21,10 +19,6 @@ public class ItemPickup {
 
     public int getAvatarId() {
         return avatarId;
-    }
-
-    public void setAvatarId(int avatarId) {
-        this.avatarId = avatarId;
     }
 
     public Item getItem() {
@@ -39,15 +33,7 @@ public class ItemPickup {
         return x;
     }
 
-    public void setX(float x) {
-        this.x = x;
-    }
-
     public float getY() {
         return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
     }
 }

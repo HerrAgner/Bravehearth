@@ -6,8 +6,7 @@ public class UnitDeath {
     String unit;
     int exp;
 
-    public UnitDeath(){
-    }
+    public UnitDeath(){ }
 
     public UnitDeath(int attackerId, int targetId, String unit, int exp) {
         this.attackerId = attackerId;

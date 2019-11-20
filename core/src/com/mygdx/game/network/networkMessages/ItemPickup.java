@@ -8,8 +8,7 @@ public class ItemPickup {
     float x;
     float y;
 
-    public ItemPickup() {
-    }
+    public ItemPickup() { }
 
     public ItemPickup(int avatarId, Item item, float x, float y) {
         this.avatarId = avatarId;
@@ -20,10 +19,6 @@ public class ItemPickup {
 
     public int getAvatarId() {
         return avatarId;
-    }
-
-    public void setAvatarId(int avatarId) {
-        this.avatarId = avatarId;
     }
 
     public Item getItem() {
