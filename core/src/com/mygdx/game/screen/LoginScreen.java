@@ -155,24 +155,19 @@ public class LoginScreen implements Screen {
             if (this.button.getClickListener().isPressed()) {
                 ClientConnection.getInstance().login(usernameTextField.getText(), passwordTextField.getText());
                 int i = 0;
-                while (i < 300) {
+                while (i < 200000) {
                     if (ClientConnection.getInstance().getUser() != null && ClientConnection.getInstance().loggedIn) {
                         music.dispose();
                         game.setScreen(new GameScreen(game));
-                        i = 300;
-                    } else {
-                        button.remove();
-                        buttonWindow.remove();
-                        stage.addActor(failed);
-                        stage2.addActor(failedWindow);
-                    }
-                    try {
-                        Thread.sleep(16);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        i = 200000;
                     }
                     i++;
                 }
+                    button.remove();
+                    buttonWindow.remove();
+                    stage.addActor(failed);
+                    stage2.addActor(failedWindow);
+
             }
             if (this.failed.getClickListener().isPressed()) {
                 failed.remove();
