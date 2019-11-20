@@ -3,7 +3,6 @@ package handlers;
 import game.GameServer;
 import network.networkMessages.User;
 import network.networkMessages.avatar.Avatar;
-
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -28,11 +27,6 @@ public class ActiveUserHandler {
 
     private void addToActiveAvatars(Avatar avatar) {
         activeAvatars.put(avatar.getId(), avatar);
-//        sendAvatarToClient(com.mygdx.game.entities.avatar);
-    }
-
-    private void sendAvatarToClient(Avatar avatar) {
-        GameServer.getInstance().getServer().sendToAllTCP(avatar);
     }
 
     public ConcurrentHashMap<Integer, Avatar> getActiveAvatars() { return activeAvatars; }

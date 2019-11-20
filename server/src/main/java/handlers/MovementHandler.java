@@ -4,13 +4,11 @@ import com.esotericsoftware.kryonet.Connection;
 import enums.Movement;
 import network.Sender;
 import network.networkMessages.MovementCommands;
-
 import java.util.LinkedHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MovementHandler {
-    //    private BlockingQueue<String> movementQueue;
     private Sender sender;
     public static ConcurrentHashMap<Connection, CopyOnWriteArrayList<Movement>> movementLoopList = new ConcurrentHashMap<>();
     private LinkedHashMap<Connection, MovementCommands> movementQueue;
@@ -24,7 +22,6 @@ public class MovementHandler {
     public void addToMovementQueue(MovementCommands mc, Connection connection) {
         movementQueue.put(connection, mc);
         handleMovement();
-
     }
 
     private void handleMovement() {
@@ -55,10 +52,8 @@ public class MovementHandler {
                     movementLoopList.remove(connection);
                     return true;
                 }
-
             }
         }
         return false;
     }
-
 }

@@ -1,12 +1,10 @@
 package handlers;
 
-
 import game.GameServer;
 import network.networkMessages.AttackEnemyTarget;
 import network.networkMessages.HealthChange;
 import network.networkMessages.Monster;
 import network.networkMessages.avatar.Avatar;
-
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -65,7 +63,6 @@ public class AttackHandler {
             }
         }
 
-
         if ((targetX < attackerX +1 + attackerRange
                 && targetX > attackerX -1 - attackerRange)
                 && (targetY < attackerY +1 + attackerRange
@@ -78,8 +75,6 @@ public class AttackHandler {
     }
 
     private void calculateDamageDealt(int type, int attackerId, int targetId){
-        // Check attacker damage vs attacker defence
-        // Need maybe hit chance in % and make a roll if the attack hits or misses
         Random r = new Random();
         Avatar avatar;
         Monster monster;
@@ -105,7 +100,6 @@ public class AttackHandler {
             newHealth = monster.getHp() - damageDone;
             GameServer.getInstance().getMh().monsterList.get(targetId).setHp(newHealth);
 
-
         } else {
             attackerUnit = "monster";
             targetUnit = "avatar";
@@ -130,8 +124,6 @@ public class AttackHandler {
 
         try {
             validatedAttacks.put(aet);
-//
-//            validatedAttacks.put(healthChange);
         } catch (InterruptedException e) {
             System.out.println("Could not add attack to list.");
         }

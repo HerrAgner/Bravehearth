@@ -10,7 +10,6 @@ import network.networkMessages.avatar.Backpack;
 import network.networkMessages.items.Item;
 import network.networkMessages.items.Weapon;
 import network.networkMessages.items.Wearable;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -77,7 +76,6 @@ public class CommandHandler {
         if (o instanceof AttackEnemyTarget) {
             AttackEnemyTarget aet = (AttackEnemyTarget) o;
             auh.getActiveAvatars().get(aet.getAttacker()).setMarkedUnit(aet.getTarget());
-//            ah.addAttackerToList(aet.getAttacker(), aet.getTarget(), 1);
         }
 
         if (o instanceof Logout) {
@@ -91,6 +89,7 @@ public class CommandHandler {
                 }
             });
         }
+
         if (o instanceof ItemPickup) {
             GameServer.getInstance().getMh().itemsOnGround.forEach((floats, item) -> {
                 if (floats[0] == ((ItemPickup) o).getX() && floats[1] == ((ItemPickup) o).getY() && item.getName().equals(((ItemPickup) o).getItem().getName())) {
@@ -110,6 +109,7 @@ public class CommandHandler {
                 GameServer.getInstance().getServer().sendToAllTCP(o);
             }
         }
+
         if (o instanceof EquippedItemChange) {
             Avatar av = GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId());
             if (((EquippedItemChange) o).isUnequipping()) {

@@ -4,7 +4,6 @@ import game.GameServer;
 import game.MapReader;
 import network.networkMessages.Monster;
 import network.networkMessages.avatar.Avatar;
-
 import java.util.Map;
 import java.util.Random;
 

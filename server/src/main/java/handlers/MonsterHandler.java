@@ -1,13 +1,11 @@
 package handlers;
 
-
 import game.GameServer;
 import game.MonsterSpawner;
 import network.networkMessages.Monster;
 import network.networkMessages.Position;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.items.Item;
-
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,7 +20,6 @@ public class MonsterHandler {
     private AttackHandler attackHandler;
     private ArrayList<MonsterSpawner> activeMonsterSpawners;
 
-
     public MonsterHandler() {
         activeMonsterSpawners = new ArrayList<>();
         monsterList = new ConcurrentHashMap<>();
@@ -35,10 +32,6 @@ public class MonsterHandler {
 
     public void monsterAttack(Monster monster) {
             attackHandler.addAttackerToList(monster.getId(), monster.getMarkedUnit(), 2);
-    }
-
-    public void addMonster(int id, Monster monster) {
-        monsterList.put(id, monster);
     }
 
     public void monsterTargetAvatar() {
@@ -195,20 +188,8 @@ public class MonsterHandler {
         this.activeMonsterSpawners.add(ms);
     }
 
-    public void setActiveMonsterSpawners(ArrayList<MonsterSpawner> activeMonsterSpawners) {
-        this.activeMonsterSpawners = activeMonsterSpawners;
-    }
-
-    public AtomicInteger getMonsterId() {
-        return monsterId;
-    }
-
     public int getNewMonsterId() {
         return monsterId.incrementAndGet();
-    }
-
-    public int getSpawnerId() {
-        return spawnerId;
     }
 
     public int getNewSpawnerId() {
