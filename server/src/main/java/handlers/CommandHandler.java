@@ -3,7 +3,6 @@ package handlers;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
 import database.DBQueries;
-import enums.Command;
 import game.GameServer;
 import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
@@ -120,24 +119,8 @@ public class CommandHandler {
                 GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getBackpack().getItems().remove(((EquippedItemChange) o).getItem());
                 GameServer.getInstance().getServer().sendToTCP(connection.getID(), o);
             }
-        }
-    }
-
-    private void handleCommand(String command) {
-        switch (Command.valueOf(command)) {
-            //add logic for commands later
-            case ATTACK:
-                System.out.println("attack");
-                break;
-            case SPELL:
-                System.out.println("spell");
-                break;
-            case BACKPACK:
-                System.out.println("backpack");
-                break;
-            case MAP:
-                System.out.println("map");
-                break;
+            Avatar av = addEquippedItemStatsToAvatar(GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()));
+            GameServer.getInstance().getServer().sendToTCP(connection.getID(), new AvatarStatChange(av));
         }
     }
 
@@ -161,25 +144,17 @@ public class CommandHandler {
         return user;
     }
 
-    private void addEquippedItemStatsToAvatar(Avatar avatar) {
+    private Avatar addEquippedItemStatsToAvatar(Avatar avatar) {
         Avatar av = avatar;
         var ref = new Object() {
             float newDefence = 0;
             float attackRange = 0;
             int attackDamage = 0;
             float attackSpeed = 0;
-            String stat;
-            float amount;
         };
         av.getEquippedItems().getItems().forEach((o, o2) -> {
             switch (o) {
                 case ACCESSORY:
-                    Wearable accessory = (Wearable) o2;
-                    ref.newDefence += accessory.getDefence();
-                    Map.Entry<String, Float> entry = accessory.getStatChange().entrySet().iterator().next();
-                    ref.stat = entry.getKey();
-                    ref.amount = entry.getValue();
-                    break;
                 case FEET:
                 case HEAD:
                 case LEGS:
@@ -196,29 +171,11 @@ public class CommandHandler {
                 default:
             }
         });
-        switch (ref.stat) {
-            case "STRENGTH":
-                av.setStrength(av.getStrength() + (int) ref.amount);
-                break;
-            case "INTELLIGENCE":
-                av.setIntelligence(av.getIntelligence() + (int) ref.amount);
-                break;
-            case "DEXTERITY":
-                av.setDexterity(av.getDexterity() + (int) ref.amount);
-                break;
-            case "HP":
-                int newHealth = av.getMaxHealth() + (int) ref.amount;
-                av.setMaxHealth(newHealth);
-                av.setHealth(av.getMaxHealth());
-                break;
-            case "MANA":
-                av.setMaxMana(av.getMaxMana() + (int) ref.amount);
-                break;
-        }
+
         av.setDefense(ref.newDefence);
         av.setAttackDamage(ref.attackDamage);
         av.setAttackSpeed(ref.attackSpeed);
         av.setAttackRange(ref.attackRange);
-
+        return av;
     }
 }

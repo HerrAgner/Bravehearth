@@ -120,5 +120,6 @@ public class GameServer {
         kryo.register(ItemDrop.class);
         kryo.register(ItemPickup.class);
         kryo.register(EquippedItemChange.class);
+        kryo.register(AvatarStatChange.class);
     }
 }

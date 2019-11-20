@@ -43,8 +43,8 @@ public class Stats {
     private void initWindow() {
         window = new Image();
         window.setDrawable(skin, "hudboxmiddlegray");
-        window.setSize(200, 240);
-        window.setPosition(Gdx.graphics.getWidth() / 2 - 520f, Gdx.graphics.getHeight() / 2 - 90f);
+        window.setSize(200, 280);
+        window.setPosition(Gdx.graphics.getWidth() / 2 - 520f, Gdx.graphics.getHeight() / 2 - 130f);
         stage.addActor(window);
 
 
@@ -58,6 +58,7 @@ public class Stats {
 
     public void draw() {
         Avatar av = ClientConnection.getInstance().getUser().getAvatar();
+        Avatar currentAv = ClientConnection.getInstance().getActiveAvatars().get(av.getId());
         stage.getBatch().begin();
         window.draw(stage.getBatch(), 100);
 
@@ -67,23 +68,29 @@ public class Stats {
         layout = new GlyphLayout(font, "lvl: " + av.getLevel());
         font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 + 90f);
 
-        layout = new GlyphLayout(font, "xp: " + av.getExperiencePoints());
+        layout = new GlyphLayout(font, "hp: " + currentAv.getHealth() + " / " + currentAv.getMaxHealth());
         font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 + 70f);
 
-        layout = new GlyphLayout(font, "xp to level: " + ((25 * av.getLevel() * (1 + av.getLevel())) - av.getExperiencePoints()));
+        layout = new GlyphLayout(font, "xp: " + av.getExperiencePoints());
         font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 + 50f);
 
-        layout = new GlyphLayout(font, "str: " + av.getStrength());
+        layout = new GlyphLayout(font, "xp to level: " + ((25 * av.getLevel() * (1 + av.getLevel())) - av.getExperiencePoints()));
         font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 + 30f);
 
-        layout = new GlyphLayout(font, "int: " + av.getIntelligence());
+        layout = new GlyphLayout(font, "str: " + av.getStrength());
         font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 + 10f);
 
-        layout = new GlyphLayout(font, "dex: " + av.getDexterity());
+        layout = new GlyphLayout(font, "int: " + av.getIntelligence());
         font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 - 10f);
 
-        layout = new GlyphLayout(font, "dmg: " + av.getAttackDamage());
+        layout = new GlyphLayout(font, "dex: " + av.getDexterity());
         font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 - 30f);
+
+        layout = new GlyphLayout(font, "dmg: " + av.getAttackDamage());
+        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 - 50f);
+
+        layout = new GlyphLayout(font, "defence: " + av.getDefence());
+        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 - 70f);
 
         stage.getBatch().end();
     }
