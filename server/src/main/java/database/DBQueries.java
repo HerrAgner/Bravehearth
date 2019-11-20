@@ -385,7 +385,7 @@ public abstract class DBQueries {
         }
     }
 
-    public static void saveToEquippedItems(int avatarId, EquippedItems eq) {
+    public static void saveEquippedItems(int avatarId, EquippedItems eq) {
         PreparedStatement ps = prep("UPDATE equippedItems SET headSlot = ?, chestSlot = ?, legSlot = ?, " +
                 "feetSlot = ?, weaponSlot = ?, accessorySlot = ? WHERE avatar = ?");
         try {
