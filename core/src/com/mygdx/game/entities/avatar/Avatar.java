@@ -322,4 +322,28 @@ public class Avatar {
     public boolean isDead() {
         return isDead;
     }
+
+    public void setAttackDamage(int attackDamage) {
+        this.attackDamage = attackDamage;
+    }
+
+    public void setAttackRange(float attackRange) {
+        this.attackRange = attackRange;
+    }
+
+    public void setDefence(float defence) {
+        this.defence = defence;
+    }
+
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+    public void setDexterity(int dexterity) {
+        this.dexterity = dexterity;
+    }
+
+    public void setIntelligence(int intelligence) {
+        this.intelligence = intelligence;
+    }
 }

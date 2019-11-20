@@ -114,6 +114,24 @@ public class CommandHandler {
                 Item item = GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems().remove(((EquippedItemChange) o).getType());
                 GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getBackpack().getItems().add(item);
                 GameServer.getInstance().getServer().sendToTCP(connection.getID(), o);
+                if (item instanceof Wearable) {
+                    HashMap<String, Float> hm = ((Wearable) item).getStatChange();
+                    if (hm.containsKey("STRENGTH")) {
+                        System.out.println("st");
+                    }
+                    if (hm.containsKey("HP")) {
+                        GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).setMaxHealth((int) (GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getMaxHealth() - hm.get("HP")));
+                    }
+                    if (hm.containsKey("INTELLIGENCE")) {
+                        System.out.println("i");
+                    }
+                    if (hm.containsKey("DEXTERITY")) {
+                        System.out.println("d");
+                    }
+                    if (hm.containsKey("MANA")) {
+                        System.out.println("m");
+                    }
+                }
             } else {
                 Item previousItem = GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems().remove(((EquippedItemChange) o).getType());
                 GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getBackpack().getItems().add(previousItem);
@@ -121,24 +139,8 @@ public class CommandHandler {
                 GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getBackpack().getItems().remove(((EquippedItemChange) o).getItem());
                 GameServer.getInstance().getServer().sendToTCP(connection.getID(), o);
             }
-        }
-    }
-
-    private void handleCommand(String command) {
-        switch (Command.valueOf(command)) {
-            //add logic for commands later
-            case ATTACK:
-                System.out.println("attack");
-                break;
-            case SPELL:
-                System.out.println("spell");
-                break;
-            case BACKPACK:
-                System.out.println("backpack");
-                break;
-            case MAP:
-                System.out.println("map");
-                break;
+            Avatar av = addEquippedItemStatsToAvatar(GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()));
+            GameServer.getInstance().getServer().sendToTCP(connection.getID(), new AvatarStatChange(av));
         }
     }
 
@@ -160,7 +162,7 @@ public class CommandHandler {
         return user;
     }
 
-    private void addEquippedItemStatsToAvatar(Avatar avatar) {
+    private Avatar addEquippedItemStatsToAvatar(Avatar avatar) {
         Avatar av = avatar;
         var ref = new Object() {
             float newDefence = 0;
@@ -195,29 +197,33 @@ public class CommandHandler {
                 default:
             }
         });
-        switch (ref.stat) {
-            case "STRENGTH":
-                av.setStrength(av.getStrength() + (int) ref.amount);
-                break;
-            case "INTELLIGENCE":
-                av.setIntelligence(av.getIntelligence() + (int) ref.amount);
-                break;
-            case "DEXTERITY":
-                av.setDexterity(av.getDexterity() + (int) ref.amount);
-                break;
-            case "HP":
-                int newHealth = av.getMaxHealth() + (int) ref.amount;
-                av.setMaxHealth(newHealth);
-                av.setHealth(av.getMaxHealth());
-                break;
-            case "MANA":
-                av.setMaxMana(av.getMaxMana() + (int) ref.amount);
-                break;
+        if (ref.stat != null) {
+            switch (ref.stat) {
+                case "STRENGTH":
+                    av.setStrength(av.getStrength() + (int) ref.amount);
+                    break;
+                case "INTELLIGENCE":
+                    av.setIntelligence(av.getIntelligence() + (int) ref.amount);
+                    break;
+                case "DEXTERITY":
+                    av.setDexterity(av.getDexterity() + (int) ref.amount);
+                    break;
+                case "HP":
+                    int newHealth = av.getMaxHealth() + (int) ref.amount;
+                    av.setMaxHealth(newHealth);
+                    av.setHealth(av.getMaxHealth());
+                    break;
+                case "MANA":
+                    av.setMaxMana(av.getMaxMana() + (int) ref.amount);
+                    break;
+            }
+        } else {
+
         }
         av.setDefense(ref.newDefence);
         av.setAttackDamage(ref.attackDamage);
         av.setAttackSpeed(ref.attackSpeed);
         av.setAttackRange(ref.attackRange);
-
+        return av;
     }
 }
