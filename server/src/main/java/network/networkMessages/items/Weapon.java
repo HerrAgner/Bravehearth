@@ -15,6 +15,8 @@ public class Weapon extends Item{
     private WeaponType weaponType;
     @Column
     private WearableType wearableType;
+    @Column
+    private int id;
 
 
     public Weapon(Item item, int damage, float speed, float range, WeaponType weaponType, WearableType wearableType) {
@@ -58,4 +60,6 @@ public class Weapon extends Item{
     public void setRange(float range) {
         this.range = range;
     }
+
+    public int getId() { return id; }
 }
