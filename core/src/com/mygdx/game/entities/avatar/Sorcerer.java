@@ -28,8 +28,6 @@ public class Sorcerer extends Avatar {
 
     public Sorcerer() { }
 
-    public void setSprite(Sprite sprite) { this.sprite = sprite; }
-
     public Sprite getSprite() {
         return sprite;
     }

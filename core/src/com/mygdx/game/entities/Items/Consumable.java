@@ -11,7 +11,5 @@ public class Consumable extends Item {
         this.statChange = statChange;
     }
 
-    public Consumable() {
-
-    }
+    public Consumable() { }
 }

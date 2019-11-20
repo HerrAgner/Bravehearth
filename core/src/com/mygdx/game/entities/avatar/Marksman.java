@@ -26,10 +26,6 @@ public class Marksman extends Avatar {
 
     public Marksman(){ }
 
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
-    }
-
     public Sprite getSprite() {
         return sprite;
     }

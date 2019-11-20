@@ -20,7 +20,6 @@ public class Item {
         return name;
     }
 
-
     public String getTexture() {
         return texture;
     }

@@ -8,11 +8,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.network.ClientConnection;
 
-
 public class Warrior extends Avatar {
     private Sprite sprite;
     private Sound hurtSound;
-    private boolean showAttackAnimation;
     private Animation<TextureRegion> front;
     private Animation<TextureRegion> back;
     private Animation<TextureRegion> left_side;
@@ -29,24 +27,12 @@ public class Warrior extends Avatar {
     public Warrior() {
     }
 
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
-    }
-
     public Sprite getSprite() {
         return sprite;
     }
 
     public void playSound() {
         hurtSound.play();
-    }
-
-    public boolean showAttackAnimation() {
-        return showAttackAnimation;
-    }
-
-    public void setShowAttackAnimation(boolean showAttackAnimations) {
-        showAttackAnimation = showAttackAnimations;
     }
 
     private void initAnimation(){

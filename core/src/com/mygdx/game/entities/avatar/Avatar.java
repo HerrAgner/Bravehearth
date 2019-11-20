@@ -117,27 +117,7 @@ public class Avatar {
 
     public int getId() { return id; }
 
-    public void update(float delta) {
-       /* float xSpeed = 0;
-        float ySpeed = 0;
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.S)) {
-
-        } else {
-            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                xSpeed = maxXspeed;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                xSpeed = -maxXspeed;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                ySpeed = maxYspeed;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                ySpeed = -maxYspeed;
-            }
-        }
-        validMovement(x += xSpeed * delta, y += ySpeed * delta);
-
-    */
-    }
+    public void update(float delta) { }
 
     public void validMovement(float x, float y) {
         if (x < 0 + size / 2) {
@@ -200,10 +180,6 @@ public class Avatar {
         return name;
     }
 
-    public float getBoundsRadius() {
-        return boundsRadius;
-    }
-
     public float getSize() {
         return size;
     }
@@ -221,24 +197,12 @@ public class Avatar {
         return attackSpeed;
     }
 
-    public float getAttackRange() {
-        return attackRange;
-    }
-
     public void setAttackSpeed(float attackSpeed) {
         this.attackSpeed = attackSpeed;
     }
 
     public void setMaxXspeed(float maxXspeed) {
         this.maxXspeed = maxXspeed;
-    }
-
-    public void setMaxYspeed(float maxYspeed) {
-        this.maxYspeed = maxYspeed;
-    }
-
-    public void setCharacterClass(CharacterClass characterClass) {
-        this.characterClass = characterClass;
     }
 
     public String getDirection() { return direction; }
@@ -263,10 +227,6 @@ public class Avatar {
         return backpack;
     }
 
-    public void setBackpack(Backpack backpack) {
-        this.backpack = backpack;
-    }
-
     public int getStrength() {
         return strength;
     }
@@ -287,40 +247,8 @@ public class Avatar {
         return defence;
     }
 
-    public float getMaxXspeed() {
-        return maxXspeed;
-    }
-
-    public float getMaxYspeed() {
-        return maxYspeed;
-    }
-
-    public int getMana() {
-        return mana;
-    }
-
-    public int getMaxMana() {
-        return maxMana;
-    }
-
     public EquippedItems getEquippedItems() {
         return equippedItems;
-    }
-
-    public float getHpRegen() {
-        return hpRegen;
-    }
-
-    public float getAttackLoop() {
-        return attackLoop;
-    }
-
-    public String getIsAttacking() {
-        return isAttacking;
-    }
-
-    public boolean isDead() {
-        return isDead;
     }
 
     public void setAttackDamage(int attackDamage) {

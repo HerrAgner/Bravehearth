@@ -10,8 +10,6 @@ public class Weapon extends Item{
     @Column
     private float range;
     @Column
-    private int levelRequirement;
-    @Column
     private WeaponType weaponType;
     @Column
     private WearableType wearableType;
@@ -38,24 +36,12 @@ public class Weapon extends Item{
         return damage;
     }
 
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
-
     public float getSpeed() {
         return speed;
     }
 
-    public void setSpeed(float speed) {
-        this.speed = speed;
-    }
-
     public float getRange() {
         return range;
-    }
-
-    public void setRange(float range) {
-        this.range = range;
     }
 
     @Override

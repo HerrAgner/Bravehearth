@@ -4,7 +4,6 @@ public class Weapon extends Item {
     private int damage;
     private float speed;
     private float range;
-    private int levelRequirement;
     private WeaponType weaponType;
     private WearableType wearableType;
 
@@ -26,14 +25,6 @@ public class Weapon extends Item {
 
     public float getSpeed() {
         return speed;
-    }
-
-    public float getRange() {
-        return range;
-    }
-
-    public int getLevelRequirement() {
-        return levelRequirement;
     }
 
     public WeaponType getWeaponType() {
