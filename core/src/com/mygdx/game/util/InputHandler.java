@@ -104,7 +104,7 @@ public class InputHandler implements InputProcessor {
                 }
             });
             if (Math.floor(vec.x) == 13 && Math.floor(vec.y) == 182) {
-                if (ClientConnection.getInstance().getUser().getAvatar().getDirection().equals("NORTH")){
+                if (ClientConnection.getInstance().getActiveAvatars().get(ClientConnection.getInstance().getUser().getAvatar().getId()).getDirection().equals("back")){
                     if (ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().get(0).getName().equals("Steroids")){
                         Music music = Gdx.audio.newMusic(Gdx.files.internal("audio/town.mp3"));
                         music.play();
