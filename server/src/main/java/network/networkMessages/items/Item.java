@@ -11,7 +11,7 @@ public class Item {
     @Column
     private String texture;
     @Column
-    private int id;
+    public int id;
 
     public Item(Item item){
         this.name = item.name;
@@ -33,5 +33,5 @@ public class Item {
 
     public String getName() { return this.name; }
 
-    public int getId() { return id; }
+    public int getId() { return this.id; }
 }

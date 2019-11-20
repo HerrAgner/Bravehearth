@@ -251,7 +251,7 @@ public abstract class DBQueries {
                 int levelRequirement = rs.getInt(7);
                 WearableType wearType = WearableType.valueOf(rs.getString(8));
                 String texture = rs.getString(9);
-                w = new Weapon(new Item(id, name, levelRequirement, texture), damage, speed, range, weaponType, wearType);
+                w = new Weapon(new Item(weaponId, name, levelRequirement, texture), damage, speed, range, weaponType, wearType);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -353,15 +353,19 @@ public abstract class DBQueries {
         }
     }
 
-   /* public static void saveBackpack(Backpack bp, Item item) {
-        PreparedStatement ps = prep("INSERT INTO backpackxitem (id, ?) VALUES (?, ?);");
+    public static void saveToBackpack(int bpId, Item item) {
+        PreparedStatement ps;
         try {
-            ps.setString(1, item.);
-            ps.setInt(2, bp.getAvatarId());
-            ps.setInt(3, item.getId());
+            if(item instanceof Weapon) {
+                ps = prep("INSERT INTO backpackxitem (id, weapon) VALUES (?, ?)");
+            } else if(item instanceof Wearable) {
+                ps = prep("INSERT INTO backpackxitem (id, wearable) VALUES (?, ?)");
+            } else ps = prep("INSERT INTO backpackxitem (id, consumable) VALUES (?, ?)");
+            ps.setInt(1, bpId);
+            ps.setInt(2, item.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 }
