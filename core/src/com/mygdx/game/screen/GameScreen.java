@@ -71,6 +71,8 @@ public class GameScreen implements Screen {
     private Sprite monsterSprite;
     private Monster mon;
     private Stage itemsOnGroundStage;
+    public Animation<TextureRegion> runningAnimation;
+    float stateTime = 0f;
     Sprite item;
     BitmapFont name;
     BitmapFont nameShadow;
@@ -134,7 +136,6 @@ public class GameScreen implements Screen {
 
         for (AtlasRegion region : regions) {
             Sprite sprite = textureAtlas.createSprite(region.name);
-
             sprites.put(region.name, sprite);
         }
     }
@@ -173,6 +174,7 @@ public class GameScreen implements Screen {
         renderViewportUtils();
         update(delta);
         openInventory();
+        stateTime += Gdx.graphics.getDeltaTime();
     }
 
     @Override
@@ -320,27 +322,24 @@ public class GameScreen implements Screen {
         switch (avatar.getCharacterClass()) {
             case SORCERER:
                 Sorcerer sorc = (Sorcerer) avatar;
-                sprite = sprites.get("sorcerer_" + avatar.getDirection());
-                sorc.setSprite(sprite);
+                sorc.getSprite().setRegion(sorc.getAnimation().getKeyFrame(stateTime));
                 sorc.getSprite().setBounds(sorc.getX(), sorc.getY(), 0.8f, 1f);
                 sorc.getSprite().setColor(color);
                 sorc.getSprite().draw(batch);
                 break;
             case WARRIOR:
                 Warrior war = (Warrior) avatar;
-                sprite = sprites.get("warrior_" + avatar.getDirection());
-                war.setSprite(sprite);
+                war.getSprite().setRegion(war.getAnimation().getKeyFrame(stateTime));
                 war.getSprite().setBounds(war.getX(), war.getY(), 0.8f, 1f);
                 war.getSprite().setColor(color);
                 war.getSprite().draw(batch);
                 break;
             case MARKSMAN:
                 Marksman mark = (Marksman) avatar;
-                sprite = sprites.get("marksman_" + avatar.getDirection());
-                mark.setSprite(sprite);
-                sprite.setBounds(mark.getX(), mark.getY(), 0.8f, 1f);
+                mark.getSprite().setRegion(mark.getAnimation().getKeyFrame(stateTime));
+                mark.getSprite().setBounds(mark.getX(), mark.getY(), 0.8f, 1f);
                 mark.getSprite().setColor(color);
-                sprite.draw(batch);
+                mark.getSprite().draw(batch);
                 break;
         }
 
