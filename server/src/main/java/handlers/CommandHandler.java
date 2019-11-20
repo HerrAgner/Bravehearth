@@ -3,12 +3,10 @@ package handlers;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
 import database.DBQueries;
-import enums.Command;
 import game.GameServer;
 import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
-import network.networkMessages.avatar.EquippedItems;
 import network.networkMessages.items.Item;
 import network.networkMessages.items.Weapon;
 import network.networkMessages.items.Wearable;
@@ -114,24 +112,6 @@ public class CommandHandler {
                 Item item = GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems().remove(((EquippedItemChange) o).getType());
                 GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getBackpack().getItems().add(item);
                 GameServer.getInstance().getServer().sendToTCP(connection.getID(), o);
-                if (item instanceof Wearable) {
-                    HashMap<String, Float> hm = ((Wearable) item).getStatChange();
-                    if (hm.containsKey("STRENGTH")) {
-                        System.out.println("st");
-                    }
-                    if (hm.containsKey("HP")) {
-                        GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).setMaxHealth((int) (GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getMaxHealth() - hm.get("HP")));
-                    }
-                    if (hm.containsKey("INTELLIGENCE")) {
-                        System.out.println("i");
-                    }
-                    if (hm.containsKey("DEXTERITY")) {
-                        System.out.println("d");
-                    }
-                    if (hm.containsKey("MANA")) {
-                        System.out.println("m");
-                    }
-                }
             } else {
                 Item previousItem = GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems().remove(((EquippedItemChange) o).getType());
                 GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getBackpack().getItems().add(previousItem);
@@ -169,18 +149,10 @@ public class CommandHandler {
             float attackRange = 0;
             int attackDamage = 0;
             float attackSpeed = 0;
-            String stat;
-            float amount;
         };
         av.getEquippedItems().getItems().forEach((o, o2) -> {
             switch (o) {
                 case ACCESSORY:
-                    Wearable accessory = (Wearable) o2;
-                    ref.newDefence += accessory.getDefence();
-                    Map.Entry<String, Float> entry = accessory.getStatChange().entrySet().iterator().next();
-                    ref.stat = entry.getKey();
-                    ref.amount = entry.getValue();
-                    break;
                 case FEET:
                 case HEAD:
                 case LEGS:
@@ -197,29 +169,7 @@ public class CommandHandler {
                 default:
             }
         });
-        if (ref.stat != null) {
-            switch (ref.stat) {
-                case "STRENGTH":
-                    av.setStrength(av.getStrength() + (int) ref.amount);
-                    break;
-                case "INTELLIGENCE":
-                    av.setIntelligence(av.getIntelligence() + (int) ref.amount);
-                    break;
-                case "DEXTERITY":
-                    av.setDexterity(av.getDexterity() + (int) ref.amount);
-                    break;
-                case "HP":
-                    int newHealth = av.getMaxHealth() + (int) ref.amount;
-                    av.setMaxHealth(newHealth);
-                    av.setHealth(av.getMaxHealth());
-                    break;
-                case "MANA":
-                    av.setMaxMana(av.getMaxMana() + (int) ref.amount);
-                    break;
-            }
-        } else {
 
-        }
         av.setDefense(ref.newDefence);
         av.setAttackDamage(ref.attackDamage);
         av.setAttackSpeed(ref.attackSpeed);

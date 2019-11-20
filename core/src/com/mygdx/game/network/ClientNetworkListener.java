@@ -184,11 +184,6 @@ public class ClientNetworkListener {
                         av.setDefence(((AvatarStatChange) object).getNewDefence());
                         av.setAttackRange(((AvatarStatChange) object).getAttackRange());
                         av.setAttackDamage(((AvatarStatChange) object).getAttackDamage());
-                        av.setMaxHealth(((AvatarStatChange) object).getMaxHp());
-                        av.setStrength(((AvatarStatChange) object).getStrength());
-                        av.setIntelligence(((AvatarStatChange) object).getIntelligence());
-                        av.setDexterity(((AvatarStatChange) object).getDexterity());
-                        System.out.println(ClientConnection.getInstance().getUser().getAvatar().getMaxHealth());
                     }
                 }
             }
