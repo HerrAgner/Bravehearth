@@ -6,11 +6,9 @@ import com.mygdx.game.network.Sender;
 public class AttackLoop implements Runnable {
     private boolean running;
 
-
     public AttackLoop() {
         this.running = true;
     }
-
 
     @Override
     public void run() {

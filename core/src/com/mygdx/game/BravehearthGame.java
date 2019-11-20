@@ -1,6 +1,5 @@
 package com.mygdx.game;
 
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,11 +8,9 @@ import com.mygdx.game.network.ClientNetworkListener;
 import com.mygdx.game.network.networkMessages.Logout;
 import com.mygdx.game.screen.LoginScreen;
 
-
 public class BravehearthGame extends Game {
 	public SpriteBatch batch;
 	public BitmapFont font;
-
 
 	@Override
 	public void create() {
@@ -43,6 +40,4 @@ public class BravehearthGame extends Game {
 		batch.dispose();
 		font.dispose();
 	}
-
-
 }

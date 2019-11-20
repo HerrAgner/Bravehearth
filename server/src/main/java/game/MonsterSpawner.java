@@ -1,11 +1,9 @@
 package game;
 
-
 import database.DBQueries;
 import handlers.CollisionHandler;
 import network.networkMessages.Monster;
 import network.networkMessages.items.Item;
-
 import java.util.HashMap;
 import java.util.Random;
 
@@ -19,7 +17,6 @@ public class MonsterSpawner {
     private int monsterLimit;
     private int activeMonsters;
     Random r = new Random();
-
 
     public MonsterSpawner(int monsterId, Integer[] importSpawnPoints, int spawnerId) {
         this.spawnPoint = new Integer[]{importSpawnPoints[0], importSpawnPoints[1]};
@@ -59,7 +56,6 @@ public class MonsterSpawner {
                 GameServer.getInstance().getServer().sendToAllTCP(monster);
             } else {
                 return spawnMonster();
-
             }
         }
         return null;
@@ -81,16 +77,8 @@ public class MonsterSpawner {
         this.spawnTimer = 2 + r.nextFloat() * (30 - 2);
     }
 
-    public void setSpawnTimer(float spawnTimer) {
-        this.spawnTimer = spawnTimer;
-    }
-
     public void decreaseActiveMonstersByOne() {
         this.activeMonsters -= 1;
-    }
-
-    public int getActiveMonsters() {
-        return this.activeMonsters;
     }
 
     public int getId() {

@@ -8,9 +8,7 @@ public class CameraController {
     private Vector2 position = new Vector2();
     private Vector2 startPosition = new Vector2();
 
-    public CameraController() {
-
-    }
+    public CameraController() { }
 
     public void setStartPosition(float x, float y) {
         startPosition.set(x, y);
@@ -26,8 +24,6 @@ public class CameraController {
         if (GameConfig.WORLD_HEIGHT / 2 > y || y > 192.29f) {
             validY = position.y;
         }
-
-
         position.set(validX, validY);
     }
 
@@ -35,9 +31,4 @@ public class CameraController {
         camera.position.set(position, 0);
         camera.update();
     }
-
-    private void setPosition(float x, float y) {
-        position.set(x, y);
-    }
-
 }

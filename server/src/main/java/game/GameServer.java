@@ -10,7 +10,6 @@ import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
 import network.networkMessages.avatar.EquippedItems;
 import network.networkMessages.items.*;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +19,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GameServer {
 
     private Server server;
-//    private GameLoop gameLoop = new GameLoop();
     public Avatar avatar;
     private ActiveUserHandler auh;
     private MonsterHandler mh;
@@ -28,7 +26,6 @@ public class GameServer {
     public ConcurrentHashMap<Integer, Avatar> aa;
     private MapReader mapReader;
     private MapReader monsterSpawnLocations;
-
 
     private GameServer() {
         auh = new ActiveUserHandler();
@@ -45,15 +42,11 @@ public class GameServer {
         this.mapReader.readMap();
         addMonsterSpawners();
 
-
         new Thread(new GameLoop()).start();
         new Thread(new MonsterSpawnLoop()).start();
 
         this.au = getAUH().getActiveUsers();
         this.aa = getAUH().getActiveAvatars();
-
-
-
     }
 
     public ActiveUserHandler getAUH() {
@@ -81,7 +74,6 @@ public class GameServer {
                 mh.addMonsterSpawner(new MonsterSpawner(integer, integers1, mh.getNewSpawnerId()));
             });
         });
-
     }
 
     public MonsterHandler getMh() {

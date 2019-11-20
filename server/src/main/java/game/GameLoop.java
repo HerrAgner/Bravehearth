@@ -8,7 +8,6 @@ import handlers.MovementHandler;
 import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
 
-
 public class GameLoop implements Runnable {
     private boolean running;
     private AttackHandler ah;
@@ -65,7 +64,6 @@ public class GameLoop implements Runnable {
                             av.getBackpack().getItems().clear();
                             GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(aet.getAttacker(), aet.getTarget(), "avatar", 0));
                             DBQueries.saveAvatarWhenDead(GameServer.getInstance().aa.get(aet.getTarget()));
-
                         }
                     }
                 } catch (InterruptedException e) {
@@ -102,7 +100,6 @@ public class GameLoop implements Runnable {
                     levelUp(v.getId());
                 }
             });
-
 
             try {
                 prevtime = time;
@@ -168,7 +165,6 @@ public class GameLoop implements Runnable {
 
     public Position updatePosition(Avatar avatar, Movement movement, float delta) {
         Position position;
-        boolean moved = false;
         switch (movement) {
             case FORWARD:
                 position = new Position(avatar.getX(), avatar.getY() + avatar.getMaxYspeed() * (delta * 30), avatar.getId(), 1, "back");
@@ -215,15 +211,11 @@ public class GameLoop implements Runnable {
                     }
                 }
             });
-//            GameServer.getInstance().getMh().monsterList.forEach((integer, monster) -> {
-//
-//            });
             if (ref.isValidMove) {
                 return position;
             } else {
                 return null;
             }
-
         }
     }
 }

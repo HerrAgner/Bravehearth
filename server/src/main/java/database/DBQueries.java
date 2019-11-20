@@ -7,7 +7,6 @@ import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
 import network.networkMessages.avatar.EquippedItems;
 import network.networkMessages.items.*;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

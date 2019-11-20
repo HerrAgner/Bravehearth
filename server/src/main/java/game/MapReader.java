@@ -17,7 +17,6 @@ public class MapReader {
     private HashMap<Integer, ArrayList<Integer[]>> monsterSpawner = new HashMap<>();
 
     public MapReader() {
-//        csvFile = "/home/anton/Documents/braveHearth/Bravehearth/server/src/main/resources/worldmap_CollisionLayer.csv";
         csvFile = "server/src/main/resources/worldMap_CollisionLayer.csv";
         this.type = "collision";
     }
@@ -28,14 +27,12 @@ public class MapReader {
     }
 
     public void readMap() {
-
         try {
             FileInputStream fis = new FileInputStream(csvFile);
             myInput = new DataInputStream(fis);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
 
         int i = 0;
         String[][] data = new String[0][];
@@ -66,7 +63,6 @@ public class MapReader {
                 }
                 mapCollision.put(j, tempArray);
             }
-
         } else if (type.equals("monster")) {
             data = rotateClockWise(data);
             for (int j = 0; j < data.length; j++) {
