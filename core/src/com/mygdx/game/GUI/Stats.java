@@ -18,10 +18,10 @@ public class Stats {
     private Image window;
     private BitmapFont font;
     private TextureAtlas atlas;
-    FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("calibrib.ttf"));
-    FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-    GlyphLayout layout;
-    SpriteBatch batch;
+    private FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("calibrib.ttf"));
+    private FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+    private GlyphLayout layout;
+    private SpriteBatch batch;
 
 
     public Stats(SpriteBatch batch) {
@@ -37,7 +37,6 @@ public class Stats {
         generator.dispose();
 
         initWindow();
-        initText();
     }
 
     private void initWindow() {
@@ -48,12 +47,6 @@ public class Stats {
         stage.addActor(window);
 
 
-    }
-
-    private void initText() {
-
-
-//        stage.draw();
     }
 
     public void draw() {
