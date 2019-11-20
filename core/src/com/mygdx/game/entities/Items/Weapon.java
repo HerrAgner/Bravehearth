@@ -39,4 +39,8 @@ public class Weapon extends Item {
     public WeaponType getWeaponType() {
         return weaponType;
     }
+
+    public WearableType getWearableType() {
+        return wearableType;
+    }
 }

@@ -2,6 +2,7 @@ package com.mygdx.game.network;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.mygdx.game.entities.Items.Item;
 import com.mygdx.game.entities.User;
 import com.mygdx.game.entities.avatar.Avatar;
 import com.mygdx.game.entities.avatar.Marksman;
@@ -51,7 +52,7 @@ public class ClientNetworkListener {
                     }
 
                     if (object instanceof String) {
-                        if (object.equals("finished")){
+                        if (object.equals("finished")) {
                             ClientConnection.getInstance().loggedIn = true;
                         }
                         System.out.println(object);
@@ -161,6 +162,22 @@ public class ClientNetworkListener {
                             ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().add(((ItemPickup) object).getItem());
                             ClientConnection.getInstance().getUser().getAvatar().getBackpack().setChanged(true);
                         }
+                    }
+
+                    if (object instanceof EquippedItemChange) {
+                        if (((EquippedItemChange) object).isUnequipping()) {
+                            ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getItems().remove(((EquippedItemChange) object).getType());
+                            ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().add(((EquippedItemChange) object).getItem());
+                        } else {
+//                            ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().remove(((EquippedItemChange) object).getItem());
+                            if (ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getItems().get(((EquippedItemChange) object).getType()) != null) {
+                                Item itemToBackpack = ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getItems().remove(((EquippedItemChange) object).getType());
+                                ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().add(itemToBackpack);
+                            }
+                            ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getItems().put(((EquippedItemChange) object).getType(), ((EquippedItemChange) object).getItem());
+                        }
+                        ClientConnection.getInstance().getUser().getAvatar().getBackpack().setChanged(true);
+                        ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().setChanged(true);
                     }
 
                 }
