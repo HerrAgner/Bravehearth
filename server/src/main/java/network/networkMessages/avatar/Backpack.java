@@ -40,4 +40,9 @@ public class Backpack {
     public void addGold(int gold){
         this.wallet += gold;
     }
+
+    public void setAvatarId(int avatarId) {
+        this.avatarId = avatarId;
+    }
+    public int getAvatarId(){ return avatarId; }
 }

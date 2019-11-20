@@ -46,4 +46,7 @@ public class Wearable extends Item{
     public void setWearableType(WearableType wearableType) {
         this.wearableType = wearableType;
     }
+
+    @Override
+    public int getId() { return this.id; }
 }
