@@ -13,7 +13,6 @@ import network.networkMessages.items.Wearable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class CommandHandler {
@@ -142,28 +141,13 @@ public class CommandHandler {
             avatar.setEquippedItems(DBQueries.getEquippedItems(avatar.getId()));
             avatar.setBackpack(bp);
             addEquippedItemStatsToAvatar(avatar);
-            Float[] position = placeUser(avatar.getX(), avatar.getY());
+            Float[] position = CollisionHandler.newValidPosition(avatar.getX(), avatar.getY());
             avatar.setPosition(position[0], position[1]);
             user.setAvatar(avatar);
         } catch (NullPointerException e) {
             System.out.println("No avatar found for user.");
         }
         return user;
-    }
-
-    private Float[] placeUser(float x, float y) {
-        Random r = new Random();
-        float newX = x;
-        float newY = y;
-        float radius = 5f;
-
-        while (true) {
-            if (!CollisionHandler.isAnyCollision(newX, newY)) {
-                return new Float[]{newX, newY};
-            }
-            newX = (x - radius) + r.nextFloat() * ((x + radius) - (x - radius));
-            newY = (y - radius) + r.nextFloat() * ((y + radius) - (y - radius));
-        }
     }
 
     private void addEquippedItemStatsToAvatar(Avatar avatar) {
