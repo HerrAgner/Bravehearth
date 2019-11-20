@@ -87,8 +87,6 @@ public class Inventory {
                         isConsumable = true;
                     } catch (Exception e) {}
                     dropOrEquip(finalI, isConsumable);
-
-
                 }
 
                 @Override
@@ -100,8 +98,6 @@ public class Inventory {
                 public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                     removeDialog();
                 }
-
-
             });
             table.add(image).width(60).height(60);
             itemSlots.add(slot).width(60).height(60);
@@ -111,8 +107,6 @@ public class Inventory {
         itemSlots.setPosition(Gdx.graphics.getWidth() / 2+16, Gdx.graphics.getHeight() / 2-100);
         table.setPosition(Gdx.graphics.getWidth() / 2+16, Gdx.graphics.getHeight() / 2-100);
 
-
-        //     itemSlots.setPosition(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 + 200);
         stage.addActor(table);
         stage.addActor(itemSlots);
     }
@@ -254,7 +248,6 @@ public class Inventory {
                 v.setDrawable(itemSkin, allItems.get(k).getTexture());
             }
         });
-
     }
 
     public void toggleInventory() {
@@ -365,7 +358,6 @@ public class Inventory {
                 windowTable.add(type);
                 window.add(windowTable);
             }
-
 
             stage.addActor(window);
         } catch (IndexOutOfBoundsException e) {

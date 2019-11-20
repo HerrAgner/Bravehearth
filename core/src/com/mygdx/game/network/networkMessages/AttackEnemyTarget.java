@@ -1,6 +1,4 @@
-
 package com.mygdx.game.network.networkMessages;
-
 
 public class AttackEnemyTarget {
     private int attacker;
@@ -23,14 +21,6 @@ public class AttackEnemyTarget {
 
     public int getTarget() {
         return target;
-    }
-
-    public String getAttackerUnit() {
-        return attackerUnit;
-    }
-
-    public String getTargetUnit() {
-        return targetUnit;
     }
 
     public String getAttackType() {

@@ -7,9 +7,7 @@ public class AvatarStatChange {
     private int attackDamage;
     private float attackSpeed;
 
-    public AvatarStatChange() {
-
-    }
+    public AvatarStatChange() { }
 
     public float getNewDefence() {
         return newDefence;

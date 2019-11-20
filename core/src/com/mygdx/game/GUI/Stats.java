@@ -30,7 +30,6 @@ public class Stats {
         stage = new Stage();
         skin = new Skin();
         skin.addRegions(atlas);
-//        skin = ClientConnection.getInstance().assetManager.get("terra-mother/skin/terra-mother-ui.json");
         font = new BitmapFont();
         parameter.size = 22;
         font = generator.generateFont(parameter);

@@ -1,6 +1,5 @@
 package com.mygdx.game.network.networkMessages;
 
-
 import com.mygdx.game.entities.Items.Item;
 
 public class ItemDropClient {

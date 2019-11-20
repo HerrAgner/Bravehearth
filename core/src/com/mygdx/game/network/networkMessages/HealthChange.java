@@ -24,10 +24,6 @@ public class HealthChange {
         return receivingAvatar;
     }
 
-    public int getDispatchingAvatar() {
-        return dispatchingAvatar;
-    }
-
     public int getType() {
         return type;
     }

@@ -1,4 +1,3 @@
-
 package network.networkMessages;
 
 public class AttackEnemyTarget {
@@ -18,48 +17,18 @@ public class AttackEnemyTarget {
         this.hc = hc;
     }
 
-    public AttackEnemyTarget() {
-
-    }
+    public AttackEnemyTarget() { }
 
     public int getAttacker() {
         return attacker;
-    }
-
-    public void setAttacker(int attacker) {
-        this.attacker = attacker;
     }
 
     public int getTarget() {
         return target;
     }
 
-    public void setTarget(int target) {
-        this.target = target;
-    }
-
-    public String getAttackerUnit() {
-        return attackerUnit;
-    }
-
-    public void setAttackerUnit(String attackerUnit) {
-        this.attackerUnit = attackerUnit;
-    }
-
     public String getTargetUnit() {
         return targetUnit;
-    }
-
-    public void setTargetUnit(String targetUnit) {
-        this.targetUnit = targetUnit;
-    }
-
-    public String getAttackType() {
-        return attackType;
-    }
-
-    public void setAttackType(String attackType) {
-        this.attackType = attackType;
     }
 }
 

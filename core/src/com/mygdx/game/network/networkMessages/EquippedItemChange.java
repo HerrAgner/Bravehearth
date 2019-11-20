@@ -10,9 +10,7 @@ public class EquippedItemChange {
     private int avatarId;
     private boolean isUnequipping;
 
-    public EquippedItemChange(){
-
-    }
+    public EquippedItemChange(){ }
 
     public EquippedItemChange(WearableType wearableType, Item item, int id, boolean isUnequipping){
         this.type=wearableType;

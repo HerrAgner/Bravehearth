@@ -9,9 +9,7 @@ public class AvatarStatChange {
     private int attackDamage;
     private float attackSpeed;
 
-    public AvatarStatChange() {
-
-    }
+    public AvatarStatChange() { }
 
     public AvatarStatChange(Avatar avatar) {
         this.newDefence = avatar.getDefense();
