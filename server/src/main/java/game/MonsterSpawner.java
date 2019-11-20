@@ -55,8 +55,8 @@ public class MonsterSpawner {
                 monster.setMarkedUnit(-1);
                 monster.setSpawnerId(this.spawnerId);
                 this.activeMonsters += 1;
-                GameServer.getInstance().getMh().monsterList.put(monster.getId(), monster);
-                GameServer.getInstance().getServer().sendToAllTCP(monster);
+//                GameServer.getInstance().getMh().monsterList.put(monster.getId(), monster);
+//                GameServer.getInstance().getServer().sendToAllTCP(monster);
             } else {
                 return spawnMonster();
 
