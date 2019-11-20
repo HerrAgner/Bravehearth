@@ -76,7 +76,13 @@ public class Inventory {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     removeDialog();
-                    dropOrEquip(finalI);
+                    boolean isConsumable = false;
+                    try {
+                        Consumable con = (Consumable) ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().get(finalI);
+                        isConsumable = true;
+                    } catch (Exception e) {}
+                    dropOrEquip(finalI, isConsumable);
+
 
                 }
 
@@ -223,9 +229,10 @@ public class Inventory {
     private void updateInventory() {
         AtomicInteger i = new AtomicInteger();
         ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().forEach(item -> {
-            System.out.println(item);
+
             itemSlot.get(i.get()).setDrawable(itemSkin, item.getTexture());
             i.getAndIncrement();
+
         });
         itemSlot.get(ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().size()).setDrawable(null);
     }
@@ -246,6 +253,7 @@ public class Inventory {
             AtomicInteger i = new AtomicInteger();
             ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().forEach(item -> {
                 itemSlot.get(i.getAndIncrement()).setDrawable(itemSkin, item.getTexture());
+
             });
         }
     }
@@ -255,26 +263,39 @@ public class Inventory {
         return isOpen;
     }
 
-    private void dropOrEquip(int i) {
+    private void dropOrEquip(int i, boolean isConsumable) {
         if (selectWindow != null) {
             selectWindow.remove();
         }
+
         selectWindow = new Window("", dropSkin);
-        equip = new TextButton("Equip", dropSkin, "default");
+        if (isConsumable) {
+            equip = new TextButton("Use", dropSkin, "default");
+
+        } else {
+
+            equip = new TextButton("Equip", dropSkin, "default");
+        }
         drop = new TextButton("Drop", dropSkin, "default");
         if (itemSlot.get(i).getDrawable() != null) {
             selectWindow.setBounds(Gdx.input.getX(), Gdx.input.getY(), 75, 100);
             equip.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent two, float x, float y) {
-                    Item itemToEquip = ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().remove(i);
-                    if (itemToEquip instanceof Wearable) {
-                        WearableType type = ((Wearable) itemToEquip).getWearableType();
-                        equipItem(type, itemToEquip);
-                    } else if (itemToEquip instanceof Weapon) {
-                        WearableType type = ((Weapon) itemToEquip).getWearableType();
-                        equipItem(type, itemToEquip);
-                    }
+                    Item itemToEquip = ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().get(i);
+                        if (itemToEquip instanceof Consumable) {
+                            selectWindow.remove();
+                            return;
+                        }
+                         else if (itemToEquip instanceof Wearable) {
+                            WearableType type = ((Wearable) itemToEquip).getWearableType();
+                            equipItem(type, itemToEquip);
+
+                        } else if (itemToEquip instanceof Weapon) {
+                            WearableType type = ((Weapon) itemToEquip).getWearableType();
+                            equipItem(type, itemToEquip);
+                        }
+                    ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().remove(i);
                     selectWindow.remove();
                 }
             });

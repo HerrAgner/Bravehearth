@@ -119,9 +119,9 @@ public class AttackHandler {
                 damageDone = (int) ((damageDone*0.9f) + r.nextFloat() * ((damageDone*1.1f) - (damageDone*0.9f)));
             } else {
                 damageDone = (int) (0 + r.nextFloat() * 2);
-                System.out.println(damageDone);
+
             }
-            System.out.println((int) Math.ceil(damageDone));
+
             newHealth = avatar.getHealth() - (int) Math.ceil(damageDone);
             GameServer.getInstance().aa.get(targetId).setHealth(newHealth);
             attackDistance = getAttackDistance(monster.getAttackRange());
