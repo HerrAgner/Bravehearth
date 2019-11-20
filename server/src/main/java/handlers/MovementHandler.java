@@ -49,10 +49,13 @@ public class MovementHandler {
                 return true;
             }
         } else {
-            movementLoopList.get(connection).remove(movement);
-            if (movementLoopList.get(connection).size() == 0) {
-                movementLoopList.remove(connection);
-                return true;
+            if (movementLoopList.get(connection) != null) {
+                movementLoopList.get(connection).remove(movement);
+                if (movementLoopList.get(connection).size() == 0) {
+                    movementLoopList.remove(connection);
+                    return true;
+                }
+
             }
         }
         return false;

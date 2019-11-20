@@ -32,6 +32,7 @@ import com.mygdx.game.entities.SlashAnimation;
 import com.mygdx.game.entities.avatar.*;
 import com.mygdx.game.entities.monsters.Monster;
 import com.mygdx.game.network.ClientConnection;
+import com.mygdx.game.network.networkMessages.MovementCommands;
 import com.mygdx.game.util.CameraController;
 import com.mygdx.game.util.InputHandler;
 
@@ -390,6 +391,10 @@ public class GameScreen implements Screen {
     private void youDiedPopUp() {
         Gdx.input.setInputProcessor(deathStage);
         Skin skin = new Skin(Gdx.files.internal("terra-mother/skin/terra-mother-ui.json"));
+        ClientConnection.getInstance().getClient().sendTCP(new MovementCommands(false, "W"));
+        ClientConnection.getInstance().getClient().sendTCP(new MovementCommands(false, "A"));
+        ClientConnection.getInstance().getClient().sendTCP(new MovementCommands(false, "S"));
+        ClientConnection.getInstance().getClient().sendTCP(new MovementCommands(false, "D"));
 
         Window death = new Window("YOU DIED", skin);
         respawn = new TextButton("Respawn", skin, "default");
@@ -402,8 +407,8 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ClientConnection.getInstance().getUser().getAvatar().setIsDead(false);
+                Gdx.input.setInputProcessor(im);
                 deathStage.unfocusAll();
-                Gdx.input.setInputProcessor(inputHandler);
             }
         });
 

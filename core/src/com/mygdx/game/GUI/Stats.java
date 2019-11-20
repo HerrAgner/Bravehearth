@@ -58,6 +58,7 @@ public class Stats {
 
     public void draw() {
         Avatar av = ClientConnection.getInstance().getUser().getAvatar();
+        Avatar currentAv = ClientConnection.getInstance().getActiveAvatars().get(av.getId());
         stage.getBatch().begin();
         window.draw(stage.getBatch(), 100);
 
@@ -67,7 +68,7 @@ public class Stats {
         layout = new GlyphLayout(font, "lvl: " + av.getLevel());
         font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 + 90f);
 
-        layout = new GlyphLayout(font, "hp: " + av.getHealth() + " / " + av.getMaxHealth());
+        layout = new GlyphLayout(font, "hp: " + currentAv.getHealth() + " / " + currentAv.getMaxHealth());
         font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 + 70f);
 
         layout = new GlyphLayout(font, "xp: " + av.getExperiencePoints());
