@@ -17,8 +17,8 @@ public class MapReader {
     private HashMap<Integer, ArrayList<Integer[]>> monsterSpawner = new HashMap<>();
 
     public MapReader() {
-        csvFile = "/home/anton/Documents/braveHearth/Bravehearth/server/src/main/resources/worldmap_CollisionLayer.csv";
-//        csvFile = "server/src/main/resources/worldMap_CollisionLayer.csv";
+//        csvFile = "/home/anton/Documents/braveHearth/Bravehearth/server/src/main/resources/worldmap_CollisionLayer.csv";
+        csvFile = "server/src/main/resources/worldMap_CollisionLayer.csv";
         this.type = "collision";
     }
 
