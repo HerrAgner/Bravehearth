@@ -121,5 +121,6 @@ public class GameServer {
         kryo.register(ItemPickup.class);
         kryo.register(EquippedItemChange.class);
         kryo.register(AvatarStatChange.class);
+        kryo.register(LevelUp.class);
     }
 }

@@ -68,13 +68,13 @@ public class Stats {
         layout = new GlyphLayout(font, "lvl: " + av.getLevel());
         font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 + 90f);
 
-        layout = new GlyphLayout(font, "hp: " + currentAv.getHealth() + " / " + currentAv.getMaxHealth());
+        layout = new GlyphLayout(font, "hp: " + av.getHealth() + " / " + av.getMaxHealth());
         font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 + 70f);
 
         layout = new GlyphLayout(font, "xp: " + av.getExperiencePoints());
         font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 + 50f);
 
-        layout = new GlyphLayout(font, "xp to level: " + ((25 * currentAv.getLevel() * (1 + currentAv.getLevel())) - av.getExperiencePoints()));
+        layout = new GlyphLayout(font, "xp to level: " + ((25 * currentAv.getLevel() * (1 + av.getLevel())) - av.getExperiencePoints()));
         font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 + 30f);
 
         layout = new GlyphLayout(font, "str: " + av.getStrength());

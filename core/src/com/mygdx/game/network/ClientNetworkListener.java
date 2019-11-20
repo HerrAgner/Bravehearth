@@ -161,6 +161,28 @@ public class ClientNetworkListener {
                         }
                     }
 
+                    if (object instanceof LevelUp) {
+                        Avatar av = ClientConnection.getInstance().getActiveAvatars().get(((LevelUp) object).getAvatarId());
+                        av.setExperiencePoints(((LevelUp) object).getXp());
+                        av.setMaxHealth(((LevelUp) object).getMaxHealth());
+                        av.setHealth(((LevelUp) object).getMaxHealth());
+                        av.setStrength(((LevelUp) object).getStrength());
+                        av.setDexterity(((LevelUp) object).getDexterity());
+                        av.setIntelligence(((LevelUp) object).getIntelligence());
+                        av.setLevel(((LevelUp) object).getLevel());
+                        if (av.getId() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
+                            Avatar av2 = ClientConnection.getInstance().getUser().getAvatar();
+                            av2.setExperiencePoints(((LevelUp) object).getXp());
+                            av2.setMaxHealth(((LevelUp) object).getMaxHealth());
+                            av2.setHealth(((LevelUp) object).getMaxHealth());
+                            av2.setStrength(((LevelUp) object).getStrength());
+                            av2.setDexterity(((LevelUp) object).getDexterity());
+                            av2.setIntelligence(((LevelUp) object).getIntelligence());
+                            av2.setLevel(((LevelUp) object).getLevel());
+                        }
+
+                    }
+
                     if (object instanceof EquippedItemChange) {
                         if (((EquippedItemChange) object).isUnequipping()) {
                             ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getItems().remove(((EquippedItemChange) object).getType());
