@@ -9,11 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.entities.Items.*;
-import com.mygdx.game.GUI.Stats;
-import com.mygdx.game.entities.Items.Consumable;
-import com.mygdx.game.entities.Items.Item;
-import com.mygdx.game.entities.Items.Weapon;
-import com.mygdx.game.entities.Items.Wearable;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.network.networkMessages.EquippedItemChange;
 import com.mygdx.game.network.networkMessages.ItemDropClient;
@@ -113,11 +108,18 @@ public class Inventory {
         }
         table.row();
         itemSlots.row();
-        table.setFillParent(true);
-        itemSlots.setFillParent(true);
+        itemSlots.setPosition(Gdx.graphics.getWidth() / 2+16, Gdx.graphics.getHeight() / 2-100);
+        table.setPosition(Gdx.graphics.getWidth() / 2+16, Gdx.graphics.getHeight() / 2-100);
+
+
         //     itemSlots.setPosition(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 + 200);
         stage.addActor(table);
         stage.addActor(itemSlots);
+    }
+
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height);
+        stats.resize(width,height);
     }
 
     private void initEquippedItems() {

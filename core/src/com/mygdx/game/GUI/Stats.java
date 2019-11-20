@@ -45,8 +45,10 @@ public class Stats {
         window.setSize(200, 280);
         window.setPosition(Gdx.graphics.getWidth() / 2 - 520f, Gdx.graphics.getHeight() / 2 - 130f);
         stage.addActor(window);
+    }
 
-
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height);
     }
 
     public void draw() {

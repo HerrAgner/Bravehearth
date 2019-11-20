@@ -161,6 +161,7 @@ public class LoginScreen implements Screen {
                         game.setScreen(new GameScreen(game));
                         i = 200000;
                     }
+                    System.out.println(i);
                     i++;
                 }
                     button.remove();
@@ -181,7 +182,8 @@ public class LoginScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        stage.getViewport().update(width,height);
+        stage2.getViewport().update(width,height);
     }
 
     @Override

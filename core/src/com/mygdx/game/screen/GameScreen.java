@@ -82,7 +82,6 @@ public class GameScreen implements Screen {
     FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
 
-
     public GameScreen(BravehearthGame game) {
         im = new InputMultiplexer();
         inputHandler = new InputHandler();
@@ -142,6 +141,7 @@ public class GameScreen implements Screen {
         }
     }
 
+
     private void addMonsterSprites() {
         TextureAtlas ta = ClientConnection.getInstance().assetManager.get("monsters/monsterSprites.txt");
         Array<AtlasRegion> regions = ta.getRegions();
@@ -152,6 +152,7 @@ public class GameScreen implements Screen {
             monsterSprites.put(region.name, sprite);
         }
     }
+
     private void addItemSprites() {
         TextureAtlas ta = ClientConnection.getInstance().assetManager.get("items/items.atlas");
 
@@ -160,7 +161,7 @@ public class GameScreen implements Screen {
         for (AtlasRegion region : regions) {
             Sprite sprite = ta.createSprite(region.name);
 
-           itemSprites.put(region.name, sprite);
+            itemSprites.put(region.name, sprite);
         }
     }
 
@@ -181,7 +182,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        //  viewport.update(width, height, true);
+//          viewport.update(width, height, true);
+        inventory.resize(width,height);
     }
 
     @Override
@@ -236,7 +238,9 @@ public class GameScreen implements Screen {
         });
 
         ClientConnection.getInstance().getActiveAvatars().forEach((Integer, avatar) -> {
-            if(ClientConnection.getInstance().getUser().getAvatar().getIsDead()) { youDiedPopUp(); }
+            if (ClientConnection.getInstance().getUser().getAvatar().getIsDead()) {
+                youDiedPopUp();
+            }
 
             if (avatar.getHealth() < avatar.getMaxHealth() * 0.3) {
                 batch.setColor(Color.RED);
@@ -278,7 +282,7 @@ public class GameScreen implements Screen {
             }
             batch.setColor(Color.WHITE);
 
-            drawName(avatar.getName(), avatar.getX(), avatar.getY(), new Color(0.2f,1f,0.2f,0.7f), 0.01f);
+            drawName(avatar.getName(), avatar.getX(), avatar.getY(), new Color(0.2f, 1f, 0.2f, 0.7f), 0.01f);
 
 //            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
 //                renderer.rect((float) (avatar.getX() - 1.1), (float) (avatar.getY() - 1.1), (float) 2.2, (float) 2.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
@@ -355,19 +359,19 @@ public class GameScreen implements Screen {
         final float fontY = y + (3.4f + layout.height) / 2;
         nameShadow.getData().setScale(size, size);
         nameShadow.setUseIntegerPositions(false);
-        nameShadow.setColor(0.1f,0.1f,0.1f,1f);
-        name.getData().setScale(size,size);
+        nameShadow.setColor(0.1f, 0.1f, 0.1f, 1f);
+        name.getData().setScale(size, size);
         name.setUseIntegerPositions(false);
         name.setColor(color);
-        nameShadow.draw(batch, layoutShadow, fontX+0.019f, fontY-0.019f);
+        nameShadow.draw(batch, layoutShadow, fontX + 0.019f, fontY - 0.019f);
         name.draw(batch, layout, fontX, fontY);
     }
 
-    private void renderItemsOnGround(){
+    private void renderItemsOnGround() {
         if (ClientConnection.getInstance().getItemsOnGround().size() > 0) {
             ClientConnection.getInstance().getItemsOnGround().forEach((floats, item1) -> {
                 item = itemSprites.get(item1.getTexture());
-                item.setBounds(floats[0],floats[1],1,1);
+                item.setBounds(floats[0], floats[1], 1, 1);
                 item.draw(batch);
             });
         }
@@ -432,11 +436,11 @@ public class GameScreen implements Screen {
         deathStage.draw();
     }
 
-    private void openInventory(){
-        if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
+    private void openInventory() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
             inventory.toggleInventory();
         }
-        if(inventory.isOpen()){
+        if (inventory.isOpen()) {
             inventory.getStage().act();
             inventory.getStage().draw();
             inventory.stats.draw();
@@ -448,7 +452,7 @@ public class GameScreen implements Screen {
             inventory.render();
             ClientConnection.getInstance().getUser().getAvatar().getBackpack().setChanged(false);
         }
-        if(ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().isChanged()){
+        if (ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().isChanged()) {
             inventory.render();
             ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().setChanged(false);
         }
