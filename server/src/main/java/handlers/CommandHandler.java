@@ -125,7 +125,7 @@ public class CommandHandler {
                 av.getBackpack().getItems().remove(((EquippedItemChange) o).getItem());
                 GameServer.getInstance().getServer().sendToTCP(connection.getID(), o);
             }
-            DBQueries.saveToEquippedItems(av.getId(), av.getEquippedItems());
+            DBQueries.saveEquippedItems(av.getId(), av.getEquippedItems());
             Avatar av2 = addEquippedItemStatsToAvatar(GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()));
             GameServer.getInstance().getServer().sendToTCP(connection.getID(), new AvatarStatChange(av2));
         }
