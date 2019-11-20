@@ -10,9 +10,10 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = (int) GameConfig.WIDTH;
 		config.height = (int) GameConfig.HEIGHT;
-	//	config.fullscreen = GameConfig.FULLSCREEN;
-		config.foregroundFPS = GameConfig.FPS_30;
+//		config.fullscreen = GameConfig.FULLSCREEN;
+		config.foregroundFPS = GameConfig.FPS_60;
 		config.forceExit = GameConfig.FORCE_EXIT_FALSE;
+		config.resizable = false;
 		new LwjglApplication(new BravehearthGame(), config);
 	}
 }

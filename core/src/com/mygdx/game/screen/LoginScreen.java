@@ -154,15 +154,17 @@ public class LoginScreen implements Screen {
         if (Gdx.input.isButtonJustPressed(0)) {
             if (this.button.getClickListener().isPressed()) {
                 ClientConnection.getInstance().login(usernameTextField.getText(), passwordTextField.getText());
-                int i = 0;
-                while (i < 200000) {
-                    if (ClientConnection.getInstance().getUser() != null && ClientConnection.getInstance().loggedIn) {
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (ClientConnection.getInstance().getUser() != null && ClientConnection.getInstance().loggedIn) {
                         music.dispose();
                         game.setScreen(new GameScreen(game));
-                        i = 200000;
-                    }
-                    System.out.println(i);
-                    i++;
+
+
+
                 }
                     button.remove();
                     buttonWindow.remove();
