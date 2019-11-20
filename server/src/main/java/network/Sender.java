@@ -4,7 +4,6 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
 import game.GameServer;
 
-
 public class Sender {
     private Server server;
 

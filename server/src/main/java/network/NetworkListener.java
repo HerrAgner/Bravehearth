@@ -14,7 +14,6 @@ public class NetworkListener {
     public NetworkListener() {
         Server server = GameServer.getInstance().getServer();
         CommandHandler ch = new CommandHandler();
-        ActiveUserHandler auh = GameServer.getInstance().getAUH();
 
                 server.addListener(new Listener() {
         MovementHandler mh = new MovementHandler();
@@ -33,11 +32,6 @@ public class NetworkListener {
                     ch.addToQueue(connection, object);
                 }
 
-                if (object instanceof String) {
-                    System.out.println(object);
-//                    ch.addToQueue((String) object, connection);
-                }
-
                 if (object instanceof MovementCommands) {
                     mh.addToMovementQueue((MovementCommands) object, connection);
                 }
@@ -50,7 +44,6 @@ public class NetworkListener {
                 if (object instanceof EquippedItemChange) {
                     ch.addToQueue(connection, object);
                 }
-
             }
         });
 
