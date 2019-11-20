@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.BravehearthGame;
+import com.mygdx.game.GUI.Inventory;
 import com.mygdx.game.config.GameConfig;
 import com.mygdx.game.entities.Arrow;
 import com.mygdx.game.entities.SlashAnimation;
