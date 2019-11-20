@@ -17,8 +17,12 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.BravehearthGame;
@@ -59,6 +63,9 @@ public class GameScreen implements Screen {
     private float oneSecond;
     private CopyOnWriteArrayList<Arrow> arrows;
     private CopyOnWriteArrayList<SlashAnimation> slashes;
+    private TextButton respawn;
+    private TextButton endGame;
+    private Stage deathStage;
     private Inventory inventory;
     private InputMultiplexer im;
     private Sprite monsterSprite;
@@ -89,7 +96,7 @@ public class GameScreen implements Screen {
         itemSprites = new HashMap<>();
         arrows = new CopyOnWriteArrayList<>();
         slashes = new CopyOnWriteArrayList<>();
-        inventory = new Inventory();
+        inventory = new Inventory(game.batch);
         parameter.size = 50;
         name = new BitmapFont();
         nameShadow = new BitmapFont();
@@ -100,6 +107,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        deathStage = new Stage();
         im.addProcessor(inputHandler);
         im.addProcessor(inventory.getStage());
         Gdx.input.setInputProcessor(im);
@@ -224,6 +232,8 @@ public class GameScreen implements Screen {
         });
 
         ClientConnection.getInstance().getActiveAvatars().forEach((Integer, avatar) -> {
+            if(ClientConnection.getInstance().getUser().getAvatar().getIsDead()) { youDiedPopUp(); }
+
             if (avatar.getHealth() < avatar.getMaxHealth() * 0.3) {
                 batch.setColor(Color.RED);
             } else if (avatar.getHealth() < avatar.getMaxHealth() * 0.6) {
@@ -250,7 +260,6 @@ public class GameScreen implements Screen {
                 this.slashes.add(slashAnimation);
                 avatar.setAttacking("");
             }
-
 
             if (avatar.isHurt()) {
                 renderAvatar(avatar, Color.RED);
@@ -303,7 +312,7 @@ public class GameScreen implements Screen {
     }
 
     private void update(float delta) {
-        updatePlayer(delta);
+//        updatePlayer(delta);
         updateCamera();
     }
 
@@ -379,6 +388,45 @@ public class GameScreen implements Screen {
                 av.getY());
     }
 
+    private void youDiedPopUp() {
+        Gdx.input.setInputProcessor(deathStage);
+        Skin skin = new Skin(Gdx.files.internal("terra-mother/skin/terra-mother-ui.json"));
+
+        Window death = new Window("YOU DIED", skin);
+        respawn = new TextButton("Respawn", skin, "default");
+        float newWidth = 400, newHeight = 200;
+        death.setBounds((Gdx.graphics.getWidth() - newWidth) / 2, (Gdx.graphics.getHeight() - newHeight) / 2, newWidth, newHeight);
+        respawn.setWidth(80f);
+        respawn.setHeight(40f);
+        respawn.padRight(20f);
+        respawn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ClientConnection.getInstance().getUser().getAvatar().setIsDead(false);
+                deathStage.unfocusAll();
+                Gdx.input.setInputProcessor(inputHandler);
+            }
+        });
+
+        endGame = new TextButton("End Game", skin, "default");
+        endGame.setWidth(80f);
+        endGame.setHeight(40f);
+        endGame.padLeft(20f);
+        endGame.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new LoginScreen(game));
+            }
+        });
+
+        death.add(respawn);
+        death.add(endGame);
+
+
+        deathStage.addActor(death);
+        deathStage.draw();
+    }
+
     private void openInventory(){
         if (Gdx.input.isKeyJustPressed(Input.Keys.I)){
             inventory.toggleInventory();
@@ -386,8 +434,10 @@ public class GameScreen implements Screen {
         if(inventory.isOpen()){
             inventory.getStage().act();
             inventory.getStage().draw();
+            inventory.stats.draw();
         } else {
             inventory.getStage().unfocusAll();
+
         }
         if (ClientConnection.getInstance().getUser().getAvatar().getBackpack().isChanged()) {
             inventory.render();
@@ -398,7 +448,4 @@ public class GameScreen implements Screen {
             ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().setChanged(false);
         }
     }
-
-
-
 }

@@ -25,7 +25,7 @@ public class MonsterSpawner {
         this.spawnPoint = new Integer[]{importSpawnPoints[0], importSpawnPoints[1]};
         this.monsterId = monsterId;
         this.monsterLimit = 5;
-        this.spawnRadius = 10;
+        this.spawnRadius = 5;
         this.spawnerId = spawnerId;
         randomizeSpawnTimer();
     }
@@ -54,8 +54,8 @@ public class MonsterSpawner {
                 monster.setId(GameServer.getInstance().getMh().getNewMonsterId());
                 monster.setMarkedUnit(-1);
                 monster.setSpawnerId(this.spawnerId);
-                GameServer.getInstance().getMh().monsterList.put(monster.getId(), monster);
                 this.activeMonsters += 1;
+                GameServer.getInstance().getMh().monsterList.put(monster.getId(), monster);
                 GameServer.getInstance().getServer().sendToAllTCP(monster);
             } else {
                 return spawnMonster();

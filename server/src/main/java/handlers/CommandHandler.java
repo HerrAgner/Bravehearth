@@ -84,6 +84,7 @@ public class CommandHandler {
 
         if (o instanceof Logout) {
             server.sendToAllTCP(o);
+            DBQueries.saveAvatarOnLevelUp(auh.getActiveAvatars().get(((Logout) o).getAvatar()));
             auh.getActiveAvatars().remove(((Logout) o).getAvatar());
             auh.getActiveUsers().remove(c.getID());
             GameServer.getInstance().getMh().monsterList.forEach((integer, monster) -> {

@@ -59,19 +59,20 @@ public class ClientNetworkListener {
                     }
 
                     if (object instanceof HealthChange) {
-                        if (((HealthChange) object).getType() == 1) {
-                            if (ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar()) != null) {
-                                ClientConnection.getInstance().getActiveMonsters().get(((HealthChange) object).getReceivingAvatar())
-                                        .setHp(((HealthChange) object).getNewHealth());
+                        
+                        if (((HealthChange) object).getType() == 1){
+                            if (((HealthChange) object).getReceivingAvatar() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
+                                ClientConnection.getInstance().getUser().getAvatar().setMaxHealth(((HealthChange) object).getNewHealth());
                             }
-                        } else if (((HealthChange) object).getType() == 3) {
+                            ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
+                                    .setMaxHealth(((HealthChange) object).getNewHealth());
                             ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
                                     .setHealth(((HealthChange) object).getNewHealth());
-                        } else {
+
+                        }
+                        else if (((HealthChange) object).getType() == 3) {
                             ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
                                     .setHealth(((HealthChange) object).getNewHealth());
-                            ClientConnection.getInstance().getActiveAvatars().get(((HealthChange) object).getReceivingAvatar())
-                                    .setHurt(true);
                         }
                     }
 
@@ -130,7 +131,18 @@ public class ClientNetworkListener {
                             if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() == ((UnitDeath) object).getTargetId()) {
                                 ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
                             }
+                            if (((UnitDeath) object).getAttackerId() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
+                                ClientConnection.getInstance().getUser().getAvatar().setExperiencePoints(ClientConnection.getInstance().getUser().getAvatar().getExperiencePoints()+((UnitDeath) object).getExp());
+                            }
                             ClientConnection.getInstance().getActiveMonsters().remove(((UnitDeath) object).getTargetId());
+                        }
+                        else if (((UnitDeath) object).getUnit().equals("avatar")) {
+                            if (((UnitDeath) object).getTargetId() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
+                                ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
+                                ClientConnection.getInstance().getUser().getAvatar().setIsDead(true);
+                                ClientConnection.getInstance().getActiveAvatars().get(((UnitDeath) object).getTargetId()).setHealth(ClientConnection.getInstance().getActiveAvatars().get(((UnitDeath) object).getTargetId()).getMaxHealth());
+                            }
+//                            ClientConnection.getInstance().getActiveAvatars().remove(((UnitDeath) object).getTargetId());
                         }
                     }
                     if (object instanceof ItemDropClient) {

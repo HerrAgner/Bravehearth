@@ -1,6 +1,7 @@
 package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -8,6 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.entities.Items.*;
+import com.mygdx.game.GUI.Stats;
+import com.mygdx.game.entities.Items.Consumable;
+import com.mygdx.game.entities.Items.Item;
+import com.mygdx.game.entities.Items.Weapon;
+import com.mygdx.game.entities.Items.Wearable;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.network.networkMessages.EquippedItemChange;
 import com.mygdx.game.network.networkMessages.ItemDropClient;
@@ -33,10 +39,13 @@ public class Inventory {
     private Window selectWindow;
     private TextButton equip;
     private TextButton drop;
+    private SpriteBatch batch;
+    public Stats stats;
     HashMap<WearableType, Image> equippedItems;
 
 
-    public Inventory() {
+    public Inventory(SpriteBatch batch) {
+        this.batch = batch;
         dropSkin = ClientConnection.getInstance().assetManager.get("terra-mother/skin/terra-mother-ui.json");
         windowTable = new Table();
         equippedItems = new HashMap<>();
@@ -56,6 +65,7 @@ public class Inventory {
         initInventoryWindow();
         initEquippedItems();
         updateEquippedItems();
+        stats = new Stats(batch);
     }
 
     private void initInventoryWindow() {
@@ -229,10 +239,8 @@ public class Inventory {
     private void updateInventory() {
         AtomicInteger i = new AtomicInteger();
         ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().forEach(item -> {
-
             itemSlot.get(i.get()).setDrawable(itemSkin, item.getTexture());
             i.getAndIncrement();
-
         });
         itemSlot.get(ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().size()).setDrawable(null);
     }
@@ -253,7 +261,6 @@ public class Inventory {
             AtomicInteger i = new AtomicInteger();
             ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().forEach(item -> {
                 itemSlot.get(i.getAndIncrement()).setDrawable(itemSkin, item.getTexture());
-
             });
         }
     }
@@ -348,6 +355,7 @@ public class Inventory {
                 windowTable.add(type);
                 window.add(windowTable);
             }
+
             if (item instanceof Consumable) {
                 windowTable.clear();
                 window.getTitleLabel().setText(item.getName());
@@ -355,6 +363,8 @@ public class Inventory {
                 windowTable.add(type);
                 window.add(windowTable);
             }
+
+
             stage.addActor(window);
         } catch (IndexOutOfBoundsException e) {
 

@@ -1,6 +1,6 @@
 package game;
 
-import com.esotericsoftware.kryonet.Server;
+import database.DBQueries;
 import enums.Movement;
 import handlers.AttackHandler;
 import handlers.MovementHandler;
@@ -11,7 +11,6 @@ import network.networkMessages.avatar.Avatar;
 public class GameLoop implements Runnable {
     private boolean running;
     private AttackHandler ah;
-
 
 
     public GameLoop() {
@@ -43,12 +42,29 @@ public class GameLoop implements Runnable {
                     ));
 
             if (AttackHandler.validatedAttacks.size() > 0) {
+
                 try {
                     AttackEnemyTarget aet = AttackHandler.validatedAttacks.take();
                     GameServer.getInstance().getServer().sendToAllTCP(aet);
                     if (GameServer.getInstance().getMh().monsterList.get(aet.getTarget()) != null) {
                         if (aet.getTargetUnit().equals("monster") && GameServer.getInstance().getMh().monsterList.get(aet.getTarget()).getHp() <= 0) {
                             monsterDeath(aet);
+                        }
+                    }
+                    if (GameServer.getInstance().aa.get(aet.getTarget()) != null) {
+                        if (aet.getTargetUnit().equals("avatar") && GameServer.getInstance().aa.get(aet.getTarget()).getHealth() <= 0) {
+                            Avatar av = GameServer.getInstance().aa.get(aet.getTarget());
+                            av.setMarkedUnit(-1);
+                            GameServer.getInstance().getServer().sendToAllTCP(new Position(50f, 50f, aet.getTarget(), 1, "front"));
+                            av.setX(50);
+                            av.setY(50);
+                            av.setHealth(av.getMaxHealth());
+                            av.setExperiencePoints(0);
+                            av.getBackpack().setWallet(av.getBackpack().getWallet() / 2);
+                            av.getBackpack().getItems().clear();
+                            GameServer.getInstance().getServer().sendToAllTCP(new UnitDeath(aet.getAttacker(), aet.getTarget(), "avatar", 0));
+                            DBQueries.saveAvatarWhenDead(GameServer.getInstance().aa.get(aet.getTarget()));
+
                         }
                     }
                 } catch (InterruptedException e) {
@@ -75,7 +91,6 @@ public class GameLoop implements Runnable {
                         v.setAttackTimer(delta);
                     }
                 }
-//                System.out.println(v.getHealth());
                 if (v.getHealth() < v.getMaxHealth() && v.getHealth() > 0) {
                     if (v.startHpRegen()) {
                         GameServer.getInstance().getServer().sendToAllTCP(new HealthChange(v.getHealth() + 1, v.getId(), v.getId(), 3));
@@ -120,10 +135,12 @@ public class GameLoop implements Runnable {
             default:
                 throw new IllegalStateException("Unexpected value: " + av.getCharacterClass());
         }
-        av.setMaxHealth(av.getMaxHealth() + av.getStrength());
+        av.setMaxHealth(av.getMaxHealth() + 5);
         av.setMaxMana(av.getMaxMana() + av.getIntelligence());
         av.setHealth(av.getMaxHealth());
         av.setMana(av.getMaxMana());
+        DBQueries.saveAvatarOnLevelUp(av);
+        GameServer.getInstance().getServer().sendToAllTCP(new HealthChange(av.getMaxHealth(), av.getId(), av.getId(), 1));
         return av;
     }
 

@@ -42,8 +42,7 @@ public class Avatar {
 	private String direction;
 	private String isAttacking = "";
 	private float[] targetPosition;
-
-
+    private boolean isDead = false;
 
     public Avatar(String name) {
         this.name = name;
@@ -252,6 +251,14 @@ public class Avatar {
         this.targetPosition = targetPosition;
     }
 
+    public int getExperiencePoints() { return experiencePoints; }
+
+    public void setExperiencePoints(int xp) { this.experiencePoints = xp; }
+
+    public boolean getIsDead() { return isDead; }
+
+    public void setIsDead(boolean isDead) { this.isDead = isDead; }
+
     public Backpack getBackpack() {
         return backpack;
     }
@@ -260,13 +267,59 @@ public class Avatar {
         this.backpack = backpack;
     }
 
+    public int getStrength() {
+        return strength;
+    }
+
+    public int getDexterity() {
+        return dexterity;
+    }
+
+    public int getIntelligence() {
+        return intelligence;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public float getDefence() {
+        return defence;
+    }
+
+    public float getMaxXspeed() {
+        return maxXspeed;
+    }
+
+    public float getMaxYspeed() {
+        return maxYspeed;
+    }
+
+    public int getMana() {
+        return mana;
+    }
+
+    public int getMaxMana() {
+        return maxMana;
+    }
+
     public EquippedItems getEquippedItems() {
         return equippedItems;
     }
 
-    public void setEquippedItems(EquippedItems equippedItems) {
-        this.equippedItems = equippedItems;
+    public float getHpRegen() {
+        return hpRegen;
     }
 
+    public float getAttackLoop() {
+        return attackLoop;
+    }
 
+    public String getIsAttacking() {
+        return isAttacking;
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
 }

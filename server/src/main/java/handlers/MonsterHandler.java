@@ -9,7 +9,6 @@ import network.networkMessages.avatar.Avatar;
 import network.networkMessages.items.Item;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;

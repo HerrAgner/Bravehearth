@@ -303,20 +303,45 @@ public abstract class DBQueries {
 
     public static void saveAvatarOnLevelUp(Avatar avatar) {
         PreparedStatement ps = prep("UPDATE avatars SET health = ?, maxHealth = ?, maxMana = ?, " +
-                "strength = ?, dexterity = ?, intelligence = ?, `level` = ?, experiencepoints = 0 WHERE id = ?");
+                "strength = ?, dexterity = ?, intelligence = ?, `level` = ?, experiencePoints = ?, x = ?, y = ? WHERE id = ?");
         try {
-            ps.setInt(1, avatar.getMaxHealth());
+            ps.setInt(1, avatar.getHealth());
             ps.setInt(2, avatar.getMaxHealth());
             ps.setInt(3, avatar.getMaxMana());
             ps.setInt(4, avatar.getStrength());
             ps.setInt(5, avatar.getDexterity());
             ps.setInt(6, avatar.getIntelligence());
             ps.setInt(7, avatar.getLevel());
-            ps.setInt(8, avatar.getId());
+            ps.setInt(8, avatar.getExperiencePoints());
+            ps.setFloat(9, avatar.getX());
+            ps.setFloat(10, avatar.getY());
+            ps.setInt(11, avatar.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         System.out.println("update successful");
+    }
+
+    public static void saveAvatarWhenDead(Avatar avatar) {
+        PreparedStatement ps = prep("UPDATE avatars a INNER JOIN backpacks b ON a.id = b.avatarId " +
+                "SET a.health = ?, a.experiencePoints = ?, a.x = 50, a.y = 50, b.wallet = ? WHERE a.id = ?");
+        try {
+            ps.setInt(1, avatar.getMaxHealth());
+            ps.setInt(2, 0);
+            ps.setInt(3, avatar.getBackpack().getWallet() / 2);
+            ps.setInt(4, avatar.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        PreparedStatement ps2 = prep("DELETE FROM backpackxitem WHERE id = ?");
+        try {
+            ps2.setInt(1, avatar.getId());
+            ps2.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

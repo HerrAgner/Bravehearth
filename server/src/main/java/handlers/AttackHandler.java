@@ -12,9 +12,7 @@ import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class AttackHandler {
-//    private LinkedBlockingQueue<HashMap<Integer, Integer>> attackList = new LinkedBlockingQueue<>();
     private LinkedBlockingQueue<ArrayList<Integer>> attackList = new LinkedBlockingQueue<>();
-    public static LinkedBlockingQueue<HealthChange> validatedAttack = new LinkedBlockingQueue<>();
     public static LinkedBlockingQueue<AttackEnemyTarget> validatedAttacks = new LinkedBlockingQueue<>();
 
     public void addAttackerToList(int attacker, int target, int targetType) {

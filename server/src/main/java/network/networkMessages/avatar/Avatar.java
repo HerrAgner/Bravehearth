@@ -56,6 +56,7 @@ public class Avatar {
     private float attackTimer;
     private String isAttacking;
     private float[] targetPosition;
+    private boolean isDead = false;
 
     public Avatar() {
     }
@@ -255,6 +256,10 @@ public class Avatar {
     }
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public void setDead(boolean dead) {
+        isDead = dead;
     }
 
     public int getStrength() {
