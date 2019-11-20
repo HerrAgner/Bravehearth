@@ -46,9 +46,6 @@ public class ClientConnection {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-//        new Thread(new AttackLoop()).start();
-
     }
 
     public static ClientConnection getInstance() {
@@ -63,11 +60,12 @@ public class ClientConnection {
     }
 
     private void addAssets() {
-        //monsters
-        assetManager.load("monsters/microbat.png", Texture.class);
+        //monsters, avatars, items
         assetManager.load("items/items.atlas", TextureAtlas.class);
         assetManager.load("monsters/monsterSprites.txt", TextureAtlas.class);
         assetManager.load("avatars/avatarSprites.txt", TextureAtlas.class);
+
+        //utilities
         assetManager.load("hud.atlas", TextureAtlas.class);
         assetManager.load("terra-mother/skin/terra-mother-ui.json", Skin.class);
 
@@ -106,10 +104,6 @@ public class ClientConnection {
 
     public ConcurrentHashMap<Float[], Item> getItemsOnGround() {
         return itemsOnGround;
-    }
-
-    public void setItemsOnGround(ConcurrentHashMap<Float[], Item> itemsOnGround) {
-        this.itemsOnGround = itemsOnGround;
     }
 
     public void login(String username, String password) {

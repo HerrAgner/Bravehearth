@@ -71,7 +71,6 @@ public class LoginScreen implements Screen {
 
         stage.addActor(usernameTextField);
         stage.addActor(passwordTextField);
-
     }
 
     private void initWindows() {
@@ -111,9 +110,7 @@ public class LoginScreen implements Screen {
         failed.setHeight(40f);
         failed.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 - 110f);
 
-
         stage.addActor(button);
-
     }
 
     private void initBackground() {
@@ -127,19 +124,15 @@ public class LoginScreen implements Screen {
         logo.setSize(605 * 1.5f, 89 * 1.5f);
         logo.setPosition(Gdx.graphics.getWidth() / 2 - 300 * 1.5f, Gdx.graphics.getHeight() - 200f * 1.5f);
 
-
         stage2.addActor(backgroundImage);
         stage2.addActor(logo);
     }
 
     @Override
-    public void show() {
-
-    }
+    public void show() { }
 
     @Override
     public void render(float delta) {
-
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -162,15 +155,11 @@ public class LoginScreen implements Screen {
                 if (ClientConnection.getInstance().getUser() != null && ClientConnection.getInstance().loggedIn) {
                         music.dispose();
                         game.setScreen(new GameScreen(game));
-
-
-
                 }
                     button.remove();
                     buttonWindow.remove();
                     stage.addActor(failed);
                     stage2.addActor(failedWindow);
-
             }
             if (this.failed.getClickListener().isPressed()) {
                 failed.remove();
@@ -179,7 +168,6 @@ public class LoginScreen implements Screen {
                 stage2.addActor(buttonWindow);
             }
         }
-
     }
 
     @Override
@@ -189,19 +177,13 @@ public class LoginScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() { }
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() { }
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() { }
 
     @Override
     public void dispose() {
@@ -209,6 +191,5 @@ public class LoginScreen implements Screen {
         stage2.dispose();
         game.dispose();
         music.dispose();
-
     }
 }

@@ -36,22 +36,18 @@ import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.network.networkMessages.MovementCommands;
 import com.mygdx.game.util.CameraController;
 import com.mygdx.game.util.InputHandler;
-
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameScreen implements Screen {
 
     public static OrthographicCamera camera;
-    private Viewport viewport;
     private ShapeRenderer renderer;
     private CameraController cameraController;
-    private DummyClass dc;
     private SpriteBatch batch;
     private Texture healthBar;
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer tiledMapRenderer;
-    private Sprite sprite;
     private TiledMapTileLayer collision;
     private InputHandler inputHandler;
     private BravehearthGame game;
@@ -73,7 +69,6 @@ public class GameScreen implements Screen {
     private Sprite monsterSprite;
     private Monster mon;
     private Stage itemsOnGroundStage;
-    public Animation<TextureRegion> runningAnimation;
     float stateTime = 0f;
     Sprite item;
     BitmapFont name;
@@ -116,10 +111,9 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(im);
         camera = new OrthographicCamera(GameConfig.WIDTH, GameConfig.HEIGHT);
         camera.setToOrtho(false, GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT);
-        //  viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
         renderer = new ShapeRenderer();
-        cameraController = new CameraController();
 
+        cameraController = new CameraController();
         cameraController.setStartPosition(ClientConnection.getInstance().getUser().getAvatar().getX(), ClientConnection.getInstance().getUser().getAvatar().getY());
 
         tiledMap = new TmxMapLoader().load("worldMap.tmx");
@@ -128,8 +122,6 @@ public class GameScreen implements Screen {
         addSprites();
         addMonsterSprites();
         addItemSprites();
-
-
     }
 
     private void addSprites() {
@@ -141,14 +133,12 @@ public class GameScreen implements Screen {
         }
     }
 
-
     private void addMonsterSprites() {
         TextureAtlas ta = ClientConnection.getInstance().assetManager.get("monsters/monsterSprites.txt");
         Array<AtlasRegion> regions = ta.getRegions();
 
         for (AtlasRegion region : regions) {
             Sprite sprite = ta.createSprite(region.name);
-
             monsterSprites.put(region.name, sprite);
         }
     }
@@ -157,10 +147,8 @@ public class GameScreen implements Screen {
         TextureAtlas ta = ClientConnection.getInstance().assetManager.get("items/items.atlas");
 
         Array<AtlasRegion> regions = ta.getRegions();
-
         for (AtlasRegion region : regions) {
             Sprite sprite = ta.createSprite(region.name);
-
             itemSprites.put(region.name, sprite);
         }
     }
@@ -182,7 +170,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-//          viewport.update(width, height, true);
         inventory.resize(width,height);
     }
 
@@ -208,7 +195,6 @@ public class GameScreen implements Screen {
     private void renderViewportUtils() {
         renderer.setProjectionMatrix(camera.combined);
         batch.setProjectionMatrix(camera.combined);
-//        ViewPortUtils.drawGrid(viewport, renderer);
         renderer.begin(ShapeRenderer.ShapeType.Line);
         batch.begin();
         renderItemsOnGround();
@@ -230,11 +216,9 @@ public class GameScreen implements Screen {
             batch.draw(healthBar, monster.getX(), monster.getY() + 1.2f, (float) monster.getHp() / monster.getMaxHp(), 0.2f);
             batch.setColor(Color.WHITE);
 
-
             if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != -1 && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() == monster.getId()) {
                 renderer.rect((float) (monster.getX() - 0.1), (float) (monster.getY() - 0.1), (float) 1.2, (float) 1.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
             }
-
         });
 
         ClientConnection.getInstance().getActiveAvatars().forEach((Integer, avatar) -> {
@@ -283,10 +267,6 @@ public class GameScreen implements Screen {
             batch.setColor(Color.WHITE);
 
             drawName(avatar.getName(), avatar.getX(), avatar.getY(), new Color(0.2f, 1f, 0.2f, 0.7f), 0.01f);
-
-//            if (ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit() != null && ClientConnection.getInstance().getUser().getAvatar().getMarkedUnit().equals(dcs.getId())) {
-//                renderer.rect((float) (avatar.getX() - 1.1), (float) (avatar.getY() - 1.1), (float) 2.2, (float) 2.2, Color.RED, Color.PINK, Color.RED, Color.PINK);
-//            }
         });
 
         if (this.arrows != null && this.arrows.size() > 0) {
@@ -311,8 +291,6 @@ public class GameScreen implements Screen {
                     batch.draw(slashAnimation.getTexture(), slashAnimation.getTargetPosition().x, slashAnimation.getTargetPosition().y, 0.5f, 0.5f, 1, 1, 1, 1, slashAnimation.getAngle());
                 }
             });
-
-
         }
         batch.end();
 
@@ -320,7 +298,6 @@ public class GameScreen implements Screen {
     }
 
     private void update(float delta) {
-//        updatePlayer(delta);
         updateCamera();
     }
 
@@ -348,7 +325,6 @@ public class GameScreen implements Screen {
                 mark.getSprite().draw(batch);
                 break;
         }
-
     }
 
     private void drawName(String nameToPrint, float x, float y, Color color, float size) {
@@ -379,7 +355,6 @@ public class GameScreen implements Screen {
 
     private void updatePlayer(float delta) {
         ClientConnection.getInstance().getActiveAvatars().forEach((o, o2) -> {
-
             o2.update(delta);
         });
 
@@ -430,7 +405,6 @@ public class GameScreen implements Screen {
 
         death.add(respawn);
         death.add(endGame);
-
 
         deathStage.addActor(death);
         deathStage.draw();

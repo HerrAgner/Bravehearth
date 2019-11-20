@@ -5,14 +5,11 @@ import com.esotericsoftware.kryonet.Client;
 import com.mygdx.game.network.networkMessages.AttackEnemyTarget;
 import com.mygdx.game.network.networkMessages.MovementCommands;
 
-//import com.mygdx.game.network.networkMessages.AttackEnemyTarget;
-
 public class Sender {
 
     Client c = ClientConnection.getInstance().getClient();
 
-    public Sender() {
-    }
+    public Sender() { }
 
     public void sendInputPressed(int keyCode) {
         switch (keyCode) {

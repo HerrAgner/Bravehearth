@@ -29,11 +29,7 @@ public class TiledMapScreen implements Screen {
         camera.update();
         tiledMap = new TmxMapLoader().load("worldMap.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-
-
-
         tiledPlayer = new TiledPlayer();
-
     }
 
     @Override
@@ -45,35 +41,25 @@ public class TiledMapScreen implements Screen {
         tiledMapRenderer.render();
         tiledPlayer.update(delta);
 
-
         tiledMapRenderer.getBatch().begin();
 
         tiledMapRenderer.getBatch().end();
         sb.begin();
         sb.draw(tiledPlayer.getTexture(), tiledPlayer.getPosition().x, tiledPlayer.getPosition().y);
         sb.end();
-
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
+    public void resize(int width, int height) { }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() { }
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() { }
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() { }
 
     @Override
     public void dispose() {

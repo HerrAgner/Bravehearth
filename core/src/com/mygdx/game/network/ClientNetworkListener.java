@@ -20,10 +20,8 @@ public class ClientNetworkListener {
                 if (object instanceof User) {
                     ClientConnection.getInstance().setUser((User) object);
                 }
+
                 if (object instanceof Avatar) {
-//                    if (ClientConnection.getInstance().getActiveAvatars().contains(object)) {
-//                        ClientConnection.getInstance().getActiveAvatars().remove(((Avatar) object).getId());
-//                    }
                     if (((Avatar) object).getCharacterClass() == CharacterClass.SORCERER) {
                         Sorcerer sorc = new Sorcerer((Avatar) object);
                         ClientConnection.getInstance().addActiveAvatar(sorc);
@@ -35,13 +33,11 @@ public class ClientNetworkListener {
                         ClientConnection.getInstance().addActiveAvatar(mark);
                     }
                 }
-                if (ClientConnection.getInstance().getUser() != null) {
 
+                if (ClientConnection.getInstance().getUser() != null) {
                     if (object instanceof Monster) {
-//
                         Monster mon = new Monster((Monster) object);
                         ClientConnection.getInstance().getActiveMonsters().put(((Monster) object).getId(), mon);
-
                     }
 
                     if (object instanceof Logout) {
@@ -139,9 +135,9 @@ public class ClientNetworkListener {
                                 ClientConnection.getInstance().getUser().getAvatar().setIsDead(true);
                                 ClientConnection.getInstance().getActiveAvatars().get(((UnitDeath) object).getTargetId()).setHealth(ClientConnection.getInstance().getActiveAvatars().get(((UnitDeath) object).getTargetId()).getMaxHealth());
                             }
-//                            ClientConnection.getInstance().getActiveAvatars().remove(((UnitDeath) object).getTargetId());
                         }
                     }
+
                     if (object instanceof ItemDropClient) {
                         if (((ItemDropClient) object).getAvatarId() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
                             ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().remove(((ItemDropClient) object).getId());
@@ -149,6 +145,7 @@ public class ClientNetworkListener {
                         }
                         ClientConnection.getInstance().getItemsOnGround().put(new Float[]{((ItemDropClient) object).getX(), ((ItemDropClient) object).getY()}, ((ItemDropClient) object).getItem());
                     }
+
                     if (object instanceof ItemPickup) {
                         ClientConnection.getInstance().getItemsOnGround().forEach((floats, item) -> {
                             if (floats[0] == ((ItemPickup) object).getX() && floats[1] == ((ItemPickup) object).getY() && item.getName().equals(((ItemPickup) object).getItem().getName())) {
@@ -188,7 +185,6 @@ public class ClientNetworkListener {
                             ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getItems().remove(((EquippedItemChange) object).getType());
                             ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().add(((EquippedItemChange) object).getItem());
                         } else {
-//                            ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().remove(((EquippedItemChange) object).getItem());
                             if (ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getItems().get(((EquippedItemChange) object).getType()) != null) {
                                 Item itemToBackpack = ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getItems().remove(((EquippedItemChange) object).getType());
                                 ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().add(itemToBackpack);
