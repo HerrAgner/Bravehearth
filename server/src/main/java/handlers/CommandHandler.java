@@ -8,7 +8,6 @@ import game.GameServer;
 import network.networkMessages.*;
 import network.networkMessages.avatar.Avatar;
 import network.networkMessages.avatar.Backpack;
-import network.networkMessages.avatar.EquippedItems;
 import network.networkMessages.items.Item;
 import network.networkMessages.items.Weapon;
 import network.networkMessages.items.Wearable;

@@ -55,7 +55,6 @@ public class ClientNetworkListener {
                         if (object.equals("finished")) {
                             ClientConnection.getInstance().loggedIn = true;
                         }
-                        System.out.println(object);
                     }
 
                     if (object instanceof HealthChange) {
