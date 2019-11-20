@@ -6,6 +6,7 @@ import network.networkMessages.Monster;
 import network.networkMessages.avatar.Avatar;
 
 import java.util.Map;
+import java.util.Random;
 
 public abstract class CollisionHandler {
     private static MapReader mr = GameServer.getInstance().getMapReader();
@@ -62,5 +63,20 @@ public abstract class CollisionHandler {
             return true;
         }
         return false;
+    }
+
+    public static Float[] newValidPosition(float x, float y) {
+        Random r = new Random();
+        float newX = x;
+        float newY = y;
+        float radius = 5f;
+
+        while (true) {
+            if (!CollisionHandler.isAnyCollision(newX, newY)) {
+                return new Float[]{newX, newY};
+            }
+            newX = (x - radius) + r.nextFloat() * ((x + radius) - (x - radius));
+            newY = (y - radius) + r.nextFloat() * ((y + radius) - (y - radius));
+        }
     }
 }

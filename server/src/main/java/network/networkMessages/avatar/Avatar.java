@@ -96,11 +96,11 @@ public class Avatar {
 
     public boolean startHpRegen() {
         hpRegen += 0.01f;
-         if (hpRegen > 3f && health>0) {
+        if (hpRegen > 3f && health > 0) {
             hpRegen = 0.01f;
             return true;
         }
-         return false;
+        return false;
     }
 
     public float getAttackTimer() {
@@ -109,6 +109,11 @@ public class Avatar {
 
     public void setAttackTimer(float attackTimer) {
         this.attackTimer = attackTimer;
+    }
+
+    public void setPosition(float x, float y) {
+        this.x = x;
+        this.y = y;
     }
 
     public float getMaxXspeed() {
@@ -239,14 +244,18 @@ public class Avatar {
         this.equippedItems = equippedItems;
     }
 
-    public void setDirection(String direction) { this.direction = direction; }
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
 
     public int getExperiencePoints() {
         return experiencePoints;
     }
+
     public void setExperiencePoints(int experiencePoints) {
         this.experiencePoints = experiencePoints;
     }
+
     public void addExperiencePoints(int exp) {
         this.experiencePoints += exp;
     }
@@ -254,6 +263,7 @@ public class Avatar {
     public int getLevel() {
         return level;
     }
+
     public void setLevel(int level) {
         this.level = level;
     }

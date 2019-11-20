@@ -18,4 +18,7 @@ public class Consumable extends Item {
     public String toString() {
         return this.name;
     }
+
+    @Override
+    public int getId() { return this.id; }
 }

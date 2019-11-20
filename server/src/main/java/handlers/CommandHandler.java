@@ -135,6 +135,8 @@ public class CommandHandler {
             avatar.setEquippedItems(DBQueries.getEquippedItems(avatar.getId()));
             avatar.setBackpack(bp);
             addEquippedItemStatsToAvatar(avatar);
+            Float[] position = CollisionHandler.newValidPosition(avatar.getX(), avatar.getY());
+            avatar.setPosition(position[0], position[1]);
             user.setAvatar(avatar);
         } catch (NullPointerException e) {
             System.out.println("No avatar found for user.");
