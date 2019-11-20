@@ -346,4 +346,8 @@ public class Avatar {
     public void setIntelligence(int intelligence) {
         this.intelligence = intelligence;
     }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
 }

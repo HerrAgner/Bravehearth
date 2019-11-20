@@ -97,30 +97,37 @@ public class CommandHandler {
                     GameServer.getInstance().getMh().itemsOnGround.remove(floats);
                 }
             });
+            DBQueries.saveToBackpack(GameServer.getInstance().aa.get(((ItemPickup) o).getAvatarId()).getBackpack().getId(), ((ItemPickup) o).getItem());
             GameServer.getInstance().aa.get(((ItemPickup) o).getAvatarId()).getBackpack().getItems().add(((ItemPickup) o).getItem());
             GameServer.getInstance().getServer().sendToAllTCP(o);
         }
 
         if (o instanceof ItemDrop) {
             if (((ItemDrop) o).getAvatarId() != -1) {
+                GameServer.getInstance().getMh().itemsOnGround.put(new Float[]{GameServer.getInstance().aa.get(((ItemDrop) o).getAvatarId()).getX(), GameServer.getInstance().aa.get(((ItemDrop) o).getAvatarId()).getY()}, ((ItemDrop) o).getItem());
+                DBQueries.removeFromBackpack(GameServer.getInstance().aa.get(((ItemDrop) o).getAvatarId()).getBackpack().getId(), ((ItemDrop) o).getItem());
                 GameServer.getInstance().aa.get(((ItemDrop) o).getAvatarId()).getBackpack().getItems().remove(((ItemDrop) o).getId());
                 GameServer.getInstance().getServer().sendToAllTCP(o);
             }
         }
         if (o instanceof EquippedItemChange) {
+            Avatar av = GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId());
             if (((EquippedItemChange) o).isUnequipping()) {
-                Item item = GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems().remove(((EquippedItemChange) o).getType());
-                GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getBackpack().getItems().add(item);
+                DBQueries.saveToBackpack(av.getBackpack().getId(), ((EquippedItemChange) o).getItem());
+                Item item = av.getEquippedItems().getItems().remove(((EquippedItemChange) o).getType());
+                av.getBackpack().getItems().add(item);
                 GameServer.getInstance().getServer().sendToTCP(connection.getID(), o);
             } else {
                 Item previousItem = GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems().remove(((EquippedItemChange) o).getType());
-                GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getBackpack().getItems().add(previousItem);
-                GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getEquippedItems().getItems().put(((EquippedItemChange) o).getType(), ((EquippedItemChange) o).getItem());
-                GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()).getBackpack().getItems().remove(((EquippedItemChange) o).getItem());
+                DBQueries.removeFromBackpack(av.getBackpack().getId(), ((EquippedItemChange) o).getItem());
+                av.getBackpack().getItems().add(previousItem);
+                av.getEquippedItems().getItems().put(((EquippedItemChange) o).getType(), ((EquippedItemChange) o).getItem());
+                av.getBackpack().getItems().remove(((EquippedItemChange) o).getItem());
                 GameServer.getInstance().getServer().sendToTCP(connection.getID(), o);
             }
-            Avatar av = addEquippedItemStatsToAvatar(GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()));
-            GameServer.getInstance().getServer().sendToTCP(connection.getID(), new AvatarStatChange(av));
+            DBQueries.saveToEquippedItems(av.getId(), av.getEquippedItems());
+            Avatar av2 = addEquippedItemStatsToAvatar(GameServer.getInstance().aa.get(((EquippedItemChange) o).getAvatarId()));
+            GameServer.getInstance().getServer().sendToTCP(connection.getID(), new AvatarStatChange(av2));
         }
     }
 

@@ -141,7 +141,8 @@ public class GameLoop implements Runnable {
         av.setHealth(av.getMaxHealth());
         av.setMana(av.getMaxMana());
         DBQueries.saveAvatarOnLevelUp(av);
-        GameServer.getInstance().getServer().sendToAllTCP(new HealthChange(av.getMaxHealth(), av.getId(), av.getId(), 1));
+        LevelUp lvl = new LevelUp(av);
+        GameServer.getInstance().getServer().sendToAllTCP(lvl);
         return av;
     }
 

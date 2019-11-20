@@ -145,5 +145,6 @@ public class ClientConnection {
         kryo.register(ItemPickup.class);
         kryo.register(EquippedItemChange.class);
         kryo.register(AvatarStatChange.class);
+        kryo.register(LevelUp.class);
     }
 }
