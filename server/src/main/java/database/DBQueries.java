@@ -368,4 +368,52 @@ public abstract class DBQueries {
             e.printStackTrace();
         }
     }
+
+    public static void removeFromBackpack(int bpId, Item item) {
+        PreparedStatement ps;
+        try {
+            if(item instanceof Weapon) {
+                ps = prep("DELETE FROM backpackxitem WHERE id = ? AND weapon = ? LIMIT 1");
+            } else if(item instanceof Wearable) {
+                ps = prep("DELETE FROM backpackxitem WHERE id = ? AND wearable = ? LIMIT 1");
+            } else ps = prep("DELETE FROM backpackxitem WHERE id = ? AND consumable = ? LIMIT 1");
+            ps.setInt(1, bpId);
+            ps.setInt(2, item.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveToEquippedItems(int avatarId, EquippedItems eq) {
+        PreparedStatement ps = prep("UPDATE equippedItems SET headSlot = ?, chestSlot = ?, legSlot = ?, " +
+                "feetSlot = ?, weaponSlot = ?, offHandSlot = ?, accessorySlot = ? WHERE avatar = ?");
+        try {
+            if(eq.getEquippedItems().get(WearableType.HEAD).getId() > 0) { ps.setInt(1, eq.getEquippedItems().get(WearableType.HEAD).getId()); }
+            else ps.setString(1, null);
+
+            if(eq.getEquippedItems().get(WearableType.CHEST).getId() > 0) { ps.setInt(2, eq.getEquippedItems().get(WearableType.CHEST).getId()); }
+            else ps.setString(2, null);
+
+            if(eq.getEquippedItems().get(WearableType.LEGS).getId() > 0) { ps.setInt(3, eq.getEquippedItems().get(WearableType.LEGS).getId()); }
+            else ps.setString(3, null);
+
+            if(eq.getEquippedItems().get(WearableType.FEET).getId() > 0) { ps.setInt(4, eq.getEquippedItems().get(WearableType.FEET).getId()); }
+            else ps.setString(4, null);
+
+            if(eq.getEquippedItems().get(WearableType.WEAPON).getId() > 0) { ps.setInt(5, eq.getEquippedItems().get(WearableType.WEAPON).getId()); }
+            else ps.setString(5, null);
+
+            if(eq.getEquippedItems().get(WearableType.OFFHAND).getId() > 0) { ps.setInt(6, eq.getEquippedItems().get(WearableType.OFFHAND).getId()); }
+            else ps.setString(6, null);
+
+            if(eq.getEquippedItems().get(WearableType.ACCESSORY).getId() > 0) { ps.setInt(7, eq.getEquippedItems().get(WearableType.ACCESSORY).getId()); }
+            else ps.setString(7, null);
+
+            ps.setInt(8, avatarId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
