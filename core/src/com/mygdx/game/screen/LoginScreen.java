@@ -1,6 +1,7 @@
 package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
@@ -154,8 +155,8 @@ public class LoginScreen implements Screen {
 
         }
 
-        if (Gdx.input.isButtonJustPressed(0)) {
-            if (this.button.getClickListener().isPressed()) {
+        if (Gdx.input.isButtonJustPressed(0) || Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            if (this.button.getClickListener().isPressed() || Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
                 ClientConnection.getInstance().login(usernameTextField.getText(), passwordTextField.getText());
                 try {
                     Thread.sleep(2000);
