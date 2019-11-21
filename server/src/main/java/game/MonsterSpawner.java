@@ -74,7 +74,7 @@ public class MonsterSpawner {
     }
 
     public void randomizeSpawnTimer() {
-        this.spawnTimer = 2 + r.nextFloat() * (30 - 2);
+        this.spawnTimer = 20 + r.nextFloat() * (80 - 20);
     }
 
     public void decreaseActiveMonstersByOne() {
