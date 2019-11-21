@@ -241,6 +241,9 @@ public class Inventory {
         itemSlot.get(ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().size()).setDrawable(null);
     }
 
+    public void clearInventory() {
+        itemSlot.forEach(image -> image.setDrawable(null));
+    }
 
     private void updateEquippedItems() {
         HashMap<WearableType, Item> allItems = ClientConnection.getInstance().getUser().getAvatar().getEquippedItems().getItems();

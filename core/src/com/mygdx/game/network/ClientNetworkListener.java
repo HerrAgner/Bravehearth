@@ -130,9 +130,15 @@ public class ClientNetworkListener {
                             }
                             ClientConnection.getInstance().getActiveMonsters().remove(((UnitDeath) object).getTargetId());
                         } else if (((UnitDeath) object).getUnit().equals("avatar")) {
-                            if (((UnitDeath) object).getTargetId() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
-                                ClientConnection.getInstance().getUser().getAvatar().setMarkedUnit(-1);
-                                ClientConnection.getInstance().getUser().getAvatar().setIsDead(true);
+                                Avatar av = ClientConnection.getInstance().getUser().getAvatar();
+                                if (((UnitDeath) object).getTargetId() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
+                                av.setMarkedUnit(-1);
+                                av.setIsDead(true);
+                                av.setHealth(av.getMaxHealth());
+                                av.setExperiencePoints(0);
+                                av.getBackpack().setWallet(av.getBackpack().getWallet() / 2);
+                                av.getBackpack().getItems().clear();
+                                av.getBackpack().setChanged(true);
                                 ClientConnection.getInstance().getActiveAvatars().get(((UnitDeath) object).getTargetId()).setHealth(ClientConnection.getInstance().getActiveAvatars().get(((UnitDeath) object).getTargetId()).getMaxHealth());
                             }
                         }
