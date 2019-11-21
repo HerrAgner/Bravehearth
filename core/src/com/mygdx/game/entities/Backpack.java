@@ -44,4 +44,8 @@ public class Backpack {
     public void setChanged(boolean changed) {
         this.changed = changed;
     }
+
+    public int getWallet() { return wallet; }
+
+    public void setWallet(int wallet) { this.wallet = wallet; }
 }
