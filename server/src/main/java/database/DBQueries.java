@@ -151,8 +151,7 @@ public abstract class DBQueries {
         EquippedItems eq;
 
         PreparedStatement ps = prep("SELECT weapons.id, `name`, weaponType, speed, damage, `range`, levelRequirement, type, texture " +
-                "FROM equippedItems INNER JOIN weapons ON equippedItems.offHandSlot = weapons.id " +
-                "OR equippedItems.weaponSlot = weapons.id WHERE equippedItems.avatar = ?");
+                "FROM equippedItems INNER JOIN weapons OR equippedItems.weaponSlot = weapons.id WHERE equippedItems.avatar = ?");
         try {
             ps.setInt(1, avatarId);
             ResultSet rs = ps.executeQuery();
