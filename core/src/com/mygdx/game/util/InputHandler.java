@@ -106,7 +106,7 @@ public class InputHandler implements InputProcessor {
             });
             if (Math.floor(vec.x) == 13 && Math.floor(vec.y) == 182) {
                 if (ClientConnection.getInstance().getActiveAvatars().get(ClientConnection.getInstance().getUser().getAvatar().getId()).getDirection().equals("back")){
-                    if (ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().get(0).getName().equals("\u0006Steroids")){
+                    if (ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().size() > 0 && ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().get(0).getName().equals("\u0006Steroids")){
                         if (music != null && music.isPlaying()){
                             music.dispose();
                         }
