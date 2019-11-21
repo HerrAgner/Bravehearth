@@ -17,6 +17,8 @@ import com.badlogic.gdx.utils.Scaling;
 import com.mygdx.game.BravehearthGame;
 import com.mygdx.game.network.ClientConnection;
 
+import java.io.IOException;
+
 public class LoginScreen implements Screen {
 
     private final BravehearthGame game;
@@ -143,12 +145,20 @@ public class LoginScreen implements Screen {
         stage2.draw();
         stage.draw();
         game.batch.end();
+        if (!ClientConnection.getInstance().getClient().isConnected()){
+            try {
+                ClientConnection.getInstance().getClient().connect(20000, "localhost", 54556, 54778);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
 
         if (Gdx.input.isButtonJustPressed(0)) {
             if (this.button.getClickListener().isPressed()) {
                 ClientConnection.getInstance().login(usernameTextField.getText(), passwordTextField.getText());
                 try {
-                    Thread.sleep(2500);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
