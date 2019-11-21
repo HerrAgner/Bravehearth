@@ -17,6 +17,7 @@ public class InputHandler implements InputProcessor {
 
     private Sender sender;
     private Avatar av;
+    Music music;
 
     public InputHandler() {
         av = ClientConnection.getInstance().getActiveAvatars().get(ClientConnection.getInstance().getUser().getAvatar().getId());
@@ -105,8 +106,11 @@ public class InputHandler implements InputProcessor {
             });
             if (Math.floor(vec.x) == 13 && Math.floor(vec.y) == 182) {
                 if (ClientConnection.getInstance().getActiveAvatars().get(ClientConnection.getInstance().getUser().getAvatar().getId()).getDirection().equals("back")){
-                    if (ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().get(0).getName().equals("Steroids")){
-                        Music music = Gdx.audio.newMusic(Gdx.files.internal("audio/town.mp3"));
+                    if (ClientConnection.getInstance().getUser().getAvatar().getBackpack().getItems().get(0).getName().equals("\u0006Steroids")){
+                        if (music != null && music.isPlaying()){
+                            music.dispose();
+                        }
+                        music = Gdx.audio.newMusic(Gdx.files.internal("audio/songOfGlory.mp3"));
                         music.play();
                     }
                 }
