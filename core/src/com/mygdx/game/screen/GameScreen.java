@@ -78,7 +78,8 @@ public class GameScreen implements Screen {
     BitmapFont nameShadow;
     FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("calibrib.ttf"));
     FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-
+    GlyphLayout layout = new GlyphLayout();
+    GlyphLayout layoutShadow = new GlyphLayout();
 
     public GameScreen(BravehearthGame game) {
         im = new InputMultiplexer();
@@ -332,8 +333,8 @@ public class GameScreen implements Screen {
 
     private void drawName(String nameToPrint, float x, float y, Color color, float size) {
 
-        final GlyphLayout layout = new GlyphLayout(name, nameToPrint);
-        final GlyphLayout layoutShadow = new GlyphLayout(nameShadow, nameToPrint);
+        layout.setText(name, nameToPrint);
+        layoutShadow.setText(nameShadow, nameToPrint);
         final float fontX = x + (1 - layout.width) / 2;
         final float fontY = y + (3.4f + layout.height) / 2;
         nameShadow.getData().setScale(size, size);

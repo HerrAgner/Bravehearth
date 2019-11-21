@@ -34,6 +34,7 @@ public class Stats {
         parameter.size = 22;
         font = generator.generateFont(parameter);
         generator.dispose();
+        layout = new GlyphLayout();
 
         initWindow();
     }
@@ -56,35 +57,36 @@ public class Stats {
         stage.getBatch().begin();
         window.draw(stage.getBatch(), 100);
 
-        layout = new GlyphLayout(font, av.getName());
-        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 + 110f);
+        layout.setText(font, av.getName());
+        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2f - 500f, Gdx.graphics.getHeight() / 2f + 110f);
 
-        layout = new GlyphLayout(font, "lvl: " + av.getLevel());
-        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 + 90f);
+//        layout = new GlyphLayout(font, "lvl: " + av.getLevel());
+        layout.setText(font, "lvl: " + av.getLevel());
+        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2f - 500f, Gdx.graphics.getHeight() / 2f + 90f);
 
-        layout = new GlyphLayout(font, "hp: " + av.getHealth() + " / " + av.getMaxHealth());
-        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 + 70f);
+        layout.setText(font, "hp: " + av.getHealth() + " / " + av.getMaxHealth());
+        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2f - 500f, Gdx.graphics.getHeight() / 2f + 70f);
 
-        layout = new GlyphLayout(font, "xp: " + av.getExperiencePoints());
-        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 + 50f);
+        layout.setText(font, "xp: " + av.getExperiencePoints());
+        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2f - 500f, Gdx.graphics.getHeight() / 2f + 50f);
 
-        layout = new GlyphLayout(font, "xp to level: " + ((25 * currentAv.getLevel() * (1 + av.getLevel())) - av.getExperiencePoints()));
-        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 + 30f);
+        layout.setText(font, "xp to level: " + ((25 * currentAv.getLevel() * (1 + av.getLevel())) - av.getExperiencePoints()));
+        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2f - 500f, Gdx.graphics.getHeight() / 2f + 30f);
 
-        layout = new GlyphLayout(font, "str: " + av.getStrength());
-        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 + 10f);
+        layout.setText(font, "str: " + av.getStrength());
+        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2f - 500f, Gdx.graphics.getHeight() / 2f + 10f);
 
-        layout = new GlyphLayout(font, "int: " + av.getIntelligence());
-        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 - 10f);
+        layout.setText(font, "int: " + av.getIntelligence());
+        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2f - 500f, Gdx.graphics.getHeight() / 2f - 10f);
 
-        layout = new GlyphLayout(font, "dex: " + av.getDexterity());
-        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 - 30f);
+        layout.setText(font, "dex: " + av.getDexterity());
+        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2f - 500f, Gdx.graphics.getHeight() / 2f - 30f);
 
-        layout = new GlyphLayout(font, "dmg: " + av.getAttackDamage());
-        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 - 50f);
+        layout.setText(font, "dmg: " + av.getAttackDamage());
+        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2f - 500f, Gdx.graphics.getHeight() / 2f - 50f);
 
-        layout = new GlyphLayout(font, "defence: " + av.getDefence());
-        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2 - 500f, Gdx.graphics.getHeight() / 2 - 70f);
+        layout.setText(font, "defence: " + av.getDefence());
+        font.draw(stage.getBatch(), layout, Gdx.graphics.getWidth() / 2f - 500f, Gdx.graphics.getHeight() / 2f - 70f);
 
         stage.getBatch().end();
     }

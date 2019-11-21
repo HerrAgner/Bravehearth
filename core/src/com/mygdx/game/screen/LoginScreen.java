@@ -148,7 +148,7 @@ public class LoginScreen implements Screen {
             if (this.button.getClickListener().isPressed()) {
                 ClientConnection.getInstance().login(usernameTextField.getText(), passwordTextField.getText());
                 try {
-                    Thread.sleep(1500);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
