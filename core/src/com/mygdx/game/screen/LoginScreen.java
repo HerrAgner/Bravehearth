@@ -60,14 +60,14 @@ public class LoginScreen implements Screen {
         usernameTextField = new TextField("", skin);
         usernameTextField.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 - 10f);
         usernameTextField.setSize(200, 40);
-        usernameTextField.setMaxLength(12);
+        usernameTextField.setMaxLength(15);
 
         passwordTextField = new TextField("", skin);
         passwordTextField.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 - 60f);
         passwordTextField.setSize(200, 30);
         passwordTextField.setPasswordMode(true);
         passwordTextField.setPasswordCharacter('*');
-        passwordTextField.setMaxLength(12);
+        passwordTextField.setMaxLength(15);
 
         stage.addActor(usernameTextField);
         stage.addActor(passwordTextField);

@@ -24,18 +24,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.BravehearthGame;
 import com.mygdx.game.GUI.Inventory;
 import com.mygdx.game.config.GameConfig;
 import com.mygdx.game.entities.Arrow;
 import com.mygdx.game.entities.SlashAnimation;
-import com.mygdx.game.entities.avatar.*;
+import com.mygdx.game.entities.avatar.Avatar;
+import com.mygdx.game.entities.avatar.Marksman;
+import com.mygdx.game.entities.avatar.Sorcerer;
+import com.mygdx.game.entities.avatar.Warrior;
 import com.mygdx.game.entities.monsters.Monster;
 import com.mygdx.game.network.ClientConnection;
 import com.mygdx.game.network.networkMessages.MovementCommands;
 import com.mygdx.game.util.CameraController;
 import com.mygdx.game.util.InputHandler;
+
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -369,6 +372,7 @@ public class GameScreen implements Screen {
     }
 
     private void youDiedPopUp() {
+        ClientConnection.getInstance().getUser().getAvatar().setIsDead(false);
         Gdx.input.setInputProcessor(deathStage);
         Skin skin = new Skin(Gdx.files.internal("terra-mother/skin/terra-mother-ui.json"));
         ClientConnection.getInstance().getClient().sendTCP(new MovementCommands(false, "W"));
@@ -386,9 +390,9 @@ public class GameScreen implements Screen {
         respawn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ClientConnection.getInstance().getUser().getAvatar().setIsDead(false);
                 Gdx.input.setInputProcessor(im);
                 deathStage.unfocusAll();
+                deathStage.dispose();
             }
         });
 

@@ -69,7 +69,7 @@ public abstract class CollisionHandler {
         float newX = x;
         float newY = y;
         float radius = 5f;
-
+        //Todo
         while (true) {
             if (!CollisionHandler.isAnyCollision(newX, newY)) {
                 return new Float[]{newX, newY};
