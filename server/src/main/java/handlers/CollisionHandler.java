@@ -4,6 +4,7 @@ import game.GameServer;
 import game.MapReader;
 import network.networkMessages.Monster;
 import network.networkMessages.avatar.Avatar;
+
 import java.util.Map;
 import java.util.Random;
 
@@ -50,7 +51,12 @@ public abstract class CollisionHandler {
     }
 
     public static boolean isAnyCollision(float x, float y) {
-        return (isMonsterCollision(x,y) || isAvatarCollision(x,y) || isMapCollision(x,y));
+        return (isMonsterCollision(x, y) || isAvatarCollision(x, y) || isMapCollision(x, y) || isOutsideBoundaries(x, y));
+    }
+
+    public static boolean isOutsideBoundaries(float x, float y) {
+        if (x < 2 || x > 198 || y < 2 || y > 198) return false;
+        return true;
     }
 
     private static boolean minMax(float x1, float y1, float x2, float y2) {
@@ -69,7 +75,6 @@ public abstract class CollisionHandler {
         float newX = x;
         float newY = y;
         float radius = 5f;
-        //Todo
         while (true) {
             if (!CollisionHandler.isAnyCollision(newX, newY)) {
                 return new Float[]{newX, newY};
