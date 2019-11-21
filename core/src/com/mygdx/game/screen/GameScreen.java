@@ -372,7 +372,6 @@ public class GameScreen implements Screen {
     }
 
     private void youDiedPopUp() {
-        ClientConnection.getInstance().getUser().getAvatar().setIsDead(false);
         Gdx.input.setInputProcessor(deathStage);
         Skin skin = new Skin(Gdx.files.internal("terra-mother/skin/terra-mother-ui.json"));
         ClientConnection.getInstance().getClient().sendTCP(new MovementCommands(false, "W"));
@@ -393,6 +392,8 @@ public class GameScreen implements Screen {
                 Gdx.input.setInputProcessor(im);
                 deathStage.unfocusAll();
                 deathStage.dispose();
+                ClientConnection.getInstance().getUser().getAvatar().setIsDead(false);
+                deathStage = new Stage();
             }
         });
 
