@@ -138,6 +138,7 @@ public class ClientNetworkListener {
                                 av.setExperiencePoints(0);
                                 av.getBackpack().setWallet(av.getBackpack().getWallet() / 2);
                                 av.getBackpack().getItems().clear();
+                                av.getBackpack().setChanged(true);
                                 ClientConnection.getInstance().getActiveAvatars().get(((UnitDeath) object).getTargetId()).setHealth(ClientConnection.getInstance().getActiveAvatars().get(((UnitDeath) object).getTargetId()).getMaxHealth());
                             }
                         }

@@ -394,6 +394,7 @@ public class GameScreen implements Screen {
                 deathStage.dispose();
                 ClientConnection.getInstance().getUser().getAvatar().setIsDead(false);
                 deathStage = new Stage();
+                inventory.clearInventory();
             }
         });
 
