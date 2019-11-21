@@ -130,6 +130,7 @@ public class ClientNetworkListener {
                             }
                             ClientConnection.getInstance().getActiveMonsters().remove(((UnitDeath) object).getTargetId());
                         } else if (((UnitDeath) object).getUnit().equals("avatar")) {
+                                ClientConnection.getInstance().getActiveAvatars().get(((UnitDeath) object).getTargetId()).setHealth(ClientConnection.getInstance().getActiveAvatars().get(((UnitDeath) object).getTargetId()).getMaxHealth());
                                 Avatar av = ClientConnection.getInstance().getUser().getAvatar();
                                 if (((UnitDeath) object).getTargetId() == ClientConnection.getInstance().getUser().getAvatar().getId()) {
                                 av.setMarkedUnit(-1);
